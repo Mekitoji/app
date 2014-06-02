@@ -5,9 +5,13 @@ var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 
+//require local config file
+var config = require('./config');
+
 var routes = require('./routes/index');
 var users = require('./routes/users');
 
+//init express
 var app = express();
 
 // view engine setup
@@ -24,11 +28,20 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use('/', routes);
 app.use('/users', users);
 
-/// catch 404 and forward to error handler
+
+// start use config file
+// app.set('port', 3000);
+
+// catch 404 and forward to error handler if it developement env
+// or send message about err to user if it production env
 app.use(function(req, res, next) {
-    var err = new Error('Not Found');
-    err.status = 404;
-    next(err);
+    if (app.get('env') === 'development') {
+        var err = new Error('Not Found');
+        err.status = 404;
+        next(err);
+    } else {
+        res.send('Page not found');
+    }
 });
 
 /// error handlers
@@ -54,6 +67,19 @@ app.use(function(err, req, res, next) {
         error: {}
     });
 });
+
+
+// start listen port
+app.listen(config.get('port'), function() {
+    log.info('server welcome you');
+});
+
+
+
+
+
+
+
 
 
 module.exports = app;
