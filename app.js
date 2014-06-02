@@ -5,6 +5,8 @@ var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 
+var log = require('./libs/log');
+
 //require local config file
 var config = require('./config');
 
