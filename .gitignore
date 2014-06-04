@@ -4,3 +4,6 @@
 
 #node_module
 node_modules/
+
+#test folder
+test/

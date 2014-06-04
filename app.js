@@ -1,17 +1,18 @@
 var express = require('express');
+
 var path = require('path');
 var favicon = require('static-favicon');
 var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
-
+//logs
 var log = require('./libs/log');
 
 //require local config file
 var config = require('./config');
 
 var routes = require('./routes/index');
-var users = require('./routes/users');
+// var users = require('./routes/users');
 
 //init express
 var app = express();
@@ -28,7 +29,22 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', routes);
-app.use('/users', users);
+
+var User = require('./models/user').User;
+
+app.get('/users', function(req, res, next) {
+    User.find({}, function(err, users) {
+        if (err) return next(err);
+        res.json(users);
+    });
+});
+
+app.get('/users/:id', function(req, res, next) {
+    User.findById(req.params.id, function(err, users) {
+        if (err) return next(err);
+        res.json(users);
+    });
+});
 
 
 // start use config file
@@ -46,7 +62,7 @@ app.use(function(req, res, next) {
     }
 });
 
-/// error handlers
+// error handlers
 
 // development error handler
 // will print stacktrace
