@@ -9,5 +9,14 @@
                 }
             }
         }
+    },
+    "session": {
+        "secret": "MKTJparty",
+        "cookie": {
+            "path": "/",
+            "httpOnly": true,
+            "secure": false,
+            "maxAge": null
+        }
     }
 }

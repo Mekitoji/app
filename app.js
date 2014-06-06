@@ -10,9 +10,9 @@ var log = require('./libs/log');
 
 //require local config file
 var config = require('./config');
-
-var routes = require('./routes/index');
-// var users = require('./routes/users');
+//passport
+var passport = require('passport');
+var LocalStrategy = require('passport-local').Strategy;
 
 //init express
 var app = express();
@@ -28,27 +28,55 @@ app.use(bodyParser.urlencoded());
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
+/*SESSION*/
+
+var mongoose = require('./libs/mongoose');
+
+var session = require('express-session');
+
+var MongoStore = require('connect-mongo')(session);
+
+app.use(session({
+    secret: config.get('session:secret'),
+    cookie: config.get("session:cookie"),
+    store: new MongoStore({
+        mongoose_connection: mongoose.connection
+    })
+}));
+
+
+
+//test var at session *VIEWS*
+// app.use(function(req, res, next) {
+//     var sess = req.session
+//     if (sess.views) {
+//         sess.views++
+//         res.setHeader('Content-Type', 'text/html')
+//         res.write('<p>views: ' + sess.views + '</p>')
+//         res.end()
+//     } else {
+//         sess.views = 1
+//         res.end('welcome to the session demo. refresh!')
+//     }
+// });
+
+/*END OF SESSION*/
+
+
+
+
+// ******Routes
+var routes = require('./routes/index');
+var users = require('./routes/users');
+
 app.use('/', routes);
+app.use('/users', users);
 
-var User = require('./models/user').User;
-
-app.get('/users', function(req, res, next) {
-    User.find({}, function(err, users) {
-        if (err) return next(err);
-        res.json(users);
-    });
-});
-
-app.get('/users/:id', function(req, res, next) {
-    User.findById(req.params.id, function(err, users) {
-        if (err) return next(err);
-        res.json(users);
-    });
-});
+// ******END of routes
 
 
-// start use config file
-// app.set('port', 3000);
+
+
 
 // catch 404 and forward to error handler if it developement env
 // or send message about err to user if it production env
