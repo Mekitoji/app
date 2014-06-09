@@ -1,75 +1,50 @@
-//require our mongoose file with config
+// load the things we need
 var mongoose = require('../libs/mongoose');
+var bcrypt = require('bcrypt-nodejs');
 
-var crypto = require('crypto');
+// define the schema for our user model
+var userSchema = mongoose.Schema({
 
-var Schema = mongoose.Schema;
-
-
-//return value in lower case, useful for email
-function toLower(v) {
-    return v.toLowerCase();
-}
-
-//custom user schema
-var user = new Schema({
-    username: {
-        type: String,
-        unique: true,
-        required: true
-    },
+  localStorage: {
     name: {
-        first: {
-            type: String,
-            require: true
-        },
-        last: {
-            type: String,
-            required: true
-        }
+      first: {
+        type: String,
+        required: true
+      },
+      last: {
+        type: String,
+        required: true
+      }
     },
     email: {
-        type: String,
-        required: true,
-        set: toLower
+      type: String,
+      required: true
     },
-    hashedPassword: {
-        type: String,
-        required: true
-    },
-    salt: {
-        type: String,
-        required: true
+    password: {
+      type: String,
+      required: true
     },
     group: {
-        type: String,
-        default: "user"
+      type: String,
+      default: "user"
     },
     created: {
-        type: Date,
-        default: Date.now
+      type: Date,
+      default: Date.now
     }
+  }
+
 });
 
-// Secure Hash Algorithm 1(sha1) used encrypt password
-user.methods.encryptPassword = function(password) {
-    return crypto.createHmac('sha1', this.salt).update(password).digest('hex');
-}
-
-// Password virtual
-user.virtual('password')
-    .set(function(password) {
-        this._plainPassword = password;
-        this.salt = Math.random().toString().slice(2);
-        this.hashedPassword = this.encryptPassword(password);
-    })
-    .get(function() {
-        return this._plainPassword;
-    });
-
-
-user.methods.checkPassword = function() {
-    return this.encryptPassword(password) === this.hashedPassword;
+// generating a hash
+userSchema.methods.generateHash = function(password) {
+  return bcrypt.hashSync(password, bcrypt.genSaltSync(8), null);
 };
 
-exports.User = mongoose.model('User', user);
+// checking if password is valid
+userSchema.methods.validPassword = function(password) {
+  return bcrypt.compareSync(password, this.local.password);
+};
+
+// create the model for users and expose it to our app
+module.exports = mongoose.model('User', userSchema);
