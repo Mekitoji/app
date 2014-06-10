@@ -22,11 +22,15 @@
     <!-- LOCAL INFORMATION -->
     <div class="col-sm-6">
       <div class="well">
-        <h3><span class="fa fa-user"></span> Local</h3>
+        <h3><span class="fa fa-user"></span> Account information</h3>
 
           <p>
             <strong>id</strong>: <%= user._id %><br>
             <strong>email</strong>: <%= user.local.email %><br>
+            <strong>group</strong>: <%= user.local.group %><br>
+            <strong>created</strong>: <%= user.local.created %><br>
+            <strong>First name</strong>: <%= user.local.username.first %><br>
+            <strong>Last Name</strong>: <%= user.local.username.last %><br>
             <strong>password</strong>: <%= user.local.password %>
           </p>
 
