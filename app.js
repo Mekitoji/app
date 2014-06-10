@@ -42,9 +42,9 @@ app.use(bodyParser.urlencoded());
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
-
-/*PASSPORT*/
-
+// =================================
+// PASSPORT=========================
+// =================================
 //pass passport fot configutation 
 require('./libs/passport')(passport);
 
@@ -144,12 +144,6 @@ app.use(function(err, req, res, next) {
 app.listen(config.get('port'), function() {
   log.info('server welcome you');
 });
-
-
-
-
-
-
 
 
 

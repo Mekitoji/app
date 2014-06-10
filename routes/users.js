@@ -8,17 +8,17 @@ var router = express.Router();
 var User = require('../models/user').User;
 
 router.get('/', function(req, res, next) {
-    User.find({}, function(err, users) {
-        if (err) return next(err);
-        res.json(users);
-    });
+  User.find({}, function(err, users) {
+    if (err) return next(err);
+    res.json(users);
+  });
 });
 
 router.get('/:id', function(req, res, next) {
-    User.findById(req.params.id, function(err, users) {
-        if (err) return next(err);
-        res.json(users);
-    });
+  User.findById(req.params.id, function(err, users) {
+    if (err) return next(err);
+    res.json(users);
+  });
 });
 
 /*router.get('/:username', function(req, res, next) {
