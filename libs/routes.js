@@ -42,13 +42,6 @@ module.exports = function(app, passport) {
     failureFlash: true // allow flash messages
   }));
 
-  // process the login form
-  // app.post('/login', do all our passport stuff here);
-
-
-  // process the signup form
-  // app.post('/signup', do all our passport stuff here);
-
   // =====================================
   // PROFILE SECTION =====================
   // =====================================
@@ -67,7 +60,29 @@ module.exports = function(app, passport) {
     req.logout();
     res.redirect('/');
   });
+
+  app.get('/main', function(req, res) {
+    if (req.user) {
+      res.render('main.ejs', {
+        user: req.user // get the user out of session and pass to template
+      });
+    } else {
+      res.render('main.ejs', {
+        user: {
+          local: {
+            username: {
+              first: 'Login or ',
+              last: 'signup'
+            },
+            group: 'Guest'
+          }
+        }
+      });
+    }
+  });
+
 };
+
 
 
 
