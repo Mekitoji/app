@@ -3,20 +3,26 @@
 <nav class="navbar navbar-default" role="navigation">
   <div class="container-fluid">
     <!-- Brand and toggle get grouped for better mobile display -->
-    <div class="navbar-header">
-    
-      <a class="navbar-brand" href="#">
-        <%='Group: '+ user.local.group %><br></a>
-    </div>
+
 
     <!-- Collect the nav links, forms, and other content for toggling -->
     <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
       <ul class="nav navbar-nav">
         <li class="active"><a href="/main">Main</a></li>
-        <li><a href="#">Link</a></li>
+        <li class="dropdown">
+          <a href="#" class="dropdown-toggle" data-toggle="dropdown">Dropdown <b class="caret"></b></a>
+          <ul class="dropdown-menu">
+            <li><a href="#">In work</a></li>
+            <li><a href="#">Approved</a></li>
+            <li><a href="#">Outdated</a></li>
+          </ul>
+        </li>
       </ul>
 
       <ul class="nav navbar-nav navbar-right">
+
+        <li><a class="navbar-brand" href="#">
+        <%=' '+ user.local.group %><br></a></li>
         <li class='active'> <a href="/profile"><%= user.local.username.first+ ' '+user.local.username.last %></a></li>
       </ul>
     </div><!-- /.navbar-collapse -->

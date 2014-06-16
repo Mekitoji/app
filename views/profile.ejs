@@ -9,7 +9,7 @@
   <script src="//netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script>
 </head>
 <body>
-<% include layout-head %>
+<% include layout/head %>
 <div class="container">
 
   <div class="page-header text-center">
@@ -23,7 +23,7 @@
     <div class="col-sm-6">
       <div class="well">
         <h3><span class="fa fa-user"></span> Account information</h3>
-
+        
           <p>
             <strong>id</strong>: <%= user._id %><br>
             <strong>email</strong>: <%= user.local.email %><br>
@@ -31,7 +31,6 @@
             <strong>created</strong>: <%= user.local.created %><br>
             <strong>First name</strong>: <%= user.local.username.first %><br>
             <strong>Last Name</strong>: <%= user.local.username.last %><br>
-            <strong>password</strong>: <%= user.local.password %>
           </p>
 
       </div>

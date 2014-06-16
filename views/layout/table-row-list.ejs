@@ -1,0 +1,104 @@
+<div class="container row">
+  <table id='main-list-table' class=" table table-striped table-bordered table-hover table-responsive">
+    <tr>
+      <th>No</th>
+      <th>Country</th>
+      <th>App name</th>
+      <th>Category</th>
+      <th>SDP Status</th>
+      <th>Update Date</th>  
+      <th>Seller</th>
+      <th>TV</th>
+      <th>Current status</th>
+      <th>Test Cycles</th>
+      <th>Reply Time</th>
+      <th>Resp</th>
+    </tr>
+    <tr>
+      <td>1</td>
+      <td>
+        <select name="country" id="table-country">
+          <option value="Russia">Russia</option>
+          <option value="Ukraine">Ukraine</option>
+          <option value="Belarus">Belarus</option>
+          <option value="Latvia">Latvia</option>
+          <option value="Kazakhstan">Kazakhstan</option>
+          <option value="Lithuania">Lithuania</option>
+          <option value="Estonia">Estonia</option>
+          <option value="Uzbekistan">Uzbekistan</option>
+        </select>
+      </td>
+      <td><input type="text" class='app-name'></td>
+      <td>
+        <select name="category" id="table-category">
+        <option value="OTT">OTT</option>
+        <option value="Pay TV">Pay TV</option>
+        <option value="Broadcast">Broadcast</option>
+        <option value="OTT + Pay TV">OTT + Pay TV</option>
+        <option value="Others">Others</option>
+        </select>
+      </td>
+      <td>
+        <select name="sdp-status" id="table-sdp-status">
+          <option value="Gk review request">Gk review request</option>
+          <option value="GK rewiev">GK rewiev</option>
+          <option value="GK Review Reject">GK Review Reject</option>
+          <option value="Verification Request">Verification Request</option>
+          <option value="Pre-test">Pre-test</option>
+          <option value="Function Testing">Function Testing</option>
+          <option value="Content Testing">Content Testing</option>
+          <option value="Final review">Final review</option>
+          <option value="App QA Approved">App QA Approved</option>
+          <option value="App QA Rejected">App QA Rejected</option>
+        </select>
+      </td>
+      <td>
+        <input type="date">
+      </td>
+      <td>
+        <input type="text">
+      </td>
+      <td>
+        <select name="Tv" id="table-tv">
+          <option value="Reject">Reject</option>
+          <option value="Approve">Approve</option>
+          <option value="Partial">Partial</option>
+        </select>
+      </td>
+      <td>
+        <select name="current-status" id="table-current-status">
+          <option value="Waiting for fix">Waiting for fix</option>
+          <option value="Waiting for test">Waiting for test</option>
+          <option value="Waiting for QA">Waiting for QA</option>
+        </select>
+      </td>
+      <td>
+        <input type="text">
+      </td>
+      <td>
+        <span id='reply-time'></span>
+      </td>
+      <td>
+        <select name="resp" id="table-resp">
+          <option value="YK">YK</option>
+          <option value="DP">DP</option>
+          <option value="VE">VE</option>
+          <option value="AS">AS</option>
+        </select>
+      </td>
+      <td id='current'>
+        <button  class=' btn btn-primary add-row-btn' onclick='addRow()'>
+          <span class="glyphicon glyphicon-plus"></span>
+        </button>
+      </td>
+    </tr>
+  </table>
+</div>
+
+<div class="container row">
+  <form action="/main" method='POST'>
+    <button class='btn'>Export</button>
+  </form>
+  <br>
+  <button class='btn'>Move to</button>
+</div>

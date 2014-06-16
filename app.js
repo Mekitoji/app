@@ -57,46 +57,13 @@ app.use(passport.session());
 app.use(flash());
 
 
-
-/*SESSION*/
-
-/*app.use(session({
-    secret: config.get('session:secret'),
-    cookie: config.get("session:cookie"),
-    store: new MongoStore({
-        mongoose_connection: mongoose.connection
-    })
-}));
-
-*/
-
-// test var at session *VIEWS*
-/*app.use(function(req, res, next) {
-    var sess = req.session
-    if (sess.views) {
-        sess.views++
-        res.setHeader('Content-Type', 'text/html')
-        res.write('<p>views: ' + sess.views + '</p>')
-        res.end()
-    } else {
-        sess.views = 1
-        res.end('welcome to the session demo. refresh!')
-    }
-});
-*/
-
-/*END OF SESSION*/
-
-
-
-
 // ******Routes
 // var routes = require('./routes/index');
 // var users = require('./routes/users');
 
 // app.use('/', routes);
 // app.use('/users', users);
-require('./libs/routes')(app, passport);
+var routes = require('./libs/routes')(app, passport);
 // ******END of routes
 
 
@@ -141,9 +108,9 @@ app.use(function(err, req, res, next) {
 
 
 // start listen port
-app.listen(config.get('port'), function() {
-  log.info('server welcome you');
-});
+// app.listen(config.get('port'), function() {
+//   log.info('server welcome you');
+// });
 
 
 

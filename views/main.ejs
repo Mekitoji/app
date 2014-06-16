@@ -1,5 +1,3 @@
-
-
 <!doctype html>
 <html>
 <head>
@@ -8,9 +6,32 @@
   <link rel="stylesheet" href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.min.css">
   <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
   <script src="//netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script>
+
 </head>
 <body>
-<% include layout-head %>
 
+  <% include layout/head %>
+  <!-- LIST NAVBAR -->
+  <ul class="nav nav-tabs">
+    <li class="active"><a href="#list" data-toggle="tab">List of apps</a></li>
+    <li><a href="#calendar" data-toggle="tab">Calendar</a></li>
+    <li><a href="#test-cycles" data-toggle="tab">Test Cycles</a></li>
+  </ul>
+
+  <div class="tab-content">
+    <div class="tab-pane fade in active " id="list">
+      <%include layout/table-row-list%>
+    </div>
+    <div class="tab-pane fade" id="calendar">
+      <%include layout/table-row-calendar%>
+    </div>
+    <div class="tab-pane fade" id="test-cycles">
+      <%include layout/table-row-test-cycles%>
+    </div>
+  </div>
+
+
+
+  <script src='js/main.js'></script>
 </body>
 </html>
