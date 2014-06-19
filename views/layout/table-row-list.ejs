@@ -28,7 +28,7 @@
           <option value="Uzbekistan">Uzbekistan</option>
         </select>
       </td>
-      <td><input type="text" class='app-name'></td>
+      <td><input type="text" class='app-name' ng-model='name'></td>
       <td>
         <select name="category" id="table-category">
         <option value="OTT">OTT</option>
@@ -87,7 +87,7 @@
         </select>
       </td>
       <td id='current'>
-        <button  class=' btn btn-primary add-row-btn' onclick='addRow()'>
+        <button id='plus-row' class=' btn btn-primary add-row-btn' >
           <span class="glyphicon glyphicon-plus"></span>
         </button>
       </td>
