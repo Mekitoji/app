@@ -63,7 +63,7 @@ app.use(flash());
 
 // app.use('/', routes);
 // app.use('/users', users);
-var routes = require('./libs/routes')(app, passport);
+var routes = require('./routes/index')(app, passport);
 // ******END of routes
 
 

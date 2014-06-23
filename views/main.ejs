@@ -9,6 +9,7 @@
   <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.2.18/angular.min.js"></script>
 
 </head>
+
 <body ng-app>
 
   <% include layout/head %>
@@ -19,7 +20,7 @@
     <li><a href="#test-cycles" data-toggle="tab">Test Cycles</a></li>
   </ul>
 
-  <div class="tab-content">
+  <div class="tab-content" >
     <div class="tab-pane fade in active " id="list">
       <%include layout/table-row-list%>
     </div>
@@ -30,8 +31,6 @@
       <%include layout/table-row-test-cycles%>
     </div>
   </div>
-
-
 
   <script src='js/main.js'></script>
 </body>
