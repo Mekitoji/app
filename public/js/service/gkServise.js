@@ -1,4 +1,4 @@
-angular.module('gkService', [])
+angular.module('appService', [])
 
 // super simple service
 // each function returns a promise object 
@@ -7,8 +7,11 @@ angular.module('gkService', [])
     get: function() {
       return $http.get('/api/gk');
     },
-    create: function(todoData) {
-      return $http.post('/api/gk', todoData);
+    create: function(appData) {
+      return $http.post('/api/gk', appData);
+    },
+    update: function(appData, id) {
+      return $http.put('/api/gk/' + id, appData);
     },
     delete: function(id) {
       return $http.delete('/api/gk/' + id);

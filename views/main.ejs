@@ -1,5 +1,5 @@
 <!doctype html >
-<html>
+<html ng-app='appBase'>
 <head>
   <title>GKSA</title>
   <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.2/css/bootstrap.min.css">
@@ -7,12 +7,21 @@
   <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
   <script src="//netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script>
   <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.2.18/angular.min.js"></script>
-
+  <script src="js/core.js"></script> <!-- load our main application -->
 </head>
 
-<body ng-app>
+<body ng-controller='appController'>
 
   <% include layout/head %>
+
+
+
+
+
+
+
+
+
   <!-- LIST NAVBAR -->
   <ul class="nav nav-tabs">
     <li class="active"><a href="#list" data-toggle="tab">List of apps</a></li>

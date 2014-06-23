@@ -1,1 +1,1 @@
-angular.module('gkbase', ['gkController', 'gkService']);
+angular.module('appBase', ['appController', 'appService']);
