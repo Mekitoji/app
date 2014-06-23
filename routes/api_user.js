@@ -54,8 +54,31 @@ module.exports = function(app) {
     });
   });
 
-  // application -------------------------------------------------------------
-  app.get('*', function(req, res) {
-    res.render('index.ejs'); // load the single view file (angular will handle the page changes on the front-end)
+  //update a user
+  app.put('/api/users/:user_id', function(req, res) {
+
+    // use our bear model to find the bear we want
+    User.findById(req.params.user_id, function(err, user) {
+
+      if (err) res.send(err);
+      if (req.body.group) user.local.group = req.body.group;
+      if (req.body.email) user.local.email = req.body.email;
+      if (req.body.first) user.local.username.first = req.body.first;
+      if (req.body.last) user.local.username.last = req.body.last;
+
+      // save the bear
+      user.save(function(err) {
+        if (err)
+          res.send(err);
+
+        res.json(user);
+      });
+
+    });
   });
+
+  // application -------------------------------------------------------------
+  //add emitter for development and production env
+
+
 };

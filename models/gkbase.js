@@ -3,10 +3,6 @@ var mongoose = require('../libs/mongoose');
 // define the schema for our app model
 var appBase = mongoose.Schema({
 
-  no: {
-    type: Number,
-    require: true
-  },
   country: {
     type: String,
     require: true
@@ -25,7 +21,6 @@ var appBase = mongoose.Schema({
   },
   updateTime: {
     type: Date,
-    require: true
     default: Date.now
   },
   seller: {

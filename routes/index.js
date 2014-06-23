@@ -14,6 +14,7 @@ module.exports = function(app, passport) {
   var profile = require('./profile')(app);
   var logout = require('./logout')(app);
   var main = require('./main')(app);
-  var api = require('../routes/api')(app);
+  var api_user = require('../routes/api_user')(app);
+  var api_gk = require('../routes/api_gk')(app);
 
 };
