@@ -1,53 +1,40 @@
 var mongoose = require('../libs/mongoose');
 
-// define the schema for our app model
-var appBase = mongoose.Schema({
+// create the model for users and expose it to our app
+module.exports = mongoose.model('Apps', {
 
   country: {
-    type: String,
-    require: true
+    type: String
   },
   appName: {
-    type: String,
-    require: true
+    type: String
   },
-  Category: {
-    type: String,
-    require: true
+  category: {
+    type: String
   },
   sdpStatus: {
-    type: String,
-    require: true
+    type: String
   },
   updateTime: {
     type: Date,
     default: Date.now
   },
   seller: {
-    type: String,
-    require: true
+    type: String
   },
   tv: {
-    type: String,
-    require: true
+    type: String
   },
   currentStatus: {
-    type: String,
-    require: true
+    type: String
   },
   testCycles: {
-    type: String,
-    require: true
+    type: String
   },
   replyTime: {
     type: String
   },
   resp: {
-    type: String,
-    require: true
+    type: String
   }
 });
-
-
-// create the model for users and expose it to our app
-module.exports = mongoose.model('apps', appBase);

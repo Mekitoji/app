@@ -1,4 +1,4 @@
-var appGk = require('../models/gkbase.js');
+var Apps = require('../models/gkbase');
 
 module.exports = function(app) {
 
@@ -6,13 +6,13 @@ module.exports = function(app) {
   app.get('/api/gk', function(req, res) {
 
     // use mongoose to get all gk in the database
-    appGk.find(function(err, gk) {
+    Apps.find(function(err, app) {
 
       // if there is an error retrieving, send the error. nothing after res.send(err) will execute
       if (err)
         res.send(err)
 
-      res.json(gk); // return all users in JSON format
+      res.json(app); // return all users in JSON format
     });
   });
 
@@ -20,59 +20,75 @@ module.exports = function(app) {
   app.post('/api/gk', function(req, res) {
 
     // create a user, information comes from AJAX request from Angular
-    appGk.create({
-      text: req.body.text,
-      done: false
-    }, function(err, gk) {
+    Apps.create({
+      country: req.body.country,
+      appName: req.body.appName,
+      category: req.body.category,
+      sdpStatus: req.body.sdpStatus,
+      updateTime: req.body.updateTime,
+      seller: req.body.seller,
+      tv: req.body.tv,
+      currentStatus: req.body.currentStatus,
+      testCycles: req.body.testCycles,
+      replyTime: req.body.replyTime,
+      resp: req.body.resp
+    }, function(err, app) {
       if (err)
         res.send(err);
 
       // get and return all the users after you create another
-      appGk.find(function(err, gks) {
+      Apps.find(function(err, apps) {
         if (err)
           res.send(err)
-        res.json(gks);
+        res.json(apps);
       });
     });
 
   });
 
   // delete a user
-  app.delete('/api/gk/:gk_id', function(req, res) {
-    appGk.remove({
-      _id: req.params.gk_id
-    }, function(err, gk) {
+  app.delete('/api/gk/:app_id', function(req, res) {
+    Apps.remove({
+      _id: req.params.app_id
+    }, function(err, app) {
       if (err)
         res.send(err);
 
       // get and return all the users after you create another
-      appGk.find(function(err, gks) {
+      Apps.find(function(err, apps) {
         if (err)
           res.send(err)
-        res.json(gks);
+        res.json(apps);
       });
     });
   });
 
   //update a user
-  app.put('/api/gk/:gk_id', function(req, res) {
+  app.put('/api/gk/:app_id', function(req, res) {
 
     // use our bear model to find the bear we want
-    appGk.findById(req.params.gk_id, function(err, gk) {
+    Apps.findById(req.params.app_id, function(err, app) {
 
       if (err) res.send(err);
       //put some data for update here
-      // if (req.body.group) user.local.group = req.body.group;
-      // if (req.body.email) user.local.email = req.body.email;
-      // if (req.body.first) user.local.username.first = req.body.first;
-      // if (req.body.last) user.local.username.last = req.body.last;
+      if (req.body.country) app.country = req.body.country;
+      if (req.body.appName) app.appName = req.body.appName;
+      if (req.body.category) app.category = req.body.category;
+      if (req.body.sdpStatus) app.sdpStatus = req.body.sdpStatus;
+      if (req.body.updateTime) app.updateTime = req.body.updateTime;
+      if (req.body.seller) app.seller = req.body.seller;
+      if (req.body.tv) app.tv = req.body.tv;
+      if (req.body.currentStatus) app.currentStatus = req.body.currentStatus;
+      if (req.body.testCycles) app.testCycles = req.body.testCycles;
+      if (req.body.replyTime) app.replyTime = req.body.replyTime;
+      if (req.body.resp) app.resp = req.body.resp;
 
       // save the bear
-      gk.save(function(err) {
+      app.save(function(err) {
         if (err)
           res.send(err);
 
-        res.json(gk);
+        res.json(app);
       });
 
     });
