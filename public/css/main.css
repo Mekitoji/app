@@ -1,0 +1,28 @@
+* {
+  box-sizing: border-box;
+}
+
+.form-row {
+  display: block;
+}
+
+.form-group {
+  margin-left: 20%;
+}
+
+.form-row>label {
+  display: block-inline;
+  width: 200px;
+  font-size: 15px;
+  text-align: right;
+}
+
+.form-row>input, .form-row>select{
+  font-size: 15px;
+  width: 200px;
+}
+
+.search-container {
+  margin-top:5px;
+  margin-bottom: 5px;
+}
