@@ -26,3 +26,8 @@
   margin-top:5px;
   margin-bottom: 5px;
 }
+
+.btn.btn-primary.btn-lg {
+  margin-left: 25%;
+  width: 310px;
+}
