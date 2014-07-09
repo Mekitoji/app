@@ -56,12 +56,12 @@ angular.module('project', ['ngRoute'])
 
 .controller('EditCtrl', function($scope, $routeParams, $location, $http, Apps) {
 
-  // var projectUrl = $routeParams.appId;
-  // Apps.update(projectUrl, $scope.formData)
-  //   .success(function(data) {
-  //     $scope.formData = data;
+  var projectUrl = $routeParams.appId;
+  Apps.update(projectUrl, $scope.formData)
+    .success(function(data) {
+      $scope.formData = data;
 
-  //   })
+    })
 
   $scope.deleteApp = function(id) {
     Apps.delete(id)
@@ -80,14 +80,6 @@ angular.module('project', ['ngRoute'])
   };
 
 })
-
-
-
-
-
-
-
-
 
 .controller('mainController', function($scope, $http, Apps) {
   //get formData clear

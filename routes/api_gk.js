@@ -82,6 +82,7 @@ module.exports = function(app) {
       if (req.body.testCycles) app.testCycles = req.body.testCycles;
       if (req.body.replyTime) app.replyTime = req.body.replyTime;
       if (req.body.resp) app.resp = req.body.resp;
+      app._id = req.body._id; //  $id wont work, so use this id
 
       // save the bear
       app.save(function(err) {
