@@ -5,12 +5,12 @@ module.exports = mongoose.model('Calendar', {
     //object appName from 'Apps'
     type: String
   },
-  Storage: {
+  Storage: [{
     date: {
       type: Date
     },
     value: {
       type: String
     }
-  }
+  }]
 });

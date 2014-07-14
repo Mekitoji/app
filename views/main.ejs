@@ -14,123 +14,28 @@
   <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.0-beta.14/angular-route.min.js"></script>
 
   <script src="js/new-core.js"></script>
+
 </head>
 
 <body >
 
   <% include layout/head %>
-
-  <!-- LIST NAVBAR -->
-  <ul class="nav nav-tabs">
-    <li class="active"><a href="#" data-toggle="tab">List of apps</a></li>
-    <li><a href="#calendar" data-toggle="tab">Calendar</a></li>
-    <li><a href="#test-cycles" data-toggle="tab">Test Cycles</a></li>
+    <ul class="nav nav-tabs" id='mainTab'>
+    <li class="active"><a href="#" >List of apps</a></li>
+    <li><a href="#calendar" >Calendar</a></li>
+    <li><a href="#test" >Test Cycles</a></li>
   </ul>
   
-  <div class="tab-content" >
+<div class="container" ng-view></div>
+  <!-- LIST NAVBAR -->
 
-  <div class="tab-pane fade in active " id="list" ng-view>
 
-  </div>
 
-  </div>
 
-    <div class="tab-pane fade" id="calendar">
-      <div class="container row">
-  <table id='main-calendar-table' class=" table table-striped table-bordered table-hover table-responsive">
-    <tr>
-      <th></th>
-      <th colspan='30'>
-        <select name="calendar" id="calendar-select">
-          <option value="January">January</option>
-          <option value="February">February</option>
-          <option value="March">March</option>
-          <option value="April">April</option>
-          <option value="May">May</option>
-          <option value="June">June</option>
-          <option value="July">July</option>
-          <option value="August">August</option>
-          <option value="September">September</option>
-          <option value="October">October</option>
-          <option value="November">November</option>
-          <option value="December">December</option>
-        </select>
-    </th>
-    </tr>
-    <tr>
-      <th></th>
-      <th>1</th>
-      <th>2</th>
-      <th>3</th>
-      <th>4</th>
-      <th>5</th>
-      <th>6</th>
-      <th>7</th>
-      <th>8</th>
-      <th>9</th>
-      <th>10</th>
-      <th>11</th>
-      <th>12</th>
-      <th>13</th>
-      <th>14</th>
-      <th>15</th>
-      <th>16</th>
-      <th>17</th>
-      <th>18</th>
-      <th>19</th>
-      <th>20</th>
-      <th>21</th>
-      <th>22</th>
-      <th>23</th>
-      <th>24</th>
-      <th>25</th>
-      <th>26</th>
-      <th>27</th>
-      <th>28</th>
-      <th>29</th>
-      <th>30</th>
-    </tr>
-    <tr>
-      <td class='take-app-name'>{{name}}</td>
-      <td><select name="" id=""></select></td>
-      <td><select name="" id=""></select></td>
-      <td><select name="" id=""></select></td>
-      <td><select name="" id=""></select></td>
-      <td><select name="" id=""></select></td>
-      <td><select name="" id=""></select></td>
-      <td><select name="" id=""></select></td>
-      <td><select name="" id=""></select></td>
-      <td><select name="" id=""></select></td>
-      <td><select name="" id=""></select></td>
-      <td><select name="" id=""></select></td>
-      <td><select name="" id=""></select></td>
-      <td><select name="" id=""></select></td>
-      <td><select name="" id=""></select></td>
-      <td><select name="" id=""></select></td>
-      <td><select name="" id=""></select></td>
-      <td><select name="" id=""></select></td>
-      <td><select name="" id=""></select></td>
-      <td><select name="" id=""></select></td>
-      <td><select name="" id=""></select></td>
-      <td><select name="" id=""></select></td>
-      <td><select name="" id=""></select></td>
-      <td><select name="" id=""></select></td>
-      <td><select name="" id=""></select></td>
-      <td><select name="" id=""></select></td>
-      <td><select name="" id=""></select></td>
-      <td><select name="" id=""></select></td>
-      <td><select name="" id=""></select></td>
-      <td><select name="" id=""></select></td>
-      <td><select name="" id=""></select></td>
+    
 
-    </tr>
-  </table>
-</div>
 
-    </div>
-    <div class="tab-pane fade" id="test-cycles">
-      
-    </div>
+
 
 </body>
 </html>
