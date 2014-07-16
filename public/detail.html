@@ -1,10 +1,10 @@
-<form >
+<form name='myForm'>
     <div class="form-group">
 
       <!-- BIND THIS VALUE TO formData.text IN ANGULAR -->
       <div class='form-row'>
         <label>Country</label>
-        <select name="country" id="table-country" ng-model="formData.country">
+        <select name="country" id="table-country" ng-model="formData.country" required>
           <option value="Russia">Russia</option>
           <option value="Ukraine">Ukraine</option>
           <option value="Belarus">Belarus</option>
@@ -13,8 +13,9 @@
           <option value="Lithuania">Lithuania</option>
           <option value="Estonia">Estonia</option>
           <option value="Uzbekistan">Uzbekistan</option>
-
         </select>
+     <!--    <span class="error" ng-show="myForm.country.$error.required">Required!</span>
+       -->
       </div>
       
       <div class='form-row'>
@@ -51,12 +52,12 @@
 
       <div class='form-row'>
         <label>Update Time</label>
-        <input type="date" placeholder="say" ng-model="formData.updateTime"> 
+        <input type="date" ng-model="formData.updateTime"> 
       </div>
 
       <div class='form-row'>
         <label>Seller</label>
-        <input type="text" placeholder="say" ng-model="formData.seller"> 
+        <input type="text" placeholder="Seller" ng-model="formData.seller"> 
       </div>
 
       <div class='form-row'>
@@ -79,12 +80,12 @@
 
       <div class='form-row'>
         <label>Test Cycles</label>
-        <input type="text" placeholder="say" ng-model="formData.testCycles"> 
+        <input type="text" placeholder="Test Cycles" ng-model="formData.testCycles"> 
       </div>
 
       <div class='form-row'>
         <label>Reply Time</label>
-        <input type="text" placeholder="say" ng-model="formData.replyTime"> 
+        <input type="text" placeholder="Reply Time" ng-model="formData.replyTime"> 
       </div>
   
       <div class='form-row'>
