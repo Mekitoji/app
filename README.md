@@ -11,6 +11,6 @@ app
 
 ##Start app
 * node bin/www 
-* go to localhost:80
+* go to localhost:3000
 
 ==
