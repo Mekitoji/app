@@ -14,18 +14,18 @@
           <option value="Estonia">Estonia</option>
           <option value="Uzbekistan">Uzbekistan</option>
         </select>
-     <!--    <span class="error" ng-show="myForm.country.$error.required">Required!</span>
-       -->
+        <!-- <span class="error" ng-show="myForm.$error.required">Required!</span> -->
+      
       </div>
       
       <div class='form-row'>
         <label>Application name</label>
-        <input type="text" placeholder="app name" ng-model="formData.appName">
+        <input type="text" placeholder="app name" ng-model="formData.appName" required>
       </div>
       
       <div class='form-row'>
         <label> Category</label>
-        <select name="category" id="table-category" ng-model='formData.category'>
+        <select name="category" id="table-category" ng-model='formData.category' required>
           <option value="OTT">OTT</option>
           <option value="Pay TV">Pay TV</option>
           <option value="Broadcast">Broadcast</option>
@@ -36,7 +36,7 @@
 
       <div class='form-row'>
         <label>SDP status</label>
-        <select name="sdp-status" id="table-sdp-status" ng-model='formData.sdpStatus'>
+        <select name="sdp-status" id="table-sdp-status" ng-model='formData.sdpStatus' required>
           <option value="Gk review request">Gk review request</option>
           <option value="GK rewiev">GK rewiev</option>
           <option value="GK Review Reject">GK Review Reject</option>
@@ -52,17 +52,17 @@
 
       <div class='form-row'>
         <label>Update Time</label>
-        <input type="date" ng-model="formData.updateTime"> 
+        <input type="date" ng-model="formData.updateTime"  required> 
       </div>
 
       <div class='form-row'>
         <label>Seller</label>
-        <input type="text" placeholder="Seller" ng-model="formData.seller"> 
+        <input type="text" placeholder="Seller" ng-model="formData.seller" required> 
       </div>
 
       <div class='form-row'>
         <label>Tv</label>
-        <select name="Tv" id="table-tv" ng-model='formData.tv'>
+        <select name="Tv" id="table-tv" ng-model='formData.tv' required>
           <option value="Reject">Reject</option>
           <option value="Approve">Approve</option>
           <option value="Partial">Partial</option>
@@ -71,7 +71,7 @@
 
       <div class='form-row'>
         <label>Current status</label>
-        <select name="current-status" id="table-current-status" ng-model='formData.currentStatus'>
+        <select name="current-status" id="table-current-status" ng-model='formData.currentStatus' required>
           <option value="Waiting for fix">Waiting for fix</option>
           <option value="Waiting for test">Waiting for test</option>
           <option value="Waiting for QA">Waiting for QA</option>
@@ -80,26 +80,30 @@
 
       <div class='form-row'>
         <label>Test Cycles</label>
-        <input type="text" placeholder="Test Cycles" ng-model="formData.testCycles"> 
+        <input type="text" placeholder="Test Cycles" ng-model="formData.testCycles" required> 
       </div>
 
       <div class='form-row'>
         <label>Reply Time</label>
-        <input type="text" placeholder="Reply Time" ng-model="formData.replyTime"> 
+        <input type="text" placeholder="Reply Time" ng-model="formData.replyTime" required> 
       </div>
   
       <div class='form-row'>
         <label>Resp</label>
-        <select name="resp" id="table-resp" ng-model='formData.resp'>
+        <select name="resp" id="table-resp" ng-model='formData.resp' required>
           <option value="YK">YK</option>
           <option value="DP">DP</option>
           <option value="VE">VE</option>
           <option value="AS">AS</option>
         </select>
       </div>
-    
     </div>
 
     <!-- createApp() WILL CREATE NEW row with app -->
-    <a href="#/"><button type="submit" class="btn btn-primary btn-lg" ng-click="createApp()">Add</button></a>
+
+    <div class='button-holder' >
+      <a href="#/"><button type="submit" class="btn btn-primary btn-lg" ng-click="createApp()" ng-disabled="myForm.$invalid">Save</button></a>
+      <a href="#/" class="btn btn-primary btn-lg">Cancel</a>
+      <a href="#/" class="btn btn-primary btn-lg" ng-show='edit' ng-click='deleteApp(formData._id)'>Delete</a>{{formData._id}}
+    </div>
   </form>

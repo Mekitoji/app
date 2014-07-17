@@ -28,6 +28,9 @@
 }
 
 .btn.btn-primary.btn-lg {
-  margin-left: 25%;
-  width: 310px;
+  width: 200px;
+}
+
+.button-holder {
+  margin-left:25%;
 }
