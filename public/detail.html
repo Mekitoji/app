@@ -102,7 +102,8 @@
     <!-- createApp() WILL CREATE NEW row with app -->
 
     <div class='button-holder' >
-      <a href="#/"><button type="submit" class="btn btn-primary btn-lg" ng-click="createApp()" ng-disabled="myForm.$invalid">Save</button></a>
+      <a href="#/"><button type="submit" class="btn btn-primary btn-lg" ng-click="createApp()" ng-disabled="myForm.$invalid" ng-show='!edit'>Save</button></a>
+      <a href="#/"><button type="submit" class="btn btn-primary btn-lg" ng-click="updateApp(formData._id)" ng-disabled="myForm.$invalid" ng-show='edit'>Save</button></a>
       <a href="#/" class="btn btn-primary btn-lg">Cancel</a>
       <a href="#/" class="btn btn-primary btn-lg" ng-show='edit' ng-click='deleteApp(formData._id)'>Delete</a>{{formData._id}}
     </div>
