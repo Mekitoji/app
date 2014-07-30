@@ -32,6 +32,7 @@ angular.module('project', ['ngRoute'])
             templateUrl: 'detail.html'
         })
         .when('/calendar', {
+            controller: 'ListCtrl',
             templateUrl: 'calendar.html'
         })
         .when('/test', {
