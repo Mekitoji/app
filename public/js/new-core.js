@@ -1,4 +1,4 @@
-angular.module('project', ['ngRoute'])
+angular.module('project', ['ngRoute', 'ngGrid'])
 //restful 
 .factory('Apps', function($http) {
     return {
@@ -42,12 +42,83 @@ angular.module('project', ['ngRoute'])
 })
 
 .controller('ListCtrl', function($scope, $http, Apps) {
+
+
+
     $scope.edit = false;
     Apps.get()
 
     .success(function(data) {
         $scope.apps = data;
+
     });
+
+    $scope.gridOptions = {
+        data: 'apps',
+        columnDefs: [{
+            displayName: 'No',
+            cellTemplate: '<div ><div >{{indexOf(row.entity)}}</div></div>'
+        }, {
+            field: 'country',
+            displayName: 'Country',
+            enableCellEdit: true
+        }, {
+            field: 'appName',
+            displayName: 'Application name',
+            enableCellEdit: true
+        }, {
+            field: 'category',
+            displayName: 'Category',
+            enableCellEdit: true
+        }, {
+            field: 'sdpStatus',
+            displayName: 'SDP Status',
+            enableCellEdit: true
+        }, {
+            field: 'updateTime',
+            displayName: 'Update date',
+            cellFilter: 'date:"yyyy-MM-dd"',
+            enableCellEdit: true
+        }, {
+            field: 'seller',
+            displayName: 'Seller',
+            enableCellEdit: true
+        }, {
+            field: 'tv',
+            displayName: 'tv',
+            enableCellEdit: true
+        }, {
+            field: 'currentStatus',
+            displayName: 'Current status',
+            cellTemplate: '<div ng-class="{green: row.getProperty(col.field)}"><div class="ngCellText">{{row.getProperty(col.field)}}</div></div>',
+            enableCellEdit: true
+        }, {
+            field: 'testCycles',
+            displayName: 'testCycles',
+            enableCellEdit: false
+        }, {
+            field: 'replyTime',
+            displayName: 'Reply Time',
+            enableCellEdit: false
+        }, {
+            field: 'resp',
+            displayName: 'resp',
+            enableCellEdit: true
+        }, ],
+        showGroupPanel: true,
+        enableColumnResize: true,
+        showFilter: true,
+        filterOptions: {
+            filterText: '',
+            useExternalFilter: false
+        },
+        showFooter: true
+
+
+
+    };
+
+
 })
 
 .controller('CreateCtrl', function($scope, $http, Apps) {
