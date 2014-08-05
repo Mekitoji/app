@@ -53,11 +53,19 @@ angular.module('project', ['ngRoute', 'ngGrid'])
 
     });
 
+    $scope.getRowIndex = function() {
+        var index = this.row.rowIndex;
+        // $scope.gridOptions.selectItem(index, false);
+        return index + 1;
+    };
+
+
+
     $scope.gridOptions = {
         data: 'apps',
         columnDefs: [{
             displayName: 'No',
-            cellTemplate: '<div ><div >{{indexOf(row.entity)}}</div></div>'
+            cellTemplate: '<div ><div >{{getRowIndex()}}</div></div>'
         }, {
             field: 'country',
             displayName: 'Country',
@@ -85,7 +93,7 @@ angular.module('project', ['ngRoute', 'ngGrid'])
             enableCellEdit: true
         }, {
             field: 'tv',
-            displayName: 'tv',
+            displayName: 'Tv',
             enableCellEdit: true
         }, {
             field: 'currentStatus',
@@ -94,7 +102,7 @@ angular.module('project', ['ngRoute', 'ngGrid'])
             enableCellEdit: true
         }, {
             field: 'testCycles',
-            displayName: 'testCycles',
+            displayName: 'Test Cycles',
             enableCellEdit: false
         }, {
             field: 'replyTime',
@@ -102,20 +110,17 @@ angular.module('project', ['ngRoute', 'ngGrid'])
             enableCellEdit: false
         }, {
             field: 'resp',
-            displayName: 'resp',
+            displayName: 'Resp',
             enableCellEdit: true
         }, ],
         showGroupPanel: true,
         enableColumnResize: true,
         showFilter: true,
+        showFooter: true,
         filterOptions: {
-            filterText: '',
+            filterText: "",
             useExternalFilter: false
-        },
-        showFooter: true
-
-
-
+        }
     };
 
 
