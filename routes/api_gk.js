@@ -97,9 +97,6 @@ module.exports = function(app) {
 
     // application -------------------------------------------------------------
     //add emitter for development and production env
-    app.get('*', function(req, res) {
-        res.render('index.ejs'); // load the single view file (angular will handle the page changes on the front-end)
-    });
 
 
 

@@ -5,7 +5,7 @@ var LocalStrategy = require('passport-local').Strategy;
 var User = require('../models/user');
 
 
-module.exports = function(passport) {
+module.exports = function (passport) {
 
   // =========================================================================
   // passport session setup ==================================================
@@ -14,13 +14,13 @@ module.exports = function(passport) {
   // passport needs ability to serialize and unserialize users out of session
 
   // used to serialize the user for the session
-  passport.serializeUser(function(user, done) {
+  passport.serializeUser(function (user, done) {
     done(null, user.id);
   });
 
   // used to deserialize the user
-  passport.deserializeUser(function(id, done) {
-    User.findById(id, function(err, user) {
+  passport.deserializeUser(function (id, done) {
+    User.findById(id, function (err, user) {
       done(err, user);
     });
   });
@@ -34,25 +34,29 @@ module.exports = function(passport) {
       passwordField: 'password',
       passReqToCallback: true // allows us to pass in the req from our route (lets us check if a user is logged in or not)
     },
-    function(req, email, password, done) {
-      if (email)
+    function (req, email, password, done) {
+      if (email) {
         email = email.toLowerCase(); // Use lower-case e-mails to avoid case-sensitive e-mail matching
+      }
 
       // asynchronous
-      process.nextTick(function() {
+      process.nextTick(function () {
         User.findOne({
           'local.email': email
-        }, function(err, user) {
+        }, function (err, user) {
           // if there are any errors, return the error
-          if (err)
+          if (err) {
             return done(err);
+          }
 
           // if no user is found, return the message
-          if (!user)
+          if (!user) {
             return done(null, false, req.flash('loginMessage', 'User not found.'));
+          }
 
-          if (!user.validPassword(password))
+          if (!user.validPassword(password)) {
             return done(null, false, req.flash('loginMessage', 'Oops! Wrong password.'));
+          }
 
           // all is well, return user
           else
@@ -71,17 +75,17 @@ module.exports = function(passport) {
       passwordField: 'password',
       passReqToCallback: true // allows us to pass in the req from our route (lets us check if a user is logged in or not)
     },
-    function(req, email, password, done) {
+    function (req, email, password, done) {
       if (email)
         email = email.toLowerCase(); // Use lower-case e-mails to avoid case-sensitive e-mail matching
 
       // asynchronous
-      process.nextTick(function() {
+      process.nextTick(function () {
         // if the user is not already logged in:
         if (!req.user) {
           User.findOne({
             'local.email': email
-          }, function(err, user) {
+          }, function (err, user) {
             // if there are any errors, return the error
             if (err)
               return done(err);
@@ -99,7 +103,7 @@ module.exports = function(passport) {
               newUser.local.username.last = req.body.lastName;
               newUser.local.password = newUser.generateHash(password);
 
-              newUser.save(function(err) {
+              newUser.save(function (err) {
                 if (err)
                   throw err;
 
@@ -114,7 +118,7 @@ module.exports = function(passport) {
           var user = req.user;
           user.local.email = email;
           user.local.password = user.generateHash(password);
-          user.save(function(err) {
+          user.save(function (err) {
             if (err)
               throw err;
             return done(null, user);
