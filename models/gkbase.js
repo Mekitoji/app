@@ -38,6 +38,6 @@ module.exports = mongoose.model('Apps', {
     type: String
   },
   appStatus: {
-    type: Number
+    type: Boolean
   }
 });

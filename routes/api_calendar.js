@@ -11,24 +11,18 @@ module.exports = function (app) {
   });
 
   app.post('/api/calendar', function (req, res) {
-    Cal.create({
-        appName: req.body.appName,
-        Storage: {
-          date: req.body.date,
-          value: req.body.value
-        }
-      },
-      function (err, app) {
-        if (err) {
-          res.send(err);
-        }
-        Cal.find(function (err, calen) {
-          if (err) {
-            res.send(err);
-          }
-          res.json(calen);
-        });
-      });
+    var cal = new Cal({
+      appName: req.body.appName,
+      storage: [{
+        date: req.body.date,
+        value: req.body.value,
+      }]
+    })
+
+    cal.save(function (err, data) {
+      if (err) throw err;
+      res.json(data);
+    })
   });
 
   app.delete('/api/calendar/:calendar_id', function (req, res) {
@@ -39,7 +33,7 @@ module.exports = function (app) {
         res.send(err);
       }
 
-      Cal.finc(function (err, calen) {
+      Cal.find(function (err, calen) {
         if (err) {
           res.send(err);
         }
@@ -53,15 +47,15 @@ module.exports = function (app) {
       if (err) {
         red.send(err)
       };
-      if (req.body.appName) cal.appName = req.body.appName;
-      if (req.body.storage.drive) cal.storage.drive = req.body.drive;
-      if (req.body.storage.value) cal.storage.value = req.body.value;
-
-      cal.save(function (err) {
+      cal.storage.push({
+        date: req.body.date,
+        value: req.body.value
+      });
+      cal.save(function (err, data) {
         if (err) {
           res.send(err);
         }
-        res.json();
+        res.json(data);
       });
     });
   });
