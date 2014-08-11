@@ -38,7 +38,8 @@ module.exports = mongoose.model('Apps', {
     type: String
   },
   outdated: {
-    type: Boolean
+    type: Boolean,
+    default: false
     // true - outdated, false in progress
   }
 });

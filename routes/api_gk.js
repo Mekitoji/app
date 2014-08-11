@@ -86,7 +86,8 @@ module.exports = function (app) {
       currentStatus: req.body.currentStatus,
       testCycles: req.body.testCycles,
       replyTime: req.body.replyTime,
-      resp: req.body.resp
+      resp: req.body.resp,
+      outdated: req.body.outdated
     }, function (err, app) {
       if (err)
         res.send(err);
@@ -137,6 +138,7 @@ module.exports = function (app) {
       if (req.body.testCycles) app.testCycles = req.body.testCycles;
       if (req.body.replyTime) app.replyTime = req.body.replyTime;
       if (req.body.resp) app.resp = req.body.resp;
+      if (req.body.resp) app.outdated = req.body.outdated;
       if (req.body._id) app._id = req.body._id; //  $id wont work, so use this id
 
       // save the bear
