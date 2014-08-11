@@ -1,9 +1,8 @@
-<!DOCTYPE html>
-<html lang="en">
+<!doctype html >
+<html ng-app='project'>
 <head>
-  <meta charset="UTF-8">
-  <title>Outdated Apps</title>
-    <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.2/css/bootstrap.min.css">
+  <title>Oudated apps</title>
+  <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.2/css/bootstrap.min.css">
   <link rel="stylesheet" href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.min.css">
   <link rel="stylesheet" href="css/main.css">
 
@@ -16,11 +15,26 @@
   <script src='js/part/ng-grid/ng-grid-2.0.11.min.js'></script>
   <link rel='stylesheet' href='js/part/ng-grid/ng-grid.css'></script>
 
-  <script src="js/new-core.js"></script>
+  <script src="js/new-core-outdated.js"></script>
+
 </head>
-<body>
-    <% include layout/head %>
-    <h2>Outdated</h2>
-    information will be  add soon
+
+<body >
+
+  <% include layout/head %>
+  <ul class="nav nav-tabs" id='mainTab'>
+    <li class="active"><a href="#" >List of apps</a></li>
+    <li><a href="#calendar" >Calendar</a></li>
+    <li><a href="#test" >Test Cycles</a></li>
+  </ul>
+  
+<div class="container" ng-view></div>
+<script>
+  $('#mainTab a').click(function () {
+    $(this).tab('show')
+  });
+</script>
+
+
 </body>
 </html>
