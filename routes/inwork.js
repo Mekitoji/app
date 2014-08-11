@@ -1,11 +1,11 @@
 module.exports = function (app) {
-  app.get('/outdated', function (req, res) {
+  app.get('/inwork', function (req, res) {
     if (req.user) {
-      res.render('outdated.ejs', {
+      res.render('inwork.ejs', {
         user: req.user // get the user out of session and pass to template
       });
     } else {
-      res.render('outdated.ejs', {
+      res.render('inwork.ejs', {
         user: {
           local: {
             username: {

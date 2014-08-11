@@ -16,6 +16,61 @@ module.exports = function (app) {
     });
   });
 
+
+  app.get('/api/gk/rejected', function (req, res) {
+    // use mongoose to get rejected apps from the database
+    Apps.find(function (err, app) {
+      var rejected = [];
+      // if there is an error retrieving, send the error. nothing after res.send(err) will execute
+      if (err) {
+        res.send(err);
+      };
+
+      for (var i = 0; i < app.length; i++) {
+        if (app[i].tv !== 'Approve') {
+          rejected.push(app[i]);
+        }
+      }
+      res.json(rejected); // return all users in JSON format
+    });
+  });
+
+  app.get('/api/gk/approved', function (req, res) {
+    // use mongoose to get approved apps from the database
+    Apps.find(function (err, app) {
+      var approved = [];
+      // if there is an error retrieving, send the error. nothing after res.send(err) will execute
+      if (err) {
+        res.send(err);
+      };
+
+      for (var i = 0; i < app.length; i++) {
+        if (app[i].tv === 'Approve') {
+          approved.push(app[i]);
+        }
+      }
+      res.json(approved); // return all users in JSON format
+    });
+  });
+
+  app.get('/api/gk/outdated', function (req, res) {
+    // use mongoose to get outdated apps from the database
+    Apps.find(function (err, app) {
+      var outdated = [];
+      // if there is an error retrieving, send the error. nothing after res.send(err) will execute
+      if (err) {
+        res.send(err);
+      };
+
+      for (var i = 0; i < app.length; i++) {
+        if (app[i].outdated === true) {
+          outdated.push(app[i]);
+        }
+      }
+      res.json(outdated); // return all users in JSON format
+    });
+  });
+
   // create user and send back all users after creation
   app.post('/api/gk', function (req, res) {
 

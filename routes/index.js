@@ -16,6 +16,7 @@ module.exports = function (app, passport) {
   var main = require('./main')(app);
   var approved = require('./approved')(app);
   var outdated = require('./outdated')(app);
+  var inwork = require('./inwork')(app);
   var api_user = require('../routes/api_user')(app);
   var api_gk = require('../routes/api_gk')(app);
   var api_calendar = require('../routes/api_calendar')(app);

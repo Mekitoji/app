@@ -37,7 +37,8 @@ module.exports = mongoose.model('Apps', {
   resp: {
     type: String
   },
-  appStatus: {
+  outdated: {
     type: Boolean
+    // true - outdated, false in progress
   }
 });
