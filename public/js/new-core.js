@@ -59,7 +59,20 @@ angular.module('project', ['ngRoute', 'ngGrid'])
     return index + 1;
   };
 
+  $scope.$on('ngGridEventEndCellEdit', function (evt) {
+    var currentObj = evt.targetScope.row.entity;
+    console.log(currentObj); // the underlying data bound to the row
+    // Detect changes and send entity to server 
+    console.log(currentObj._id);
 
+
+    var projectUrl = currentObj._id;
+    Apps.update(projectUrl, currentObj)
+      .success(function (data) {
+        $scope.formData = data;
+      });
+
+  });
 
   $scope.gridOptions = {
     data: 'apps',
@@ -146,7 +159,7 @@ angular.module('project', ['ngRoute', 'ngGrid'])
     .success(function (data) {
       $scope.formData = data;
 
-    })
+    });
 
   $scope.deleteApp = function (id) {
     Apps.delete(id, $scope.formData)
