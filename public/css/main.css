@@ -52,7 +52,11 @@
 }
 
 .add-button {
-  margin-left:-11%;
+  margin-left: 0px;
   width: 100px;
   height: 40px;
+}
+
+.container {
+  width:90%;
 }
