@@ -82,7 +82,7 @@ angular.module('project', ['ngRoute', 'ngGrid'])
   $scope.cellSelectEditableTemplateSdpStatus = '<select ng-class="\'colt\' + col.index" ng-input="COL_FIELD" ng-model="COL_FIELD" ng-options=" v for v in Options.sdpStatusProp.values" ng-blur="updateEntity(row)" />';
   $scope.cellSelectEditableTemplateTv = '<select ng-class="\'colt\' + col.index" ng-input="COL_FIELD" ng-model="COL_FIELD" ng-options=" v for v in Options.tvProp.values" ng-blur="updateEntity(row)" />';
   $scope.cellSelectEditableTemplateResp = '<select ng-class="\'colt\' + col.index" ng-input="COL_FIELD" ng-model="COL_FIELD" ng-options=" v for v in Options.respProp.values" ng-blur="updateEntity(row)" />';
-
+  $scope.cellSelectEditableTemplateUpdateTime = '<input ng-class="\'colt\' + col.index" ng-input="COL_FIELD" ng-model="COL_FIELD"  type="date" />';
   $scope.edit = false;
   Apps.get()
 
@@ -140,7 +140,8 @@ angular.module('project', ['ngRoute', 'ngGrid'])
       field: 'updateTime',
       displayName: 'Update date',
       cellFilter: 'date:"yyyy-MM-dd"',
-      enableCellEdit: true
+      enableCellEdit: true,
+      editableCellTemplate: $scope.cellSelectEditableTemplateUpdateTime
     }, {
       field: 'seller',
       displayName: 'Seller',
