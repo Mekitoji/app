@@ -27,7 +27,7 @@ module.exports = function (app) {
       };
 
       for (var i = 0; i < app.length; i++) {
-        if (app[i].tv !== 'Approve') {
+        if (app[i].tv === 'Reject') {
           rejected.push(app[i]);
         }
       }
@@ -45,7 +45,7 @@ module.exports = function (app) {
       };
 
       for (var i = 0; i < app.length; i++) {
-        if (app[i].tv === 'Approve') {
+        if (app[i].tv === 'Approve' || app[i].tv === 'Partial') {
           approved.push(app[i]);
         }
       }

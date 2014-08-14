@@ -1,9 +1,15 @@
 {
   "name": "app",
-  "version": "0.0.17",
+  "version": "0.1.10",
   "private": true,
   "scripts": {
     "start": "node ./bin/www"
+  },
+  "author": "Egorov Vladimir <mekitojizzz@gmail.com>",
+  "homepage": "https://github.com/Mekitoji/app",
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:Mekitoji/app.git"
   },
   "dependencies": {
     "express": "~4.2.0",

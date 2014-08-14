@@ -43,6 +43,8 @@ angular.module('project', ['ngRoute', 'ngGrid'])
 
 .controller('ListCtrl', function ($scope, $http, Apps) {
 
+  //Ng-options object Select->Option
+  //watch part with  template
   $scope.Options = {
     countryProp: {
       "type": "select",
@@ -74,14 +76,21 @@ angular.module('project', ['ngRoute', 'ngGrid'])
       "value": "COL_FIELD",
       "values": ["AS", "DP", "VE", "YK"]
     },
+    currentStatusProp: {
+      "type": "select",
+      "name": "currentStatus",
+      "value": "COL_FIELD",
+      "values": ["Waiting for fix", "Waiting for test", "Waiting for QA", "Waiting for answer"]
+    },
 
   };
-
+  //let get template for our editable part 
   $scope.cellSelectEditableTemplateCountry = '<select ng-class="\'colt\' + col.index" ng-input="COL_FIELD" ng-model="COL_FIELD" ng-options=" v for v in Options.countryProp.values" />';
   $scope.cellSelectEditableTemplateCategory = '<select ng-class="\'colt\' + col.index" ng-input="COL_FIELD" ng-model="COL_FIELD" ng-options=" v for v in Options.categoryProp.values" />';
   $scope.cellSelectEditableTemplateSdpStatus = '<select ng-class="\'colt\' + col.index" ng-input="COL_FIELD" ng-model="COL_FIELD" ng-options=" v for v in Options.sdpStatusProp.values" />';
   $scope.cellSelectEditableTemplateTv = '<select ng-class="\'colt\' + col.index" ng-input="COL_FIELD" ng-model="COL_FIELD" ng-options=" v for v in Options.tvProp.values" />';
   $scope.cellSelectEditableTemplateResp = '<select ng-class="\'colt\' + col.index" ng-input="COL_FIELD" ng-model="COL_FIELD" ng-options=" v for v in Options.respProp.values" />';
+  $scope.cellSelectEditableTemplateCurrentStatus = '<select ng-class="\'colt\' + col.index" ng-input="COL_FIELD" ng-model="COL_FIELD" ng-options=" v for v in Options.currentStatusProp.values" />';
   $scope.cellSelectEditableTemplateUpdateTime = '<input ng-class="\'colt\' + col.index" ng-input="COL_FIELD" ng-model="COL_FIELD"  type="date" />';
 
   $scope.edit = false; //old value - delete?
@@ -98,9 +107,12 @@ angular.module('project', ['ngRoute', 'ngGrid'])
     return index + 1;
   };
 
-  // $scope.$on('ngGridEventStartCellEdit', function (elm) {
-  //   console.log(elm.targetScope.col);
-  // });
+  $scope.$on('ngGridEventStartCellEdit', function (elm) {
+    console.log(elm.targetScope);
+    elm.targetScope.col.cellClass = 'blue';
+    console.log(elm.targetScope.col.cellClass);
+
+  });
 
   $scope.$on('ngGridEventEndCellEdit', function (evt) {
     var currentObj = evt.targetScope.row.entity;
@@ -117,6 +129,7 @@ angular.module('project', ['ngRoute', 'ngGrid'])
       });
   });
 
+  //ng-grid setting 
   $scope.gridOptions = {
     data: 'apps',
     columnDefs: [{
@@ -159,8 +172,9 @@ angular.module('project', ['ngRoute', 'ngGrid'])
     }, {
       field: 'currentStatus',
       displayName: 'Current status',
-      cellTemplate: '<div ng-class="{green: row.getProperty(col.field)}"><div class="ngCellText">{{row.getProperty(col.field)}}</div></div>',
-      enableCellEdit: true
+      // cellTemplate: '<div ng-class="{green: row.getProperty(col.field)}"><div class="ngCellText">{{row.getProperty(col.field)}}</div></div>',
+      enableCellEdit: true,
+      editableCellTemplate: $scope.cellSelectEditableTemplateCurrentStatus
     }, {
       field: 'testCycles',
       displayName: 'Test Cycles',
