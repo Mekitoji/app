@@ -43,7 +43,45 @@ angular.module('project', ['ngRoute', 'ngGrid'])
 
 .controller('ListCtrl', function ($scope, $http, Apps) {
 
+  $scope.Options = {
+    countryProp: {
+      "type": "select",
+      "name": "Country",
+      "value": "COL_FIELD",
+      "values": ["Russia", "Ukraine", "Belarus", "Latvia", "Kazakhstan", "Lithuania", "Estonia", "Uzbekistan"]
+    },
+    categoryProp: {
+      "type": "select",
+      "name": "Category",
+      "value": "COL_FIELD",
+      "values": ["OTT", "Pay TV", "Broadcast", "OTT + Pay TV", "Others"]
+    },
+    sdpStatusProp: {
+      "type": "select",
+      "name": "Category",
+      "value": "COL_FIELD",
+      "values": ["Gk review request", "GK review", "GK Review Reject", "Verification Request", "Pre-test", "Function Testing", "Content Testing", "Final review", "App QA Approved", "App QA Rejected"]
+    },
+    tvProp: {
+      "type": "select",
+      "name": "Tv",
+      "value": "COL_FIELD",
+      "values": ["Approve", "Reject", "Partial"]
+    },
+    respProp: {
+      "type": "select",
+      "name": "Resp",
+      "value": "COL_FIELD",
+      "values": ["AS", "DP", "VE", "YK"]
+    },
 
+  };
+
+  $scope.cellSelectEditableTemplateCountry = '<select ng-class="\'colt\' + col.index" ng-input="COL_FIELD" ng-model="COL_FIELD" ng-options=" v for v in Options.countryProp.values" ng-blur="updateEntity(row)" />';
+  $scope.cellSelectEditableTemplateCategory = '<select ng-class="\'colt\' + col.index" ng-input="COL_FIELD" ng-model="COL_FIELD" ng-options=" v for v in Options.categoryProp.values" ng-blur="updateEntity(row)" />';
+  $scope.cellSelectEditableTemplateSdpStatus = '<select ng-class="\'colt\' + col.index" ng-input="COL_FIELD" ng-model="COL_FIELD" ng-options=" v for v in Options.sdpStatusProp.values" ng-blur="updateEntity(row)" />';
+  $scope.cellSelectEditableTemplateTv = '<select ng-class="\'colt\' + col.index" ng-input="COL_FIELD" ng-model="COL_FIELD" ng-options=" v for v in Options.tvProp.values" ng-blur="updateEntity(row)" />';
+  $scope.cellSelectEditableTemplateResp = '<select ng-class="\'colt\' + col.index" ng-input="COL_FIELD" ng-model="COL_FIELD" ng-options=" v for v in Options.respProp.values" ng-blur="updateEntity(row)" />';
 
   $scope.edit = false;
   Apps.get()
@@ -58,6 +96,20 @@ angular.module('project', ['ngRoute', 'ngGrid'])
     return index + 1;
   };
 
+  $scope.$on('ngGridEventEndCellEdit', function (evt) {
+    var currentObj = evt.targetScope.row.entity;
+    console.log(currentObj); //debug
+    // the underlying data bound to the row
+    // Detect changes and send entity to server 
+    console.log(currentObj._id); //debug 
+
+    //update database value
+    var projectUrl = currentObj._id;
+    Apps.update(projectUrl, currentObj)
+      .success(function (data) {
+        $scope.formData = data;
+      });
+  });
 
 
   $scope.gridOptions = {
@@ -68,7 +120,8 @@ angular.module('project', ['ngRoute', 'ngGrid'])
     }, {
       field: 'country',
       displayName: 'Country',
-      enableCellEdit: true
+      enableCellEdit: true,
+      editableCellTemplate: $scope.cellSelectEditableTemplateCountry,
     }, {
       field: 'appName',
       displayName: 'Application name',
@@ -76,11 +129,13 @@ angular.module('project', ['ngRoute', 'ngGrid'])
     }, {
       field: 'category',
       displayName: 'Category',
-      enableCellEdit: true
+      enableCellEdit: true,
+      editableCellTemplate: $scope.cellSelectEditableTemplateCategory
     }, {
       field: 'sdpStatus',
       displayName: 'SDP Status',
-      enableCellEdit: true
+      enableCellEdit: true,
+      editableCellTemplate: $scope.cellSelectEditableTemplateSdpStatus
     }, {
       field: 'updateTime',
       displayName: 'Update date',
@@ -93,7 +148,8 @@ angular.module('project', ['ngRoute', 'ngGrid'])
     }, {
       field: 'tv',
       displayName: 'Tv',
-      enableCellEdit: true
+      enableCellEdit: true,
+      editableCellTemplate: $scope.cellSelectEditableTemplateTv
     }, {
       field: 'currentStatus',
       displayName: 'Current status',
@@ -110,7 +166,8 @@ angular.module('project', ['ngRoute', 'ngGrid'])
     }, {
       field: 'resp',
       displayName: 'Resp',
-      enableCellEdit: true
+      enableCellEdit: true,
+      editableCellTemplate: $scope.cellSelectEditableTemplateResp
     }, ],
     showGroupPanel: true,
     enableColumnResize: true,
@@ -121,6 +178,7 @@ angular.module('project', ['ngRoute', 'ngGrid'])
       useExternalFilter: false
     }
   };
+
 
 
 })

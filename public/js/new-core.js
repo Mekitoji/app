@@ -54,13 +54,13 @@ angular.module('project', ['ngRoute', 'ngGrid'])
       "type": "select",
       "name": "Category",
       "value": "COL_FIELD",
-      "values": ["OTT", "Pay TV", "OTT + Pay TV", "Others"]
+      "values": ["OTT", "Pay TV", "Broadcast", "OTT + Pay TV", "Others"]
     },
     sdpStatusProp: {
       "type": "select",
       "name": "Category",
       "value": "COL_FIELD",
-      "values": ["Gk review request", "GK rewiev", "GK Review Reject", "Verification Request", "Pre-test", "Function Testing", "Content Testing", "Final review", "App QA Approved", "App QA Rejected"]
+      "values": ["Gk review request", "GK review", "GK Review Reject", "Verification Request", "Pre-test", "Function Testing", "Content Testing", "Final review", "App QA Approved", "App QA Rejected"]
     },
     tvProp: {
       "type": "select",
@@ -97,9 +97,9 @@ angular.module('project', ['ngRoute', 'ngGrid'])
     return index + 1;
   };
 
-  $scope.$on('ngGridEventStartCellEdit', function (elm) {
-    console.log(elm.targetScope.col);
-  });
+  // $scope.$on('ngGridEventStartCellEdit', function (elm) {
+  //   console.log(elm.targetScope.col);
+  // });
 
   $scope.$on('ngGridEventEndCellEdit', function (evt) {
     var currentObj = evt.targetScope.row.entity;
