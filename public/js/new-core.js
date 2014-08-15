@@ -80,11 +80,13 @@ angular.module('project', ['ngRoute', 'ngGrid'])
       "type": "select",
       "name": "currentStatus",
       "value": "COL_FIELD",
-      "values": ["Waiting for fix", "Waiting for test", "Waiting for QA", "Waiting for answer"]
+      "values": ["Waiting for fix", "Waiting for review", "Waiting for QA", "Approved"]
     },
 
   };
+
   //let get template for our editable part 
+  //mb in diff file
   $scope.cellSelectEditableTemplateCountry = '<select ng-class="\'colt\' + col.index" ng-input="COL_FIELD" ng-model="COL_FIELD" ng-options=" v for v in Options.countryProp.values" />';
   $scope.cellSelectEditableTemplateCategory = '<select ng-class="\'colt\' + col.index" ng-input="COL_FIELD" ng-model="COL_FIELD" ng-options=" v for v in Options.categoryProp.values" />';
   $scope.cellSelectEditableTemplateSdpStatus = '<select ng-class="\'colt\' + col.index" ng-input="COL_FIELD" ng-model="COL_FIELD" ng-options=" v for v in Options.sdpStatusProp.values" />';
@@ -109,7 +111,7 @@ angular.module('project', ['ngRoute', 'ngGrid'])
 
   $scope.$on('ngGridEventStartCellEdit', function (elm) {
     console.log(elm.targetScope);
-    elm.targetScope.col.cellClass = 'blue';
+    // elm.targetScope.col.cellClass = 'blue';
     console.log(elm.targetScope.col.cellClass);
 
   });
@@ -128,6 +130,11 @@ angular.module('project', ['ngRoute', 'ngGrid'])
         $scope.formData = data;
       });
   });
+
+  $scope.dateParse = function (data) {
+    return Date.parse(data);
+  };
+  $scope.currenDate = Date.now();
 
   //ng-grid setting 
   $scope.gridOptions = {
@@ -157,7 +164,8 @@ angular.module('project', ['ngRoute', 'ngGrid'])
     }, {
       field: 'updateTime',
       displayName: 'Update date',
-      cellFilter: 'date:"yyyy-MM-dd"',
+      //604800000 ms = 7day
+      cellTemplate: '<div ng-class="{pink: currenDate-dateParse(row.getProperty(col.field))>604800000}"><div class="ngCellText">{{row.getProperty(col.field)|date:\'YYYY-MM-DD\'-1}}</div></div>',
       enableCellEdit: true,
       editableCellTemplate: $scope.cellSelectEditableTemplateUpdateTime
     }, {
@@ -172,7 +180,7 @@ angular.module('project', ['ngRoute', 'ngGrid'])
     }, {
       field: 'currentStatus',
       displayName: 'Current status',
-      // cellTemplate: '<div ng-class="{green: row.getProperty(col.field)}"><div class="ngCellText">{{row.getProperty(col.field)}}</div></div>',
+      cellTemplate: '<div ng-class="{green: row.getProperty(col.field)==\'Waiting for fix\' || \'Approved\',purple: row.getProperty(col.field)==\'Waiting for QA\',orange: row.getProperty(col.field)==\'Waiting for review\'}"><div class="ngCellText">{{row.getProperty(col.field)}}</div></div>',
       enableCellEdit: true,
       editableCellTemplate: $scope.cellSelectEditableTemplateCurrentStatus
     }, {

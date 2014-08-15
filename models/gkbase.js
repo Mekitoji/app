@@ -16,8 +16,7 @@ module.exports = mongoose.model('Apps', {
     type: String
   },
   updateTime: {
-    type: Date,
-    default: Date.now
+    type: Date
   },
   seller: {
     type: String
