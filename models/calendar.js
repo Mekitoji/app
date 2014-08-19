@@ -21,21 +21,19 @@ var Schema = mongoose.Schema;
 var dateStorage = new Schema({
   date: {
     type: String,
-    required: true,
     unique: true
   },
   value: {
     type: String,
-    required: true,
   }
 });
 
 var Calendar = new Schema({
   appName: {
-    type: String,
-    required: true
+    type: Schema.ObjectId,
+    ref: 'Apps'
   },
   storage: [dateStorage]
-})
+});
 
 module.exports = mongoose.model('Calendar', Calendar);
