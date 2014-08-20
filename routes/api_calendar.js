@@ -1,6 +1,8 @@
 var Cal = require('../models/calendar.js');
 
 module.exports = function (app) {
+
+  //GET data in json
   app.get('/api/calendar', function (req, res) {
     Cal.find(function (err, app) {
       if (err) {
@@ -10,25 +12,32 @@ module.exports = function (app) {
     });
   });
 
-  app.post('/api/calendar', function (req, res) {
+
+
+  //post and delete method was deleted, coz unuse
+
+  /*  app.post('/api/calendar', function (req, res) {
     var cal = new Cal({
       appName: req.body.appName,
+      appId: req.body._id,
       storage: [{
-        date: req.body.date,
+        day: req.body.date.getDay(),
+        month: req.body.date.getMonth(),
+        year: req.body.date.getYear(),
         value: req.body.value,
       }]
-    })
+    });
 
     cal.save(function (err, data) {
       if (err) throw err;
       res.json(data);
-    })
-  });
+    });
+  });*/
 
-  app.delete('/api/calendar/:calendar_id', function (req, res) {
+  /*app.delete('/api/calendar/:calendar_id', function (req, res) {
     Cal.remove({
       _id: req.params.calendar_id
-    }, function (err, app) {
+    }, function (err, cal) {
       if (err) {
         res.send(err);
       }
@@ -40,13 +49,15 @@ module.exports = function (app) {
         res.json(calen);
       });
     });
-  });
+  });*/
 
+
+  //pushing data in array
   app.put('/api/calendar/:calendar_id', function (req, res) {
     Cal.findById(req.params.calendar_id, function (err, cal) { //findByIdAndUpdate
       if (err) {
-        red.send(err)
-      };
+        res.send(err);
+      }
       cal.storage.push({
         date: req.body.date,
         value: req.body.value

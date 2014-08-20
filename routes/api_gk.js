@@ -1,22 +1,26 @@
 var Apps = require('../models/gkbase');
+var Cal = require('../models/calendar');
+var ObjectId = require('mongoose').Types.ObjectId;
+var log = require('../libs/log');
 
 module.exports = function (app) {
 
-  // api ---------------------------------------------------------------------
-  app.get('/api/gk', function (req, res) {
 
+  // api ---------------------------------------------------------------------
+
+  //get all
+  app.get('/api/gk', function (req, res) {
     // use mongoose to get all gk in the database
     Apps.find(function (err, app) {
-
       // if there is an error retrieving, send the error. nothing after res.send(err) will execute
       if (err)
-        res.send(err)
-
+        res.send(err);
       res.json(app); // return all users in JSON format
+      log.info(new Date() + '  - GET /API/GK');
     });
   });
 
-
+  //rejected filter
   app.get('/api/gk/rejected', function (req, res) {
     // use mongoose to get rejected apps from the database
     Apps.find(function (err, app) {
@@ -24,35 +28,36 @@ module.exports = function (app) {
       // if there is an error retrieving, send the error. nothing after res.send(err) will execute
       if (err) {
         res.send(err);
-      };
-
+      }
       for (var i = 0; i < app.length; i++) {
         if (app[i].tv === 'Reject') {
           rejected.push(app[i]);
         }
       }
       res.json(rejected); // return all users in JSON format
+      log.info(new Date() + '  - GET /API/GK/REJECTED');
     });
   });
 
+  //approved filter
   app.get('/api/gk/approved', function (req, res) {
     // use mongoose to get approved apps from the database
     Apps.find(function (err, app) {
       var approved = [];
       // if there is an error retrieving, send the error. nothing after res.send(err) will execute
-      if (err) {
-        res.send(err);
-      };
-
+      if (err) res.send(err);
       for (var i = 0; i < app.length; i++) {
         if (app[i].tv === 'Approve' || app[i].tv === 'Partial') {
           approved.push(app[i]);
         }
       }
       res.json(approved); // return all users in JSON format
+      log.info(new Date() + '  - GET /API/GK/APPROVED');
+
     });
   });
 
+  //outdated filter
   app.get('/api/gk/outdated', function (req, res) {
     // use mongoose to get outdated apps from the database
     Apps.find(function (err, app) {
@@ -60,21 +65,20 @@ module.exports = function (app) {
       // if there is an error retrieving, send the error. nothing after res.send(err) will execute
       if (err) {
         res.send(err);
-      };
-
+      }
       for (var i = 0; i < app.length; i++) {
         if (app[i].outdated === true) {
           outdated.push(app[i]);
         }
       }
       res.json(outdated); // return all users in JSON format
+      log.info(new Date() + '  - GET /API/GK/OUTDATED');
     });
   });
 
   // create user and send back all users after creation
   app.post('/api/gk', function (req, res) {
-
-    // create a user, information comes from AJAX request from Angular
+    // create a user, information comes from request from Angular
     Apps.create({
       country: req.body.country,
       appName: req.body.appName,
@@ -91,15 +95,25 @@ module.exports = function (app) {
     }, function (err, app) {
       if (err)
         res.send(err);
-
       // get and return all the users after you create another
-      Apps.find(function (err, apps) {
-        if (err)
-          res.send(err)
-        res.json(apps);
+      Apps.find({
+        appName: req.body.appName
+      }, function (err, app) {
+        if (err) res.send(err);
+        //get our field
+        res.json(app);
+        //create Calendar data with this appName
+        var cal = new Cal({
+          appName: app[0].appName,
+          appId: app[0]._id
+        });
+        cal.save(function (err, data) {
+          if (err) console.log(err);
+          res.json(data);
+          log.info(new Date() + '  - POST /API/GK/' + data.appId);
+        });
       });
     });
-
   });
 
   // delete a user
@@ -111,20 +125,28 @@ module.exports = function (app) {
         res.send(err);
 
       // get and return all the users after you create another
-      Apps.find(function (err, apps) {
+      Apps.find({
+        appId: req.params.app_id
+      }, function (err, apps) {
         if (err)
-          res.send(err)
-        res.json(apps);
+          res.send(err);
+        Cal.remove({
+          appId: new ObjectId(req.params.app_id)
+        }, function (err, cal) {
+          if (err) res.send(err);
+          Cal.find(function (err, data) {
+            if (err) res.send(err);
+            res.json(data);
+          });
+        });
       });
     });
   });
 
   //update a user
   app.put('/api/gk/:app_id', function (req, res) {
-
     // use our bear model to find the bear we want
     Apps.findById(req.params.app_id, function (err, app) {
-
       if (err) res.send(err);
       //put some data for update here
       if (req.body.country) app.country = req.body.country;
@@ -139,27 +161,17 @@ module.exports = function (app) {
       if (req.body.replyTime) app.replyTime = req.body.replyTime;
       if (req.body.resp) app.resp = req.body.resp;
       if (req.body.resp) app.outdated = req.body.outdated;
-      if (req.body._id) app._id = req.body._id; //  $id wont work, so use this id
-
       // save the bear
       app.save(function (err) {
         if (err)
           res.send(err);
-
         res.json(app);
       });
-
     });
   });
-
   // application -------------------------------------------------------------
   //add emitter for development and production env
-
-
-
 };
-
-
 
 /*.post(function(req, res) {
     

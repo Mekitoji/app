@@ -28,13 +28,17 @@ module.exports = mongoose.model('Apps', {
     type: String
   },
   testCycles: {
-    type: String
+    type: Number
   },
   replyTime: {
-    type: String
+    type: Number
   },
   resp: {
     type: String
+  },
+  currentTester: {
+    type: Schema.ObjectId,
+    ref: 'Tester'
   },
   outdated: {
     type: Boolean,
