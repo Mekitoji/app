@@ -14,7 +14,18 @@ angular.module('project', ['ngRoute', 'ngGrid'])
     delete: function (id) {
       return $http.delete('api/gk/' + id);
     }
-  }
+  };
+})
+
+.factory('Cal', function ($http) {
+  return {
+    get: function () {
+      return $http.get('/api/calendar');
+    },
+    update: function (id, calData) {
+      return $http.get('/api/calendar/' + id, calData);
+    },
+  };
 })
 
 .config(function ($routeProvider) {
@@ -32,12 +43,12 @@ angular.module('project', ['ngRoute', 'ngGrid'])
       templateUrl: 'detail.html'
     })
     .when('/calendar', {
-      controller: 'ListCtrl',
+      controller: 'CalendarCtrl',
       templateUrl: 'calendar.html'
     })
     .when('/test', {
       templateUrl: 'test.html'
-    })
+    });
 
 })
 
@@ -206,8 +217,27 @@ angular.module('project', ['ngRoute', 'ngGrid'])
       useExternalFilter: false
     }
   };
+})
+
+.controller('CalendarCtrl', function ($scope, $http, Cal) {
+
+  //get our calendar data 
+  Cal.get()
+    .success(function (data) {
+      $scope.cal = data;
+    });
 
 
+  $scope.gridOptions = {
+    data: 'cal',
+    columnDefs: [{
+      field: 'appName',
+      displayName: 'Application name'
+    }],
+    enableColumnResize: true,
+    enableRowSelection: false,
+
+  };
 })
 
 .controller('CreateCtrl', function ($scope, $http, Apps) {

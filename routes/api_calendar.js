@@ -58,8 +58,11 @@ module.exports = function (app) {
       if (err) {
         res.send(err);
       }
+      var currentDate = new Date();
       cal.storage.push({
-        date: req.body.date,
+        day: req.body.date,
+        month: req.body.date,
+        year: req.body.date,
         value: req.body.value
       });
       cal.save(function (err, data) {
