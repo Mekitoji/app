@@ -1,5 +1,5 @@
-var Cal = require('../models/calendar.js');
-
+var Cal = require('../models/calendar');
+var Apps = require('../models/gkbase');
 module.exports = function (app) {
 
   //GET data in json
@@ -8,7 +8,11 @@ module.exports = function (app) {
       if (err) {
         res.send(err);
       }
-      res.json(app);
+      Cal.populate(app, {
+        path: 'appId'
+      }, function (err, data) {
+        res.json(data);
+      });
     });
   });
 
@@ -58,11 +62,11 @@ module.exports = function (app) {
       if (err) {
         res.send(err);
       }
-      var currentDate = new Date();
+
       cal.storage.push({
-        day: req.body.date,
-        month: req.body.date,
-        year: req.body.date,
+        day: (new Date(req.body.date)).getDate(),
+        month: (new Date(req.body.date)).getMonth(),
+        year: (new Date(req.body.date)).getFullYear(),
         value: req.body.value
       });
       cal.save(function (err, data) {

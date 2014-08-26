@@ -72,3 +72,7 @@
   margin-top:10px;
   width:90%;
 }
+
+table {
+  border: 2px solid black ;
+}

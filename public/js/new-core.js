@@ -1,44 +1,44 @@
 angular.module('project', ['ngRoute', 'ngGrid'])
 
 //Apps api
-.factory('Apps', function($http) {
+.factory('Apps', function ($http) {
   return {
-    get: function() {
+    get: function () {
       return $http.get('/api/gk/');
     },
-    getApproved: function() {
+    getApproved: function () {
       return $http.get('/api/gk/approved');
     },
-    getRejected: function() {
+    getRejected: function () {
       return $http.get('/api/gk/rejected');
     },
-    getOutdated: function() {
+    getOutdated: function () {
       return $http.get('/api/gk/outdated');
     },
-    create: function(appData) {
+    create: function (appData) {
       return $http.post('/api/gk', appData);
     },
-    update: function(id, appData) {
+    update: function (id, appData) {
       return $http.put('/api/gk/' + id, appData);
     },
-    delete: function(id) {
+    delete: function (id) {
       return $http.delete('api/gk/' + id);
     }
   };
 })
 //Calendar api
-.factory('Cal', function($http) {
+.factory('Cal', function ($http) {
   return {
-    get: function() {
+    get: function () {
       return $http.get('/api/calendar');
     },
-    update: function(id, calData) {
+    update: function (id, calData) {
       return $http.get('/api/calendar/' + id, calData);
     },
   };
 })
 //routes
-.config(function($routeProvider) {
+.config(function ($routeProvider) {
   $routeProvider
     .when('/', {
       controller: 'ListCtrl',
@@ -74,7 +74,7 @@ angular.module('project', ['ngRoute', 'ngGrid'])
 
 })
 
-.controller('ListCtrl', function($scope, $http, Apps) {
+.controller('ListCtrl', function ($scope, $http, Apps) {
 
   //Ng-options object Select->Option
   //watch part with  template
@@ -132,24 +132,24 @@ angular.module('project', ['ngRoute', 'ngGrid'])
 
   //get list of apps
   Apps.get()
-    .success(function(data) {
+    .success(function (data) {
       $scope.apps = data;
     });
 
-  $scope.getRowIndex = function() {
+  $scope.getRowIndex = function () {
     var index = this.row.rowIndex;
     // $scope.gridOptions.selectItem(index, false);
     return index + 1;
   };
 
-  $scope.$on('ngGridEventStartCellEdit', function(elm) {
+  $scope.$on('ngGridEventStartCellEdit', function (elm) {
     console.log(elm.targetScope);
     // elm.targetScope.col.cellClass = 'blue';
     console.log(elm.targetScope.col.cellClass);
 
   });
 
-  $scope.$on('ngGridEventEndCellEdit', function(evt) {
+  $scope.$on('ngGridEventEndCellEdit', function (evt) {
     var currentObj = evt.targetScope.row.entity;
     console.log(currentObj); //debug
     // the underlying data bound to the row
@@ -159,12 +159,12 @@ angular.module('project', ['ngRoute', 'ngGrid'])
     //update database value
     var projectUrl = currentObj._id;
     Apps.update(projectUrl, currentObj)
-      .success(function(data) {
+      .success(function (data) {
         $scope.formData = data;
       });
   });
 
-  $scope.dateParse = function(data) {
+  $scope.dateParse = function (data) {
     return Date.parse(data);
   };
 
@@ -242,7 +242,7 @@ angular.module('project', ['ngRoute', 'ngGrid'])
   };
 })
 
-.controller('outdatedListCtrl', function($scope, $http, Apps) {
+.controller('outdatedListCtrl', function ($scope, $http, Apps) {
 
   $scope.Options = {
     countryProp: {
@@ -296,17 +296,17 @@ angular.module('project', ['ngRoute', 'ngGrid'])
 
   Apps.getOutdated()
 
-  .success(function(data) {
+  .success(function (data) {
     $scope.apps = data;
   });
 
-  $scope.getRowIndex = function() {
+  $scope.getRowIndex = function () {
     var index = this.row.rowIndex;
     // $scope.gridOptions.selectItem(index, false);
     return index + 1;
   };
 
-  $scope.$on('ngGridEventEndCellEdit', function(evt) {
+  $scope.$on('ngGridEventEndCellEdit', function (evt) {
     var currentObj = evt.targetScope.row.entity;
     console.log(currentObj); //debug
     // the underlying data bound to the row
@@ -316,12 +316,12 @@ angular.module('project', ['ngRoute', 'ngGrid'])
     //update database value
     var projectUrl = currentObj._id;
     Apps.update(projectUrl, currentObj)
-      .success(function(data) {
+      .success(function (data) {
         $scope.formData = data;
       });
   });
 
-  $scope.dateParse = function(data) {
+  $scope.dateParse = function (data) {
     return Date.parse(data);
   };
   $scope.currenDate = Date.now();
@@ -396,7 +396,7 @@ angular.module('project', ['ngRoute', 'ngGrid'])
   };
 })
 
-.controller('approvedListCtrl', function($scope, $http, Apps) {
+.controller('approvedListCtrl', function ($scope, $http, Apps) {
 
   $scope.Options = {
     countryProp: {
@@ -444,21 +444,21 @@ angular.module('project', ['ngRoute', 'ngGrid'])
   $scope.cellSelectEditableTemplateResp = '<select ng-class="\'colt\' + col.index" ng-input="COL_FIELD" ng-model="COL_FIELD" ng-options=" v for v in Options.respProp.values" ng-blur="updateEntity(row)" />';
   $scope.cellSelectEditableTemplateCurrentStatus = '<select ng-class="\'colt\' + col.index" ng-input="COL_FIELD" ng-model="COL_FIELD" ng-options=" v for v in Options.currentStatusProp.values" />';
   $scope.cellSelectEditableTemplateUpdateTime = '<input ng-class="\'colt\' + col.index" ng-input="COL_FIELD" ng-model="COL_FIELD"  type="date" />';
-  
+
   $scope.edit = false;
 
   Apps.getApproved()
-  .success(function(data) {
-    $scope.apps = data;
-  });
+    .success(function (data) {
+      $scope.apps = data;
+    });
 
-  $scope.getRowIndex = function() {
+  $scope.getRowIndex = function () {
     var index = this.row.rowIndex;
     // $scope.gridOptions.selectItem(index, false);
     return index + 1;
   };
 
-  $scope.$on('ngGridEventEndCellEdit', function(evt) {
+  $scope.$on('ngGridEventEndCellEdit', function (evt) {
     var currentObj = evt.targetScope.row.entity;
     console.log(currentObj); //debug
     // the underlying data bound to the row
@@ -468,12 +468,12 @@ angular.module('project', ['ngRoute', 'ngGrid'])
     //update database value
     var projectUrl = currentObj._id;
     Apps.update(projectUrl, currentObj)
-      .success(function(data) {
+      .success(function (data) {
         $scope.formData = data;
       });
   });
 
-  $scope.dateParse = function(data) {
+  $scope.dateParse = function (data) {
     return Date.parse(data);
   };
 
@@ -550,7 +550,7 @@ angular.module('project', ['ngRoute', 'ngGrid'])
   };
 })
 
-.controller('inWorkListCtrl', function($scope, $http, Apps) {
+.controller('inWorkListCtrl', function ($scope, $http, Apps) {
 
 
   $scope.Options = {
@@ -605,17 +605,17 @@ angular.module('project', ['ngRoute', 'ngGrid'])
 
   Apps.getRejected()
 
-  .success(function(data) {
+  .success(function (data) {
     $scope.apps = data;
   });
 
-  $scope.getRowIndex = function() {
+  $scope.getRowIndex = function () {
     var index = this.row.rowIndex;
     // $scope.gridOptions.selectItem(index, false);
     return index + 1;
   };
 
-  $scope.$on('ngGridEventEndCellEdit', function(evt) {
+  $scope.$on('ngGridEventEndCellEdit', function (evt) {
     var currentObj = evt.targetScope.row.entity;
     console.log(currentObj); //debug
     // the underlying data bound to the row
@@ -625,12 +625,12 @@ angular.module('project', ['ngRoute', 'ngGrid'])
     //update database value
     var projectUrl = currentObj._id;
     Apps.update(projectUrl, currentObj)
-      .success(function(data) {
+      .success(function (data) {
         $scope.formData = data;
       });
   });
 
-  $scope.dateParse = function(data) {
+  $scope.dateParse = function (data) {
     return Date.parse(data);
   };
 
@@ -708,60 +708,72 @@ angular.module('project', ['ngRoute', 'ngGrid'])
   };
 })
 
-.controller('CalendarCtrl', function($scope, $http, Cal) {
+.controller('CalendarCtrl', function ($scope, $http, Cal) {
 
   //get our calendar data 
   Cal.get()
-    .success(function(data) {
-      $scope.cal = data;
+    .success(function (data) {
+      $scope.calendarDatas = data;
     });
 
-
-  $scope.gridOptions = {
-    data: 'cal',
-    columnDefs: [{
-      field: 'appName',
-      displayName: 'Application name'
-    }],
-    enableColumnResize: true,
-    enableRowSelection: false,
-
+  $scope.Schredules = {
+    years: [2014, 2015, 2016, 2017, 2018, 2019, 2020],
+    months: ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'],
+    dayInMonth: [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31],
   };
+
+  var getDayArray = function (year, month) {
+    var dayArray = [];
+    if (year % 4 === 0 && month === 28) {
+
+    }
+  };
+
+  // $scope.gridOptions = {
+  //   data: 'cal',
+  //   columnDefs: [{
+  //     field: 'appName',
+  //     displayName: 'Application name'
+  //   }],
+  //   enableColumnResize: true,
+  //   enableRowSelection: false,
+
+  // };
 })
 
-.controller('CreateCtrl', function($scope, $http, Apps) {
+.controller('CreateCtrl', function ($scope, $http, Apps) {
   $scope.formData = {};
-  $scope.createApp = function() {
+  $scope.createApp = function () {
     Apps.create($scope.formData)
 
-    .success(function(data) {
+    .success(function (data) {
       $scope.apps = data;
       $scope.formData = {};
     });
   };
 })
 
-.controller('EditCtrl', function($scope, $routeParams, $location, $http, Apps) {
+.controller('EditCtrl', function ($scope, $routeParams, $location, $http, Apps) {
 
   $scope.edit = true;
   var projectUrl = $routeParams.appId;
   Apps.update(projectUrl, $scope.formData)
-    .success(function(data) {
+    .success(function (data) {
       $scope.formData = data;
 
     });
 
-  $scope.deleteApp = function(id) {
+  $scope.deleteApp = function (id) {
     Apps.delete(id, $scope.formData)
-      .success(function(data) {
+      .success(function (data) {
         $scope.apps = data; //get new list
         $location.path('/');
       });
   };
 
-  $scope.updateApp = function(id) {
+  $scope.updateApp = function (id) {
     Apps.update(id, $scope.formData)
-      .success(function(data) {
+      .success(function (data) {
         $scope.apps = data;
         $location.path('/');
       });
@@ -769,33 +781,33 @@ angular.module('project', ['ngRoute', 'ngGrid'])
 
 })
 
-.controller('mainController', function($scope, $http, Apps) {
+.controller('mainController', function ($scope, $http, Apps) {
   //get formData clear
   $scope.formData = {};
   //get  all apps and show them
   Apps.get()
-    .success(function(data) {
+    .success(function (data) {
       $scope.apps = data;
     });
 
-  $scope.createApp = function() {
+  $scope.createApp = function () {
     Apps.create($scope.formData)
-      .success(function(data) {
+      .success(function (data) {
         $scope.apps = data;
         $scope.formData = {};
       });
   };
 
-  $scope.deleteApp = function(id) {
+  $scope.deleteApp = function (id) {
     Apps.delete(id)
-      .success(function(data) {
+      .success(function (data) {
         $scope.apps = data; //get new list
       });
   };
 
-  $scope.updateApp = function(id) {
+  $scope.updateApp = function (id) {
     Apps.update(id, $scope.formData)
-      .success(function(data) {
+      .success(function (data) {
         $scope.apps = data;
       });
   };
