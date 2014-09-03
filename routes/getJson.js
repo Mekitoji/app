@@ -2,7 +2,7 @@ var url = require("url");
 var queryString = require("querystring");
 
 module.exports = function (app) {
-  app.get('/getJson', routesFunction.redirectMain, function (req, res) {
+  app.get('/getJson', function (req, res) {
 
     // parses the request url
     var theUrl = url.parse(req.url);
