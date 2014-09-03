@@ -722,23 +722,21 @@ angular.module('project', ['ngRoute', 'ngGrid'])
     dayInMonth: [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31],
   };
 
-  var getDayArray = function (year, month) {
-    var dayArray = [];
-    if (year % 4 === 0 && month === 28) {
-
-    }
-  };
 
   // $scope.gridOptions = {
-  //   data: 'cal',
+  //   data: 'calendarDatas',
   //   columnDefs: [{
   //     field: 'appName',
   //     displayName: 'Application name'
   //   }],
   //   enableColumnResize: true,
   //   enableRowSelection: false,
-
   // };
+
+  function Calendar() {
+
+  };
+
 })
 
 .controller('CreateCtrl', function ($scope, $http, Apps) {
