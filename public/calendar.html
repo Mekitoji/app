@@ -3,15 +3,15 @@
 <!--   <div class="gridStyle" ng-grid="gridOptions"></div>
  -->
 
-<select name="Year" id="" >
+<!-- <select name="Year" id="" >
   <option ng-repeat='Year in Schredules.years' value="{{Year}}">{{Year}}</option>
 </select>
 
 <select name="Month" id="">
   <option ng-repeat='Month in Schredules.months' value="{{Month}}">{{Month}}</option>
-</select>
+</select> -->
 
-  <table>
+  <!-- <table>
     <thead>
       <th>App Name</th>
       <th ng-repeat=''></th>
@@ -21,9 +21,10 @@
         <td>{{calendarData.appName}}</td>
       </tr>
     </tbody>
-  </table>
+  </table> -->
 
       <div class="gridStyle" ng-grid="gridOptions"></div>
-
+    <button ng-click='prev($event)'>Prev</button>
+    <button ng-click='next($event)'>Next</button>
 </div>
 

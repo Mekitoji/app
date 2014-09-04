@@ -714,28 +714,66 @@ angular.module('project', ['ngRoute', 'ngGrid'])
   Cal.get()
     .success(function (data) {
       $scope.calendarDatas = data;
+      console.log(data);
     });
 
-  $scope.Schredules = {
-    years: [2014, 2015, 2016, 2017, 2018, 2019, 2020],
-    months: ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'],
-    dayInMonth: [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31],
-  };
-
-
-  // $scope.gridOptions = {
-  //   data: 'calendarDatas',
-  //   columnDefs: [{
-  //     field: 'appName',
-  //     displayName: 'Application name'
-  //   }],
-  //   enableColumnResize: true,
-  //   enableRowSelection: false,
+  // $scope.Schredules = {
+  //   years: [2014, 2015, 2016, 2017, 2018, 2019, 2020],
+  //   months: ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'],
+  //   dayInMonth: [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31],
   // };
 
-  function Calendar() {
+  $scope.push1 = [{
+    field: 'appId.appName',
+    displayName: 'Application name'
+  }];
 
+  $scope.push1.push({
+    field: 'appId.appName',
+    displayName: 'Application name'
+  });
+  $scope.gridOptions = {
+    data: 'calendarDatas',
+    columnDefs: 'push1',
+    enableColumnResize: true,
+    enableRowSelection: false,
   };
+
+  $scope.update_columns = function ($event) {
+    $scope.array1 = ['1', '3', '5'];
+    $scope.columnsSelected = [{
+      field: 'new_name',
+      displayName: $scope.array1[0]
+    }, {
+      field: 'new_age',
+      displayName: $scope.array1[1]
+    }, {
+      field: 'pin',
+      displayName: $scope.array1[2]
+    }];
+
+    $scope.myData = [{
+      new_name: "Moroni",
+      new_age: 50,
+      pin: 123
+    }, {
+      new_name: "Tiancum",
+      new_age: 43,
+      pin: 345
+    }, {
+      new_name: "Jacob",
+      new_age: 27,
+      pin: 567
+    }, {
+      new_name: "Nephi",
+      new_age: 29,
+      pin: 789
+    }, {
+      new_name: "Enos",
+      new_age: 34,
+      pin: 012
+    }];
+  }
 
 })
 
