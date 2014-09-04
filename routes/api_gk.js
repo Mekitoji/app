@@ -103,15 +103,14 @@ module.exports = function (app) {
         //get our field
         res.json(app);
         //create Calendar data with this appName
-        var cal = new Cal({
-          appName: app[0].appName,
-          appId: app[0]._id
-        });
-        cal.save(function (err, data) {
-          if (err) console.log(err);
-          res.json(data);
-          log.info(new Date() + '  - POST /API/GK/' + data.appId);
-        });
+        // var cal = new Cal({
+        //   appId: app[0]._id
+        // });
+        // cal.save(function (err, data) {
+        //   if (err) console.log(err);
+        //   res.json(data);
+        //   log.info(new Date() + '  - POST /API/GK/' + data.appId);
+        // });
       });
     });
   });
