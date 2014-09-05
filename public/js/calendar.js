@@ -1,29 +1,33 @@
-//option object with startDay ptoperties
-var Calendar = function (options) {
-  options = options || {};
-  var self = this;
+$(document).ready(function () {
 
-  var currentDate = new Date();
+  var date = new Date();
+  var d = date.getDate();
+  var m = date.getMonth();
+  var y = date.getFullYear();
 
-};
+  $('#calendar').fullCalendar({
+    header: {
+      left: 'prev,next today',
+      center: 'title',
+      right: ''
+    },
+    // dayClick: function (date, jsEvent, view) {
 
-Calendar.prototype.nextWeek = function (currentWeek) {
-  currentWeek.getDay();
-};
+    //   alert('Clicked on: ' + date.format());
 
+    //   // alert('Coordinates: ' + jsEvent.pageX + ',' + jsEvent.pageY);
 
-Calendar.prototype.previousWeek = function (currentWeek) {
-  // body...
-};
+    //   // alert('Current view: ' + view.name);
 
+    //   // change the day's background color just for fun
+    //   $(this).css('background-color', 'red');
 
-Calendar.prototype.previousYear = function (currentYear) {
-  // body...
-};
+    // },
 
-Calendar.prototype.nextYear = function (currentYear) {
-  // body...
-};
-Calendar.prototype.today = function () {
-  return new Date();
-};
+    defaultView: 'basicWeek',
+    editable: true,
+    firstDay: 1,
+    weekends: false,
+  });
+
+});

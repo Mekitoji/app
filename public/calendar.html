@@ -1,4 +1,4 @@
-<div class="container row table-calendar">
+
     
 <!--   <div class="gridStyle" ng-grid="gridOptions"></div>
  -->
@@ -10,21 +10,48 @@
 <select name="Month" id="">
   <option ng-repeat='Month in Schredules.months' value="{{Month}}">{{Month}}</option>
 </select> -->
-
-  <!-- <table>
-    <thead>
-      <th>App Name</th>
-      <th ng-repeat=''></th>
-    </thead>
-    <tbody>
-      <tr ng-repeat='calendarData in calendarDatas'>
-        <td>{{calendarData.appName}}</td>
-      </tr>
-    </tbody>
-  </table> -->
-
-      <div class="gridStyle" ng-grid="gridOptions"></div>
-    <button ng-click='prev($event)'>Prev</button>
-    <button ng-click='next($event)'>Next</button>
+<div class="container">
+  <div class='inner-table-appName'>
+    <table class='in-row'>
+      <thead>
+        <th>App Name</th>
+      </thead>
+      <tbody>
+        <tr ng-repeat='calendarData in calendarDatas'>
+          <td>{{calendarData.appId.appName}}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <div id='calendar'></div>
 </div>
+<!--     <div class="gridStyle" ng-grid="gridOptions"></div>
+    <button ng-click='prev($event)'>&laquo Prev</button>
+    <button ng-click='next($event)'>Next &raquo</button> -->
+    <style>
+    body {
+      margin-top: 40px;
+      text-align: center;
+      font-size: 14px;
+      font-family: "Lucida Grande",Helvetica,Arial,Verdana,sans-serif;
+    }
+
+    #calendar {
+      width: 900px;
+      margin: 0 auto;
+    }
+    .container {
+      margin-top:10px;
+      width:90%;
+    }
+    .container>div {
+        float:left;
+    }
+    .inner-table-appName{
+      margin-top:55px;
+      margin-right: 10px;
+    }
+    </style>
+    <script src='js/calendar.js'></script>
+    <script src='js/getCalendarData.js'></script>
 
