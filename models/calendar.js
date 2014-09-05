@@ -1,18 +1,21 @@
 var mongoose = require('../libs/mongoose');
 var Schema = mongoose.Schema;
 
+var dataStorage = new Schema({
+  fullDate: {
+    type: Date
+  },
+  value: {
+    type: String
+  }
+});
+
 var Calendar = new Schema({
   appId: {
     type: Schema.ObjectId,
     ref: 'Apps'
   },
-  fullDate: {
-    type: Date
-  },
-  value: {
-    type: String,
-    unique: false,
-  }
+  storage:[dataStorage]
 });
 
 module.exports = mongoose.model('Calendar', Calendar);
