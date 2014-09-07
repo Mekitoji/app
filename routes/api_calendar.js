@@ -64,9 +64,8 @@ module.exports = function (app) {
       }
 
       cal.storage.push({
-        day: (new Date(req.body.date)).getDate(),
-        month: (new Date(req.body.date)).getMonth(),
-        year: (new Date(req.body.date)).getFullYear(),
+        //omg it a string!!
+        fullDate:req.body.fullDate,
         value: req.body.value
       });
       cal.save(function (err, data) {

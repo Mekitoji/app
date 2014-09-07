@@ -725,7 +725,7 @@ angular.module('project', ['ngRoute', 'ngGrid'])
   Apps.get()
 
   .success(function (data) {
-    $scope.appsData = data;
+    $scope.appsDate = data;
     console.log(data);
     // $scope.appsNameData=[];
     // $scope.appsData.forEach(function(entry) {

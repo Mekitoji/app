@@ -3,7 +3,7 @@ var Schema = mongoose.Schema;
 
 var dataStorage = new Schema({
   fullDate: {
-    type: Date
+    type: String
   },
   value: {
     type: String
