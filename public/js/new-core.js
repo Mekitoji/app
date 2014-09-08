@@ -711,72 +711,72 @@ angular.module('project', ['ngRoute', 'ngGrid'])
 .controller('CalendarCtrl', function ($scope, $http, Apps, Cal) {
 
   //get our calendar data 
-  Cal.get()
+  // Cal.get()
 
-  .success(function (data) {
-    $scope.calendarDatas = data;
-    calendarDataz = data;
-    console.log('caldata');
-    console.log($scope.calendarDatas);
-    console.log('End caldata');
-  });
+  // .success(function (data) {
+  //   $scope.calendarDatas = data;
+  //   calendarDataz = data;
+  //   console.log('caldata');
+  //   console.log($scope.calendarDatas);
+  //   console.log('End caldata');
+  // });
 
   //get all apps to provide array of appName
-  Apps.get()
+  // Apps.get()
 
-  .success(function (data) {
-    $scope.appsDate = data;
-    console.log(data);
-    // $scope.appsNameData=[];
-    // $scope.appsData.forEach(function(entry) {
-    //   $scope.appsNameData.push(entry.appName);
-    // });
-    // setTimeout(function() {
-    //   console.log($scope.appsNameData);
-    // }, 1000);
-  });
-
-
-
-  function getDate(year, month, date) {
-    var currentDate = year && month && date ? new Date(year, month, date) : new Date(),
-      getCurrentDay = currentDate.getDay(),
-      getCurrentDate = currenDate.getDate(),
-      getCurrentYear = currentDate.getFullYear(),
-      getCurrentMonth = currentDate.getMonth();
-  }
-
-
-  $scope.$on('ngGridEventStartCellEdit', function (elm) {
-    console.log(elm.targetScope);
-    // elm.targetScope.col.cellClass = 'blue';
-    console.log(elm.targetScope.col.cellClass);
-
-  });
-
-  $scope.$on('ngGridEventEndCellEdit', function (evt) {
-    // var currentObj = evt.targetScope.row.entity;
-    // console.log(currentObj); //debug
-    // // the underlying data bound to the row
-    // // Detect changes and send entity to server 
-    // console.log(currentObj._id); //debug 
-
-    // //update database value
-    // var projectUrl = currentObj._id;
-    // Cal.update(projectUrl, currentObj)
-    //   .success(function(data) {
-    //     $scope.calendarData = data;
-    //   });
-  });
+  // .success(function (data) {
+  //   $scope.appsDate = data;
+  //   console.log(data);
+  // $scope.appsNameData=[];
+  // $scope.appsData.forEach(function(entry) {
+  //   $scope.appsNameData.push(entry.appName);
+  // });
+  // setTimeout(function() {
+  //   console.log($scope.appsNameData);
+  // }, 1000);
+  // });
 
 
 
-  $scope.gridOptions = {
-    data: 'calendarDatas',
-    columnDefs: [],
-    enableColumnResize: true,
-    enableRowSelection: false,
-  };
+  // function getDate(year, month, date) {
+  //   var currentDate = year && month && date ? new Date(year, month, date) : new Date(),
+  //     getCurrentDay = currentDate.getDay(),
+  //     getCurrentDate = currenDate.getDate(),
+  //     getCurrentYear = currentDate.getFullYear(),
+  //     getCurrentMonth = currentDate.getMonth();
+  // }
+
+
+  // $scope.$on('ngGridEventStartCellEdit', function (elm) {
+  //   console.log(elm.targetScope);
+  //   // elm.targetScope.col.cellClass = 'blue';
+  //   console.log(elm.targetScope.col.cellClass);
+
+  // });
+
+  // $scope.$on('ngGridEventEndCellEdit', function (evt) {
+  // var currentObj = evt.targetScope.row.entity;
+  // console.log(currentObj); //debug
+  // // the underlying data bound to the row
+  // // Detect changes and send entity to server 
+  // console.log(currentObj._id); //debug 
+
+  // //update database value
+  // var projectUrl = currentObj._id;
+  // Cal.update(projectUrl, currentObj)
+  //   .success(function(data) {
+  //     $scope.calendarData = data;
+  //   });
+  // });
+
+
+
+  // $scope.gridOptions = {
+  //   data: 'calendarDatas',
+  //   columnDefs: [],
+  //   enableColumnResize: true,
+  //   enableRowSelection: false,
+  // };
 
   // $scope.update_columns = function($event) {
   //   $scope.array1 = ['1', '3', '5'];
