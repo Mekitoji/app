@@ -23,7 +23,6 @@ $(document).ready(function () {
     //   $(this).css('background-color', 'red');
 
     // },
-
     defaultView: 'basicWeek',
     editable: true,
     firstDay: 1,

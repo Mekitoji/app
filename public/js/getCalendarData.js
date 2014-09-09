@@ -1,5 +1,6 @@
 // $(document).ready($('.inner-table-appName tbody'));
 
+var data_manual = {};
 
 
 $.get('http://localhost:3000/api/calendar', function (data) {
@@ -7,89 +8,167 @@ $.get('http://localhost:3000/api/calendar', function (data) {
   console.log('data:');
   console.log(data);
   var storageOfDate = [];
-  var appNameArray = [];
+  var appNameObj = {};
 
-  var test = {};
-
+  // var test = {};
   //Push data in array
   for (var i = 0; i < data.length; i++) {
-    appNameArray.push(data[i].appId.appName);
-    storageOfDate.push(data[i].storage);
+    appNameObj[data[i].appId._id] = data[i].appId.appName;
+    // storageOfDate.push(data[i].storage);
+    var innerStorage = data[i].storage;
 
-    var temp_storage = data[i].storage;
+    for (j = 0; j < innerStorage.length; j++) {
 
-    for (j = 0; j < temp_storage.length; j++) {
+      if (!data_manual[innerStorage[j].fullDate]) {
+        data_manual[innerStorage[j].fullDate] = {};
+      }
 
-      if (!test[temp_storage[j].fullDate])
-        test[temp_storage[j].fullDate] = {};
-
-      test[temp_storage[j].fullDate][data[i].appId._id] = temp_storage[j].value;
+      data_manual[innerStorage[j].fullDate][data[i].appId._id] = innerStorage[j].value;
     }
   }
 
-  console.log('\n\ntest:');
-  console.log(test);
+  console.log('\n\ndata_manual:');
+  console.log(data_manual);
 
-  var data_manual = {};
-
-
-
-  console.log('appName:');
-  console.log(appNameArray);
-  console.log('storageOfDate:');
-  console.log(storageOfDate);
+  console.log('appNameObj:');
+  console.log(appNameObj);
+  // console.log('storageOfDate:');
+  // console.log(storageOfDate);
 
   //create tr for each elem in data array
-  $.each(appNameArray, function (i, data) {
+  $.each(appNameObj, function (i, appName) {
     var tr = $('<tr>');
-    $('<td>').html(data).appendTo(tr);
+    $('<td>').html(appName).appendTo(tr);
     $('.inner-table-appName tbody').append(tr);
   });
 
-  $('td.fc-day').each(function (i, data) {
-    var thisRow = $(this),
+  var count = 0;
+  $('td.fc-day').each(function (i, elem) {
+    var thisCol = $(this),
       table = $('<table>'),
-      dd = thisRow.data('date'),
-      thisColTable = table.appendTo(thisRow);
-    // console.log(dd);
-    data_manual[dd] = [];
-    $.each(storageOfDate, function (i, data1) {
-      // console.log(data1);
-      $.each(data1, function (j, data2) {
-        // console.log(data2);
-        if (data2.fullDate == dd) {
-          data_manual[dd].push(data2.value);
-          return false;
+      dd = thisCol.data('date'),
+
+      thisColTable = table.addClass('column-table').attr('id', 'dataTableColumn' + (++count)).appendTo(thisCol);
+
+
+
+    $.each(data_manual, function (date, valueArr) {
+
+      $.each(appNameObj, function (appId, appName) {
+        if (date == dd) {
+          if (valueArr[appId]) {
+            // console.log(date + ' ' + appName + " = " + valueArr[appId]);
+            var tr = $('<tr>').css({
+              'height': '21px ',
+              'text-align': 'center'
+            });
+            $('<td>').html(valueArr[appId]).addClass('inner-table-value').appendTo(tr);
+            thisColTable.append(tr);
+          } else {
+            var empty = $('<tr>').css({
+              'height': '21px ',
+              'text-align': 'center'
+            });
+            $('<td>').html('').addClass('inner-table-value').appendTo(empty);
+            thisColTable.append(empty);
+          }
+        }
+      });
+    });
+
+  });
+
+});
+
+setTimeout(function () {
+  $('#dataTableColumn1').editableTableWidget();
+}, 2000);
+
+
+
+
+
+$('.fc-next-button, .fc-prev-button, .fc-today-button').click(function () {
+  $('td.fc-day').ready(function () {
+    $.get('http://localhost:3000/api/calendar', function (data) {
+
+      console.log('data:');
+      console.log(data);
+      var storageOfDate = [];
+      var appNameObj = {};
+
+      // var test = {};
+      //Push data in array
+      for (var i = 0; i < data.length; i++) {
+        appNameObj[data[i].appId._id] = data[i].appId.appName;
+        // storageOfDate.push(data[i].storage);
+        var innerStorage = data[i].storage;
+
+        for (j = 0; j < innerStorage.length; j++) {
+
+          if (!data_manual[innerStorage[j].fullDate]) {
+            data_manual[innerStorage[j].fullDate] = {};
+          }
+
+          data_manual[innerStorage[j].fullDate][data[i].appId._id] = innerStorage[j].value;
+        }
+      }
+
+      console.log('\n\ndata_manual:');
+      console.log(data_manual);
+
+      console.log('appNameObj:');
+      console.log(appNameObj);
+      // console.log('storageOfDate:');
+      // console.log(storageOfDate);
+
+
+      var count = 0;
+      $('td.fc-day').each(function (i, elem) {
+        var thisCol = $(this),
+          table = $('<table>'),
+          dd = thisCol.data('date'),
+
+          thisColTable = table.addClass('column-table').attr('id', 'dataTableColumn' + (++count)).appendTo(thisCol);
+
+
+
+        $.each(data_manual, function (date, valueArr) {
+
+          $.each(appNameObj, function (appId, appName) {
+            if (date == dd) {
+              if (valueArr[appId]) {
+                // console.log(date + ' ' + appName + " = " + valueArr[appId]);
+                var tr = $('<tr>').css({
+                  'height': '21px ',
+                  'text-align': 'center'
+                });
+                $('<td>').html(valueArr[appId]).addClass('inner-table-value').appendTo(tr);
+                thisColTable.append(tr);
+              } else {
+                var empty = $('<tr>').css({
+                  'height': '21px ',
+                  'text-align': 'center'
+                });
+                $('<td>').html('').addClass('inner-table-value').appendTo(empty);
+                thisColTable.append(empty);
+              }
+            }
+          });
+        });
+        if (thisColTable[0].childNodes[0] === undefined) {
+          $.each(appNameObj, function () {
+            var empty = $('<tr>').css({
+              'height': '21px ',
+              'text-align': 'center'
+            });
+            $('<td>').html('').addClass('inner-table-value').appendTo(empty);
+            thisColTable.append(empty);
+          });
+
         }
       });
 
-      if (data_manual[dd] < i + 1) {
-        data_manual[dd].push('');
-
-      }
     });
-    console.log(data_manual);
   });
-
-
-
-
-
-
-
-
-
-  /*  for (var j = 0, length = data.length; j < length; j++) {
-    // console.log(data[j].fullDate);
-    // console.log(dd);
-    if (data[j].fullDate === dd) {
-      // console.log(dd);
-      var tr = $('<tr>');
-      tr.html(data[j].value);
-      thisColTable.append(tr);
-    } else if (data[length - 1].fullDate !== dd) {
-      var newtr = $('<tr>');
-      newtr.html('');
-      thisColTable.append(newtr);
-    }*/
 });

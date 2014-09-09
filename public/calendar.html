@@ -12,7 +12,7 @@
 </select> -->
 <div class="container">
   <div class='inner-table-appName'>
-    <table class='in-row'>
+    <table class='in-row' id='test'>
       <thead>
         <th>App Name</th>
       </thead>
@@ -28,7 +28,7 @@
     <button ng-click='next($event)'>Next &raquo</button> -->
     <style>
     body {
-      margin-top: 40px;
+      margin-top: 0;
       text-align: center;
       font-size: 14px;
       font-family: "Lucida Grande",Helvetica,Arial,Verdana,sans-serif;
@@ -49,6 +49,10 @@
       margin-top:55px;
       margin-right: 10px;
     }
+    .fc-bg table{
+      height: auto;
+    }
+
     </style>
     <script src='js/calendar.js'></script>
     <script src='js/getCalendarData.js'></script>
