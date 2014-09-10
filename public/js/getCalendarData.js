@@ -9,10 +9,13 @@ $.get('http://localhost:3000/api/calendar', function (data) {
   console.log(data);
   var storageOfDate = [];
   var appNameObj = {};
+  var calendarId = {}; //calendarId
 
   // var test = {};
   //Push data in array
   for (var i = 0; i < data.length; i++) {
+
+    calendarId[data[i]._id] = data[i].appId._id; //calendarId
     appNameObj[data[i].appId._id] = data[i].appId.appName;
     // storageOfDate.push(data[i].storage);
     var innerStorage = data[i].storage;
@@ -32,6 +35,8 @@ $.get('http://localhost:3000/api/calendar', function (data) {
 
   console.log('appNameObj:');
   console.log(appNameObj);
+  console.log('calendarId'); //calendarId
+  console.log(calendarId); //calendarId
   // console.log('storageOfDate:');
   // console.log(storageOfDate);
 
@@ -62,32 +67,112 @@ $.get('http://localhost:3000/api/calendar', function (data) {
               'height': '21px ',
               'text-align': 'center'
             });
-            $('<td>').html(valueArr[appId]).addClass('inner-table-value').appendTo(tr);
+            var td = $('<td>');
+            $.each(calendarId, function (calId, appId11) {
+              if (appId === appId11)
+                td.html(valueArr[appId]).addClass(date).addClass(calId).appendTo(tr);
+            });
+
             thisColTable.append(tr);
+            td.on('change', function (evt, newValue) {
+              var thisElem = $(this);
+              console.log('thisElem');
+              console.log(thisElem);
+              console.log('evt');
+              console.log(evt);
+              console.log('newValue');
+              console.log(newValue);
+              var classArr = thisElem.attr('class').split(' ');
+              console.log(classArr);
+
+              $.ajax({
+                type: 'PUT',
+                url: 'http://localhost:3000/api/calendar/' + classArr[1],
+                data: {
+                  value: newValue,
+                  fullDate: classArr[0],
+                }
+              });
+            });
           } else {
             var empty = $('<tr>').css({
               'height': '21px ',
               'text-align': 'center'
             });
-            $('<td>').html('').addClass('inner-table-value').appendTo(empty);
+            var td1 = $('<td>');
+            $.each(calendarId, function (calId, appId11) {
+              if (appId === appId11)
+                td1.html('').addClass(dd).addClass(calId).appendTo(empty);
+            });
             thisColTable.append(empty);
+            td1.on('change', function (evt, newValue) {
+              var thisElem = $(this);
+              console.log('thisElem');
+              console.log(thisElem);
+              console.log('evt');
+              console.log(evt);
+              console.log('newValue');
+              console.log(newValue);
+              var classArr = thisElem.attr('class').split(' ');
+              console.log(classArr);
+
+              $.ajax({
+                type: 'PUT',
+                url: 'http://localhost:3000/api/calendar/' + classArr[1],
+                data: {
+                  value: newValue,
+                  fullDate: classArr[0],
+                }
+              });
+            });
           }
         }
       });
     });
+    if (thisColTable[0].childNodes[0] === undefined) {
+      $.each(appNameObj, function (appId, appName) {
+        var empty = $('<tr>').css({
+          'height': '21px ',
+          'text-align': 'center'
+        });
+        var td = $('<td>');
+        $.each(calendarId, function (calId, appId11) {
+          if (appId === appId11)
+            td.html('').addClass(dd).addClass(calId).appendTo(empty);
+        });
+        thisColTable.append(empty);
+        td.on('change', function (evt, newValue) {
+          var thisElem = $(this);
+          console.log('thisElem');
+          console.log(thisElem);
+          console.log('evt');
+          console.log(evt);
+          console.log('newValue');
+          console.log(newValue);
+          var classArr = thisElem.attr('class').split(' ');
+          console.log(classArr);
+
+          $.ajax({
+            type: 'PUT',
+            url: 'http://localhost:3000/api/calendar/' + classArr[1],
+            data: {
+              value: newValue,
+              fullDate: classArr[0],
+            }
+          });
+        });
+      });
+    }
+    $('.fc-day-grid').off();
+    table.editableTableWidget();
 
   });
+  $('.fc-content-skeleton').remove();
 
 });
 
-setTimeout(function () {
-  $('#dataTableColumn1').editableTableWidget();
-}, 2000);
 
-
-
-
-
+//fc-toolbar click event listener
 $('.fc-next-button, .fc-prev-button, .fc-today-button').click(function () {
   $('td.fc-day').ready(function () {
     $.get('http://localhost:3000/api/calendar', function (data) {
@@ -96,10 +181,12 @@ $('.fc-next-button, .fc-prev-button, .fc-today-button').click(function () {
       console.log(data);
       var storageOfDate = [];
       var appNameObj = {};
+      var calendarId = {};
 
       // var test = {};
       //Push data in array
       for (var i = 0; i < data.length; i++) {
+        calendarId[data[i]._id] = data[i].appId._id;
         appNameObj[data[i].appId._id] = data[i].appId.appName;
         // storageOfDate.push(data[i].storage);
         var innerStorage = data[i].storage;
@@ -119,6 +206,8 @@ $('.fc-next-button, .fc-prev-button, .fc-today-button').click(function () {
 
       console.log('appNameObj:');
       console.log(appNameObj);
+      console.log('calendarId'); //calendarId
+      console.log(calendarId); //calendarId
       // console.log('storageOfDate:');
       // console.log(storageOfDate);
 
@@ -143,32 +232,108 @@ $('.fc-next-button, .fc-prev-button, .fc-today-button').click(function () {
                   'height': '21px ',
                   'text-align': 'center'
                 });
-                $('<td>').html(valueArr[appId]).addClass('inner-table-value').appendTo(tr);
+                var td = $('<td>');
+                $.each(calendarId, function (calId, appId11) {
+                  if (appId === appId11)
+                    td.html(valueArr[appId]).addClass(date).addClass(calId).appendTo(tr);
+                });
                 thisColTable.append(tr);
+                td.on('change', function (evt, newValue) {
+                  var thisElem = $(this);
+                  console.log('thisElem');
+                  console.log(thisElem);
+                  console.log('evt');
+                  console.log(evt);
+                  console.log('newValue');
+                  console.log(newValue);
+                  var classArr = thisElem.attr('class').split(' ');
+                  console.log(classArr);
+
+                  $.ajax({
+                    type: 'PUT',
+                    url: 'http://localhost:3000/api/calendar/' + classArr[1],
+                    data: {
+                      value: newValue,
+                      fullDate: classArr[0],
+                    }
+                  });
+                });
               } else {
                 var empty = $('<tr>').css({
                   'height': '21px ',
                   'text-align': 'center'
                 });
-                $('<td>').html('').addClass('inner-table-value').appendTo(empty);
+                var td1 = $('<td>');
+                $.each(calendarId, function (calId, appId11) {
+                  if (appId === appId11)
+                    td1.html('').addClass(date).addClass(calId).appendTo(empty);
+                });
                 thisColTable.append(empty);
+                td1.on('change', function (evt, newValue) {
+                  var thisElem = $(this);
+                  console.log('thisElem');
+                  console.log(thisElem);
+                  console.log('evt');
+                  console.log(evt);
+                  console.log('newValue');
+                  console.log(newValue);
+                  var classArr = thisElem.attr('class').split(' ');
+                  console.log(classArr);
+
+                  $.ajax({
+                    type: 'PUT',
+                    url: 'http://localhost:3000/api/calendar/' + classArr[1],
+                    data: {
+                      value: newValue,
+                      fullDate: classArr[0],
+                    }
+                  });
+                });
               }
             }
           });
+
         });
         if (thisColTable[0].childNodes[0] === undefined) {
-          $.each(appNameObj, function () {
+          $.each(appNameObj, function (appId, appName) {
             var empty = $('<tr>').css({
               'height': '21px ',
               'text-align': 'center'
             });
-            $('<td>').html('').addClass('inner-table-value').appendTo(empty);
+            var td = $('<td>');
+            $.each(calendarId, function (calId, appId11) {
+              if (appId === appId11)
+                td.html('').addClass(dd).addClass(calId).appendTo(empty);
+            });
             thisColTable.append(empty);
+            td.on('change', function (evt, newValue) {
+              var thisElem = $(this);
+              console.log('thisElem');
+              console.log(thisElem);
+              console.log('evt');
+              console.log(evt);
+              console.log('newValue');
+              console.log(newValue);
+              var classArr = thisElem.attr('class').split(' ');
+              console.log(classArr);
+
+              $.ajax({
+                type: 'PUT',
+                url: 'http://localhost:3000/api/calendar/' + classArr[1],
+                data: {
+                  value: newValue,
+                  fullDate: classArr[0],
+                }
+              });
+            });
           });
-
         }
-      });
+        $('.fc-day-grid').off();
+        table.editableTableWidget();
 
+
+      });
+      $('.fc-content-skeleton').remove();
     });
   });
 });

@@ -62,18 +62,47 @@ module.exports = function (app) {
       if (err) {
         res.send(err);
       }
-
-      cal.storage.push({
-        //omg it a string!!
-        fullDate:req.body.fullDate,
-        value: req.body.value
-      });
-      cal.save(function (err, data) {
-        if (err) {
-          res.send(err);
+      var saveCalendar = function () {
+        cal.save(function (err, data) {
+          if (err) {
+            res.send(err);
+          }
+          res.json(data);
+        });
+      };
+      for (var i = 0; i < cal.storage.length; i++) {
+        if (cal.storage[i].fullDate == req.body.fullDate) {
+          cal.storage[i].value = req.body.value;
+          console.log('rewrite');
+          saveCalendar();
+          return false;
         }
-        res.json(data);
-      });
+      }
+      if (cal.storage[cal.storage.length - 1] === undefined) {
+        cal.storage.push({
+          //omg it a string!!
+          fullDate: req.body.fullDate,
+          value: req.body.value
+        });
+        console.log('push in new app');
+        saveCalendar();
+        return false;
+      } else {
+        if (cal.storage[cal.storage.length - 1].fullDate !== req.body.fullDate) {
+          console.log(cal.storage.length);
+          console.log(cal.storage[cal.storage.length - 1].fullDate);
+          console.log(req.body.fullDate);
+          cal.storage.push({
+            //omg it a string!!
+
+            fullDate: req.body.fullDate,
+            value: req.body.value
+          });
+          console.log('push new');
+          saveCalendar();
+          return false;
+        }
+      }
     });
   });
 };
