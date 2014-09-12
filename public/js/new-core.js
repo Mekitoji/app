@@ -37,6 +37,29 @@ angular.module('project', ['ngRoute', 'ngGrid'])
     },
   };
 })
+//testCycle api
+.factory('TestCycles', function ($http) {
+  return {
+    get: function () {
+      return $http.get('/api/testCycles');
+    },
+    post: function (id, testCyclesData) {
+      return $http.get('/api/testCycles/' + id, testCyclesData);
+    },
+  };
+})
+
+.factory('Tester', function ($http) {
+  return {
+    get: function () {
+      return $http.get('/api/tester');
+    },
+    post: function (id, testerData) {
+      return $http.get('/api/tester/' + id, testerData);
+    },
+  };
+})
+
 //routes
 .config(function ($routeProvider) {
   $routeProvider
@@ -69,6 +92,7 @@ angular.module('project', ['ngRoute', 'ngGrid'])
       templateUrl: 'calendar.html'
     })
     .when('/test', {
+      controller: 'TesterCtrl',
       templateUrl: 'test.html'
     });
 
@@ -83,7 +107,7 @@ angular.module('project', ['ngRoute', 'ngGrid'])
       "type": "select",
       "name": "Country",
       "value": "COL_FIELD",
-      "values": ["Russia", "Ukraine", "Belarus", "Latvia", "Kazakhstan", "Lithuania", "Estonia", "Uzbekistan"]
+      "values": ["Russia", "Ukraine", "Belarus", "Latvia", "Kazakhstan", "Lithuania", "Estonia", "Uzbekistan", "Kyrgyzstan", "Tajikistan"]
     },
     categoryProp: {
       "type": "select",
@@ -186,6 +210,10 @@ angular.module('project', ['ngRoute', 'ngGrid'])
       displayName: 'Application name',
       enableCellEdit: true
     }, {
+      field: 'applicationId',
+      displayName: 'Application Id',
+      enableCellEdit: true
+    }, {
       field: 'category',
       displayName: 'Category',
       enableCellEdit: true,
@@ -249,7 +277,7 @@ angular.module('project', ['ngRoute', 'ngGrid'])
       "type": "select",
       "name": "Country",
       "value": "COL_FIELD",
-      "values": ["Russia", "Ukraine", "Belarus", "Latvia", "Kazakhstan", "Lithuania", "Estonia", "Uzbekistan"]
+      "values": ["Russia", "Ukraine", "Belarus", "Latvia", "Kazakhstan", "Lithuania", "Estonia", "Uzbekistan", "Kyrgyzstan", "Tajikistan"]
     },
     categoryProp: {
       "type": "select",
@@ -337,6 +365,10 @@ angular.module('project', ['ngRoute', 'ngGrid'])
       enableCellEdit: true,
       editableCellTemplate: $scope.cellSelectEditableTemplateCountry,
     }, {
+      field: 'applicationId',
+      displayName: 'Application Id',
+      enableCellEdit: true
+    }, {
       field: 'appName',
       displayName: 'Application name',
       enableCellEdit: true
@@ -403,7 +435,7 @@ angular.module('project', ['ngRoute', 'ngGrid'])
       "type": "select",
       "name": "Country",
       "value": "COL_FIELD",
-      "values": ["Russia", "Ukraine", "Belarus", "Latvia", "Kazakhstan", "Lithuania", "Estonia", "Uzbekistan"]
+      "values": ["Russia", "Ukraine", "Belarus", "Latvia", "Kazakhstan", "Lithuania", "Estonia", "Uzbekistan", "Kyrgyzstan", "Tajikistan"]
     },
     categoryProp: {
       "type": "select",
@@ -490,6 +522,10 @@ angular.module('project', ['ngRoute', 'ngGrid'])
       enableCellEdit: true,
       editableCellTemplate: $scope.cellSelectEditableTemplateCountry,
     }, {
+      field: 'applicationId',
+      displayName: 'Application Id',
+      enableCellEdit: true
+    }, {
       field: 'appName',
       displayName: 'Application name',
       enableCellEdit: true
@@ -558,7 +594,7 @@ angular.module('project', ['ngRoute', 'ngGrid'])
       "type": "select",
       "name": "Country",
       "value": "COL_FIELD",
-      "values": ["Russia", "Ukraine", "Belarus", "Latvia", "Kazakhstan", "Lithuania", "Estonia", "Uzbekistan"]
+      "values": ["Russia", "Ukraine", "Belarus", "Latvia", "Kazakhstan", "Lithuania", "Estonia", "Uzbekistan", "Kyrgyzstan", "Tajikistan"]
     },
     categoryProp: {
       "type": "select",
@@ -648,6 +684,10 @@ angular.module('project', ['ngRoute', 'ngGrid'])
       enableCellEdit: true,
       editableCellTemplate: $scope.cellSelectEditableTemplateCountry,
     }, {
+      field: 'applicationId',
+      displayName: 'Application Id',
+      enableCellEdit: true
+    }, {
       field: 'appName',
       displayName: 'Application name',
       enableCellEdit: true
@@ -709,96 +749,23 @@ angular.module('project', ['ngRoute', 'ngGrid'])
 })
 
 .controller('CalendarCtrl', function ($scope, $http, Apps, Cal) {
+  //empty
+})
 
-  //get our calendar data 
-  // Cal.get()
+.controller('TesterCtrl', function ($scope, $http, Apps, Cal, Tester, TestCycles) {
+  //get our app list
+  Apps.get()
+    .success(function (data) {
+      $scope.apps = data;
+    });
 
-  // .success(function (data) {
-  //   $scope.calendarDatas = data;
-  //   calendarDataz = data;
-  //   console.log('caldata');
-  //   console.log($scope.calendarDatas);
-  //   console.log('End caldata');
-  // });
+  //get our calendar list
+  Cal.get()
+    .success(function (data) {
+      $scope.cal = data;
+    });
+  // in progress
 
-  //get all apps to provide array of appName
-  // Apps.get()
-
-  // .success(function (data) {
-  //   $scope.appsDate = data;
-  //   console.log(data);
-  // $scope.appsNameData=[];
-  // $scope.appsData.forEach(function(entry) {
-  //   $scope.appsNameData.push(entry.appName);
-  // });
-  // setTimeout(function() {
-  //   console.log($scope.appsNameData);
-  // }, 1000);
-  // });
-
-
-
-  // function getDate(year, month, date) {
-  //   var currentDate = year && month && date ? new Date(year, month, date) : new Date(),
-  //     getCurrentDay = currentDate.getDay(),
-  //     getCurrentDate = currenDate.getDate(),
-  //     getCurrentYear = currentDate.getFullYear(),
-  //     getCurrentMonth = currentDate.getMonth();
-  // }
-
-
-  // $scope.$on('ngGridEventStartCellEdit', function (elm) {
-  //   console.log(elm.targetScope);
-  //   // elm.targetScope.col.cellClass = 'blue';
-  //   console.log(elm.targetScope.col.cellClass);
-
-  // });
-
-  // $scope.$on('ngGridEventEndCellEdit', function (evt) {
-  // var currentObj = evt.targetScope.row.entity;
-  // console.log(currentObj); //debug
-  // // the underlying data bound to the row
-  // // Detect changes and send entity to server 
-  // console.log(currentObj._id); //debug 
-
-  // //update database value
-  // var projectUrl = currentObj._id;
-  // Cal.update(projectUrl, currentObj)
-  //   .success(function(data) {
-  //     $scope.calendarData = data;
-  //   });
-  // });
-
-
-
-  // $scope.gridOptions = {
-  //   data: 'calendarDatas',
-  //   columnDefs: [],
-  //   enableColumnResize: true,
-  //   enableRowSelection: false,
-  // };
-
-  // $scope.update_columns = function($event) {
-  //   $scope.array1 = ['1', '3', '5'];
-  //   $scope.columnsSelected = [{
-  //     field: 'new_name',
-  //     displayName: $scope.array1[0]
-  //   }, {
-  //     field: 'new_age',
-  //     displayName: $scope.array1[1]
-  //   }, {
-  //     field: 'pin',
-  //     displayName: $scope.array1[2]
-  //   }];
-
-  //   $scope.myData = [];
-  // };
-
-  // $scope.Schredules = {
-  //   years: [2014, 2015, 2016, 2017, 2018, 2019, 2020],
-  //   months: ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'],
-  //   dayInMonth: [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31],
-  // };
 
 })
 

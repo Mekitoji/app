@@ -91,7 +91,8 @@ module.exports = function (app) {
       testCycles: req.body.testCycles,
       replyTime: req.body.replyTime,
       resp: req.body.resp,
-      outdated: req.body.outdated
+      outdated: req.body.outdated,
+      applicationId: req.body.applicationId
     }, function (err, app) {
       if (err)
         res.send(err);
@@ -159,7 +160,8 @@ module.exports = function (app) {
       if (req.body.testCycles) app.testCycles = req.body.testCycles;
       if (req.body.replyTime) app.replyTime = req.body.replyTime;
       if (req.body.resp) app.resp = req.body.resp;
-      if (req.body.resp) app.outdated = req.body.outdated;
+      if (req.body.outdated) app.outdated = req.body.outdated;
+      if (req.body.applicationId) app.applicationId = req.body.applicationId;
       // save the bear
       app.save(function (err) {
         if (err)

@@ -32,7 +32,7 @@ var userSchema = mongoose.Schema({
         require: true
       }
     }
-  }
+  },
 
 });
 

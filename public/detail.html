@@ -14,6 +14,8 @@
           <option value="Lithuania">Lithuania</option>
           <option value="Estonia">Estonia</option>
           <option value="Uzbekistan">Uzbekistan</option>
+          <option value="Kyrgyzstan">Kyrgyzstan</option>
+          <option value="Tajikistan">Tajikistan</option>
         </select>
         <!-- <span class="error" ng-show="myForm.$error.required">Required!</span> -->
       
@@ -22,6 +24,10 @@
       <div class='form-row'>
         <label>Application name</label>
         <input type="text" placeholder="app name" ng-model="formData.appName" required>
+      </div>
+      <div class='form-row'>
+        <label>Application id</label>
+        <input type="text" placeholder="app ID" ng-model="formData.applicationId" required>
       </div>
       
       <div class='form-row'>
@@ -39,7 +45,7 @@
         <label>SDP status</label>
         <select name="sdp-status" id="table-sdp-status" ng-model='formData.sdpStatus' required>
           <option value="Gk review request">Gk review request</option>
-          <option value="GK rewiev">GK rewiev</option>
+          <option value="GK review">GK review</option>
           <option value="GK Review Reject">GK Review Reject</option>
           <option value="Verification Request">Verification Request</option>
           <option value="Pre-test">Pre-test</option>

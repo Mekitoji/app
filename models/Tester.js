@@ -2,13 +2,17 @@ var mongoose = require('../libs/mongoose');
 var Schema = mongoose.Schema;
 
 var testerStorage = new Schema({
-  testCycles: {
-    type: Number
-  },
+
   replyTime: {
     type: Number
   },
-  testCycleReason: {
+  testCycle: {
+    type: Schema.ObjectId,
+    ref: 'TestCycle'
+  }
+});
+var testCycleStorage = new Schema({
+  testCycle: {
     type: Schema.ObjectId,
     ref: 'TestCycle'
   }

@@ -37,6 +37,10 @@ module.exports = mongoose.model('Apps', {
   resp: {
     type: String
   },
+  applicationId: {
+    type: String,
+    unique: true
+  },
   currentTester: {
     type: Schema.ObjectId,
     ref: 'Tester'
