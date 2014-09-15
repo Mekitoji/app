@@ -29,7 +29,8 @@ module.exports = mongoose.model('Apps', {
     type: String
   },
   testCycles: {
-    type: Number
+    type: Number,
+    default: 1
   },
   replyTime: {
     type: Number
@@ -40,10 +41,6 @@ module.exports = mongoose.model('Apps', {
   applicationId: {
     type: String,
     unique: true
-  },
-  currentTester: {
-    type: Schema.ObjectId,
-    ref: 'Tester'
   },
   outdated: {
     type: Boolean,

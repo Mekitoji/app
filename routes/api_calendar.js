@@ -72,10 +72,38 @@ module.exports = function (app) {
           res.json(data);
         });
       };
+
+      var coutReplyTime = function (appId, storage) {
+        var justL = 0,
+          withHiddenL = 0,
+          replyTime = 0;
+        for (var i = 0; i < storage.length; i++) {
+          if (storage[i].value === 'L' || storage[i].value === 'LL') {
+            withHiddenL++;
+          }
+          if (storage[i].value === 'L') {
+            justL++;
+          }
+        }
+        replyTime = withHiddenL / justL;
+        if (replyTime === Infinity || isNaN(replyTime)) {
+          replyTime = 0;
+        }
+        Apps.findById(appId, function (err, app) {
+          app.replyTime = replyTime;
+          app.save(function (err, data) {
+            if (err) throw err;
+          });
+        });
+      };
+
+
       for (var i = 0; i < cal.storage.length; i++) {
         if (cal.storage[i].fullDate == req.body.fullDate) {
           cal.storage[i].value = req.body.value;
           console.log('rewrite');
+          console.log(cal.appId);
+          coutReplyTime(cal.appId, cal.storage);
           saveCalendar();
           return false;
         }
@@ -87,6 +115,8 @@ module.exports = function (app) {
           value: req.body.value
         });
         console.log('push in new app');
+        console.log(cal.appId);
+        coutReplyTime(cal.appId, cal.storage);
         saveCalendar();
         return false;
       } else {
@@ -101,6 +131,8 @@ module.exports = function (app) {
             value: req.body.value
           });
           console.log('push new');
+          console.log(cal.appId);
+          coutReplyTime(cal.appId, cal.storage);
           saveCalendar();
           return false;
         }
