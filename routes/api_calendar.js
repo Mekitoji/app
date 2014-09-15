@@ -62,6 +62,8 @@ module.exports = function (app) {
       if (err) {
         res.send(err);
       }
+
+      //save calendar date in arr
       var saveCalendar = function () {
         cal.save(function (err, data) {
           if (err) {
