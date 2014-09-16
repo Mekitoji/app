@@ -98,7 +98,7 @@ module.exports = function (app) {
         res.send(err);
       // get and return all the users after you create another
       Apps.find({
-        appName: req.body.appName
+        applicationId: req.body.applicationId
       }, function (err, app) {
         if (err) res.send(err);
         //get our field

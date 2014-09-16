@@ -36,7 +36,7 @@ module.exports = function (app) {
             }, function (err, app) {
               if (err) res.send(err);
               Apps.find({
-                appName: obj.appName
+                applicationId: obj.appId
               }, function (err, app) {
                 if (err) res.send(err);
 

@@ -8,6 +8,7 @@ module.exports = function (app) {
       if (err) {
         res.send(err);
       }
+      console.log(app);
       Cal.populate(app, {
         path: 'appId'
       }, function (err, data) {

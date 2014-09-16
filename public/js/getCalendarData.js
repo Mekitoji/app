@@ -10,13 +10,18 @@ $.get('http://localhost:3000/api/calendar', function (data) {
   var storageOfDate = [];
   var appNameObj = {};
   var calendarId = {}; //calendarId
-
+  var arr = [];
   // var test = {};
   //Push data in array
   for (var i = 0; i < data.length; i++) {
 
     calendarId[data[i]._id] = data[i].appId._id; //calendarId
+    console.log(data[i]);
+    console.log(data[i]._id + ' = ' + data[i].appId._id);
+    // error
     appNameObj[data[i].appId._id] = data[i].appId.appName;
+    console.log(data[i].appId._id + ' = ' + data[i].appId.appName);
+    console.log(appNameObj[data[i].appId._id]);
     // storageOfDate.push(data[i].storage);
     var innerStorage = data[i].storage;
 
@@ -42,7 +47,9 @@ $.get('http://localhost:3000/api/calendar', function (data) {
 
   //create tr for each elem in data array
   $.each(appNameObj, function (i, appName) {
-    var tr = $('<tr>').addClass('appNameRow');
+    var tr = $('<tr>').addClass('appNameRow').css({
+      'height': '21px'
+    });
     $('<td>').html(appName).appendTo(tr);
     $('.inner-table-appName tbody').append(tr);
   });
