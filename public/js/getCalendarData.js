@@ -1,9 +1,9 @@
 // $(document).ready($('.inner-table-appName tbody'));
 
 var data_manual = {};
+var url = 'http://localhost:3000/api/calendar/';
 
-
-$.get('http://localhost:3000/api/calendar', function (data) {
+$.get(url, function (data) {
 
   console.log('data:');
   console.log(data);
@@ -134,7 +134,7 @@ $.get('http://localhost:3000/api/calendar', function (data) {
               }
               $.ajax({
                 type: 'PUT',
-                url: 'http://localhost:3000/api/calendar/' + classArr[1],
+                url: url + classArr[1],
                 data: {
                   value: newValue,
                   fullDate: classArr[0],
@@ -208,7 +208,7 @@ $.get('http://localhost:3000/api/calendar', function (data) {
               }
               $.ajax({
                 type: 'PUT',
-                url: 'http://localhost:3000/api/calendar/' + classArr[1],
+                url: url + classArr[1],
                 data: {
                   value: newValue,
                   fullDate: classArr[0],
@@ -285,7 +285,7 @@ $.get('http://localhost:3000/api/calendar', function (data) {
           }
           $.ajax({
             type: 'PUT',
-            url: 'http://localhost:3000/api/calendar/' + classArr[1],
+            url: url + classArr[1],
             data: {
               value: newValue,
               fullDate: classArr[0],
@@ -308,7 +308,7 @@ $.get('http://localhost:3000/api/calendar', function (data) {
 //fc-toolbar click event listener
 $('.fc-next-button, .fc-prev-button, .fc-today-button').click(function () {
   $('td.fc-day').ready(function () {
-    $.get('http://localhost:3000/api/calendar', function (data) {
+    $.get(url, function (data) {
 
       console.log('data:');
       console.log(data);
@@ -351,7 +351,9 @@ $('.fc-next-button, .fc-prev-button, .fc-today-button').click(function () {
       //create tr for each elem in data array
       $.each(appNameObj, function (i, appName) {
         var tr = $('<tr>').addClass('appNameRow');
-        $('<td>').html(appName).appendTo(tr);
+        $('<td>').html(appName).appendTo(tr).css({
+          'height': '21px'
+        });
         $('.inner-table-appName tbody').append(tr);
       });
 
@@ -438,7 +440,7 @@ $('.fc-next-button, .fc-prev-button, .fc-today-button').click(function () {
 
                   $.ajax({
                     type: 'PUT',
-                    url: 'http://localhost:3000/api/calendar/' + classArr[1],
+                    url: url + classArr[1],
                     data: {
                       value: newValue,
                       fullDate: classArr[0],
@@ -489,7 +491,7 @@ $('.fc-next-button, .fc-prev-button, .fc-today-button').click(function () {
                   }
                   $.ajax({
                     type: 'PUT',
-                    url: 'http://localhost:3000/api/calendar/' + classArr[1],
+                    url: url + classArr[1],
                     data: {
                       value: newValue,
                       fullDate: classArr[0],
@@ -546,7 +548,7 @@ $('.fc-next-button, .fc-prev-button, .fc-today-button').click(function () {
               }
               $.ajax({
                 type: 'PUT',
-                url: 'http://localhost:3000/api/calendar/' + classArr[1],
+                url: url + classArr[1],
                 data: {
                   value: newValue,
                   fullDate: classArr[0],
@@ -559,8 +561,6 @@ $('.fc-next-button, .fc-prev-button, .fc-today-button').click(function () {
         table.editableTableWidget({
           editor: $('<select><option value=\'H\' style="background-color:#B19CD9">H</option><option value=\'D\' style="background-color:green">D</option><option value=\'L\' style="background-color:orange">L</option><option value=\'LL\' style="background-color:orange"></option></select>')
         });
-
-
       });
       $('.fc-content-skeleton').remove();
     });
