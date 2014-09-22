@@ -18,4 +18,4 @@ var Calendar = new Schema({
   storage: [dataStorage]
 });
 
-module.exports = mongoose.model('Calendar', Calendar);
+module.exports = mongoose.model('approvedCalendar', Calendar);

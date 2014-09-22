@@ -110,7 +110,7 @@ angular.module('project', ['ngRoute', 'ngGrid'])
       "type": "select",
       "name": "Tv",
       "value": "COL_FIELD",
-      "values": ["Approve", "Reject", "Partial"]
+      "values": ["Approved", "Reject", "Partial"]
     },
     respProp: {
       "type": "select",
@@ -280,7 +280,7 @@ angular.module('project', ['ngRoute', 'ngGrid'])
       "type": "select",
       "name": "Tv",
       "value": "COL_FIELD",
-      "values": ["Approve", "Reject", "Partial"]
+      "values": ["Approved", "Reject", "Partial"]
     },
     respProp: {
       "type": "select",
@@ -504,46 +504,46 @@ angular.module('project', ['ngRoute', 'ngGrid'])
     }, {
       field: 'country',
       displayName: 'Country',
-      enableCellEdit: true,
+      enableCellEdit: false,
       editableCellTemplate: $scope.cellSelectEditableTemplateCountry,
     }, {
       field: 'applicationId',
       displayName: 'Application Id',
-      enableCellEdit: true
+      enableCellEdit: false
     }, {
       field: 'appName',
       displayName: 'Application name',
-      enableCellEdit: true
+      enableCellEdit: false
     }, {
       field: 'category',
       displayName: 'Category',
-      enableCellEdit: true,
+      enableCellEdit: false,
       editableCellTemplate: $scope.cellSelectEditableTemplateCategory
     }, {
       field: 'sdpStatus',
       displayName: 'SDP Status',
-      enableCellEdit: true,
+      enableCellEdit: false,
       editableCellTemplate: $scope.cellSelectEditableTemplateSdpStatus
     }, {
       field: 'updateTime',
       displayName: 'Update date',
       cellTemplate: '<div ng-class="{pink: currenDate-dateParse(row.getProperty(col.field))>604800000}"><div class="ngCellText">{{row.getProperty(col.field)|date:\'YYYY-MM-DD\'-1}}</div></div>',
-      enableCellEdit: true,
+      enableCellEdit: false,
       editableCellTemplate: $scope.cellSelectEditableTemplateUpdateTime
     }, {
       field: 'seller',
       displayName: 'Seller',
-      enableCellEdit: true
+      enableCellEdit: false
     }, {
       field: 'tv',
       displayName: 'Tv',
-      enableCellEdit: true,
+      enableCellEdit: false,
       editableCellTemplate: $scope.cellSelectEditableTemplateTv
     }, {
       field: 'currentStatus',
       displayName: 'Current status',
       cellTemplate: '<div ng-class="{green: row.getProperty(col.field)==\'Waiting for fix\',purple: row.getProperty(col.field)==\'Waiting for QA\',orange: row.getProperty(col.field)==\'Waiting for review\'}"><div class="ngCellText">{{row.getProperty(col.field)}}</div></div>',
-      enableCellEdit: true,
+      enableCellEdit: false,
       editableCellTemplate: $scope.cellSelectEditableTemplateCurrentStatus
 
     }, {
@@ -557,7 +557,7 @@ angular.module('project', ['ngRoute', 'ngGrid'])
     }, {
       field: 'resp',
       displayName: 'Resp',
-      enableCellEdit: true,
+      enableCellEdit: false,
       editableCellTemplate: $scope.cellSelectEditableTemplateResp
     }, ],
     showGroupPanel: true,
@@ -597,7 +597,7 @@ angular.module('project', ['ngRoute', 'ngGrid'])
       "type": "select",
       "name": "Tv",
       "value": "COL_FIELD",
-      "values": ["Approve", "Reject", "Partial"]
+      "values": ["Approved", "Reject", "Partial"]
     },
     respProp: {
       "type": "select",

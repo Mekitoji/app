@@ -1,5 +1,5 @@
 //var
-var addRowButton = document.getElementById('plus-row'),
+/*var addRowButton = document.getElementById('plus-row'),
   n = 1,
   g = 1,
   h = 1,
@@ -38,7 +38,7 @@ var addRow = function addRow() {
 
   j = ++j;
   h = ++h;
-}
+}*/
 
 /*var updateAppName = function updateAppName(j) {
   var appName = document.getElementsByClassName('app-name');
@@ -50,4 +50,4 @@ var addRow = function addRow() {
 
 
 //Listeners
-addRowButton.addEventListener('click', addRow);
+// addRowButton.addEventListener('click', addRow);

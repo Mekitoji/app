@@ -1,7 +1,10 @@
 var Apps = require('../models/gkbase');
+var ApprovedApps = require('../models/gkbaseApproved');
 var Cal = require('../models/calendar');
+var ApprovedCal = require('../models/calendarForApprovedApps');
 var ObjectId = require('mongoose').Types.ObjectId;
 var log = require('../libs/log');
+
 
 module.exports = function (app) {
 
@@ -42,16 +45,14 @@ module.exports = function (app) {
   //approved filter
   app.get('/api/gk/approved', function (req, res) {
     // use mongoose to get approved apps from the database
-    Apps.find(function (err, app) {
-      var approved = [];
-      // if there is an error retrieving, send the error. nothing after res.send(err) will execute
+    ApprovedApps.find(function (err, app) {
       if (err) res.send(err);
-      for (var i = 0; i < app.length; i++) {
-        if (app[i].tv === 'Approve' || app[i].tv === 'Partial') {
-          approved.push(app[i]);
-        }
-      }
-      res.json(approved); // return all users in JSON format
+      // for (var i = 0; i < app.length; i++) {
+      //   if (app[i].tv === 'Approve' || app[i].tv === 'Partial') {
+      //     approved.push(app[i]);
+      //   }
+      // }
+      res.json(app); // return all users in JSON format
       log.info(new Date() + '  - GET /API/GK/APPROVED');
 
     });
@@ -145,6 +146,47 @@ module.exports = function (app) {
 
   //update a user
   app.put('/api/gk/:app_id', function (req, res) {
+
+    //check if data is approved
+    //then delete in thisd db and save at new
+    var checkApproved = function (id) {
+
+      //for apps
+      Apps.findById(id, function (err, data) {
+        if (err) res.send(err);
+        ApprovedApps.create(data, function (err, apps) {
+          if (err) res.send(err);
+          apps.tv = 'Approved';
+          apps.currentStatus = 'Approved';
+          apps.save(function (err, data) {
+            if (err) res.send(err);
+            res.json(data);
+          });
+        });
+        Apps.findByIdAndRemove(id, function (err, data) {
+          if (err) res.send(err);
+        });
+      });
+      //for calendar
+      Cal.findOne({
+        'appId': id
+      }, function (err, cal) {
+        if (err) res.send(err);
+        console.log(cal);
+        ApprovedCal.create(cal, function (err, data) {
+          if (err) res.send(err);
+          data.save(function (err, data) {
+            if (err) res.send(err);
+          });
+        });
+        Cal.findOneAndRemove({
+          'appId': id
+        }, function (err, data) {
+          if (err) res.send(err);
+        });
+      });
+    };
+
     // use our bear model to find the bear we want
     Apps.findById(req.params.app_id, function (err, app) {
       if (err) res.send(err);
@@ -162,12 +204,14 @@ module.exports = function (app) {
       if (req.body.resp) app.resp = req.body.resp;
       if (req.body.outdated) app.outdated = req.body.outdated;
       if (req.body.applicationId) app.applicationId = req.body.applicationId;
-      // save the bear
-      app.save(function (err) {
-        if (err)
-          res.send(err);
-        res.json(app);
+      app.save(function (err, data) {
+        if (err) res.send(err);
+        res.json(data);
       });
+
+      if (req.body.tv === 'Approved') {
+        checkApproved(req.params.app_id);
+      }
     });
   });
   // application -------------------------------------------------------------

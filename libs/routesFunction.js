@@ -3,12 +3,13 @@ function redirectMain(req, res, next) {
 
   // if user is authenticated in the session, carry on 
   if (req.isAuthenticated()) {
-    if (req.user.local.group === 'root' || req.user.local.group === 'gk') {
-      res.locals.permission = 'root';
-    } else {
-      res.locals.permission = 'user';
-    }
-    console.log(res.permission);
+    // if (req.user.local.group === 'root' || req.user.local.group === 'gk') {
+    //   res.locals.permission = 'root';
+    // } else {
+    //   res.locals.permission = 'user';
+    // }
+    // console.log(res.permission);
+    // return next();
     return next();
   }
   // if they aren't redirect them to the home page
