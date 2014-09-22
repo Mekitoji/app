@@ -124,6 +124,18 @@ angular.module('project', ['ngRoute', 'ngGrid'])
       "value": "COL_FIELD",
       "values": ["Waiting for fix", "Waiting for review", "Waiting for QA", "Approved"]
     },
+    outdated: {
+      "type": "select",
+      "name": "outdated",
+      "value": "COL_FIELD",
+      "values": [true, false]
+    },
+    color: {
+      "type": "select",
+      "name": "color",
+      "value": "COL_FIELD",
+      "values": ['red', 'green', 'purple', 'orange']
+    },
 
   };
 
@@ -134,7 +146,9 @@ angular.module('project', ['ngRoute', 'ngGrid'])
   $scope.cellSelectEditableTemplateSdpStatus = '<select ng-class="\'colt\' + col.index" ng-input="COL_FIELD" ng-model="COL_FIELD" ng-options=" v for v in Options.sdpStatusProp.values" />';
   $scope.cellSelectEditableTemplateTv = '<select ng-class="\'colt\' + col.index" ng-input="COL_FIELD" ng-model="COL_FIELD" ng-options=" v for v in Options.tvProp.values" />';
   $scope.cellSelectEditableTemplateResp = '<select ng-class="\'colt\' + col.index" ng-input="COL_FIELD" ng-model="COL_FIELD" ng-options=" v for v in Options.respProp.values" />';
-  $scope.cellSelectEditableTemplateCurrentStatus = '<select ng-class="\'colt\' + col.index" ng-input="COL_FIELD" ng-model="COL_FIELD" ng-options=" v for v in Options.currentStatusProp.values" />';
+  $scope.cellSelectEditableTemplateCurrentStatus = '<input id=\'autocomplete\'  onfocus=\'$(this).autocomplete({source: ["Waiting for fix", "Waiting for review", "Waiting for QA", "Approved"],change:function(event,ui){$(this).val(ui.item.value)}});\' ng-class="\'colt\' + col.index" ng-input="COL_FIELD" ng-model="COL_FIELD" type="text" />';
+  $scope.cellSelectEditableTemplateOutdated = '<select  ng-class="\'colt\' + col.index" ng-input="COL_FIELD" ng-model="COL_FIELD" ng-options=" v for v in Options.outdated.values" />';
+  $scope.cellSelectEditableTemplateColor = '<select ng-class="\'colt\' + col.index" ng-input="COL_FIELD" ng-model="COL_FIELD" ng-options=" v for v in Options.color.values" />';
   $scope.cellSelectEditableTemplateUpdateTime = '<input ng-class="\'colt\' + col.index" ng-input="COL_FIELD" ng-model="COL_FIELD"  type="date" />';
 
   $scope.edit = false; //old value - delete?
@@ -154,11 +168,12 @@ angular.module('project', ['ngRoute', 'ngGrid'])
   $scope.$on('ngGridEventStartCellEdit', function (elm) {
     console.log(elm.targetScope);
     // elm.targetScope.col.cellClass = 'blue';
-    console.log(elm.targetScope.col.cellClass);
+    console.log(elm.targetScope.col);
 
   });
 
   $scope.$on('ngGridEventEndCellEdit', function (evt) {
+
     var currentObj = evt.targetScope.row.entity;
     console.log(currentObj); //debug
     // the underlying data bound to the row
@@ -227,9 +242,16 @@ angular.module('project', ['ngRoute', 'ngGrid'])
     }, {
       field: 'currentStatus',
       displayName: 'Current status',
-      cellTemplate: '<div ng-class="{green: row.getProperty(col.field)==\'Waiting for fix\' || \'Approved\',purple: row.getProperty(col.field)==\'Waiting for QA\',orange: row.getProperty(col.field)==\'Waiting for review\'}"><div class="ngCellText">{{row.getProperty(col.field)}}</div></div>',
+      cellTemplate: '<div style="background-color:{{row.entity.color}} " ><div style="color:white" class="ngCellText">{{row.getProperty(col.field)}}</div></div>',
       enableCellEdit: true,
       editableCellTemplate: $scope.cellSelectEditableTemplateCurrentStatus
+    }, {
+      field: 'color',
+      displayName: '#',
+      enableCellEdit: true,
+      cellTemplate: '<div style="background-color:{{row.entity.color}} "><div  class="ngCellText"></div></div>',
+      editableCellTemplate: $scope.cellSelectEditableTemplateColor,
+      width: '20px',
     }, {
       field: 'testCycles',
       displayName: 'Test Cycles',
@@ -243,6 +265,11 @@ angular.module('project', ['ngRoute', 'ngGrid'])
       displayName: 'Resp',
       enableCellEdit: true,
       editableCellTemplate: $scope.cellSelectEditableTemplateResp
+    }, {
+      field: 'outdated',
+      displayName: 'Outdated',
+      enableCellEdit: true,
+      editableCellTemplate: $scope.cellSelectEditableTemplateOutdated
     }, ],
     showGroupPanel: true,
     enableColumnResize: true,
@@ -294,6 +321,12 @@ angular.module('project', ['ngRoute', 'ngGrid'])
       "value": "COL_FIELD",
       "values": ["Waiting for fix", "Waiting for review", "Waiting for QA"]
     },
+    outdated: {
+      "type": "select",
+      "name": "outdated",
+      "value": "COL_FIELD",
+      "values": [true, false]
+    },
 
   };
 
@@ -303,6 +336,7 @@ angular.module('project', ['ngRoute', 'ngGrid'])
   $scope.cellSelectEditableTemplateTv = '<select ng-class="\'colt\' + col.index" ng-input="COL_FIELD" ng-model="COL_FIELD" ng-options=" v for v in Options.tvProp.values" ng-blur="updateEntity(row)" />';
   $scope.cellSelectEditableTemplateResp = '<select ng-class="\'colt\' + col.index" ng-input="COL_FIELD" ng-model="COL_FIELD" ng-options=" v for v in Options.respProp.values" ng-blur="updateEntity(row)" />';
   $scope.cellSelectEditableTemplateCurrentStatus = '<select ng-class="\'colt\' + col.index" ng-input="COL_FIELD" ng-model="COL_FIELD" ng-options=" v for v in Options.currentStatusProp.values" />';
+  $scope.cellSelectEditableTemplateOutdated = '<select ng-class="\'colt\' + col.index" ng-input="COL_FIELD" ng-model="COL_FIELD" ng-options=" v for v in Options.outdated.values" />';
   $scope.cellSelectEditableTemplateUpdateTime = '<input ng-class="\'colt\' + col.index" ng-input="COL_FIELD" ng-model="COL_FIELD"  type="date" />';
 
   $scope.edit = false;
@@ -401,6 +435,11 @@ angular.module('project', ['ngRoute', 'ngGrid'])
       displayName: 'Resp',
       enableCellEdit: true,
       editableCellTemplate: $scope.cellSelectEditableTemplateResp
+    }, {
+      field: 'outdated',
+      displayName: 'Outdated',
+      enableCellEdit: true,
+      editableCellTemplate: $scope.cellSelectEditableTemplateOutdated
     }, ],
     showGroupPanel: true,
     enableColumnResize: true,
@@ -611,6 +650,12 @@ angular.module('project', ['ngRoute', 'ngGrid'])
       "value": "COL_FIELD",
       "values": ["Waiting for fix", "Waiting for review", "Waiting for QA"]
     },
+    outdated: {
+      "type": "select",
+      "name": "outdated",
+      "value": "COL_FIELD",
+      "values": [true, false]
+    },
 
   };
 
@@ -620,6 +665,7 @@ angular.module('project', ['ngRoute', 'ngGrid'])
   $scope.cellSelectEditableTemplateTv = '<select ng-class="\'colt\' + col.index" ng-input="COL_FIELD" ng-model="COL_FIELD" ng-options=" v for v in Options.tvProp.values" ng-blur="updateEntity(row)" />';
   $scope.cellSelectEditableTemplateResp = '<select ng-class="\'colt\' + col.index" ng-input="COL_FIELD" ng-model="COL_FIELD" ng-options=" v for v in Options.respProp.values" ng-blur="updateEntity(row)" />';
   $scope.cellSelectEditableTemplateCurrentStatus = '<select ng-class="\'colt\' + col.index" ng-input="COL_FIELD" ng-model="COL_FIELD" ng-options=" v for v in Options.currentStatusProp.values" />';
+  $scope.cellSelectEditableTemplateOutdated = '<select ng-class="\'colt\' + col.index" ng-input="COL_FIELD" ng-model="COL_FIELD" ng-options=" v for v in Options.outdated.values" />';
   $scope.cellSelectEditableTemplateUpdateTime = '<input ng-class="\'colt\' + col.index" ng-input="COL_FIELD" ng-model="COL_FIELD"  type="date" />';
 
   $scope.edit = false;
@@ -721,6 +767,11 @@ angular.module('project', ['ngRoute', 'ngGrid'])
       displayName: 'Resp',
       enableCellEdit: true,
       editableCellTemplate: $scope.cellSelectEditableTemplateResp
+    }, {
+      field: 'outdated',
+      displayName: 'Outdated',
+      enableCellEdit: true,
+      editableCellTemplate: $scope.cellSelectEditableTemplateOutdated
     }, ],
     showGroupPanel: true,
     enableColumnResize: true,

@@ -6,7 +6,7 @@
     "start": "node ./bin/www"
   },
   "author": "Egorov Vladimir <mekitojizzz@gmail.com>",
-  "homepage": "https://github.com/Mekitoji/app",
+  "homepage": "https://github.com/Mekitoji/gkra",
   "repository": {
     "type": "git",
     "url": "git@github.com:Mekitoji/app.git"

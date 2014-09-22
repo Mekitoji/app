@@ -38,6 +38,9 @@ module.exports = mongoose.model('approvedApps', {
   resp: {
     type: String
   },
+  color: {
+    type: String
+  },
   applicationId: {
     type: String,
   },

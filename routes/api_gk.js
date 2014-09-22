@@ -33,7 +33,7 @@ module.exports = function (app) {
         res.send(err);
       }
       for (var i = 0; i < app.length; i++) {
-        if (app[i].tv === 'Reject') {
+        if (app[i].tv === 'Reject' && app[i].outdated === false) {
           rejected.push(app[i]);
         }
       }
@@ -93,7 +93,8 @@ module.exports = function (app) {
       replyTime: req.body.replyTime,
       resp: req.body.resp,
       outdated: req.body.outdated,
-      applicationId: req.body.applicationId
+      applicationId: req.body.applicationId,
+      color: req.body.color
     }, function (err, app) {
       if (err)
         res.send(err);
@@ -204,6 +205,7 @@ module.exports = function (app) {
       if (req.body.resp) app.resp = req.body.resp;
       if (req.body.outdated) app.outdated = req.body.outdated;
       if (req.body.applicationId) app.applicationId = req.body.applicationId;
+      if (req.body.color) app.color = req.body.color;
       app.save(function (err, data) {
         if (err) res.send(err);
         res.json(data);
