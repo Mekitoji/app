@@ -1,0 +1,24 @@
+* {
+  box-sizing: border-box;
+}
+
+.container>div{
+  display: inline-block;
+}
+
+#writeToWin {
+  margin-right: 20px;
+  left: 0;
+}
+#preview {
+  width: 500px;
+}
+textarea {
+   resize: none;
+}
+label {
+  margin-left: 20px;
+}
+#emailStorage>div{
+  margin-left:40px;
+}

@@ -22,10 +22,10 @@ module.exports = function (app) {
       _.each(tempArr, function (obj, num) {
 
         Apps.find({
-          appName: obj.appId,
+          applicationId: obj.appId,
         }, function (err, data) {
           if (err) res.send(err);
-          if (!data.length) {
+          if (data.length === 0) {
             Apps.create({
               appName: obj.appName,
               seller: obj.seller,
@@ -61,9 +61,9 @@ module.exports = function (app) {
               if (err) res.send(err);
               //put some data for update here
               app.appName = obj.appName;
-              app.sdpStatus = obj.sdpStatus;
+              app.sdpStatus = obj.appStatus;
               app.seller = obj.seller;
-              app.applicationId = obj.applicationId;
+              app.applicationId = obj.appId;
               // save the bear
               app.save(function (err) {
                 if (err)

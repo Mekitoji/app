@@ -22,4 +22,5 @@ module.exports = function (app, passport) {
   var api_calendar = require('./api_calendar')(app);
   var api_tester = require('./api_tester')(app);
   var getJson = require('./getJson')(app);
+  var postmail = require('./postmail')(app);
 };
