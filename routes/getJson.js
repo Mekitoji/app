@@ -1,5 +1,6 @@
 var _ = require('underscore');
 var Apps = require('../models/gkbase');
+var approvedApps = require('../models/gkbaseApproved');
 var Cal = require('../models/calendar');
 var log = require('../libs/log');
 
@@ -26,31 +27,68 @@ module.exports = function (app) {
         }, function (err, data) {
           if (err) res.send(err);
           if (data.length === 0) {
-            Apps.create({
-              appName: obj.appName,
-              seller: obj.seller,
-              sdpStatus: obj.appStatus,
-              testCycles: 1,
-              replyTime: 0,
+            approvedApps.findOne({
               applicationId: obj.appId
-            }, function (err, app) {
-              if (err) res.send(err);
-              Apps.find({
-                applicationId: obj.appId
-              }, function (err, app) {
-                if (err) res.send(err);
+            }, function (err, dataA) {
+              if (dataA) {
+                if (obj.appStatus !== 'App QA approved') {
+                  Apps.create({
+                    appName: obj.appName,
+                    seller: obj.seller,
+                    sdpStatus: obj.appStatus,
+                    testCycles: 1,
+                    replyTime: 0,
+                    applicationId: obj.appId
+                  }, function (err, app) {
+                    if (err) res.send(err);
+                    Apps.find({
+                      applicationId: obj.appId
+                    }, function (err, app) {
+                      if (err) res.send(err);
 
-                // create Calendar data with this appName
-                var cal = new Cal({
-                  appId: app[0]._id
-                });
-                cal.save(function (err, data) {
+                      // create Calendar data with this appName
+                      var cal = new Cal({
+                        appId: app[0]._id
+                      });
+                      cal.save(function (err, data) {
+                        if (err) res.send(err);
+                        res.json(data);
+                        log.info(new Date() + '  - POST /API/GK/' + data.appId);
+                      });
+                    });
+                  });
+                } else {
+
+                }
+              } else {
+                Apps.create({
+                  appName: obj.appName,
+                  seller: obj.seller,
+                  sdpStatus: obj.appStatus,
+                  testCycles: 1,
+                  replyTime: 0,
+                  applicationId: obj.appId
+                }, function (err, app) {
                   if (err) res.send(err);
-                  res.json(data);
-                  log.info(new Date() + '  - POST /API/GK/' + data.appId);
+                  Apps.find({
+                    applicationId: obj.appId
+                  }, function (err, app) {
+                    if (err) res.send(err);
+
+                    // create Calendar data with this appName
+                    var cal = new Cal({
+                      appId: app[0]._id
+                    });
+                    cal.save(function (err, data) {
+                      if (err) res.send(err);
+                      res.json(data);
+                      log.info(new Date() + '  - POST /API/GK/' + data.appId);
+                    });
+                  });
                 });
-              });
+              }
             });
+
 
             console.log(data);
           } else {
