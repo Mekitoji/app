@@ -1,13 +1,13 @@
-<!doctype html >
+<!doctype html ng-app='postmail'>
 <html>
 <head>
   <title>Post mail</title>
 
   <% include layout/head_main %>
-
+  <script src='js/postmail.js'></script>
   <link rel="stylesheet" href="css/postmail.css">
 </head>
-<body>
+<body ng-controller='post'>
     <% include layout/header %>
   <div class="container">
     <div><textarea name="changeText" id="writeToWin" cols="80" rows="30"></textarea></div>
