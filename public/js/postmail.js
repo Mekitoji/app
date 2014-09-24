@@ -43,8 +43,8 @@ angular.module('postmail', [])
 
   .success(function (data) {
     $scope.apps = data;
-    $scope.previewText = 'Dear Ted,In attachment you can find CIS Gate Keeper status report, and here I summarize those apps that are on App QA team.' +
-      '<style type="text/css">table, table th, table td{border:1px solid black}</style>  <table><tr><th><b>COUNTRY</b></th><th><b>APP</b></th><th><b>STATUS</b></th><th><b>Update Time</b></th><th><b>SELLER</b></th><th><b>Comments</b></th></tr>';
+    $scope.previewText = 'Dear Ted,<br />Here I summarize those apps that are on App QA team.' +
+      '<style type="text/css">table, table th, table td{border:1px solid black}</style> <br /> <br /> <table cellspacing=\'0\' cellpadding=\'0\'><tr><th><b>COUNTRY</b></th><th><b>APP</b></th><th><b>STATUS</b></th><th><b>Update Time</b></th><th><b>SELLER</b></th><th><b>Comments</b></th></tr>';
     _.each($scope.apps, function (num) {
       _.each(num, function (data, key) {
 
@@ -60,7 +60,7 @@ angular.module('postmail', [])
       });
     });
 
-    $scope.previewText += "</table>Here I summarize those apps that are on CIS team. <br /><table><tr><th><b>COUNTRY</b></th><th><b>APP</b></th><th><b>STATUS</b></th><th><b>Update Time</b></th><th><b>SELLER</b></th><th><b>Comments</b></th></tr>";
+    $scope.previewText += "</table><br />Here I summarize those apps that are on CIS team. <br /><br /><table><tr><th><b>COUNTRY</b></th><th><b>APP</b></th><th><b>STATUS</b></th><th><b>Update Time</b></th><th><b>SELLER</b></th><th><b>Comments</b></th></tr>";
 
     _.each($scope.apps, function (num) {
       _.each(num, function (data, key) {
@@ -88,7 +88,10 @@ angular.module('postmail', [])
       console.log($scope.previewText);
       mail.post({
         "text": $scope.previewText
-      });
+      })
+
+      .success(alert("Mail sent successfully!"));
+
     };
   });
 });
