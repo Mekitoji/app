@@ -1,3 +1,5 @@
+var nodemailer = require('nodemailer');
+
 module.exports = function (app) {
   app.get('/postmail', function (req, res) {
     if (req.user) {
@@ -17,9 +19,19 @@ module.exports = function (app) {
         }
       });
     }
+
+
+
   });
 
   app.post('/postmail', function (req, res) {
-
+    console.log(req.body.text);
+    var transporter = nodemailer.createTransport();
+    transporter.sendMail({
+      from: 'sender@address',
+      to: 'receiver@address',
+      subject: 'Test',
+      html: req.body.text,
+    });
   });
 };
