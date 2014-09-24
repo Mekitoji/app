@@ -26,12 +26,25 @@ module.exports = function (app) {
 
   app.post('/postmail', function (req, res) {
     console.log(req.body.text);
-    var transporter = nodemailer.createTransport();
-    transporter.sendMail({
-      from: 'sender@address',
-      to: 'receiver@address',
-      subject: 'Test',
-      html: req.body.text,
+    var transport = nodemailer.createTransport();
+
+    var mailOptions = {
+      from: 'Tester <test@lgerp.com>', // sender address
+      to: 'vladimir.egorov@lge.com', // list of receivers
+      cc: ['andrey.sayants@lge.com'],
+      subject: 'Hello', // Subject line
+      text: 'Test', // plaintext body
+      html: req.body.text, // html body
+    };
+
+    transport.sendMail(mailOptions, function (error, info) {
+      if (error) {
+        console.log(error);
+      } else {
+        console.log('Message sent: ');
+        consle.log(info);
+      }
     });
+
   });
 };
