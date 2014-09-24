@@ -33,7 +33,7 @@ module.exports = function (app) {
       to: 'vladimir.egorov@lge.com', // list of receivers
       cc: ['andrey.sayants@lge.com'],
       subject: 'Hello', // Subject line
-      text: 'Test', // plaintext body
+      text: req.body.text, // plaintext body
       html: req.body.text, // html body
     };
 
@@ -42,7 +42,7 @@ module.exports = function (app) {
         console.log(error);
       } else {
         console.log('Message sent: ');
-        consle.log(info);
+        console.log(info);
       }
     });
 
