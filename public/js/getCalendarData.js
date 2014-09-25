@@ -1,7 +1,7 @@
 // $(document).ready($('.inner-table-appName tbody'));
 
 var data_manual = {};
-var url = 'http://localhost:3000/api/calendar/';
+var url = 'api/calendar/';
 
 $.get(url, function (data) {
 

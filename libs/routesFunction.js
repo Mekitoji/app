@@ -13,10 +13,23 @@ function redirectMain(req, res, next) {
     return next();
   }
   // if they aren't redirect them to the home page
-  res.redirect('/');
+  res.redirect('/401');
 }
 
+//check user group 
+function checkPermission(req, res, next) {
+  if (req.isAuthenticated()) {
+    if (req.user.local.group === 'root' || req.user.local.group === 'gk') {
+      res.json({
+        'permission': 'root'
+      });
+    } else {
 
+    }
+    return next();
+  }
+  res.redirect('/401');
+}
 // in libs or middleware&
 function alreadyLoginIn(req, res, next) {
   if (req.isAuthenticated()) {
@@ -28,3 +41,4 @@ function alreadyLoginIn(req, res, next) {
 
 exports.redirectMain = redirectMain;
 exports.alreadyLoginIn = alreadyLoginIn;
+exports.checkPermission = checkPermission;

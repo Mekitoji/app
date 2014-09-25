@@ -99,7 +99,7 @@ module.exports = function (passport) {
               var newUser = new User();
 
               newUser.local.email = email;
-              newUser.local.username.first = req.body.firstName
+              newUser.local.username.first = req.body.firstName;
               newUser.local.username.last = req.body.lastName;
               newUser.local.password = newUser.generateHash(password);
 

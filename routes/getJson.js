@@ -11,7 +11,7 @@ module.exports = function (app) {
     var headerArr2 = ['appId', 'appVer', 'Categoty', 'FileType', 'appName', 'country', 'price', 'updateDate', 'appStatus', 'gkReview', 'addTest'];
     var tempArr = [];
     //req.body.data
-    console.log(req.body);
+    // console.log(req.body);
 
     if (req.body.table_caption === 'QA Request Mgt. List') {
       var objectX = JSON.parse(req.body.data);
@@ -19,13 +19,15 @@ module.exports = function (app) {
       _.each(objectX, function (arr) {
         tempArr.push(_.object(headerArr, arr));
       });
-      console.log(tempArr);
+      // console.log(tempArr);
       _.each(tempArr, function (obj, num) {
 
         Apps.find({
           applicationId: obj.appId,
         }, function (err, data) {
-          if (err) res.send(err);
+          if (err) res.json({
+            "result": err
+          });
           if (data.length === 0) {
             approvedApps.findOne({
               applicationId: obj.appId
@@ -40,18 +42,27 @@ module.exports = function (app) {
                     replyTime: 0,
                     applicationId: obj.appId
                   }, function (err, app) {
-                    if (err) res.send(err);
+                    if (err) res.json({
+                      "result": err
+                    });
                     Apps.find({
                       applicationId: obj.appId
                     }, function (err, app) {
-                      if (err) res.send(err);
+                      if (err) res.json({
+                        "result": err
+                      });
 
                       // create Calendar data with this appName
                       var cal = new Cal({
                         appId: app[0]._id
                       });
                       cal.save(function (err, data) {
-                        if (err) res.send(err);
+                        if (err) res.send({
+                          "result": err
+                        });
+                        res.json({
+                          "result": true
+                        });
                         res.json(data);
                         log.info(new Date() + '  - POST /API/GK/' + data.appId);
                       });
@@ -69,18 +80,27 @@ module.exports = function (app) {
                   replyTime: 0,
                   applicationId: obj.appId
                 }, function (err, app) {
-                  if (err) res.send(err);
+                  if (err) res.json({
+                    "result": err
+                  });
                   Apps.find({
                     applicationId: obj.appId
                   }, function (err, app) {
-                    if (err) res.send(err);
+                    if (err) res.json({
+                      "result": err
+                    });
 
                     // create Calendar data with this appName
                     var cal = new Cal({
                       appId: app[0]._id
                     });
                     cal.save(function (err, data) {
-                      if (err) res.send(err);
+                      if (err) res.json({
+                        "result": err
+                      });
+                      res.json({
+                        "result": true
+                      });
                       res.json(data);
                       log.info(new Date() + '  - POST /API/GK/' + data.appId);
                     });
@@ -90,13 +110,15 @@ module.exports = function (app) {
             });
 
 
-            console.log(data);
+            // console.log(data);
           } else {
             /********************************NEED CHECK IT********************************/
             Apps.findOne({
               applicationId: obj.appId
             }, function (err, app) {
-              if (err) res.send(err);
+              if (err) res.json({
+                "result": err
+              });
               //put some data for update here
               app.appName = obj.appName;
               app.sdpStatus = obj.appStatus;
@@ -105,7 +127,12 @@ module.exports = function (app) {
               // save the bear
               app.save(function (err) {
                 if (err)
-                  res.send(err);
+                  res.json({
+                    "result": err
+                  });
+                res.json({
+                  "result": true
+                });
                 res.json(app);
               });
             });
@@ -130,7 +157,9 @@ module.exports = function (app) {
             applicationId: obj.appId
           },
           function (err, app) {
-            if (err) res.send(err);
+            if (err) res.json({
+              "result": err
+            });
             // console.log(app);
             //put some data for update here
             // app.appName = obj.appName;
@@ -141,8 +170,8 @@ module.exports = function (app) {
 
               return false;
             }
-            console.log(reg.exec(obj.country)[1]);
-            console.log(new Date(obj.updateDate));
+            // console.log(reg.exec(obj.country)[1]);
+            // console.log(new Date(obj.updateDate));
             // console.log(obj.appId);
 
             app.country = reg.exec(obj.country)[1];
@@ -150,7 +179,12 @@ module.exports = function (app) {
 
             app.save(function (err) {
               if (err)
-                res.send(err);
+                res.json({
+                  "result": err
+                });
+              res.json({
+                "result": true
+              });
               res.json(app);
             });
 
@@ -161,10 +195,10 @@ module.exports = function (app) {
 
     }
 
-    if (true) {
-      res.json({
-        "result": true
-      });
-    }
+    // if (true) {
+    //   res.json({
+    //     "result": true
+    //   });
+    // }
   });
 };
