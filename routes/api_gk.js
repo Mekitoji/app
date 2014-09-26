@@ -199,13 +199,30 @@ module.exports = function (app) {
       if (req.body.updateTime) app.updateTime = req.body.updateTime;
       if (req.body.seller) app.seller = req.body.seller;
       if (req.body.tv) app.tv = req.body.tv;
-      if (req.body.currentStatus) app.currentStatus = req.body.currentStatus;
       if (req.body.testCycles) app.testCycles = req.body.testCycles;
       if (req.body.replyTime) app.replyTime = req.body.replyTime;
       if (req.body.resp) app.resp = req.body.resp;
       if (req.body.outdated) app.outdated = req.body.outdated;
       if (req.body.applicationId) app.applicationId = req.body.applicationId;
       if (req.body.color) app.color = req.body.color;
+      //check and change with preload Status
+      console.log(req.body);
+      if (req.body.currentStatus) {
+        app.currentStatus = req.body.currentStatus;
+        if (req.body.currentStatus === 'Waiting for fix' || req.body.currentStatus === 'Approved') {
+          console.log('here');
+          app.color = 'green';
+          req.body.color = 'green';
+        } else if (req.body.currentStatus === 'Waiting for review') {
+          app.color = 'orange';
+          req.body.color = 'orange';
+
+        } else if (req.body.currentStatus === 'Waiting for QA') {
+          app.color = 'purple';
+          req.body.color = 'purple';
+          console.log('here2');
+        }
+      }
       app.save(function (err, data) {
         if (err) res.send(err);
         res.json(data);

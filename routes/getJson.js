@@ -61,9 +61,10 @@ module.exports = function (app) {
                           "result": err
                         });
                         res.json({
-                          "result": true
+                          "result": true,
+                          "data": data
                         });
-                        res.json(data);
+
                         log.info(new Date() + '  - POST /API/GK/' + data.appId);
                       });
                     });
@@ -99,9 +100,9 @@ module.exports = function (app) {
                         "result": err
                       });
                       res.json({
-                        "result": true
+                        "result": true,
+                        "data": data
                       });
-                      res.json(data);
                       log.info(new Date() + '  - POST /API/GK/' + data.appId);
                     });
                   });
@@ -131,9 +132,9 @@ module.exports = function (app) {
                     "result": err
                   });
                 res.json({
-                  "result": true
+                  "result": true,
+                  "data": app
                 });
-                res.json(app);
               });
             });
           }
@@ -183,9 +184,9 @@ module.exports = function (app) {
                   "result": err
                 });
               res.json({
-                "result": true
+                "result": true,
+                "data": app
               });
-              res.json(app);
             });
 
           });
@@ -195,10 +196,5 @@ module.exports = function (app) {
 
     }
 
-    // if (true) {
-    //   res.json({
-    //     "result": true
-    //   });
-    // }
   });
 };

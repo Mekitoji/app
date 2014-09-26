@@ -1,11 +1,11 @@
 angular.module('project', ['ngRoute', 'ngGrid'])
 
-.directive('autoComplete', function($timeout) {
-  return function($scope, elem) {
+.directive('autoComplete', function ($timeout) {
+  return function ($scope, elem) {
     elem.autocomplete({
       source: ["Waiting for fix", "Waiting for review", "Waiting for QA", "Waiting for answer", "Waiting for check", "Approved"],
-      select: function() {
-        $timeout(function() {
+      select: function () {
+        $timeout(function () {
           elem.trigger('input');
         }, 0);
       }
@@ -14,49 +14,49 @@ angular.module('project', ['ngRoute', 'ngGrid'])
 })
 
 //Apps api
-.factory('Apps', function($http) {
+.factory('Apps', function ($http) {
   return {
-    get: function() {
+    get: function () {
       return $http.get('/api/gk/');
     },
-    getApproved: function() {
+    getApproved: function () {
       return $http.get('/api/gk/approved');
     },
-    getRejected: function() {
+    getRejected: function () {
       return $http.get('/api/gk/rejected');
     },
-    getOutdated: function() {
+    getOutdated: function () {
       return $http.get('/api/gk/outdated');
     },
-    create: function(appData) {
+    create: function (appData) {
       return $http.post('/api/gk', appData);
     },
-    update: function(id, appData) {
+    update: function (id, appData) {
       return $http.put('/api/gk/' + id, appData);
     },
-    delete: function(id) {
+    delete: function (id) {
       return $http.delete('api/gk/' + id);
     }
   };
 })
 
 
-.factory('Tester', function($http) {
+.factory('Tester', function ($http) {
   return {
-    get: function() {
+    get: function () {
       return $http.get('/api/tester');
     },
     // post: function() {
     //   return $http.post('/api/tester');
     // },
-    update: function(id, testerData) {
+    update: function (id, testerData) {
       return $http.put('/api/tester/' + id, testerData);
     },
   };
 })
 
 //routes
-.config(function($routeProvider) {
+.config(function ($routeProvider) {
   $routeProvider
     .when('/', {
       controller: 'ListCtrl',
@@ -96,7 +96,7 @@ angular.module('project', ['ngRoute', 'ngGrid'])
 
 })
 
-.controller('ListCtrl', function($scope, $http, Apps) {
+.controller('ListCtrl', function ($scope, $http, Apps) {
 
   //Ng-options object Select->Option
   //watch part with  template
@@ -168,24 +168,27 @@ angular.module('project', ['ngRoute', 'ngGrid'])
 
   //get list of apps
   Apps.get()
-    .success(function(data) {
+    .success(function (data) {
       $scope.apps = data;
+      $scope.$watch('apps', function (newVal, old) {
+        old = newVal;
+      });
     });
 
-  $scope.getRowIndex = function() {
+  $scope.getRowIndex = function () {
     var index = this.row.rowIndex;
     // $scope.gridOptions.selectItem(index, false);
     return index + 1;
   };
 
-  $scope.$on('ngGridEventStartCellEdit', function(elm) {
+  $scope.$on('ngGridEventStartCellEdit', function (elm) {
     console.log(elm.targetScope);
     // elm.targetScope.col.cellClass = 'blue';
     console.log(elm.targetScope.col);
 
   });
 
-  $scope.$on('ngGridEventEndCellEdit', function(evt) {
+  $scope.$on('ngGridEventEndCellEdit', function (evt) {
 
     var currentObj = evt.targetScope.row.entity;
     console.log(currentObj); //debug
@@ -196,12 +199,12 @@ angular.module('project', ['ngRoute', 'ngGrid'])
     //update database value
     var projectUrl = currentObj._id;
     Apps.update(projectUrl, currentObj)
-      .success(function(data) {
+      .success(function (data) {
         $scope.formData = data;
       });
   });
 
-  $scope.dateParse = function(data) {
+  $scope.dateParse = function (data) {
     return Date.parse(data);
   };
 
@@ -212,25 +215,28 @@ angular.module('project', ['ngRoute', 'ngGrid'])
     data: 'apps',
     columnDefs: [{
       displayName: 'No',
-      cellTemplate: '<div ><div >{{getRowIndex()}}</div></div>'
+      cellTemplate: '<div ><div >{{getRowIndex()}}</div></div>',
+      width: 30
+    }, {
+      field: 'applicationId',
+      displayName: 'Application Id',
+      enableCellEdit: false
     }, {
       field: 'country',
       displayName: 'Country',
       enableCellEdit: true,
       editableCellTemplate: $scope.cellSelectEditableTemplateCountry,
+      width: 70
     }, {
       field: 'appName',
       displayName: 'Application name',
-      enableCellEdit: true
-    }, {
-      field: 'applicationId',
-      displayName: 'Application Id',
-      enableCellEdit: true
+      enableCellEdit: true,
     }, {
       field: 'category',
       displayName: 'Category',
       enableCellEdit: true,
-      editableCellTemplate: $scope.cellSelectEditableTemplateCategory
+      editableCellTemplate: $scope.cellSelectEditableTemplateCategory,
+      width: 100
     }, {
       field: 'sdpStatus',
       displayName: 'SDP Status',
@@ -242,7 +248,8 @@ angular.module('project', ['ngRoute', 'ngGrid'])
       //604800000 ms = 7day
       cellTemplate: '<div ng-class="{pink: currenDate-dateParse(row.getProperty(col.field))>604800000}"><div class="ngCellText">{{row.getProperty(col.field)|date:\'YYYY-MM-DD\'-1}}</div></div>',
       enableCellEdit: true,
-      editableCellTemplate: $scope.cellSelectEditableTemplateUpdateTime
+      editableCellTemplate: $scope.cellSelectEditableTemplateUpdateTime,
+      width: 100
     }, {
       field: 'seller',
       displayName: 'Seller',
@@ -251,13 +258,15 @@ angular.module('project', ['ngRoute', 'ngGrid'])
       field: 'tv',
       displayName: 'Tv',
       enableCellEdit: true,
-      editableCellTemplate: $scope.cellSelectEditableTemplateTv
+      editableCellTemplate: $scope.cellSelectEditableTemplateTv,
+      width: 80
     }, {
       field: 'currentStatus',
       displayName: 'Current status',
-      cellTemplate: '<div style="background-color:{{row.entity.color}} " ><div style="color:white" class="ngCellText">{{row.getProperty(col.field)}}</div></div>',
+      cellTemplate: '<div style="background-color:{{row.entity.color}} " ><div ng-class="{\'purple\': row.entity.currentStatus == \'Waiting for QA\',\'orange\':row.entity.currentStatus==\'Waiting for review\'}",\'green\':row.entity.currentStatus==\'Waiting for fix\'}" style="color:black" class="ngCellText">{{row.getProperty(col.field)}}</div></div>',
       enableCellEdit: true,
-      editableCellTemplate: $scope.cellSelectEditableTemplateCurrentStatus
+      editableCellTemplate: $scope.cellSelectEditableTemplateCurrentStatus,
+      width: 125
     }, {
       field: 'color',
       displayName: '#',
@@ -268,25 +277,31 @@ angular.module('project', ['ngRoute', 'ngGrid'])
     }, {
       field: 'testCycles',
       displayName: 'Test Cycles',
-      enableCellEdit: false
+      enableCellEdit: false,
+      width: 90
     }, {
       field: 'replyTime',
       displayName: 'Reply Time',
-      enableCellEdit: false
+      enableCellEdit: false,
+      width: 85
     }, {
       field: 'resp',
       displayName: 'Resp',
+      cellTemplate: '<div ng-class="{\'green\': row.entity.resp == \'VE\',\'red\': row.entity.resp == \'AS\',\'yellow\': row.entity.resp == \'YK\',\'blue\': row.entity.resp == \'DP\' }" " ><div class="ngCellText">{{row.getProperty(col.field)}}</div></div>',
       enableCellEdit: true,
-      editableCellTemplate: $scope.cellSelectEditableTemplateResp
+      editableCellTemplate: $scope.cellSelectEditableTemplateResp,
+      width: 50
     }, {
       field: 'outdated',
       displayName: 'Outdated',
       enableCellEdit: true,
-      editableCellTemplate: $scope.cellSelectEditableTemplateOutdated
+      editableCellTemplate: $scope.cellSelectEditableTemplateOutdated,
+      width: 75
     }, ],
     showGroupPanel: true,
     enableColumnResize: true,
     showFilter: true,
+    enableRowSelection: false,
     showFooter: true,
     filterOptions: {
       filterText: "",
@@ -295,7 +310,7 @@ angular.module('project', ['ngRoute', 'ngGrid'])
   };
 })
 
-.controller('outdatedListCtrl', function($scope, $http, Apps) {
+.controller('outdatedListCtrl', function ($scope, $http, Apps) {
 
   $scope.Options = {
     countryProp: {
@@ -363,17 +378,17 @@ angular.module('project', ['ngRoute', 'ngGrid'])
 
   Apps.getOutdated()
 
-  .success(function(data) {
+  .success(function (data) {
     $scope.apps = data;
   });
 
-  $scope.getRowIndex = function() {
+  $scope.getRowIndex = function () {
     var index = this.row.rowIndex;
     // $scope.gridOptions.selectItem(index, false);
     return index + 1;
   };
 
-  $scope.$on('ngGridEventEndCellEdit', function(evt) {
+  $scope.$on('ngGridEventEndCellEdit', function (evt) {
     var currentObj = evt.targetScope.row.entity;
     console.log(currentObj); //debug
     // the underlying data bound to the row
@@ -383,12 +398,12 @@ angular.module('project', ['ngRoute', 'ngGrid'])
     //update database value
     var projectUrl = currentObj._id;
     Apps.update(projectUrl, currentObj)
-      .success(function(data) {
+      .success(function (data) {
         $scope.formData = data;
       });
   });
 
-  $scope.dateParse = function(data) {
+  $scope.dateParse = function (data) {
     return Date.parse(data);
   };
   $scope.currenDate = Date.now();
@@ -397,25 +412,28 @@ angular.module('project', ['ngRoute', 'ngGrid'])
     data: 'apps',
     columnDefs: [{
       displayName: 'No',
-      cellTemplate: '<div ><div >{{getRowIndex()}}</div></div>'
+      cellTemplate: '<div ><div >{{getRowIndex()}}</div></div>',
+      width: 30
+    }, {
+      field: 'applicationId',
+      displayName: 'Application Id',
+      enableCellEdit: false
     }, {
       field: 'country',
       displayName: 'Country',
       enableCellEdit: true,
       editableCellTemplate: $scope.cellSelectEditableTemplateCountry,
-    }, {
-      field: 'applicationId',
-      displayName: 'Application Id',
-      enableCellEdit: true
+      width: 70
     }, {
       field: 'appName',
       displayName: 'Application name',
-      enableCellEdit: true
+      enableCellEdit: true,
     }, {
       field: 'category',
       displayName: 'Category',
       enableCellEdit: true,
-      editableCellTemplate: $scope.cellSelectEditableTemplateCategory
+      editableCellTemplate: $scope.cellSelectEditableTemplateCategory,
+      width: 100
     }, {
       field: 'sdpStatus',
       displayName: 'SDP Status',
@@ -424,9 +442,11 @@ angular.module('project', ['ngRoute', 'ngGrid'])
     }, {
       field: 'updateTime',
       displayName: 'Update date',
+      //604800000 ms = 7day
       cellTemplate: '<div ng-class="{pink: currenDate-dateParse(row.getProperty(col.field))>604800000}"><div class="ngCellText">{{row.getProperty(col.field)|date:\'YYYY-MM-DD\'-1}}</div></div>',
       enableCellEdit: true,
-      editableCellTemplate: $scope.cellSelectEditableTemplateUpdateTime
+      editableCellTemplate: $scope.cellSelectEditableTemplateUpdateTime,
+      width: 100
     }, {
       field: 'seller',
       displayName: 'Seller',
@@ -435,13 +455,15 @@ angular.module('project', ['ngRoute', 'ngGrid'])
       field: 'tv',
       displayName: 'Tv',
       enableCellEdit: true,
-      editableCellTemplate: $scope.cellSelectEditableTemplateTv
+      editableCellTemplate: $scope.cellSelectEditableTemplateTv,
+      width: 80
     }, {
       field: 'currentStatus',
       displayName: 'Current status',
-      cellTemplate: '<div style="background-color:{{row.entity.color}} " ><div style="color:white" class="ngCellText">{{row.getProperty(col.field)}}</div></div>',
+      cellTemplate: '<div style="background-color:{{row.entity.color}} " ><div ng-class="{\'purple\': row.entity.currentStatus == \'Waiting for QA\',\'orange\':row.entity.currentStatus==\'Waiting for review\'}",\'green\':row.entity.currentStatus==\'Waiting for fix\'}" style="color:black" class="ngCellText">{{row.getProperty(col.field)}}</div></div>',
       enableCellEdit: true,
-      editableCellTemplate: $scope.cellSelectEditableTemplateCurrentStatus
+      editableCellTemplate: $scope.cellSelectEditableTemplateCurrentStatus,
+      width: 125
     }, {
       field: 'color',
       displayName: '#',
@@ -452,26 +474,32 @@ angular.module('project', ['ngRoute', 'ngGrid'])
     }, {
       field: 'testCycles',
       displayName: 'Test Cycles',
-      enableCellEdit: false
+      enableCellEdit: false,
+      width: 90
     }, {
       field: 'replyTime',
       displayName: 'Reply Time',
-      enableCellEdit: false
+      enableCellEdit: false,
+      width: 85
     }, {
       field: 'resp',
       displayName: 'Resp',
+      cellTemplate: '<div ng-class="{\'green\': row.entity.resp == \'VE\',\'red\': row.entity.resp == \'AS\',\'yellow\': row.entity.resp == \'YK\',\'blue\': row.entity.resp == \'DP\' }" " ><div class="ngCellText">{{row.getProperty(col.field)}}</div></div>',
       enableCellEdit: true,
-      editableCellTemplate: $scope.cellSelectEditableTemplateResp
+      editableCellTemplate: $scope.cellSelectEditableTemplateResp,
+      width: 50
     }, {
       field: 'outdated',
       displayName: 'Outdated',
       enableCellEdit: true,
-      editableCellTemplate: $scope.cellSelectEditableTemplateOutdated
+      editableCellTemplate: $scope.cellSelectEditableTemplateOutdated,
+      width: 75
     }, ],
     showGroupPanel: true,
     enableColumnResize: true,
     showFilter: true,
     showFooter: true,
+    enableRowSelection: false,
     filterOptions: {
       filterText: "",
       useExternalFilter: false
@@ -479,7 +507,7 @@ angular.module('project', ['ngRoute', 'ngGrid'])
   };
 })
 
-.controller('approvedListCtrl', function($scope, $http, Apps) {
+.controller('approvedListCtrl', function ($scope, $http, Apps) {
 
   $scope.Options = {
     countryProp: {
@@ -537,17 +565,17 @@ angular.module('project', ['ngRoute', 'ngGrid'])
   $scope.edit = false;
 
   Apps.getApproved()
-    .success(function(data) {
+    .success(function (data) {
       $scope.apps = data;
     });
 
-  $scope.getRowIndex = function() {
+  $scope.getRowIndex = function () {
     var index = this.row.rowIndex;
     // $scope.gridOptions.selectItem(index, false);
     return index + 1;
   };
 
-  $scope.$on('ngGridEventEndCellEdit', function(evt) {
+  $scope.$on('ngGridEventEndCellEdit', function (evt) {
     var currentObj = evt.targetScope.row.entity;
     console.log(currentObj); //debug
     // the underlying data bound to the row
@@ -557,12 +585,12 @@ angular.module('project', ['ngRoute', 'ngGrid'])
     //update database value
     var projectUrl = currentObj._id;
     Apps.update(projectUrl, currentObj)
-      .success(function(data) {
+      .success(function (data) {
         $scope.formData = data;
       });
   });
 
-  $scope.dateParse = function(data) {
+  $scope.dateParse = function (data) {
     return Date.parse(data);
   };
 
@@ -572,25 +600,28 @@ angular.module('project', ['ngRoute', 'ngGrid'])
     data: 'apps',
     columnDefs: [{
       displayName: 'No',
-      cellTemplate: '<div ><div >{{getRowIndex()}}</div></div>'
-    }, {
-      field: 'country',
-      displayName: 'Country',
-      enableCellEdit: false,
-      editableCellTemplate: $scope.cellSelectEditableTemplateCountry,
+      cellTemplate: '<div ><div >{{getRowIndex()}}</div></div>',
+      width: 30
     }, {
       field: 'applicationId',
       displayName: 'Application Id',
       enableCellEdit: false
     }, {
+      field: 'country',
+      displayName: 'Country',
+      enableCellEdit: false,
+      editableCellTemplate: $scope.cellSelectEditableTemplateCountry,
+      width: 70
+    }, {
       field: 'appName',
       displayName: 'Application name',
-      enableCellEdit: false
+      enableCellEdit: false,
     }, {
       field: 'category',
       displayName: 'Category',
       enableCellEdit: false,
-      editableCellTemplate: $scope.cellSelectEditableTemplateCategory
+      editableCellTemplate: $scope.cellSelectEditableTemplateCategory,
+      width: 100
     }, {
       field: 'sdpStatus',
       displayName: 'SDP Status',
@@ -599,9 +630,11 @@ angular.module('project', ['ngRoute', 'ngGrid'])
     }, {
       field: 'updateTime',
       displayName: 'Update date',
+      //604800000 ms = 7day
       cellTemplate: '<div ng-class="{pink: currenDate-dateParse(row.getProperty(col.field))>604800000}"><div class="ngCellText">{{row.getProperty(col.field)|date:\'YYYY-MM-DD\'-1}}</div></div>',
       enableCellEdit: false,
-      editableCellTemplate: $scope.cellSelectEditableTemplateUpdateTime
+      editableCellTemplate: $scope.cellSelectEditableTemplateUpdateTime,
+      width: 100
     }, {
       field: 'seller',
       displayName: 'Seller',
@@ -610,32 +643,45 @@ angular.module('project', ['ngRoute', 'ngGrid'])
       field: 'tv',
       displayName: 'Tv',
       enableCellEdit: false,
-      editableCellTemplate: $scope.cellSelectEditableTemplateTv
+      editableCellTemplate: $scope.cellSelectEditableTemplateTv,
+      width: 80
     }, {
       field: 'currentStatus',
       displayName: 'Current status',
-      cellTemplate: '<div ng-class="{green: row.getProperty(col.field)==\'Approved\',purple: row.getProperty(col.field)==\'Waiting for QA\',orange: row.getProperty(col.field)==\'Waiting for review\'}"><div class="ngCellText">{{row.getProperty(col.field)}}</div></div>',
+      cellTemplate: '<div style="background-color:{{row.entity.color}} " ><div style="color:white" class="ngCellText">{{row.getProperty(col.field)}}</div></div>',
       enableCellEdit: false,
-      editableCellTemplate: $scope.cellSelectEditableTemplateCurrentStatus
-
+      editableCellTemplate: $scope.cellSelectEditableTemplateCurrentStatus,
+      width: 125
+    }, {
+      field: 'color',
+      displayName: '#',
+      enableCellEdit: false,
+      cellTemplate: '<div style="background-color:{{row.entity.color}} "><div  class="ngCellText"></div></div>',
+      editableCellTemplate: $scope.cellSelectEditableTemplateColor,
+      width: '20px',
     }, {
       field: 'testCycles',
       displayName: 'Test Cycles',
-      enableCellEdit: false
+      enableCellEdit: false,
+      width: 90
     }, {
       field: 'replyTime',
       displayName: 'Reply Time',
-      enableCellEdit: false
+      enableCellEdit: false,
+      width: 85
     }, {
       field: 'resp',
       displayName: 'Resp',
+      cellTemplate: '<div ng-class="{\'green\': row.entity.resp == \'VE\',\'red\': row.entity.resp == \'AS\',\'yellow\': row.entity.resp == \'YK\',\'blue\': row.entity.resp == \'DP\' }" " ><div class="ngCellText">{{row.getProperty(col.field)}}</div></div>',
       enableCellEdit: false,
-      editableCellTemplate: $scope.cellSelectEditableTemplateResp
+      editableCellTemplate: $scope.cellSelectEditableTemplateResp,
+      width: 50
     }, ],
     showGroupPanel: true,
     enableColumnResize: true,
     showFilter: true,
     showFooter: true,
+    enableRowSelection: false,
     filterOptions: {
       filterText: "",
       useExternalFilter: false
@@ -643,7 +689,7 @@ angular.module('project', ['ngRoute', 'ngGrid'])
   };
 })
 
-.controller('inWorkListCtrl', function($scope, $http, Apps) {
+.controller('inWorkListCtrl', function ($scope, $http, Apps) {
 
 
   $scope.Options = {
@@ -712,17 +758,17 @@ angular.module('project', ['ngRoute', 'ngGrid'])
 
   Apps.getRejected()
 
-  .success(function(data) {
+  .success(function (data) {
     $scope.apps = data;
   });
 
-  $scope.getRowIndex = function() {
+  $scope.getRowIndex = function () {
     var index = this.row.rowIndex;
     // $scope.gridOptions.selectItem(index, false);
     return index + 1;
   };
 
-  $scope.$on('ngGridEventEndCellEdit', function(evt) {
+  $scope.$on('ngGridEventEndCellEdit', function (evt) {
     var currentObj = evt.targetScope.row.entity;
     console.log(currentObj); //debug
     // the underlying data bound to the row
@@ -732,12 +778,12 @@ angular.module('project', ['ngRoute', 'ngGrid'])
     //update database value
     var projectUrl = currentObj._id;
     Apps.update(projectUrl, currentObj)
-      .success(function(data) {
+      .success(function (data) {
         $scope.formData = data;
       });
   });
 
-  $scope.dateParse = function(data) {
+  $scope.dateParse = function (data) {
     return Date.parse(data);
   };
 
@@ -748,25 +794,28 @@ angular.module('project', ['ngRoute', 'ngGrid'])
     data: 'apps',
     columnDefs: [{
       displayName: 'No',
-      cellTemplate: '<div ><div >{{getRowIndex()}}</div></div>'
+      cellTemplate: '<div ><div >{{getRowIndex()}}</div></div>',
+      width: 30
+    }, {
+      field: 'applicationId',
+      displayName: 'Application Id',
+      enableCellEdit: false
     }, {
       field: 'country',
       displayName: 'Country',
       enableCellEdit: true,
       editableCellTemplate: $scope.cellSelectEditableTemplateCountry,
-    }, {
-      field: 'applicationId',
-      displayName: 'Application Id',
-      enableCellEdit: true
+      width: 70
     }, {
       field: 'appName',
       displayName: 'Application name',
-      enableCellEdit: true
+      enableCellEdit: true,
     }, {
       field: 'category',
       displayName: 'Category',
       enableCellEdit: true,
-      editableCellTemplate: $scope.cellSelectEditableTemplateCategory
+      editableCellTemplate: $scope.cellSelectEditableTemplateCategory,
+      width: 100
     }, {
       field: 'sdpStatus',
       displayName: 'SDP Status',
@@ -775,9 +824,11 @@ angular.module('project', ['ngRoute', 'ngGrid'])
     }, {
       field: 'updateTime',
       displayName: 'Update date',
+      //604800000 ms = 7day
       cellTemplate: '<div ng-class="{pink: currenDate-dateParse(row.getProperty(col.field))>604800000}"><div class="ngCellText">{{row.getProperty(col.field)|date:\'YYYY-MM-DD\'-1}}</div></div>',
       enableCellEdit: true,
-      editableCellTemplate: $scope.cellSelectEditableTemplateUpdateTime
+      editableCellTemplate: $scope.cellSelectEditableTemplateUpdateTime,
+      width: 100
     }, {
       field: 'seller',
       displayName: 'Seller',
@@ -786,13 +837,15 @@ angular.module('project', ['ngRoute', 'ngGrid'])
       field: 'tv',
       displayName: 'Tv',
       enableCellEdit: true,
-      editableCellTemplate: $scope.cellSelectEditableTemplateTv
+      editableCellTemplate: $scope.cellSelectEditableTemplateTv,
+      width: 80
     }, {
       field: 'currentStatus',
       displayName: 'Current status',
-      cellTemplate: '<div style="background-color:{{row.entity.color}} " ><div style="color:white" class="ngCellText">{{row.getProperty(col.field)}}</div></div>',
+      cellTemplate: '<div style="background-color:{{row.entity.color}} " ><div ng-class="{\'purple\': row.entity.currentStatus == \'Waiting for QA\',\'orange\':row.entity.currentStatus==\'Waiting for review\'}",\'green\':row.entity.currentStatus==\'Waiting for fix\'}" style="color:black" class="ngCellText">{{row.getProperty(col.field)}}</div></div>',
       enableCellEdit: true,
-      editableCellTemplate: $scope.cellSelectEditableTemplateCurrentStatus
+      editableCellTemplate: $scope.cellSelectEditableTemplateCurrentStatus,
+      width: 125
     }, {
       field: 'color',
       displayName: '#',
@@ -803,25 +856,31 @@ angular.module('project', ['ngRoute', 'ngGrid'])
     }, {
       field: 'testCycles',
       displayName: 'Test Cycles',
-      enableCellEdit: false
+      enableCellEdit: false,
+      width: 90
     }, {
       field: 'replyTime',
       displayName: 'Reply Time',
-      enableCellEdit: false
+      enableCellEdit: false,
+      width: 85
     }, {
       field: 'resp',
       displayName: 'Resp',
+      cellTemplate: '<div ng-class="{\'green\': row.entity.resp == \'VE\',\'red\': row.entity.resp == \'AS\',\'yellow\': row.entity.resp == \'YK\',\'blue\': row.entity.resp == \'DP\' }" " ><div class="ngCellText">{{row.getProperty(col.field)}}</div></div>',
       enableCellEdit: true,
-      editableCellTemplate: $scope.cellSelectEditableTemplateResp
+      editableCellTemplate: $scope.cellSelectEditableTemplateResp,
+      width: 50
     }, {
       field: 'outdated',
       displayName: 'Outdated',
       enableCellEdit: true,
-      editableCellTemplate: $scope.cellSelectEditableTemplateOutdated
+      editableCellTemplate: $scope.cellSelectEditableTemplateOutdated,
+      width: 75
     }, ],
     showGroupPanel: true,
     enableColumnResize: true,
     showFilter: true,
+    enableRowSelection: false,
     showFooter: true,
     filterOptions: {
       filterText: "",
@@ -831,11 +890,11 @@ angular.module('project', ['ngRoute', 'ngGrid'])
 })
 
 
-.controller('NewTesterCtrl', function($scope, $http, Apps, Tester) {
+.controller('NewTesterCtrl', function ($scope, $http, Apps, Tester) {
 
   $scope.testCycle = {};
   Apps.get()
-    .success(function(apps) {
+    .success(function (apps) {
       $scope.apps = apps;
       $scope.temps = [];
       for (var i = 0; i < apps.length; i++) {
@@ -845,71 +904,71 @@ angular.module('project', ['ngRoute', 'ngGrid'])
     });
 
   Tester.get()
-    .success(function(tester) {
+    .success(function (tester) {
       $scope.testerDatas = tester;
     });
 
-  $scope.createNewTestCycle = function() {
+  $scope.createNewTestCycle = function () {
     // $scope.testCycle.tester
     console.log($scope.Tester1._id);
     console.log($scope.testCycle);
     Tester.update($scope.Tester1._id, $scope.testCycle)
-      .success(function(data) {
+      .success(function (data) {
         $scope.testerDatas = data;
         $scope.testCycle = {};
       });
   };
 })
 
-.controller('TesterCtrl', function($scope, $http, Apps, Tester) {
+.controller('TesterCtrl', function ($scope, $http, Apps, Tester) {
   //get our app list
   Apps.get()
-    .success(function(data) {
+    .success(function (data) {
       $scope.apps = data;
     });
 
   //get our calendar list
   Tester.get()
-    .success(function(data) {
+    .success(function (data) {
       $scope.testerDatas = data;
     });
 
 
 })
 
-.controller('CreateCtrl', function($scope, $http, Apps) {
+.controller('CreateCtrl', function ($scope, $http, Apps) {
   $scope.formData = {};
-  $scope.createApp = function() {
+  $scope.createApp = function () {
     Apps.create($scope.formData)
 
-    .success(function(data) {
+    .success(function (data) {
       $scope.apps = data;
       $scope.formData = {};
     });
   };
 })
 
-.controller('EditCtrl', function($scope, $routeParams, $location, $http, Apps) {
+.controller('EditCtrl', function ($scope, $routeParams, $location, $http, Apps) {
 
   $scope.edit = true;
   var projectUrl = $routeParams.appId;
   Apps.update(projectUrl, $scope.formData)
-    .success(function(data) {
+    .success(function (data) {
       $scope.formData = data;
 
     });
 
-  $scope.deleteApp = function(id) {
+  $scope.deleteApp = function (id) {
     Apps.delete(id, $scope.formData)
-      .success(function(data) {
+      .success(function (data) {
         $scope.apps = data; //get new list
         $location.path('/');
       });
   };
 
-  $scope.updateApp = function(id) {
+  $scope.updateApp = function (id) {
     Apps.update(id, $scope.formData)
-      .success(function(data) {
+      .success(function (data) {
         $scope.apps = data;
         $location.path('/');
       });
@@ -917,33 +976,33 @@ angular.module('project', ['ngRoute', 'ngGrid'])
 
 })
 
-.controller('mainController', function($scope, $http, Apps) {
+.controller('mainController', function ($scope, $http, Apps) {
   //get formData clear
   $scope.formData = {};
   //get  all apps and show them
   Apps.get()
-    .success(function(data) {
+    .success(function (data) {
       $scope.apps = data;
     });
 
-  $scope.createApp = function() {
+  $scope.createApp = function () {
     Apps.create($scope.formData)
-      .success(function(data) {
+      .success(function (data) {
         $scope.apps = data;
         $scope.formData = {};
       });
   };
 
-  $scope.deleteApp = function(id) {
+  $scope.deleteApp = function (id) {
     Apps.delete(id)
-      .success(function(data) {
+      .success(function (data) {
         $scope.apps = data; //get new list
       });
   };
 
-  $scope.updateApp = function(id) {
+  $scope.updateApp = function (id) {
     Apps.update(id, $scope.formData)
-      .success(function(data) {
+      .success(function (data) {
         $scope.apps = data;
       });
   };
