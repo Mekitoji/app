@@ -263,7 +263,7 @@ angular.module('project', ['ngRoute', 'ngGrid'])
     }, {
       field: 'currentStatus',
       displayName: 'Current status',
-      cellTemplate: '<div style="background-color:{{row.entity.color}} " ><div ng-class="{\'purple\': row.entity.currentStatus == \'Waiting for QA\',\'orange\':row.entity.currentStatus==\'Waiting for review\'}",\'green\':row.entity.currentStatus==\'Waiting for fix\'}" style="color:black" class="ngCellText">{{row.getProperty(col.field)}}</div></div>',
+      cellTemplate: '<div style="background-color:{{row.entity.color}} " ><div ng-class="{\'purple\': row.entity.currentStatus == \'Waiting for QA\',\'orange\': row.entity.currentStatus== \'Waiting for review\',\'green\':row.entity.currentStatus==\'Waiting for fix\'}" style="color:black" class="ngCellText">{{row.getProperty(col.field)}}</div></div>',
       enableCellEdit: true,
       editableCellTemplate: $scope.cellSelectEditableTemplateCurrentStatus,
       width: 125
