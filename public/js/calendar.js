@@ -27,6 +27,7 @@ $(document).ready(function () {
     editable: true,
     firstDay: 1,
     weekends: false,
+    // aspecrRatio: 2
   });
 
 });

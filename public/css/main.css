@@ -35,9 +35,6 @@
   margin-left:25%;
 }
 
-.table-calendar {
-  
-}
 
 .gridStyle {
     border: 1px solid rgb(212,212,212);
@@ -66,7 +63,7 @@
 }
 
 .purple {
-    background-color: purple;
+    background-color:  rgb(209, 143, 209);
     color: white;
 }
 .orange {
@@ -97,3 +94,6 @@ table {
   height:20px;
 }
 
+div.ngCellText.ng-binding {
+  height: 30px;
+}

@@ -303,6 +303,10 @@ angular.module('project', ['ngRoute', 'ngGrid'])
     showFilter: true,
     enableRowSelection: false,
     showFooter: true,
+    sortInfo: {
+      fields: ['appName'],
+      directions: ['asc']
+    },
     filterOptions: {
       filterText: "",
       useExternalFilter: false

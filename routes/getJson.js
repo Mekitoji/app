@@ -172,7 +172,10 @@ module.exports = function (app) {
               return false;
             }
             // console.log(reg.exec(obj.country)[1]);
-            // console.log(new Date(obj.updateDate));
+            console.log(obj.updateDate);
+            obj.updateDate = obj.updateDate.split(' ')[0];
+            console.log(obj.updateDate);
+            console.log(new Date(obj.updateDate));
             // console.log(obj.appId);
 
             app.country = reg.exec(obj.country)[1];
