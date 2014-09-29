@@ -4,7 +4,13 @@ var data_manual = {};
 var url = 'api/calendar/';
 
 $.get(url, function (data) {
-
+  $('#datepicker').datepicker({
+    inline: true,
+    onSelect: function (dateText, inst) {
+      var d = new Date(dateText);
+      $('#calendar').fullCalendar('gotoDate', d);
+    }
+  });
   console.log('data:');
   console.log(data);
   var storageOfDate = [];
