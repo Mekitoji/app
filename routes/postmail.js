@@ -1,7 +1,7 @@
 var nodemailer = require('nodemailer');
-
+var routesFunction = require('../libs/routesFunction');
 module.exports = function (app) {
-  app.get('/postmail', function (req, res) {
+  app.get('/postmail', routesFunction.checkPermission, function (req, res) {
     if (req.user) {
       res.render('postmail.ejs', {
         user: req.user // get the user out of session and pass to template
@@ -24,7 +24,7 @@ module.exports = function (app) {
 
   });
 
-  app.post('/postmail', function (req, res) {
+  app.post('/postmail', routesFunction.checkPermission, function (req, res) {
     console.log(req.body.text);
     var transport = nodemailer.createTransport();
 

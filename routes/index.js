@@ -24,4 +24,5 @@ module.exports = function (app, passport) {
   var getJson = require('./getJson')(app);
   var postmail = require('./postmail')(app);
   var unauthorized = require('./401')(app);
+  var permissionDenied = require('./403')(app);
 };

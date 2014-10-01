@@ -1,5 +1,5 @@
 // route middleware to make sure a user is logged in
-function redirectMain(req, res, next) {
+function unAuth(req, res, next) {
 
   // if user is authenticated in the session, carry on 
   if (req.isAuthenticated()) {
@@ -20,11 +20,9 @@ function redirectMain(req, res, next) {
 function checkPermission(req, res, next) {
   if (req.isAuthenticated()) {
     if (req.user.local.group === 'root' || req.user.local.group === 'gk') {
-      res.json({
-        'permission': 'root'
-      });
+      next();
     } else {
-
+      res.redirect('/403');
     }
     return next();
   }
@@ -39,6 +37,6 @@ function alreadyLoginIn(req, res, next) {
   }
 }
 
-exports.redirectMain = redirectMain;
+exports.unAuth = unAuth;
 exports.alreadyLoginIn = alreadyLoginIn;
 exports.checkPermission = checkPermission;

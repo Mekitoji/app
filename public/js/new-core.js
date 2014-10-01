@@ -100,6 +100,17 @@ angular.module('project', ['ngRoute', 'ngGrid'])
 
   //Ng-options object Select->Option
   //watch part with  template
+
+  var permission;
+  // take permission right from server
+  if (userG === 'gk' || userG === 'root') {
+    permission = true;
+    $scope.perm = true;
+  } else {
+    permission = false;
+    $scope.perm = false;
+  }
+
   $scope.Options = {
     countryProp: {
       "type": "select",
@@ -224,53 +235,53 @@ angular.module('project', ['ngRoute', 'ngGrid'])
     }, {
       field: 'country',
       displayName: 'Country',
-      enableCellEdit: true,
+      enableCellEdit: permission,
       editableCellTemplate: $scope.cellSelectEditableTemplateCountry,
       width: 70
     }, {
       field: 'appName',
       displayName: 'Application name',
-      enableCellEdit: true,
+      enableCellEdit: permission,
     }, {
       field: 'category',
       displayName: 'Category',
-      enableCellEdit: true,
+      enableCellEdit: permission,
       editableCellTemplate: $scope.cellSelectEditableTemplateCategory,
       width: 100
     }, {
       field: 'sdpStatus',
       displayName: 'SDP Status',
-      enableCellEdit: true,
+      enableCellEdit: permission,
       editableCellTemplate: $scope.cellSelectEditableTemplateSdpStatus
     }, {
       field: 'updateTime',
       displayName: 'Update date',
       //604800000 ms = 7day
       cellTemplate: '<div ng-class="{pink: currenDate-dateParse(row.getProperty(col.field))>604800000}"><div class="ngCellText">{{row.getProperty(col.field)|date:\'YYYY-MM-DD\'-1}}</div></div>',
-      enableCellEdit: true,
+      enableCellEdit: permission,
       editableCellTemplate: $scope.cellSelectEditableTemplateUpdateTime,
       width: 100
     }, {
       field: 'seller',
       displayName: 'Seller',
-      enableCellEdit: true
+      enableCellEdit: permission
     }, {
       field: 'tv',
       displayName: 'Tv',
-      enableCellEdit: true,
+      enableCellEdit: permission,
       editableCellTemplate: $scope.cellSelectEditableTemplateTv,
       width: 80
     }, {
       field: 'currentStatus',
       displayName: 'Current status',
       cellTemplate: '<div style="background-color:{{row.entity.color}} " ><div ng-class="{\'purple\': row.entity.currentStatus == \'Waiting for QA\',\'orange\': row.entity.currentStatus== \'Waiting for review\',\'green\':row.entity.currentStatus==\'Waiting for fix\'}" style="color:black" class="ngCellText">{{row.getProperty(col.field)}}</div></div>',
-      enableCellEdit: true,
+      enableCellEdit: permission,
       editableCellTemplate: $scope.cellSelectEditableTemplateCurrentStatus,
       width: 125
     }, {
       field: 'color',
       displayName: '#',
-      enableCellEdit: true,
+      enableCellEdit: permission,
       cellTemplate: '<div style="background-color:{{row.entity.color}} "><div  class="ngCellText"></div></div>',
       editableCellTemplate: $scope.cellSelectEditableTemplateColor,
       width: '20px',
@@ -288,13 +299,13 @@ angular.module('project', ['ngRoute', 'ngGrid'])
       field: 'resp',
       displayName: 'Resp',
       cellTemplate: '<div ng-class="{\'green\': row.entity.resp == \'VE\',\'red\': row.entity.resp == \'AS\',\'yellow\': row.entity.resp == \'YK\',\'blue\': row.entity.resp == \'DP\' }" " ><div class="ngCellText">{{row.getProperty(col.field)}}</div></div>',
-      enableCellEdit: true,
+      enableCellEdit: permission,
       editableCellTemplate: $scope.cellSelectEditableTemplateResp,
       width: 50
     }, {
       field: 'outdated',
       displayName: 'Outdated',
-      enableCellEdit: true,
+      enableCellEdit: permission,
       editableCellTemplate: $scope.cellSelectEditableTemplateOutdated,
       width: 75
     }, ],
@@ -315,6 +326,16 @@ angular.module('project', ['ngRoute', 'ngGrid'])
 })
 
 .controller('outdatedListCtrl', function ($scope, $http, Apps) {
+
+  var permission;
+  // take permission right from server
+  if (userG === 'gk' || userG === 'root') {
+    permission = true;
+    $scope.perm = true;
+  } else {
+    permission = false;
+    $scope.perm = false;
+  }
 
   $scope.Options = {
     countryProp: {
@@ -425,53 +446,53 @@ angular.module('project', ['ngRoute', 'ngGrid'])
     }, {
       field: 'country',
       displayName: 'Country',
-      enableCellEdit: true,
+      enableCellEdit: permission,
       editableCellTemplate: $scope.cellSelectEditableTemplateCountry,
       width: 70
     }, {
       field: 'appName',
       displayName: 'Application name',
-      enableCellEdit: true,
+      enableCellEdit: permission,
     }, {
       field: 'category',
       displayName: 'Category',
-      enableCellEdit: true,
+      enableCellEdit: permission,
       editableCellTemplate: $scope.cellSelectEditableTemplateCategory,
       width: 100
     }, {
       field: 'sdpStatus',
       displayName: 'SDP Status',
-      enableCellEdit: true,
+      enableCellEdit: permission,
       editableCellTemplate: $scope.cellSelectEditableTemplateSdpStatus
     }, {
       field: 'updateTime',
       displayName: 'Update date',
       //604800000 ms = 7day
       cellTemplate: '<div ng-class="{pink: currenDate-dateParse(row.getProperty(col.field))>604800000}"><div class="ngCellText">{{row.getProperty(col.field)|date:\'YYYY-MM-DD\'-1}}</div></div>',
-      enableCellEdit: true,
+      enableCellEdit: permission,
       editableCellTemplate: $scope.cellSelectEditableTemplateUpdateTime,
       width: 100
     }, {
       field: 'seller',
       displayName: 'Seller',
-      enableCellEdit: true
+      enableCellEdit: permission
     }, {
       field: 'tv',
       displayName: 'Tv',
-      enableCellEdit: true,
+      enableCellEdit: permission,
       editableCellTemplate: $scope.cellSelectEditableTemplateTv,
       width: 80
     }, {
       field: 'currentStatus',
       displayName: 'Current status',
       cellTemplate: '<div style="background-color:{{row.entity.color}} " ><div ng-class="{\'purple\': row.entity.currentStatus == \'Waiting for QA\',\'orange\':row.entity.currentStatus==\'Waiting for review\'}",\'green\':row.entity.currentStatus==\'Waiting for fix\'}" style="color:black" class="ngCellText">{{row.getProperty(col.field)}}</div></div>',
-      enableCellEdit: true,
+      enableCellEdit: permission,
       editableCellTemplate: $scope.cellSelectEditableTemplateCurrentStatus,
       width: 125
     }, {
       field: 'color',
       displayName: '#',
-      enableCellEdit: true,
+      enableCellEdit: permission,
       cellTemplate: '<div style="background-color:{{row.entity.color}} "><div  class="ngCellText"></div></div>',
       editableCellTemplate: $scope.cellSelectEditableTemplateColor,
       width: '20px',
@@ -489,13 +510,13 @@ angular.module('project', ['ngRoute', 'ngGrid'])
       field: 'resp',
       displayName: 'Resp',
       cellTemplate: '<div ng-class="{\'green\': row.entity.resp == \'VE\',\'red\': row.entity.resp == \'AS\',\'yellow\': row.entity.resp == \'YK\',\'blue\': row.entity.resp == \'DP\' }" " ><div class="ngCellText">{{row.getProperty(col.field)}}</div></div>',
-      enableCellEdit: true,
+      enableCellEdit: permission,
       editableCellTemplate: $scope.cellSelectEditableTemplateResp,
       width: 50
     }, {
       field: 'outdated',
       displayName: 'Outdated',
-      enableCellEdit: true,
+      enableCellEdit: permission,
       editableCellTemplate: $scope.cellSelectEditableTemplateOutdated,
       width: 75
     }, ],
@@ -512,6 +533,16 @@ angular.module('project', ['ngRoute', 'ngGrid'])
 })
 
 .controller('approvedListCtrl', function ($scope, $http, Apps) {
+
+  var permission;
+  // take permission right from server
+  if (userG === 'gk' || userG === 'root') {
+    permission = true;
+    $scope.perm = true;
+  } else {
+    permission = false;
+    $scope.perm = false;
+  }
 
   $scope.Options = {
     countryProp: {
@@ -695,6 +726,15 @@ angular.module('project', ['ngRoute', 'ngGrid'])
 
 .controller('inWorkListCtrl', function ($scope, $http, Apps) {
 
+  var permission;
+  // take permission right from server
+  if (userG === 'gk' || userG === 'root') {
+    permission = true;
+    $scope.perm = true;
+  } else {
+    permission = false;
+    $scope.perm = false;
+  }
 
   $scope.Options = {
     countryProp: {
@@ -807,53 +847,53 @@ angular.module('project', ['ngRoute', 'ngGrid'])
     }, {
       field: 'country',
       displayName: 'Country',
-      enableCellEdit: true,
+      enableCellEdit: permission,
       editableCellTemplate: $scope.cellSelectEditableTemplateCountry,
       width: 70
     }, {
       field: 'appName',
       displayName: 'Application name',
-      enableCellEdit: true,
+      enableCellEdit: permission,
     }, {
       field: 'category',
       displayName: 'Category',
-      enableCellEdit: true,
+      enableCellEdit: permission,
       editableCellTemplate: $scope.cellSelectEditableTemplateCategory,
       width: 100
     }, {
       field: 'sdpStatus',
       displayName: 'SDP Status',
-      enableCellEdit: true,
+      enableCellEdit: permission,
       editableCellTemplate: $scope.cellSelectEditableTemplateSdpStatus
     }, {
       field: 'updateTime',
       displayName: 'Update date',
       //604800000 ms = 7day
       cellTemplate: '<div ng-class="{pink: currenDate-dateParse(row.getProperty(col.field))>604800000}"><div class="ngCellText">{{row.getProperty(col.field)|date:\'YYYY-MM-DD\'-1}}</div></div>',
-      enableCellEdit: true,
+      enableCellEdit: permission,
       editableCellTemplate: $scope.cellSelectEditableTemplateUpdateTime,
       width: 100
     }, {
       field: 'seller',
       displayName: 'Seller',
-      enableCellEdit: true
+      enableCellEdit: permission
     }, {
       field: 'tv',
       displayName: 'Tv',
-      enableCellEdit: true,
+      enableCellEdit: permission,
       editableCellTemplate: $scope.cellSelectEditableTemplateTv,
       width: 80
     }, {
       field: 'currentStatus',
       displayName: 'Current status',
       cellTemplate: '<div style="background-color:{{row.entity.color}} " ><div ng-class="{\'purple\': row.entity.currentStatus == \'Waiting for QA\',\'orange\':row.entity.currentStatus==\'Waiting for review\'}",\'green\':row.entity.currentStatus==\'Waiting for fix\'}" style="color:black" class="ngCellText">{{row.getProperty(col.field)}}</div></div>',
-      enableCellEdit: true,
+      enableCellEdit: permission,
       editableCellTemplate: $scope.cellSelectEditableTemplateCurrentStatus,
       width: 125
     }, {
       field: 'color',
       displayName: '#',
-      enableCellEdit: true,
+      enableCellEdit: permission,
       cellTemplate: '<div style="background-color:{{row.entity.color}} "><div  class="ngCellText"></div></div>',
       editableCellTemplate: $scope.cellSelectEditableTemplateColor,
       width: '20px',
@@ -877,7 +917,7 @@ angular.module('project', ['ngRoute', 'ngGrid'])
     }, {
       field: 'outdated',
       displayName: 'Outdated',
-      enableCellEdit: true,
+      enableCellEdit: permission,
       editableCellTemplate: $scope.cellSelectEditableTemplateOutdated,
       width: 75
     }, ],
@@ -895,6 +935,8 @@ angular.module('project', ['ngRoute', 'ngGrid'])
 
 
 .controller('NewTesterCtrl', function ($scope, $http, Apps, Tester) {
+
+
 
   $scope.testCycle = {};
   Apps.get()
@@ -926,6 +968,17 @@ angular.module('project', ['ngRoute', 'ngGrid'])
 
 .controller('TesterCtrl', function ($scope, $http, Apps, Tester) {
   //get our app list
+  var permission;
+  // take permission right from server
+  if (userG === 'gk' || userG === 'root') {
+    permission = true;
+    $scope.perm = true;
+  } else {
+    permission = false;
+    $scope.perm = false;
+  }
+
+
   Apps.get()
     .success(function (data) {
       $scope.apps = data;

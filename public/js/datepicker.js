@@ -1,3 +1,11 @@
+var permission;
+// take permission right from server
+if (userG === 'gk' || userG === 'root') {
+  permission = true;
+} else {
+  permission = false;
+}
+
 $(document).ready(function () {
   $('#datepicker').datepicker({
     inline: true,
@@ -255,9 +263,11 @@ $(document).ready(function () {
               });
             }
             $('.fc-day-grid').off();
-            table.editableTableWidget({
-              editor: $('<select><option value=\'H\' style="background-color:#B19CD9">H</option><option value=\'D\' style="background-color:green">D</option><option value=\'L\' style="background-color:orange">L</option><option value=\'LL\' style="background-color:orange"></option></select>')
-            });
+            if (permission) {
+              table.editableTableWidget({
+                editor: $('<select><option value=\'H\' style="background-color:#B19CD9">H</option><option value=\'D\' style="background-color:green">D</option><option value=\'L\' style="background-color:orange">L</option><option value=\'LL\' style="background-color:orange"></option></select>')
+              });
+            }
           });
           $('.fc-content-skeleton').remove();
         });

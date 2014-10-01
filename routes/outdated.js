@@ -1,5 +1,8 @@
+var routesFunction = require('../libs/routesFunction');
+
+
 module.exports = function (app) {
-  app.get('/outdated', function (req, res) {
+  app.get('/outdated', routesFunction.unAuth, function (req, res) {
     if (req.user) {
       res.render('outdated.ejs', {
         user: req.user // get the user out of session and pass to template

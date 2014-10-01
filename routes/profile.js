@@ -6,7 +6,7 @@ var routesFunction = require('../libs/routesFunction');
 // we will use route middleware to verify this (the redirectMain function)
 
 module.exports = function (app) {
-  app.get('/profile', routesFunction.checkPermission, function (req, res) {
+  app.get('/profile', routesFunction.unAuth, function (req, res) {
     res.render('profile.ejs', {
       user: req.user // get the user out of session and pass to template
     });

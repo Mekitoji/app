@@ -88,12 +88,7 @@ angular.module('postmail', [])
       });
     });
     $scope.previewText += "</table><br />In case of any questions please don’t hesitate to ask. <br /><br />" +
-      "Thanks. <br />" +
-      "Andrey Sayants <br />" +
-      "CIS TV CAS Part | CDV Team <br />" +
-      "<b>LG Electronics Russia R&D Lab</b> <br />" +
-      "Tel: +7-812-329-9219, #259 <br />" +
-      "E-mail: andrey.sayants@lge.com";
+      "Best wishes. <br />";
 
     $scope.submit = function () {
       console.log($scope.previewText);
