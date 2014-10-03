@@ -97,3 +97,13 @@ table {
 div.ngCellText.ng-binding {
   height: 30px;
 }
+
+.calendar-btn {
+  height: 25px;
+  width: 70px;
+}
+
+.popover {
+  z-index:9999;
+  position: absolute;
+}

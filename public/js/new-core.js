@@ -1,4 +1,4 @@
-angular.module('project', ['ngRoute', 'ngGrid'])
+angular.module('project', ['ngRoute', 'ngGrid', 'ui.bootstrap'])
 
 .directive('autoComplete', function ($timeout) {
   return function ($scope, elem) {
@@ -12,6 +12,29 @@ angular.module('project', ['ngRoute', 'ngGrid'])
     });
   };
 })
+
+.filter('unsafe', ['$sce',
+  function ($sce) {
+    return function (val) {
+      return $sce.trustAsHtml(val);
+    };
+  }
+])
+
+.run(["$templateCache",
+  function ($templateCache) {
+    $templateCache.put("template/popover/popover.html",
+      "<div class=\"popover {{placement}}\" ng-class=\"{ in: isOpen(), fade: animation() }\">\n" +
+      "  <div class=\"arrow\"></div>\n" +
+      "\n" +
+      "  <div class=\"popover-inner\">\n" +
+      "      <h3 class=\"popover-title\" ng-bind-html=\"title | unsafe\" ng-show=\"title\"></h3>\n" +
+      "      <div class=\"popover-content\"ng-bind-html=\"content | unsafe\"></div>\n" +
+      "  </div>\n" +
+      "</div>\n" +
+      "");
+  }
+])
 
 //Apps api
 .factory('Apps', function ($http) {
@@ -307,6 +330,12 @@ angular.module('project', ['ngRoute', 'ngGrid'])
       displayName: 'Outdated',
       enableCellEdit: permission,
       editableCellTemplate: $scope.cellSelectEditableTemplateOutdated,
+      width: 75
+    }, {
+      cellTemplate: '<div class=\'calendar-cell\' popover="<div id=\'calendar\'></div><script src=\'js/calendar.js\'></script><script src=\'js/getCalendarDataForOneApp.js\'></script>"  popover-placement="left" popover-append-to-body="true">Click</div>',
+      cellClass: 'calendar-btn',
+      displayName: 'Calendar',
+      enableCellEdit: false,
       width: 75
     }, ],
     showGroupPanel: true,
