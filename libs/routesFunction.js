@@ -20,7 +20,7 @@ function unAuth(req, res, next) {
 function checkPermission(req, res, next) {
   if (req.isAuthenticated()) {
     if (req.user.local.group === 'root' || req.user.local.group === 'gk') {
-      next();
+      return next();
     } else {
       res.redirect('/403');
     }
