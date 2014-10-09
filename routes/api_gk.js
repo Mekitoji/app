@@ -77,6 +77,16 @@ module.exports = function (app) {
     });
   });
 
+
+  app.get('/api/gk/:app_id', function (req, res) {
+    console.log(req.params.app_id);
+    Apps.findById(req.params.app_id, function (err, data) {
+
+      if (err) res.send(err);
+      res.json(data);
+    });
+  });
+
   // create user and send back all users after creation
   app.post('/api/gk', function (req, res) {
     // create a user, information comes from request from Angular
@@ -144,6 +154,10 @@ module.exports = function (app) {
       });
     });
   });
+
+
+  //get one user
+
 
   //update a user
   app.put('/api/gk/:app_id', function (req, res) {

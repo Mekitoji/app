@@ -14,12 +14,12 @@ var patentX;
 $.get(url, function (data) {
 
   $('.calendar-cell').mouseup(function () {
-    parentX = $(this).parent().parent().parent().children()[1];
-    parentX = $(parentX).text();
-    console.log('parent');
+    parentX = $(this).attr('name');
     console.log(parentX);
-    console.log(parentX.length);
+
   });
+
+
 
   console.log('data:');
   console.log(data);
@@ -83,233 +83,241 @@ $.get(url, function (data) {
     $.each(data_manual, function (date, valueArr) {
 
       $.each(appNameObj, function (appId, appName) {
-
-        if (date == dd) {
-          if (valueArr[appId]) {
-            // console.log(date + ' ' + appName + " = " + valueArr[appId]);
-            var tr = $('<tr>').css({
-              'height': '21px ',
-              'text-align': 'center'
-            });
-            var td = $('<td>');
-            $.each(calendarId, function (calId, appId11) {
-              if (appId === appId11)
-                td.html(valueArr[appId]).addClass(date).addClass(calId).appendTo(tr);
-            });
-            if (td.html() == 'L') {
-              td.css({
-                "background-color": "orange",
-                "color": "black"
+        if (appId === parentX) {
+          if (date == dd) {
+            if (valueArr[appId]) {
+              // console.log(date + ' ' + appName + " = " + valueArr[appId]);
+              var tr = $('<tr>').css({
+                'height': '21px ',
+                'text-align': 'center'
               });
-            } else if (td.html() == 'H') {
-              td.css({
-                "background-color": "#B19CD9",
-                "color": "black"
+              var td = $('<td>');
+              $.each(calendarId, function (calId, appId11) {
+                if (appId === appId11)
+                  td.html(valueArr[appId]).addClass(date).addClass(calId).appendTo(tr);
               });
-            } else if (td.html() == 'D') {
-              td.css({
-                "background-color": "green",
-                "color": "black"
-              });
-            } else if (td.html() == 'LL') {
-              td.css({
-                "background-color": "orange",
-                "color": "orange"
-              });
-            }
-            thisColTable.append(tr);
-            td.on('change', function (evt, newValue) {
-              var thisElem = $(this);
-              console.log('thisElem');
-              console.log(thisElem);
-              console.log('evt');
-              console.log(evt);
-              console.log('newValue');
-              console.log(newValue);
-              var classArr = thisElem.attr('class').split(' ');
-              console.log(classArr);
-              if (newValue == 'L') {
-                thisElem.css({
+              if (td.html() == 'L') {
+                td.css({
                   "background-color": "orange",
                   "color": "black"
                 });
-              } else if (newValue == 'H') {
-                thisElem.css({
+              } else if (td.html() == 'H') {
+                td.css({
                   "background-color": "#B19CD9",
                   "color": "black"
                 });
-              } else if (newValue == 'D') {
-                thisElem.css({
+              } else if (td.html() == 'D') {
+                td.css({
                   "background-color": "green",
                   "color": "black"
                 });
-              } else if (newValue == 'LL') {
-                thisElem.css({
+              } else if (td.html() == 'LL') {
+                td.css({
                   "background-color": "orange",
                   "color": "orange"
                 });
               }
-              $.ajax({
-                type: 'PUT',
-                url: url + classArr[1],
-                data: {
-                  value: newValue,
-                  fullDate: classArr[0],
+              thisColTable.append(tr);
+              td.on('change', function (evt, newValue) {
+                var thisElem = $(this);
+                console.log('thisElem');
+                console.log(thisElem);
+                console.log('evt');
+                console.log(evt);
+                console.log('newValue');
+                console.log(newValue);
+                var classArr = thisElem.attr('class').split(' ');
+                console.log(classArr);
+                if (newValue == 'L') {
+                  thisElem.css({
+                    "background-color": "orange",
+                    "color": "black"
+                  });
+                } else if (newValue == 'H') {
+                  thisElem.css({
+                    "background-color": "#B19CD9",
+                    "color": "black"
+                  });
+                } else if (newValue == 'D') {
+                  thisElem.css({
+                    "background-color": "green",
+                    "color": "black"
+                  });
+                } else if (newValue == 'LL') {
+                  thisElem.css({
+                    "background-color": "orange",
+                    "color": "orange"
+                  });
                 }
+                $.ajax({
+                  type: 'PUT',
+                  url: url + classArr[1],
+                  data: {
+                    value: newValue,
+                    fullDate: classArr[0],
+                  }
+                });
               });
-            });
-          } else {
-            var empty = $('<tr>').css({
-              'height': '21px ',
-              'text-align': 'center'
-            });
-            var td1 = $('<td>');
-            $.each(calendarId, function (calId, appId11) {
-              if (appId === appId11)
-                td1.html('').addClass(dd).addClass(calId).appendTo(empty);
-            });
-            if (td1.html() == 'L') {
-              td1.css({
-                "background-color": "orange",
-                "color": "black"
+            } else {
+              var empty = $('<tr>').css({
+                'height': '21px ',
+                'text-align': 'center'
               });
-            } else if (td1.html() == 'H') {
-              td1.css({
-                "background-color": "#B19CD9",
-                "color": "black"
+              var td1 = $('<td>');
+              $.each(calendarId, function (calId, appId11) {
+                if (appId === appId11)
+                  td1.html('').addClass(dd).addClass(calId).appendTo(empty);
               });
-            } else if (td1.html() == 'D') {
-              td1.css({
-                "background-color": "green",
-                "color": "black"
-              });
-            } else if (td1.html() == 'LL') {
-              td1.css({
-                "background-color": "orange",
-                "color": "orange"
-              });
-            }
-
-            thisColTable.append(empty);
-
-            td1.on('change', function (evt, newValue) {
-              var thisElem = $(this);
-              console.log('thisElem');
-              console.log(thisElem);
-              console.log('evt');
-              console.log(evt);
-              console.log('newValue');
-              console.log(newValue);
-              var classArr = thisElem.attr('class').split(' ');
-              console.log(classArr);
-              if (newValue == 'L') {
-                thisElem.css({
+              if (td1.html() == 'L') {
+                td1.css({
                   "background-color": "orange",
                   "color": "black"
                 });
-              } else if (newValue == 'H') {
-                thisElem.css({
+              } else if (td1.html() == 'H') {
+                td1.css({
                   "background-color": "#B19CD9",
                   "color": "black"
                 });
-              } else if (newValue == 'D') {
-                thisElem.css({
+              } else if (td1.html() == 'D') {
+                td1.css({
                   "background-color": "green",
                   "color": "black"
                 });
-              } else if (newValue == 'LL') {
-                thisElem.css({
+              } else if (td1.html() == 'LL') {
+                td1.css({
                   "background-color": "orange",
                   "color": "orange"
                 });
               }
-              $.ajax({
-                type: 'PUT',
-                url: url + classArr[1],
-                data: {
-                  value: newValue,
-                  fullDate: classArr[0],
+
+              thisColTable.append(empty);
+
+              td1.on('change', function (evt, newValue) {
+                var thisElem = $(this);
+                console.log('thisElem');
+                console.log(thisElem);
+                console.log('evt');
+                console.log(evt);
+                console.log('newValue');
+                console.log(newValue);
+                var classArr = thisElem.attr('class').split(' ');
+                console.log(classArr);
+                if (newValue == 'L') {
+                  thisElem.css({
+                    "background-color": "orange",
+                    "color": "black"
+                  });
+                } else if (newValue == 'H') {
+                  thisElem.css({
+                    "background-color": "#B19CD9",
+                    "color": "black"
+                  });
+                } else if (newValue == 'D') {
+                  thisElem.css({
+                    "background-color": "green",
+                    "color": "black"
+                  });
+                } else if (newValue == 'LL') {
+                  thisElem.css({
+                    "background-color": "orange",
+                    "color": "orange"
+                  });
                 }
+                $.ajax({
+                  type: 'PUT',
+                  url: url + classArr[1],
+                  data: {
+                    value: newValue,
+                    fullDate: classArr[0],
+                  }
+                });
               });
-            });
+            }
+
+
+
+
           }
         }
       });
     });
     if (thisColTable[0].childNodes[0] === undefined) {
       $.each(appNameObj, function (appId, appName) {
-        var empty = $('<tr>').css({
-          'height': '21px ',
-          'text-align': 'center'
-        });
-        var td = $('<td>');
-        $.each(calendarId, function (calId, appId11) {
-          if (appId === appId11)
-            td.html('').addClass(dd).addClass(calId).appendTo(empty);
-        });
-        if (td.html() == 'L') {
-          td.css({
-            "background-color": "orange",
-            "color": "black"
+        if (appId === parentX) {
+          var empty = $('<tr>').css({
+            'height': '21px ',
+            'text-align': 'center'
           });
-        } else if (td.html() == 'H') {
-          td.css({
-            "background-color": "#B19CD9",
-            "color": "black"
+          var td = $('<td>');
+          $.each(calendarId, function (calId, appId11) {
+            if (appId === appId11)
+              td.html('').addClass(dd).addClass(calId).appendTo(empty);
           });
-        } else if (td.html() == 'D') {
-          td.css({
-            "background-color": "green",
-            "color": "black"
-          });
-        } else if (td.html() == 'LL') {
-          td.css({
-            "background-color": "orange",
-            "color": "orange"
-          });
-        }
-        thisColTable.append(empty);
-        td.on('change', function (evt, newValue) {
-          var thisElem = $(this);
-          console.log('thisElem');
-          console.log(thisElem);
-          console.log('evt');
-          console.log(evt);
-          console.log('newValue');
-          console.log(newValue);
-          var classArr = thisElem.attr('class').split(' ');
-          console.log(classArr);
-          if (newValue == 'L') {
-            thisElem.css({
+          if (td.html() == 'L') {
+            td.css({
               "background-color": "orange",
               "color": "black"
             });
-          } else if (newValue == 'H') {
-            thisElem.css({
+          } else if (td.html() == 'H') {
+            td.css({
               "background-color": "#B19CD9",
               "color": "black"
             });
-          } else if (newValue == 'D') {
-            thisElem.css({
+          } else if (td.html() == 'D') {
+            td.css({
               "background-color": "green",
               "color": "black"
             });
-          } else if (newValue == 'LL') {
-            thisElem.css({
+          } else if (td.html() == 'LL') {
+            td.css({
               "background-color": "orange",
               "color": "orange"
             });
           }
-          $.ajax({
-            type: 'PUT',
-            url: url + classArr[1],
-            data: {
-              value: newValue,
-              fullDate: classArr[0],
+          thisColTable.append(empty);
+          td.on('change', function (evt, newValue) {
+            var thisElem = $(this);
+            console.log('thisElem');
+            console.log(thisElem);
+            console.log('evt');
+            console.log(evt);
+            console.log('newValue');
+            console.log(newValue);
+            var classArr = thisElem.attr('class').split(' ');
+            console.log(classArr);
+            if (newValue == 'L') {
+              thisElem.css({
+                "background-color": "orange",
+                "color": "black"
+              });
+            } else if (newValue == 'H') {
+              thisElem.css({
+                "background-color": "#B19CD9",
+                "color": "black"
+              });
+            } else if (newValue == 'D') {
+              thisElem.css({
+                "background-color": "green",
+                "color": "black"
+              });
+            } else if (newValue == 'LL') {
+              thisElem.css({
+                "background-color": "orange",
+                "color": "orange"
+              });
             }
+            $.ajax({
+              type: 'PUT',
+              url: url + classArr[1],
+              data: {
+                value: newValue,
+                fullDate: classArr[0],
+              }
+            });
+
           });
 
-        });
+        }
       });
     }
     $('.fc-day-grid').off();
@@ -368,13 +376,7 @@ $('.fc-next-button, .fc-prev-button, .fc-today-button').click(function () {
       });
 
       //create tr for each elem in data array
-      $.each(appNameObj, function (i, appName) {
-        var tr = $('<tr>').addClass('appNameRow');
-        $('<td>').html(appName).appendTo(tr).css({
-          'height': '21px'
-        });
-        $('.inner-table-appName tbody').append(tr);
-      });
+
 
       var count = 0;
       $('td.fc-day').each(function (i, elem) {
@@ -389,134 +391,136 @@ $('.fc-next-button, .fc-prev-button, .fc-today-button').click(function () {
         $.each(data_manual, function (date, valueArr) {
 
           $.each(appNameObj, function (appId, appName) {
-            if (date == dd) {
-              if (valueArr[appId]) {
-                // console.log(date + ' ' + appName + " = " + valueArr[appId]);
-                var tr = $('<tr>').css({
-                  'height': '21px ',
-                  'text-align': 'center'
-                });
-                var td = $('<td>');
-                $.each(calendarId, function (calId, appId11) {
-                  if (appId === appId11)
-                    td.html(valueArr[appId]).addClass(date).addClass(calId).appendTo(tr);
-                });
-                thisColTable.append(tr);
-                if (td.html() == 'L') {
-                  td.css({
-                    "background-color": "orange",
-                    "color": "black"
+            if (appId === parentX) {
+              if (date == dd) {
+                if (valueArr[appId]) {
+                  // console.log(date + ' ' + appName + " = " + valueArr[appId]);
+                  var tr = $('<tr>').css({
+                    'height': '21px ',
+                    'text-align': 'center'
                   });
-                } else if (td.html() == 'H') {
-                  td.css({
-                    "background-color": "#B19CD9",
-                    "color": "black"
+                  var td = $('<td>');
+                  $.each(calendarId, function (calId, appId11) {
+                    if (appId === appId11)
+                      td.html(valueArr[appId]).addClass(date).addClass(calId).appendTo(tr);
                   });
-                } else if (td.html() == 'D') {
-                  td.css({
-                    "background-color": "green",
-                    "color": "black"
+                  thisColTable.append(tr);
+                  if (td.html() == 'L') {
+                    td.css({
+                      "background-color": "orange",
+                      "color": "black"
+                    });
+                  } else if (td.html() == 'H') {
+                    td.css({
+                      "background-color": "#B19CD9",
+                      "color": "black"
+                    });
+                  } else if (td.html() == 'D') {
+                    td.css({
+                      "background-color": "green",
+                      "color": "black"
+                    });
+                  } else if (td.html() == 'LL') {
+                    td.css({
+                      "background-color": "orange",
+                      "color": "orange"
+                    });
+                  }
+                  td.on('change', function (evt, newValue) {
+
+                    var thisElem = $(this);
+                    console.log('thisElem');
+                    console.log(thisElem);
+                    console.log('evt');
+                    console.log(evt);
+                    console.log('newValue');
+                    console.log(newValue);
+                    var classArr = thisElem.attr('class').split(' ');
+                    console.log(classArr);
+
+                    if (newValue == 'L') {
+                      thisElem.css({
+                        "background-color": "orange",
+                        "color": "black"
+                      });
+                    } else if (newValue == 'H') {
+                      thisElem.css({
+                        "background-color": "#B19CD9",
+                        "color": "black"
+                      });
+                    } else if (newValue == 'D') {
+                      thisElem.css({
+                        "background-color": "green",
+                        "color": "black"
+                      });
+                    } else if (newValue == 'LL') {
+                      thisElem.css({
+                        "background-color": "orange",
+                        "color": "orange"
+                      });
+                    }
+
+                    $.ajax({
+                      type: 'PUT',
+                      url: url + classArr[1],
+                      data: {
+                        value: newValue,
+                        fullDate: classArr[0],
+                      }
+                    });
                   });
-                } else if (td.html() == 'LL') {
-                  td.css({
-                    "background-color": "orange",
-                    "color": "orange"
+                } else {
+                  var empty = $('<tr>').css({
+                    'height': '21px ',
+                    'text-align': 'center'
+                  });
+                  var td1 = $('<td>');
+                  $.each(calendarId, function (calId, appId11) {
+                    if (appId === appId11)
+                      td1.html('').addClass(date).addClass(calId).appendTo(empty);
+                  });
+                  thisColTable.append(empty);
+                  td1.on('change', function (evt, newValue) {
+                    var thisElem = $(this);
+                    console.log('thisElem');
+                    console.log(thisElem);
+                    console.log('evt');
+                    console.log(evt);
+                    console.log('newValue');
+                    console.log(newValue);
+                    var classArr = thisElem.attr('class').split(' ');
+                    console.log(classArr);
+                    if (newValue == 'L') {
+                      thisElem.css({
+                        "background-color": "orange",
+                        "color": "black"
+                      });
+                    } else if (newValue == 'H') {
+                      thisElem.css({
+                        "background-color": "#B19CD9",
+                        "color": "black"
+                      });
+                    } else if (newValue == 'D') {
+                      thisElem.css({
+                        "background-color": "green",
+                        "color": "black"
+                      });
+                    } else if (newValue == 'LL') {
+                      thisElem.css({
+                        "background-color": "orange",
+                        "color": "orange"
+                      });
+                    }
+                    $.ajax({
+                      type: 'PUT',
+                      url: url + classArr[1],
+                      data: {
+                        value: newValue,
+                        fullDate: classArr[0],
+                      }
+                    });
                   });
                 }
-                td.on('change', function (evt, newValue) {
-
-                  var thisElem = $(this);
-                  console.log('thisElem');
-                  console.log(thisElem);
-                  console.log('evt');
-                  console.log(evt);
-                  console.log('newValue');
-                  console.log(newValue);
-                  var classArr = thisElem.attr('class').split(' ');
-                  console.log(classArr);
-
-                  if (newValue == 'L') {
-                    thisElem.css({
-                      "background-color": "orange",
-                      "color": "black"
-                    });
-                  } else if (newValue == 'H') {
-                    thisElem.css({
-                      "background-color": "#B19CD9",
-                      "color": "black"
-                    });
-                  } else if (newValue == 'D') {
-                    thisElem.css({
-                      "background-color": "green",
-                      "color": "black"
-                    });
-                  } else if (newValue == 'LL') {
-                    thisElem.css({
-                      "background-color": "orange",
-                      "color": "orange"
-                    });
-                  }
-
-                  $.ajax({
-                    type: 'PUT',
-                    url: url + classArr[1],
-                    data: {
-                      value: newValue,
-                      fullDate: classArr[0],
-                    }
-                  });
-                });
-              } else {
-                var empty = $('<tr>').css({
-                  'height': '21px ',
-                  'text-align': 'center'
-                });
-                var td1 = $('<td>');
-                $.each(calendarId, function (calId, appId11) {
-                  if (appId === appId11)
-                    td1.html('').addClass(date).addClass(calId).appendTo(empty);
-                });
-                thisColTable.append(empty);
-                td1.on('change', function (evt, newValue) {
-                  var thisElem = $(this);
-                  console.log('thisElem');
-                  console.log(thisElem);
-                  console.log('evt');
-                  console.log(evt);
-                  console.log('newValue');
-                  console.log(newValue);
-                  var classArr = thisElem.attr('class').split(' ');
-                  console.log(classArr);
-                  if (newValue == 'L') {
-                    thisElem.css({
-                      "background-color": "orange",
-                      "color": "black"
-                    });
-                  } else if (newValue == 'H') {
-                    thisElem.css({
-                      "background-color": "#B19CD9",
-                      "color": "black"
-                    });
-                  } else if (newValue == 'D') {
-                    thisElem.css({
-                      "background-color": "green",
-                      "color": "black"
-                    });
-                  } else if (newValue == 'LL') {
-                    thisElem.css({
-                      "background-color": "orange",
-                      "color": "orange"
-                    });
-                  }
-                  $.ajax({
-                    type: 'PUT',
-                    url: url + classArr[1],
-                    data: {
-                      value: newValue,
-                      fullDate: classArr[0],
-                    }
-                  });
-                });
               }
             }
           });
@@ -524,58 +528,62 @@ $('.fc-next-button, .fc-prev-button, .fc-today-button').click(function () {
         });
         if (thisColTable[0].childNodes[0] === undefined) {
           $.each(appNameObj, function (appId, appName) {
-            var empty = $('<tr>').css({
-              'height': '21px ',
-              'text-align': 'center'
-            });
-            var td = $('<td>');
-            $.each(calendarId, function (calId, appId11) {
-              if (appId === appId11)
-                td.html('').addClass(dd).addClass(calId).appendTo(empty);
-            });
-            thisColTable.append(empty);
-            td.on('change', function (evt, newValue) {
-              var thisElem = $(this);
-              console.log('thisElem');
-              console.log(thisElem);
-              console.log('evt');
-              console.log(evt);
-              console.log('newValue');
-              console.log(newValue);
-              var classArr = thisElem.attr('class').split(' ');
-              console.log(classArr);
-              if (newValue == 'L') {
-                thisElem.css({
-                  "background-color": "orange",
-                  "color": "black"
-                });
-              } else if (newValue == 'H') {
-                thisElem.css({
-                  "background-color": "#B19CD9",
-                  "color": "black"
-                });
-              } else if (newValue == 'D') {
-                thisElem.css({
-                  "background-color": "green",
-                  "color": "black"
-                });
-              } else if (newValue == 'LL') {
-                thisElem.css({
-                  "background-color": "orange",
-                  "color": "orange"
-                });
-              }
-              $.ajax({
-                type: 'PUT',
-                url: url + classArr[1],
-                data: {
-                  value: newValue,
-                  fullDate: classArr[0],
-                }
+            if (appId === parentX) {
+              var empty = $('<tr>').css({
+                'height': '21px ',
+                'text-align': 'center'
               });
-            });
+              var td = $('<td>');
+              $.each(calendarId, function (calId, appId11) {
+                if (appId === appId11)
+                  td.html('').addClass(dd).addClass(calId).appendTo(empty);
+              });
+              thisColTable.append(empty);
+              td.on('change', function (evt, newValue) {
+                var thisElem = $(this);
+                console.log('thisElem');
+                console.log(thisElem);
+                console.log('evt');
+                console.log(evt);
+                console.log('newValue');
+                console.log(newValue);
+                var classArr = thisElem.attr('class').split(' ');
+                console.log(classArr);
+                if (newValue == 'L') {
+                  thisElem.css({
+                    "background-color": "orange",
+                    "color": "black"
+                  });
+                } else if (newValue == 'H') {
+                  thisElem.css({
+                    "background-color": "#B19CD9",
+                    "color": "black"
+                  });
+                } else if (newValue == 'D') {
+                  thisElem.css({
+                    "background-color": "green",
+                    "color": "black"
+                  });
+                } else if (newValue == 'LL') {
+                  thisElem.css({
+                    "background-color": "orange",
+                    "color": "orange"
+                  });
+                }
+                $.ajax({
+                  type: 'PUT',
+                  url: url + classArr[1],
+                  data: {
+                    value: newValue,
+                    fullDate: classArr[0],
+                  }
+                });
+              });
+            }
           });
+
         }
+
         $('.fc-day-grid').off();
         if (permission) {
           table.editableTableWidget({

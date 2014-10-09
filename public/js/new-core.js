@@ -21,6 +21,7 @@ angular.module('project', ['ngRoute', 'ngGrid', 'ui.bootstrap'])
   }
 ])
 
+
 .run(["$templateCache",
   function ($templateCache) {
     $templateCache.put("template/popover/popover.html",
@@ -332,12 +333,15 @@ angular.module('project', ['ngRoute', 'ngGrid', 'ui.bootstrap'])
       editableCellTemplate: $scope.cellSelectEditableTemplateOutdated,
       width: 75
     }, {
-      cellTemplate: '<div class=\'calendar-cell\' popover="<div id=\'calendar\'></div><script src=\'js/calendar.js\'></script><script src=\'js/getCalendarDataForOneApp.js\'></script>"  popover-placement="left" popover-append-to-body="true">Click</div>',
+      cellTemplate: '<div name={{row.entity._id}}  class=\'calendar-cell \' popover="<div  id=\'calendar\'></div><script src=\'js/calendar.js\'></script><script src=\'js/getCalendarDataForOneApp.js\'></script>"  popover-placement="left" popover-append-to-body="true">Click</div>',
       cellClass: 'calendar-btn',
       displayName: 'Calendar',
       enableCellEdit: false,
       width: 75
-    }, ],
+    }, {
+      field: '_id',
+      visible: false,
+    }],
     showGroupPanel: true,
     enableColumnResize: true,
     showFilter: true,
