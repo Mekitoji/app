@@ -171,29 +171,39 @@ module.exports = function (app) {
         if (err) res.send(err);
         ApprovedApps.create(data, function (err, apps) {
           if (err) res.send(err);
-          apps.tv = 'Approved';
-          apps.currentStatus = 'Approved';
+          //check if it approved for all device or not
+          if (req.body.tv === 'Approved') {
+            apps.tv = 'Approved';
+            apps.currentStatus = 'Approved';
+          } else if (req.body.tv === 'Partial') {
+            apps.tv = 'Partial';
+            apps.currentStatus = 'Approved on partial devices';
+          }
+          //save
           apps.save(function (err, data) {
             if (err) res.send(err);
             res.json(data);
           });
         });
+        //remove from main gk base
         Apps.findByIdAndRemove(id, function (err, data) {
           if (err) res.send(err);
         });
       });
+
       //for calendar
       Cal.findOne({
         'appId': id
       }, function (err, cal) {
         if (err) res.send(err);
-        console.log(cal);
+        //save in new collection
         ApprovedCal.create(cal, function (err, data) {
           if (err) res.send(err);
           data.save(function (err, data) {
             if (err) res.send(err);
           });
         });
+        //remove from main gk base
         Cal.findOneAndRemove({
           'appId': id
         }, function (err, data) {
@@ -216,9 +226,10 @@ module.exports = function (app) {
       if (req.body.testCycles) app.testCycles = req.body.testCycles;
       if (req.body.replyTime) app.replyTime = req.body.replyTime;
       if (req.body.resp) app.resp = req.body.resp;
-      if (req.body.outdated) app.outdated = req.body.outdated;
       if (req.body.applicationId) app.applicationId = req.body.applicationId;
       if (req.body.color) app.color = req.body.color;
+
+      app.outdated = req.body.outdated;
       //check and change with preload Status
       console.log(req.body);
       if (req.body.currentStatus) {
@@ -237,13 +248,16 @@ module.exports = function (app) {
           console.log('here2');
         }
       }
+
       app.save(function (err, data) {
         if (err) res.send(err);
+
         res.json(data);
       });
 
-      if (req.body.tv === 'Approved') {
+      if (req.body.tv === 'Approved' || req.body.tv === 'Partial') {
         checkApproved(req.params.app_id);
+        console.log(req.body.outdated);
       }
     });
   });

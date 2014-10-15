@@ -11,3 +11,4 @@ test/
 
 #config file
 config/config.json
+*.dmp

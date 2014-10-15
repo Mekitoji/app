@@ -20,6 +20,97 @@ angular.module('project', ['ngRoute', 'ngGrid', 'ui.bootstrap'])
     };
   }
 ])
+  .directive('watchElem', [
+
+    function () {
+      return {
+        restrict: 'A',
+        link: function (scope, element, attrs, controller) {
+          function simulate(element, eventName) {
+            var options = extend(defaultOptions, arguments[2] || {});
+            var oEvent, eventType = null;
+
+            for (var name in eventMatchers) {
+              if (eventMatchers[name].test(eventName)) {
+                eventType = name;
+                break;
+              }
+            }
+
+            if (!eventType)
+              throw new SyntaxError('Only HTMLEvents and MouseEvents interfaces are supported');
+
+            if (document.createEvent) {
+              oEvent = document.createEvent(eventType);
+              if (eventType == 'HTMLEvents') {
+                oEvent.initEvent(eventName, options.bubbles, options.cancelable);
+              } else {
+                oEvent.initMouseEvent(eventName, options.bubbles, options.cancelable, document.defaultView,
+                  options.button, options.pointerX, options.pointerY, options.pointerX, options.pointerY,
+                  options.ctrlKey, options.altKey, options.shiftKey, options.metaKey, options.button, element);
+              }
+              element.dispatchEvent(oEvent);
+            } else {
+              options.clientX = options.pointerX;
+              options.clientY = options.pointerY;
+              var evt = document.createEventObject();
+              oEvent = extend(evt, options);
+              element.fireEvent('on' + eventName, oEvent);
+            }
+            return element;
+          }
+
+          function extend(destination, source) {
+            for (var property in source)
+              destination[property] = source[property];
+            return destination;
+          }
+
+          var eventMatchers = {
+            'HTMLEvents': /^(?:load|unload|abort|error|select|change|submit|reset|focus|blur|resize|scroll)$/,
+            'MouseEvents': /^(?:click|dblclick|mouse(?:down|up|over|move|out))$/
+          };
+          var defaultOptions = {
+            pointerX: 0,
+            pointerY: 0,
+            button: 0,
+            ctrlKey: false,
+            altKey: false,
+            shiftKey: false,
+            metaKey: false,
+            bubbles: true,
+            cancelable: true
+          };
+
+          scope.$watch(function () {
+            return element.val();
+          }, function (newValue) {
+            console.log(element.val());
+            console.log(newValue);
+            var conf;
+            if (newValue === '0') {
+              conf = confirm('Are you sure you want to approve the App?');
+              if (conf) {
+                simulate(document.getElementById("clickHere"), "click");
+              } else {
+                element.val(1);
+              }
+            }
+
+            if (newValue === '2') {
+              conf = confirm('Are you sure you want to partially approve the App?');
+              if (conf) {
+                simulate(document.getElementById("clickHere"), "click");
+              } else {
+                element.val(1);
+              }
+            }
+
+          });
+        }
+      };
+    }
+  ])
 
 
 .run(["$templateCache",
@@ -192,7 +283,7 @@ angular.module('project', ['ngRoute', 'ngGrid', 'ui.bootstrap'])
   $scope.cellSelectEditableTemplateCountry = '<select ng-class="\'colt\' + col.index" ng-input="COL_FIELD" ng-model="COL_FIELD" ng-options=" v for v in Options.countryProp.values" />';
   $scope.cellSelectEditableTemplateCategory = '<select ng-class="\'colt\' + col.index" ng-input="COL_FIELD" ng-model="COL_FIELD" ng-options=" v for v in Options.categoryProp.values" />';
   $scope.cellSelectEditableTemplateSdpStatus = '<select ng-class="\'colt\' + col.index" ng-input="COL_FIELD" ng-model="COL_FIELD" ng-options=" v for v in Options.sdpStatusProp.values" />';
-  $scope.cellSelectEditableTemplateTv = '<select ng-class="\'colt\' + col.index" ng-input="COL_FIELD" ng-model="COL_FIELD" ng-options=" v for v in Options.tvProp.values" />';
+  $scope.cellSelectEditableTemplateTv = '<select watch-elem ng-class="\'colt\' + col.index" ng-input="COL_FIELD" ng-model="COL_FIELD" ng-options=" v for v in Options.tvProp.values" />';
   $scope.cellSelectEditableTemplateResp = '<select ng-class="\'colt\' + col.index" ng-input="COL_FIELD" ng-model="COL_FIELD" ng-options=" v for v in Options.respProp.values" />';
   $scope.cellSelectEditableTemplateCurrentStatus = '<input auto-complete ng-class="\'colt\' + col.index" ng-input="COL_FIELD" ng-model="COL_FIELD" type="text" />';
   $scope.cellSelectEditableTemplateOutdated = '<select  ng-class="\'colt\' + col.index" ng-input="COL_FIELD" ng-model="COL_FIELD" ng-options=" v for v in Options.outdated.values" />';
@@ -291,7 +382,7 @@ angular.module('project', ['ngRoute', 'ngGrid', 'ui.bootstrap'])
       enableCellEdit: permission
     }, {
       field: 'tv',
-      displayName: 'Tv',
+      displayName: 'TV',
       enableCellEdit: permission,
       editableCellTemplate: $scope.cellSelectEditableTemplateTv,
       width: 80
@@ -561,7 +652,11 @@ angular.module('project', ['ngRoute', 'ngGrid', 'ui.bootstrap'])
     filterOptions: {
       filterText: "",
       useExternalFilter: false
-    }
+    },
+    sortInfo: {
+      fields: ['appName'],
+      directions: ['asc']
+    },
   };
 })
 
@@ -598,7 +693,7 @@ angular.module('project', ['ngRoute', 'ngGrid', 'ui.bootstrap'])
     },
     tvProp: {
       "type": "select",
-      "name": "Tv",
+      "name": "TV",
       "value": "COL_FIELD",
       "values": ["Approve", "Reject", "Partial"]
     },
@@ -753,7 +848,11 @@ angular.module('project', ['ngRoute', 'ngGrid', 'ui.bootstrap'])
     filterOptions: {
       filterText: "",
       useExternalFilter: false
-    }
+    },
+    sortInfo: {
+      fields: ['appName'],
+      directions: ['asc']
+    },
   };
 })
 
@@ -790,7 +889,7 @@ angular.module('project', ['ngRoute', 'ngGrid', 'ui.bootstrap'])
     },
     tvProp: {
       "type": "select",
-      "name": "Tv",
+      "name": "TV",
       "value": "COL_FIELD",
       "values": ["Approved", "Reject", "Partial"]
     },
@@ -912,7 +1011,7 @@ angular.module('project', ['ngRoute', 'ngGrid', 'ui.bootstrap'])
       enableCellEdit: permission
     }, {
       field: 'tv',
-      displayName: 'Tv',
+      displayName: 'TV',
       enableCellEdit: permission,
       editableCellTemplate: $scope.cellSelectEditableTemplateTv,
       width: 80
@@ -962,7 +1061,11 @@ angular.module('project', ['ngRoute', 'ngGrid', 'ui.bootstrap'])
     filterOptions: {
       filterText: "",
       useExternalFilter: false
-    }
+    },
+    sortInfo: {
+      fields: ['appName'],
+      directions: ['asc']
+    },
   };
 })
 

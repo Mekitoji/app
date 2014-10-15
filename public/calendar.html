@@ -12,7 +12,9 @@
 </select> -->
 <input type='text' id='datepicker'>
 <div class="container">
+
   <div class='inner-table-appName'>
+
     <table class='in-row' id='test'>
       <thead>
         <th>App Name</th>
@@ -22,45 +24,14 @@
       </tbody>
     </table>
   </div>
+
   <div id='calendar'></div>
 </div>
 <!--     <div class="gridStyle" ng-grid="gridOptions"></div>
     <button ng-click='prev($event)'>&laquo Prev</button>
     <button ng-click='next($event)'>Next &raquo</button> -->
-    <style>
-    body {
-      margin-top: 0;
-      text-align: center;
-      font-size: 14px;
-      font-family: "Lucida Grande",Helvetica,Arial,Verdana,sans-serif;
-    }
-
-    #calendar {
-      width: 900px;
-      margin: 0 auto;
-    }
-    .container {
-      margin-top:10px;
-      width:90%;
-    }
-    .container>div {
-        float:left;
-    }
-    .inner-table-appName{
-      margin-top:55px;
-      margin-right: 10px;
-    }
-    .fc-bg table{
-      height: auto;
-    }
-
-    </style>
+    
+    <link rel="stylesheet" href="css/calendar.css">
     <script src='js/calendar.js'></script>
     <script src='js/getCalendarData.js'></script>
     <script src='js/datepicker.js'></script>
-
-<style>
-  td.fc-widget-content {
-    border-bottom: 0px;
-  }
-</style>

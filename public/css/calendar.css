@@ -1,0 +1,37 @@
+body {
+  margin-top: 0;
+  text-align: right;
+  font-size: 14px;
+  font-family: "Lucida Grande",Helvetica,Arial,Verdana,sans-serif;
+}
+th{
+text-align: right;
+}
+#calendar {
+  width: 900px;
+  margin: 0 auto;
+}
+.container {
+  margin-top:10px;
+  width:90%;
+}
+.container>div {
+    float:left;
+}
+.inner-table-appName{
+  margin-top:55px;
+  margin-right: 10px;
+}
+.fc-bg table{
+  height: auto;
+}
+
+td.fc-widget-content {
+  border-bottom: 0px;
+}
+
+#datepicker {
+  position: absolute;
+  left:943px;
+  top:137px;
+}
