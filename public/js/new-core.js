@@ -20,97 +20,50 @@ angular.module('project', ['ngRoute', 'ngGrid', 'ui.bootstrap'])
     };
   }
 ])
-  .directive('watchElem', [
 
-    function () {
-      return {
-        restrict: 'A',
-        link: function (scope, element, attrs, controller) {
-          function simulate(element, eventName) {
-            var options = extend(defaultOptions, arguments[2] || {});
-            var oEvent, eventType = null;
+.directive('watchElem', [
 
-            for (var name in eventMatchers) {
-              if (eventMatchers[name].test(eventName)) {
-                eventType = name;
-                break;
-              }
-            }
+  function () {
+    return {
+      restrict: 'A',
+      link: function (scope, element, attrs, controller) {
 
-            if (!eventType)
-              throw new SyntaxError('Only HTMLEvents and MouseEvents interfaces are supported');
 
-            if (document.createEvent) {
-              oEvent = document.createEvent(eventType);
-              if (eventType == 'HTMLEvents') {
-                oEvent.initEvent(eventName, options.bubbles, options.cancelable);
-              } else {
-                oEvent.initMouseEvent(eventName, options.bubbles, options.cancelable, document.defaultView,
-                  options.button, options.pointerX, options.pointerY, options.pointerX, options.pointerY,
-                  options.ctrlKey, options.altKey, options.shiftKey, options.metaKey, options.button, element);
-              }
-              element.dispatchEvent(oEvent);
+        scope.$watch(function () {
+          return element.val();
+        }, function (newValue) {
+          console.log(element.val());
+          console.log(newValue);
+          var conf;
+          if (newValue === '0') {
+            conf = confirm('Are you sure you want to approve the App?');
+            if (conf) {
+              $('#clickHere').trigger('focus');
+              location.reload();
             } else {
-              options.clientX = options.pointerX;
-              options.clientY = options.pointerY;
-              var evt = document.createEventObject();
-              oEvent = extend(evt, options);
-              element.fireEvent('on' + eventName, oEvent);
+              element.val(1);
+              newValue = 1;
+              location.reload();
             }
-            return element;
           }
 
-          function extend(destination, source) {
-            for (var property in source)
-              destination[property] = source[property];
-            return destination;
+          if (newValue === '2') {
+            conf = confirm('Are you sure you want to partially approve the App?');
+            if (conf) {
+              $('#clickHere').trigger('focus');
+              location.reload();
+            } else {
+              element.val(1);
+              newValue = 1;
+              location.reload();
+            }
           }
 
-          var eventMatchers = {
-            'HTMLEvents': /^(?:load|unload|abort|error|select|change|submit|reset|focus|blur|resize|scroll)$/,
-            'MouseEvents': /^(?:click|dblclick|mouse(?:down|up|over|move|out))$/
-          };
-          var defaultOptions = {
-            pointerX: 0,
-            pointerY: 0,
-            button: 0,
-            ctrlKey: false,
-            altKey: false,
-            shiftKey: false,
-            metaKey: false,
-            bubbles: true,
-            cancelable: true
-          };
-
-          scope.$watch(function () {
-            return element.val();
-          }, function (newValue) {
-            console.log(element.val());
-            console.log(newValue);
-            var conf;
-            if (newValue === '0') {
-              conf = confirm('Are you sure you want to approve the App?');
-              if (conf) {
-                simulate(document.getElementById("clickHere"), "click");
-              } else {
-                element.val(1);
-              }
-            }
-
-            if (newValue === '2') {
-              conf = confirm('Are you sure you want to partially approve the App?');
-              if (conf) {
-                simulate(document.getElementById("clickHere"), "click");
-              } else {
-                element.val(1);
-              }
-            }
-
-          });
-        }
-      };
-    }
-  ])
+        });
+      }
+    };
+  }
+])
 
 
 .run(["$templateCache",
@@ -237,7 +190,7 @@ angular.module('project', ['ngRoute', 'ngGrid', 'ui.bootstrap'])
       "type": "select",
       "name": "Category",
       "value": "COL_FIELD",
-      "values": ["OTT", "Pay TV", "Broadcast", "OTT + Pay TV", "Others"]
+      "values": ["OTT", "Pay TV", "Broadcast", "OTT + Pay TV", "Game", "Others"]
     },
     sdpStatusProp: {
       "type": "select",
@@ -389,7 +342,7 @@ angular.module('project', ['ngRoute', 'ngGrid', 'ui.bootstrap'])
     }, {
       field: 'currentStatus',
       displayName: 'Current status',
-      cellTemplate: '<div style="background-color:{{row.entity.color}} " ><div ng-class="{\'purple\': row.entity.currentStatus == \'Waiting for QA\',\'orange\': row.entity.currentStatus== \'Waiting for review\',\'green\':row.entity.currentStatus==\'Waiting for fix\'}" style="color:black" class="ngCellText">{{row.getProperty(col.field)}}</div></div>',
+      cellTemplate: '<div class={{row.entity.color}} ><div ng-class="{\'purple\': row.entity.currentStatus == \'Waiting for QA\',\'orange\': row.entity.currentStatus== \'Waiting for review\',\'green\':row.entity.currentStatus==\'Waiting for fix\'}" style="color:black" class="ngCellText">{{row.getProperty(col.field)}}</div></div>',
       enableCellEdit: permission,
       editableCellTemplate: $scope.cellSelectEditableTemplateCurrentStatus,
       width: 125
@@ -397,7 +350,7 @@ angular.module('project', ['ngRoute', 'ngGrid', 'ui.bootstrap'])
       field: 'color',
       displayName: '#',
       enableCellEdit: permission,
-      cellTemplate: '<div style="background-color:{{row.entity.color}} "><div  class="ngCellText"></div></div>',
+      cellTemplate: '<div class={{row.entity.color}} "><div  class="ngCellText"></div></div>',
       editableCellTemplate: $scope.cellSelectEditableTemplateColor,
       width: '20px',
     }, {
@@ -472,7 +425,7 @@ angular.module('project', ['ngRoute', 'ngGrid', 'ui.bootstrap'])
       "type": "select",
       "name": "Category",
       "value": "COL_FIELD",
-      "values": ["OTT", "Pay TV", "Broadcast", "OTT + Pay TV", "Others"]
+      "values": ["OTT", "Pay TV", "Broadcast", "OTT + Pay TV", "Game", "Others"]
     },
     sdpStatusProp: {
       "type": "select",
@@ -609,7 +562,7 @@ angular.module('project', ['ngRoute', 'ngGrid', 'ui.bootstrap'])
     }, {
       field: 'currentStatus',
       displayName: 'Current status',
-      cellTemplate: '<div style="background-color:{{row.entity.color}} " ><div ng-class="{\'purple\': row.entity.currentStatus == \'Waiting for QA\',\'orange\':row.entity.currentStatus==\'Waiting for review\'}",\'green\':row.entity.currentStatus==\'Waiting for fix\'}" style="color:black" class="ngCellText">{{row.getProperty(col.field)}}</div></div>',
+      cellTemplate: '<div class={{row.entity.color}} " ><div ng-class="{\'purple\': row.entity.currentStatus == \'Waiting for QA\',\'orange\':row.entity.currentStatus==\'Waiting for review\'}",\'green\':row.entity.currentStatus==\'Waiting for fix\'}" style="color:black" class="ngCellText">{{row.getProperty(col.field)}}</div></div>',
       enableCellEdit: permission,
       editableCellTemplate: $scope.cellSelectEditableTemplateCurrentStatus,
       width: 125
@@ -617,7 +570,7 @@ angular.module('project', ['ngRoute', 'ngGrid', 'ui.bootstrap'])
       field: 'color',
       displayName: '#',
       enableCellEdit: permission,
-      cellTemplate: '<div style="background-color:{{row.entity.color}} "><div  class="ngCellText"></div></div>',
+      cellTemplate: '<div class={{row.entity.color}} "><div  class="ngCellText"></div></div>',
       editableCellTemplate: $scope.cellSelectEditableTemplateColor,
       width: '20px',
     }, {
@@ -683,7 +636,7 @@ angular.module('project', ['ngRoute', 'ngGrid', 'ui.bootstrap'])
       "type": "select",
       "name": "Category",
       "value": "COL_FIELD",
-      "values": ["OTT", "Pay TV", "Broadcast", "OTT + Pay TV", "Others"]
+      "values": ["OTT", "Pay TV", "Broadcast", "OTT + Pay TV", "Game", "Others"]
     },
     sdpStatusProp: {
       "type": "select",
@@ -811,7 +764,7 @@ angular.module('project', ['ngRoute', 'ngGrid', 'ui.bootstrap'])
     }, {
       field: 'currentStatus',
       displayName: 'Current status',
-      cellTemplate: '<div style="background-color:{{row.entity.color}} " ><div style="color:white" class="ngCellText">{{row.getProperty(col.field)}}</div></div>',
+      cellTemplate: '<div class={{row.entity.color}} " ><div style="color:white" class="ngCellText">{{row.getProperty(col.field)}}</div></div>',
       enableCellEdit: false,
       editableCellTemplate: $scope.cellSelectEditableTemplateCurrentStatus,
       width: 125
@@ -819,7 +772,7 @@ angular.module('project', ['ngRoute', 'ngGrid', 'ui.bootstrap'])
       field: 'color',
       displayName: '#',
       enableCellEdit: false,
-      cellTemplate: '<div style="background-color:{{row.entity.color}} "><div  class="ngCellText"></div></div>',
+      cellTemplate: '<div class={{row.entity.color}} "><div  class="ngCellText"></div></div>',
       editableCellTemplate: $scope.cellSelectEditableTemplateColor,
       width: '20px',
     }, {
@@ -879,7 +832,7 @@ angular.module('project', ['ngRoute', 'ngGrid', 'ui.bootstrap'])
       "type": "select",
       "name": "Category",
       "value": "COL_FIELD",
-      "values": ["OTT", "Pay TV", "Broadcast", "OTT + Pay TV", "Others"]
+      "values": ["OTT", "Pay TV", "Broadcast", "OTT + Pay TV", "Game", "Others"]
     },
     sdpStatusProp: {
       "type": "select",
@@ -1018,7 +971,7 @@ angular.module('project', ['ngRoute', 'ngGrid', 'ui.bootstrap'])
     }, {
       field: 'currentStatus',
       displayName: 'Current status',
-      cellTemplate: '<div style="background-color:{{row.entity.color}} " ><div ng-class="{\'purple\': row.entity.currentStatus == \'Waiting for QA\',\'orange\':row.entity.currentStatus==\'Waiting for review\'}",\'green\':row.entity.currentStatus==\'Waiting for fix\'}" style="color:black" class="ngCellText">{{row.getProperty(col.field)}}</div></div>',
+      cellTemplate: '<div class={{row.entity.color}} " ><div ng-class="{\'purple\': row.entity.currentStatus == \'Waiting for QA\',\'orange\':row.entity.currentStatus==\'Waiting for review\'}",\'green\':row.entity.currentStatus==\'Waiting for fix\'}" style="color:black" class="ngCellText">{{row.getProperty(col.field)}}</div></div>',
       enableCellEdit: permission,
       editableCellTemplate: $scope.cellSelectEditableTemplateCurrentStatus,
       width: 125
@@ -1026,7 +979,7 @@ angular.module('project', ['ngRoute', 'ngGrid', 'ui.bootstrap'])
       field: 'color',
       displayName: '#',
       enableCellEdit: permission,
-      cellTemplate: '<div style="background-color:{{row.entity.color}} "><div  class="ngCellText"></div></div>',
+      cellTemplate: '<div class={{row.entity.color}} "><div  class="ngCellText"></div></div>',
       editableCellTemplate: $scope.cellSelectEditableTemplateColor,
       width: '20px',
     }, {

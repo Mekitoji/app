@@ -13,7 +13,9 @@ module.exports = function (app) {
     //req.body.data
     // console.log(req.body);
 
+    //check table caption
     if (req.body.table_caption === 'QA Request Mgt. List') {
+      //parse incoming obj to json view
       var objectX = JSON.parse(req.body.data);
 
       _.each(objectX, function (arr) {
@@ -38,7 +40,9 @@ module.exports = function (app) {
                     appName: obj.appName,
                     seller: obj.seller,
                     sdpStatus: obj.appStatus,
+                    tv: 'Reject',
                     testCycles: 1,
+                    updateTime: obj.updateDate,
                     replyTime: 0,
                     applicationId: obj.appId
                   }, function (err, app) {
@@ -77,6 +81,8 @@ module.exports = function (app) {
                   appName: obj.appName,
                   seller: obj.seller,
                   sdpStatus: obj.appStatus,
+                  tv: 'Reject',
+                  updateTime: obj.updateDate,
                   testCycles: 1,
                   replyTime: 0,
                   applicationId: obj.appId
@@ -120,11 +126,16 @@ module.exports = function (app) {
               if (err) res.json({
                 "result": err
               });
+
+
+              obj.updateDate = obj.updateDate.split(' ')[0];
+
               //put some data for update here
               app.appName = obj.appName;
               app.sdpStatus = obj.appStatus;
               app.seller = obj.seller;
               app.applicationId = obj.appId;
+              app.updateTime = new Date(obj.updateDate);
               // save the bear
               app.save(function (err) {
                 if (err)
