@@ -32,6 +32,10 @@ td.fc-widget-content {
 
 #datepicker {
   position: absolute;
-  left:943px;
+  left:1107px;
   top:137px;
+}
+
+.column-table>tr>td{
+  border: 1px solid #aaa;
 }

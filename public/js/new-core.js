@@ -381,6 +381,7 @@ angular.module('project', ['ngRoute', 'ngGrid', 'ui.bootstrap'])
       cellClass: 'calendar-btn',
       displayName: 'Calendar',
       enableCellEdit: false,
+      visible: permission,
       width: 75
     }, {
       field: '_id',
@@ -596,6 +597,13 @@ angular.module('project', ['ngRoute', 'ngGrid', 'ui.bootstrap'])
       enableCellEdit: permission,
       editableCellTemplate: $scope.cellSelectEditableTemplateOutdated,
       width: 75
+    }, {
+      cellTemplate: '<div name={{row.entity._id}}  class=\'calendar-cell \' popover="<div  id=\'calendar\'></div><script src=\'js/calendar.js\'></script><script src=\'js/getCalendarDataForOneApp.js\'></script>"  popover-placement="left" popover-append-to-body="true">Click</div>',
+      cellClass: 'calendar-btn',
+      displayName: 'Calendar',
+      enableCellEdit: false,
+      width: 75,
+      visible: permission
     }, ],
     showGroupPanel: true,
     enableColumnResize: true,
@@ -764,7 +772,7 @@ angular.module('project', ['ngRoute', 'ngGrid', 'ui.bootstrap'])
     }, {
       field: 'currentStatus',
       displayName: 'Current status',
-      cellTemplate: '<div class={{row.entity.color}} " ><div style="color:white" class="ngCellText">{{row.getProperty(col.field)}}</div></div>',
+      cellTemplate: '<div" ><div style="black" class="ngCellText">{{row.getProperty(col.field)}}</div></div>',
       enableCellEdit: false,
       editableCellTemplate: $scope.cellSelectEditableTemplateCurrentStatus,
       width: 125
@@ -1005,6 +1013,13 @@ angular.module('project', ['ngRoute', 'ngGrid', 'ui.bootstrap'])
       enableCellEdit: permission,
       editableCellTemplate: $scope.cellSelectEditableTemplateOutdated,
       width: 75
+    }, {
+      cellTemplate: '<div name={{row.entity._id}}  class=\'calendar-cell \' popover="<div  id=\'calendar\'></div><script src=\'js/calendar.js\'></script><script src=\'js/getCalendarDataForOneApp.js\'></script>"  popover-placement="left" popover-append-to-body="true">Click</div>',
+      cellClass: 'calendar-btn',
+      displayName: 'Calendar',
+      enableCellEdit: false,
+      width: 75,
+      visible: permission
     }, ],
     showGroupPanel: true,
     enableColumnResize: true,
