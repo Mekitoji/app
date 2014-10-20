@@ -11,7 +11,7 @@
     <% include layout/header %>
   <form ng-submit='submit()'>
   <div class="container">
-    <div><textarea name="changeText" id="writeToWin" cols="80" rows="30" ng-model="previewText"></textarea></div>
+    <div id='textHandler'><textarea name="changeText" id="writeToWin" cols="80" rows="30" ng-model="previewText"></textarea></div>
     <div id='preview' ng-bind-html="previewText | unsafe"></div>
   </div>
 

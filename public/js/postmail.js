@@ -44,7 +44,7 @@ angular.module('postmail', [])
   .success(function (data) {
     $scope.apps = data;
     $scope.previewText = 'Dear Ted,<br />Here I summarize those apps that are on App QA team.' +
-      '<style type="text/css">.red{background-color:red;} table, table th, table td{border:1px solid black;padding:10px;border-collapse:collapse;}</style> <br /> <br /> <table border=\'1\'  cellspacing=\'0\' cellpadding=\'0\'><tr><th><b>COUNTRY</b><th><b>App Id</b></th></th><th><b>APP</b></th><th><b>STATUS</b></th><th><b>Update Date</b></th><th><b>SELLER</b></th><th><b>Comments</b></th></tr>';
+      '<style type="text/css">.red{background-color:#F00;} table, table th, table td{border:1px solid black;padding:10px;border-collapse:collapse;}</style> <br /> <br /> <table border=\'1\'  cellspacing=\'0\' cellpadding=\'0\'><tr><th><b>COUNTRY</b><th><b>App Id</b></th></th><th><b>APP</b></th><th><b>STATUS</b></th><th><b>Update Date</b></th><th><b>SELLER</b></th><th><b>Comments</b></th></tr>';
     _.each($scope.apps, function (num) {
       _.each(num, function (data, key) {
 
@@ -54,17 +54,24 @@ angular.module('postmail', [])
           var temp_date = temp.getDate();
           var temp_month = temp.getMonth() + 1;
           var temp_year = temp.getFullYear();
-
+          temp_date = temp_date.toString();
+          if (temp_date.toString().length === 1) {
+            temp_date = '0' + temp_date;
+          }
+          if (temp_month.toString().length === 1) {
+            temp_date = '0' + temp_date;
+          }
           //here start
           var classx = 'currentDate ';
           var date1 = (new Date()).getTime();
           var minus = date1 - new Date(num.updateTime).getTime();
+          var bgcolor = '';
           console.log(minus);
           if (minus > 604800000) {
-            classx += 'red';
+            bgcolor = 'bgcolor="red"';
           }
           num.updateTime = temp_year + "-" + temp_month + "-" + temp_date;
-          $scope.previewText += "<tr><td>" + num.country + "</td><td>" + num.applicationId + "</td><td>" + num.appName + "</td><td>" + num.sdpStatus + "</td><td class='" + classx + "'>" + num.updateTime + "</td><td>" + num.seller + "</td><td>" + num.currentStatus + "</td></tr>";
+          $scope.previewText += "<tr><td>" + num.country + "</td><td>" + num.applicationId + "</td><td>" + num.appName + "</td><td>" + num.sdpStatus + "</td><td class='" + classx + "' " + bgcolor + ">" + num.updateTime + "</td><td>" + num.seller + "</td><td>" + num.currentStatus + "</td></tr>";
         }
       });
     });
@@ -80,8 +87,12 @@ angular.module('postmail', [])
           var temp_date = temp.getDate();
           var temp_month = temp.getMonth() + 1;
           var temp_year = temp.getFullYear();
-
-
+          if (temp_date.toString().length === 1) {
+            temp_date = '0' + temp_date;
+          }
+          if (temp_month.toString().length === 1) {
+            temp_date = '0' + temp_date;
+          }
           num.updateTime = temp_year + "-" + temp_month + "-" + temp_date;
           $scope.previewText += "<tr><td>" + num.country + "</td><td>" + num.applicationId + '</td><td>' + num.appName + "</td><td>" + num.sdpStatus + "</td><td>" + num.updateTime + "</td><td>" + num.seller + "</td><td>" + num.currentStatus + "</td></tr>";
         }

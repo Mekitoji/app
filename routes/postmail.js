@@ -17,7 +17,7 @@ module.exports = function (app) {
     var mailOptions = {
       from: 'Tester <test@lgerp.com>', // sender address
       to: 'vladimir.egorov@lge.com', // list of receivers
-      cc: ['andrey.sayants@lge.com'],
+      // cc: ['andrey.sayants@lge.com'],
       subject: 'Hello', // Subject line
       text: req.body.text, // plaintext body
       html: req.body.text, // html body
@@ -31,6 +31,5 @@ module.exports = function (app) {
         console.log(info);
       }
     });
-
   });
 };
