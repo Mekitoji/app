@@ -4,7 +4,7 @@ module.exports = function (app) {
   app.get('/main', routesFunction.unAuth, function (req, res) {
     if (req.user) {
       res.render('main.ejs', {
-        user: req.user // get the user out of session and pass to template
+        user: req.user, // get the user out of session and pass to template
       });
     } else {
       res.render('main.ejs', {

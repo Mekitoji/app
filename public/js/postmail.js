@@ -107,7 +107,7 @@ angular.module('postmail', [])
         "text": $scope.previewText
       })
 
-      .success(alert("Mail sent successfully!"));
+      .success(window.location = "/mailSuccess");
 
     };
   });

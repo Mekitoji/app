@@ -107,3 +107,8 @@ div.ngCellText.ng-binding {
   z-index:9999;
   position: absolute;
 }
+
+.text-center {
+  left: 45%;
+  margin: 0;
+}

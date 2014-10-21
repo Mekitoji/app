@@ -14,15 +14,24 @@ module.exports = function (app) {
     console.log(req.body.text);
     var transport = nodemailer.createTransport();
 
+    var monthArray = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+    var temp = new Date();
+    var temp_date = temp.getDate();
+    var temp_month = temp.getMonth();
+    var temp_year = temp.getFullYear();
+
+
+    var subject = "[Share][GK Progress] " + temp_date + " " + monthArray[temp_month] + " " + temp_year;
+
     var mailOptions = {
-      from: 'Tester <test@lgerp.com>', // sender address
+      from: 'GKProgress < GKProgress@lgerp.com>', // sender address
       to: 'vladimir.egorov@lge.com', // list of receivers
       // cc: ['andrey.sayants@lge.com'],
-      subject: 'Hello', // Subject line
+      subject: subject, // Subject line
       text: req.body.text, // plaintext body
       html: req.body.text, // html body
     };
-
+    console.log(subject);
     transport.sendMail(mailOptions, function (error, info) {
       if (error) {
         console.log(error);

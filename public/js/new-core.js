@@ -168,6 +168,7 @@ angular.module('project', ['ngRoute', 'ngGrid', 'ui.bootstrap'])
 
   //Ng-options object Select->Option
   //watch part with  template
+  $scope.loc = 'Main';
 
   var permission;
   // take permission right from server
@@ -405,6 +406,7 @@ angular.module('project', ['ngRoute', 'ngGrid', 'ui.bootstrap'])
 
 .controller('outdatedListCtrl', function ($scope, $http, Apps) {
 
+  $scope.loc = 'Outdated';
   var permission;
   // take permission right from server
   if (userG === 'gk' || userG === 'root') {
@@ -622,7 +624,7 @@ angular.module('project', ['ngRoute', 'ngGrid', 'ui.bootstrap'])
 })
 
 .controller('approvedListCtrl', function ($scope, $http, Apps) {
-
+  $scope.loc = 'Approved';
   var permission;
   // take permission right from server
   if (userG === 'gk' || userG === 'root') {
@@ -818,7 +820,7 @@ angular.module('project', ['ngRoute', 'ngGrid', 'ui.bootstrap'])
 })
 
 .controller('inWorkListCtrl', function ($scope, $http, Apps) {
-
+  $scope.loc = 'In work';
   var permission;
   // take permission right from server
   if (userG === 'gk' || userG === 'root') {
