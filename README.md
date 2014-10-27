@@ -6,6 +6,7 @@ app
 * cd app 
 * mkdir log
 * npm i
+* change config/config.json if need
 
 ==
 
