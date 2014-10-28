@@ -1,3 +1,5 @@
+// REMOVED FUNCTIONLITY
+
 // $(document).ready($('.inner-table-appName tbody'));
 
 var permission;
@@ -27,19 +29,22 @@ $.get(url, function (data) {
   var appNameObj = {};
   var calendarId = {}; //calendarId
   var arr = [];
+
   // var test = {};
   //Push data in array
   for (var i = 0; i < data.length; i++) {
-
+    var innerStorage = data[i].storage;
     calendarId[data[i]._id] = data[i].appId._id; //calendarId
+
+    console.log('data[i]');
     console.log(data[i]);
     console.log(data[i]._id + ' = ' + data[i].appId._id);
-    // error
+
     appNameObj[data[i].appId._id] = data[i].appId.appName;
+
     console.log(data[i].appId._id + ' = ' + data[i].appId.appName);
     console.log(appNameObj[data[i].appId._id]);
     // storageOfDate.push(data[i].storage);
-    var innerStorage = data[i].storage;
 
     for (j = 0; j < innerStorage.length; j++) {
 
@@ -58,6 +63,11 @@ $.get(url, function (data) {
   console.log(appNameObj);
   console.log('calendarId'); //calendarId
   console.log(calendarId); //calendarId
+  console.log('appNameObj:');
+  console.log(appNameObj);
+
+
+
   // console.log('storageOfDate:');
   // console.log(storageOfDate);
 
