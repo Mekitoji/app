@@ -1,8 +1,8 @@
 var _ = require('underscore');
-var Apps = require('../models/gkbase');
-var approvedApps = require('../models/gkbaseApproved');
-var Cal = require('../models/calendar');
-var log = require('../libs/log');
+var Apps = require('../../models/gkbase');
+var approvedApps = require('../../models/gkbaseApproved');
+var Cal = require('../../models/calendar');
+var log = require('../../libs/log');
 
 
 module.exports = function (app) {
@@ -11,7 +11,7 @@ module.exports = function (app) {
     var headerArr2 = ['appId', 'appVer', 'Categoty', 'FileType', 'appName', 'country', 'price', 'updateDate', 'appStatus', 'gkReview', 'addTest'];
     var tempArr = [];
     //req.body.data
-    // console.log(req.body);
+    console.log(req.body);
 
     //check table caption
     if (req.body.table_caption === 'QA Request Mgt. List') {

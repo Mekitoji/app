@@ -1,9 +1,9 @@
-var Apps = require('../models/gkbase');
-var ApprovedApps = require('../models/gkbaseApproved');
-var Cal = require('../models/calendar');
-var ApprovedCal = require('../models/calendarForApprovedApps');
+var Apps = require('../../models/gkbase');
+var ApprovedApps = require('../../models/gkbaseApproved');
+var Cal = require('../../models/calendar');
+var ApprovedCal = require('../../models/calendarForApprovedApps');
 var ObjectId = require('mongoose').Types.ObjectId;
-var log = require('../libs/log');
+var log = require('../../libs/log');
 
 
 module.exports = function (app) {

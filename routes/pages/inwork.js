@@ -1,14 +1,13 @@
-var routesFunction = require('../libs/routesFunction');
-
+var routesFunction = require('../../libs/routesFunction');
 
 module.exports = function (app) {
-  app.get('/outdated', routesFunction.unAuth, function (req, res) {
+  app.get('/inwork', routesFunction.unAuth, function (req, res) {
     if (req.user) {
-      res.render('outdated.ejs', {
-        user: req.user // get the user out of session and pass to template
+      res.render('inwork.ejs', {
+        user: req.user, // get the user out of session and pass to template
       });
     } else {
-      res.render('outdated.ejs', {
+      res.render('inwork.ejs', {
         user: {
           local: {
             username: {

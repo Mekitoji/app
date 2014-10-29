@@ -1,12 +1,12 @@
-var routesFunction = require('../libs/routesFunction');
+var routesFunction = require('../../libs/routesFunction');
 
 // =====================================
 // LOGIN ===============================
 // =====================================
 // show the login form
-module.exports = function(app, passport) {
+module.exports = function (app, passport) {
 
-  app.get('/login', routesFunction.alreadyLoginIn, function(req, res) {
+  app.get('/login', routesFunction.alreadyLoginIn, function (req, res) {
 
     // render the page and pass in any flash data if it exists
     res.render('login.ejs', {

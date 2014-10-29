@@ -1,13 +1,13 @@
-var routesFunction = require('../libs/routesFunction');
+var routesFunction = require('../../libs/routesFunction');
 
 module.exports = function (app) {
-  app.get('/approved', routesFunction.unAuth, function (req, res) {
+  app.get('/main', routesFunction.unAuth, function (req, res) {
     if (req.user) {
-      res.render('approved.ejs', {
-        user: req.user // get the user out of session and pass to template
+      res.render('main.ejs', {
+        user: req.user, // get the user out of session and pass to template
       });
     } else {
-      res.render('approved.ejs', {
+      res.render('main.ejs', {
         user: {
           local: {
             username: {
@@ -20,4 +20,5 @@ module.exports = function (app) {
       });
     }
   });
+
 };

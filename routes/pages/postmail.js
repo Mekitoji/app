@@ -1,5 +1,5 @@
 var nodemailer = require('nodemailer');
-var routesFunction = require('../libs/routesFunction');
+var routesFunction = require('../../libs/routesFunction');
 module.exports = function (app) {
   app.get('/postmail', routesFunction.checkPermission, function (req, res, next) {
     if (req.user) {
