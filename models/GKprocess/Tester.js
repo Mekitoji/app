@@ -26,5 +26,5 @@ var Tester = new Schema({
   Storage: [testCycleStorage]
 });
 
-module.exports = mongoose.model('Tester', Tester);
-module.exports = mongoose.model('TesterEU', Tester);
+module.Tester = mongoose.model('Tester', Tester);
+module.TesterEU = mongoose.model('TesterEU', Tester);

@@ -18,5 +18,5 @@ var Calendar = new Schema({
   storage: [dataStorage]
 });
 
-module.exports = mongoose.model('approvedCalendar', Calendar);
-module.exports = mongoose.model('approvedCalendarEU', Calendar);
+module.approvedCalendar = mongoose.model('approvedCalendar', Calendar);
+module.approvedCalendarEU = mongoose.model('approvedCalendarEU', Calendar);

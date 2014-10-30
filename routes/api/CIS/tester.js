@@ -1,6 +1,6 @@
-var Tester = require('../../../models/GKprocess/Tester.js');
-var Cal = require('../../../models/GKprocess/calendar');
-var Apps = require('../../../models/GKprocess/gkbase');
+var Tester = require('../../../models/GKprocess/Tester.js').Tester;
+var Cal = require('../../../models/GKprocess/calendar').Calendar;
+var Apps = require('../../../models/GKprocess/gkbase').Apps;
 var log = require('../../../libs/log');
 
 module.exports = function (app) {

@@ -1,7 +1,7 @@
-var Apps = require('../../../models/GKprocess/gkbase');
-var ApprovedApps = require('../../../models/GKprocess/gkbaseApproved');
-var Cal = require('../../../models/GKprocess/calendar');
-var ApprovedCal = require('../../../models/GKprocess/calendarForApprovedApps');
+var Apps = require('../../../models/GKprocess/gkbase').Apps;
+var ApprovedApps = require('../../../models/GKprocess/gkbaseApproved').approvedApps;
+var Cal = require('../../../models/GKprocess/calendar').Calendar;
+var ApprovedCal = require('../../../models/GKprocess/calendarForApprovedApps').approvedCalendar;
 var ObjectId = require('mongoose').Types.ObjectId;
 var log = require('../../../libs/log');
 

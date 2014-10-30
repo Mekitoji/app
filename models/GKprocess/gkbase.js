@@ -51,5 +51,5 @@ var Apps = new Schema({
   }
 });
 
-module.exports = mongoose.model('Apps', Apps);
-module.exports = mongoose.model('AppsEU', Apps);
+module.Apps = mongoose.model('Apps', Apps);
+module.AppsEU = mongoose.model('AppsEU', Apps);

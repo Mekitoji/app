@@ -1,5 +1,5 @@
-var Cal = require('../../../models/GKprocess/calendar');
-var Apps = require('../../../models/GKprocess/gkbase');
+var Cal = require('../../../models/GKprocess/calendar').Calendar;
+var Apps = require('../../../models/GKprocess/gkbase').CalendarEU;
 module.exports = function (app) {
 
   //GET data in json

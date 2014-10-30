@@ -52,5 +52,5 @@ var approvedApps = new Schema({
   }
 });
 
-module.exports = mongoose.model('approvedApps', approvedApps);
-module.exports = mongoose.model('approvedAppsEU', approvedApps);
+module.approvedApps = mongoose.model('approvedApps', approvedApps);
+module.approvedAppsEU = mongoose.model('approvedAppsEU', approvedApps);
