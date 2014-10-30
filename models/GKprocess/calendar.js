@@ -19,3 +19,4 @@ var Calendar = new Schema({
 });
 
 module.exports = mongoose.model('Calendar', Calendar);
+module.exports = mongoose.model('CalendarEU', Calendar);

@@ -1,7 +1,10 @@
 var _ = require('underscore');
-var Apps = require('../../models/gkbase');
-var approvedApps = require('../../models/gkbaseApproved');
-var Cal = require('../../models/calendar');
+var Apps = require('../../models/GKprocess/gkbase').Apps;
+var AppsEU = require('../../models/GKprocess/gkbase').AppsEU;
+var approvedApps = require('../../models/GKprocess/gkbaseApproved').approvedApps;
+var approvedAppsEU = require('../../models/GKprocess/gkbaseApproved').approvedAppsEU;
+var Cal = require('../../models/GKprocess/calendar').Calendar;
+var CalEU = require('../../models/GKprocess/calendar').CalendarEU;
 var log = require('../../libs/log');
 
 

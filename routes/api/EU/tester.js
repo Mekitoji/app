@@ -1,7 +1,7 @@
-var Tester = require('../../models/Tester.js');
-var Cal = require('../../models/calendar');
-var Apps = require('../../models/gkbase');
-var log = require('../../libs/log');
+var Tester = require('../../../models/GKprocess/Tester');
+var Cal = require('../../../models/GKprocess/calendar');
+var Apps = require('../../../models/GKprocess/gkbase');
+var log = require('../../../libs/log');
 
 module.exports = function (app) {
   app.get('/api/tester', function (req, res) {
