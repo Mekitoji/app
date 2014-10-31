@@ -1,15 +1,15 @@
 var _ = require('underscore');
-var Apps = require('../../models/GKprocess/gkbase').Apps;
-var AppsEU = require('../../models/GKprocess/gkbase').AppsEU;
-var approvedApps = require('../../models/GKprocess/gkbaseApproved').approvedApps;
-var approvedAppsEU = require('../../models/GKprocess/gkbaseApproved').approvedAppsEU;
-var Cal = require('../../models/GKprocess/calendar').Calendar;
-var CalEU = require('../../models/GKprocess/calendar').CalendarEU;
+var Apps = require('../../models/CIS/gkbase');
+var AppsEU = require('../../models/CIS/gkbase');
+var approvedApps = require('../../models/CIS/gkbaseApproved');
+var approvedAppsEU = require('../../models/CIS/gkbaseApproved');
+var Cal = require('../../models/CIS/calendar');
+var CalEU = require('../../models/CIS/calendar');
 var log = require('../../libs/log');
 
 
 module.exports = function (app) {
-  app.post('/getJson', function (req, res) {
+  app.post('/api/getJson', function (req, res) {
     var headerArr = ['empty', 'appId', 'region', 'categoty', 'appName', 'seller', 'usagePeriod', 'updateDate', 'gk', 'appStatus', 'gkReview'];
     var headerArr2 = ['appId', 'appVer', 'Categoty', 'FileType', 'appName', 'country', 'price', 'updateDate', 'appStatus', 'gkReview', 'addTest'];
     var tempArr = [];

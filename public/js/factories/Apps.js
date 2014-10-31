@@ -3,25 +3,25 @@ angular.module('project')
 .factory('Apps', function ($http) {
   return {
     get: function () {
-      return $http.get('/api/gk/');
+      return $http.get('/api/cis/gk/');
     },
     getApproved: function () {
-      return $http.get('/api/gk/approved');
+      return $http.get('/api/cis/gk/approved');
     },
     getRejected: function () {
-      return $http.get('/api/gk/rejected');
+      return $http.get('/api/cis/gk/rejected');
     },
     getOutdated: function () {
-      return $http.get('/api/gk/outdated');
+      return $http.get('/api/cis/gk/outdated');
     },
     create: function (appData) {
-      return $http.post('/api/gk', appData);
+      return $http.post('/api/cis/gk', appData);
     },
     update: function (id, appData) {
-      return $http.put('/api/gk/' + id, appData);
+      return $http.put('/api/cis/gk/' + id, appData);
     },
     delete: function (id) {
-      return $http.delete('api/gk/' + id);
+      return $http.delete('api/cis/gk/' + id);
     }
   };
 });

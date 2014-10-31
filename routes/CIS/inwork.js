@@ -1,7 +1,7 @@
 var routesFunction = require('../../libs/routesFunction');
 
 module.exports = function (app) {
-  app.get('/inwork', routesFunction.unAuth, function (req, res) {
+  app.get('/cis/inwork', routesFunction.unAuth, function (req, res) {
     if (req.user) {
       res.render('inwork.ejs', {
         user: req.user, // get the user out of session and pass to template

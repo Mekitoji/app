@@ -1,9 +1,9 @@
-var Cal = require('../../../models/GKprocess/calendar').Calendar;
-var Apps = require('../../../models/GKprocess/gkbase').CalendarEU;
+var Cal = require('../../../models/CIS/calendar');
+var Apps = require('../../../models/CIS/gkbase');
 module.exports = function (app) {
 
   //GET data in json
-  app.get('/api/calendar', function (req, res) {
+  app.get('/api/cis/calendar', function (req, res) {
     Cal.find(function (err, app) {
       if (err) {
         res.send(err);
@@ -58,7 +58,7 @@ module.exports = function (app) {
 
 
   //pushing data in array
-  app.put('/api/calendar/:calendar_id', function (req, res) {
+  app.put('/api/cis/calendar/:calendar_id', function (req, res) {
     Cal.findById(req.params.calendar_id, function (err, cal) { //findByIdAndUpdate
       if (err) {
         res.send(err);

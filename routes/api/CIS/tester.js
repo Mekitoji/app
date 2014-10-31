@@ -1,20 +1,20 @@
-var Tester = require('../../../models/GKprocess/Tester.js').Tester;
-var Cal = require('../../../models/GKprocess/calendar').Calendar;
-var Apps = require('../../../models/GKprocess/gkbase').Apps;
+var Tester = require('../../../models/CIS/Tester.js');
+var Cal = require('../../../models/CIS/calendar');
+var Apps = require('../../../models/CIS/gkbase');
 var log = require('../../../libs/log');
 
 module.exports = function (app) {
-  app.get('/api/tester', function (req, res) {
+  app.get('/api/cis/tester', function (req, res) {
     Tester.find(function (err, data) {
       if (err) {
         res.send(err);
       }
       res.json(data);
-      log.info(new Date() + '  - GET /API/TESTER');
+      log.info(new Date() + '  - GET /API/CIS/TESTER');
     });
   });
 
-  app.post('/api/tester', function (req, res) {
+  app.post('/api/cis/tester', function (req, res) {
     Tester.create({
       tester: req.body.tester
     }, function (err, data) {
@@ -29,7 +29,7 @@ module.exports = function (app) {
     });
   });
 
-  app.put('/api/tester/:tester_id', function (req, res) {
+  app.put('/api/cis/tester/:tester_id', function (req, res) {
     Tester.findById(req.params.tester_id, function (err, tester) {
       if (err) res.send(err);
       tester.Storage.push({
