@@ -39,3 +39,7 @@ td.fc-widget-content {
 .column-table>tr>td{
   border: 1px solid #aaa;
 }
+
+.fc table {
+  border-collapse: separate;
+}
