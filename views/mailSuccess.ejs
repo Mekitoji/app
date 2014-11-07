@@ -5,10 +5,10 @@
   <title>Success</title>
   <style>
   .center-text {
-  font-family: Verdana, Geneva, sans-serif;
-  position: absolute;
-  left:35%;
-  top:45%;
+    font-family: Verdana, Geneva, sans-serif;
+    position: absolute;
+    left:35%;
+    top:45%;
   }
   .small-text {
     font-size:.45em;
@@ -17,7 +17,10 @@
   </style>
 </head>
 <body>
-  <h2 class='center-text '>Your message was sent successfully! <p class='small-text'>Go to <a href="/main">main</a></p></h2>
+
+<% var region  = path.split('/')[1] %>
+
+  <h2 class='center-text '>Your message was sent successfully! <p class='small-text'>Go to <a href="/<%= region%>/main">main</a></p></h2>
 
 </body>
 </html>

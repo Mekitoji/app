@@ -46,8 +46,14 @@
 <!-- filters -->
 <script src= '../js/filters/unsafe.js'></script>
 <!-- factories -->
+<% var route = path.split('/')[1]%>
+<% if(route === 'cis') { %>
 <script src='../js/factories/Apps.js'></script>
 <script src='../js/factories/Testers.js'></script>
+<% } else if(route === 'eu') {%>
+<script src='../js/factories/AppsEu.js'></script>
+<script src='../js/factories/TestersEu.js'></script>
+<% }%>
 <!-- templates -->
 
 

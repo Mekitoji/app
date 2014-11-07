@@ -1,6 +1,6 @@
 angular.module('project')
 
-.factory('TesterEU', function ($http) {
+.factory('Tester', function ($http) {
   return {
     get: function () {
       return $http.get('/api/eu/tester');
