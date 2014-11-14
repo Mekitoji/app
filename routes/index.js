@@ -14,6 +14,7 @@ module.exports = function (app, passport) {
   var signup = require('./core/signup')(app, passport);
   var profile = require('./core/profile')(app);
   var logout = require('./core/logout')(app);
+  var region = require('./core/region')(app);
 
   //CIS pages
   var mainCIS = require('./CIS/main')(app);
