@@ -10,7 +10,18 @@ if (userG === 'gk' || userG === 'root') {
 
 
 var data_manual = {};
-var url = '../api/cis/calendar/';
+var url;
+
+var region = document.URL.split('/')[3];
+var location = document.URL.split('/')[4];
+if (region == 'cis') {
+  url = '../api/cis/calendar/';
+} else {
+  var url = '../api/eu/calendar/';
+}
+
+
+
 
 $.get(url, function (data) {
 
@@ -18,35 +29,31 @@ $.get(url, function (data) {
   console.log(data);
   var storageOfDate = [];
   var appNameObj = {};
-  var calendarId = {}; //calendarId
-  var arr = [];
+  var calendarId = {};
   var checkOutdated = {};
-
   // var test = {};
   //Push data in array
   for (var i = 0; i < data.length; i++) {
-    var innerStorage = data[i].storage;
+    if (location === 'main') {
+      calendarId[data[i]._id] = data[i].appId._id;
+      appNameObj[data[i].appId._id] = data[i].appId.appName;
+      // storageOfDate.push(data[i].storage);
+      var innerStorage = data[i].storage;
+      checkOutdated[data[i].appId._id] = data[i].appId.outdated;
 
-    calendarId[data[i]._id] = data[i].appId._id; //calendarId
+      for (j = 0; j < innerStorage.length; j++) {
 
-    console.log(data[i]);
-    console.log(data[i]._id + ' = ' + data[i].appId._id);
+        if (!data_manual[innerStorage[j].fullDate]) {
+          data_manual[innerStorage[j].fullDate] = {};
+        }
 
-    appNameObj[data[i].appId._id] = data[i].appId.appName;
-
-    console.log(data[i].appId._id + ' = ' + data[i].appId.appName);
-    console.log(appNameObj[data[i].appId._id]);
-    // storageOfDate.push(data[i].storage);
-    checkOutdated[data[i].appId._id] = data[i].appId.outdated;
-
-    for (j = 0; j < innerStorage.length; j++) {
-
-      if (!data_manual[innerStorage[j].fullDate]) {
-        data_manual[innerStorage[j].fullDate] = {};
+        data_manual[innerStorage[j].fullDate][data[i].appId._id] = innerStorage[j].value;
       }
+    } else if (location === 'approved') {
 
-      data_manual[innerStorage[j].fullDate][data[i].appId._id] = innerStorage[j].value;
-    }
+    } else if (location === 'inwork') {
+
+    } else if (location === 'outdated')
   }
 
   var keys = [];
@@ -68,11 +75,7 @@ $.get(url, function (data) {
     });
   console.log(appNameObjNew);
 
-  //now keys array contain keys of obj in sorted order of values
-  console.log('keys');
-  console.log(keys);
 
-  // appNameObj.sort('value');
   console.log('\n\ndata_manual:');
   console.log(data_manual);
 
@@ -82,9 +85,10 @@ $.get(url, function (data) {
   console.log(calendarId); //calendarId
   // console.log('storageOfDate:');
   // console.log(storageOfDate);
-  console.log('checkOutdated:');
-  console.log(checkOutdated);
 
+  $('.appNameRow').each(function () {
+    $(this).remove();
+  });
 
   //create tr for each elem in data array
   $.each(appNameObjNew, function (i, appName) {
@@ -105,14 +109,11 @@ $.get(url, function (data) {
 
       thisColTable = table.addClass('column-table').attr('id', 'dataTableColumn' + (++count)).appendTo(thisCol);
 
-
-
     $.each(data_manual, function (date, valueArr) {
 
       $.each(appNameObjNew, function (appId, appName) {
         if (checkOutdated[appId] === false) {
           if (date == dd) {
-
             if (valueArr[appId]) {
               // console.log(date + ' ' + appName + " = " + valueArr[appId]);
               var tr = $('<tr>').css({
@@ -124,6 +125,7 @@ $.get(url, function (data) {
                 if (appId === appId11)
                   td.html(valueArr[appId]).addClass(date).addClass(calId).appendTo(tr);
               });
+              thisColTable.append(tr);
               if (td.html() == 'L') {
                 td.css({
                   "background-color": "orange",
@@ -145,8 +147,8 @@ $.get(url, function (data) {
                   "color": "orange"
                 });
               }
-              thisColTable.append(tr);
               td.on('change', function (evt, newValue) {
+
                 var thisElem = $(this);
                 console.log('thisElem');
                 console.log(thisElem);
@@ -156,6 +158,7 @@ $.get(url, function (data) {
                 console.log(newValue);
                 var classArr = thisElem.attr('class').split(' ');
                 console.log(classArr);
+
                 if (newValue == 'L') {
                   thisElem.css({
                     "background-color": "orange",
@@ -177,6 +180,7 @@ $.get(url, function (data) {
                     "color": "orange"
                   });
                 }
+
                 $.ajax({
                   type: 'PUT',
                   url: url + classArr[1],
@@ -194,32 +198,9 @@ $.get(url, function (data) {
               var td1 = $('<td>');
               $.each(calendarId, function (calId, appId11) {
                 if (appId === appId11)
-                  td1.html('').addClass(dd).addClass(calId).appendTo(empty);
+                  td1.html('').addClass(date).addClass(calId).appendTo(empty);
               });
-              if (td1.html() == 'L') {
-                td1.css({
-                  "background-color": "orange",
-                  "color": "black"
-                });
-              } else if (td1.html() == 'H') {
-                td1.css({
-                  "background-color": "#B19CD9",
-                  "color": "black"
-                });
-              } else if (td1.html() == 'D') {
-                td1.css({
-                  "background-color": "green",
-                  "color": "black"
-                });
-              } else if (td1.html() == 'LL') {
-                td1.css({
-                  "background-color": "orange",
-                  "color": "orange"
-                });
-              }
-
               thisColTable.append(empty);
-
               td1.on('change', function (evt, newValue) {
                 var thisElem = $(this);
                 console.log('thisElem');
@@ -264,10 +245,11 @@ $.get(url, function (data) {
           }
         }
       });
+
     });
     if (thisColTable[0].childNodes[0] === undefined) {
       $.each(appNameObjNew, function (appId, appName) {
-        if (checkOutdated[appId]) {
+        if (checkOutdated[appId] === false) {
           var empty = $('<tr>').css({
             'height': '21px ',
             'text-align': 'center'
@@ -277,27 +259,6 @@ $.get(url, function (data) {
             if (appId === appId11)
               td.html('').addClass(dd).addClass(calId).appendTo(empty);
           });
-          if (td.html() == 'L') {
-            td.css({
-              "background-color": "orange",
-              "color": "black"
-            });
-          } else if (td.html() == 'H') {
-            td.css({
-              "background-color": "#B19CD9",
-              "color": "black"
-            });
-          } else if (td.html() == 'D') {
-            td.css({
-              "background-color": "green",
-              "color": "black"
-            });
-          } else if (td.html() == 'LL') {
-            td.css({
-              "background-color": "orange",
-              "color": "orange"
-            });
-          }
           thisColTable.append(empty);
           td.on('change', function (evt, newValue) {
             var thisElem = $(this);
@@ -350,7 +311,6 @@ $.get(url, function (data) {
     }
   });
   $('.fc-content-skeleton').remove();
-
 });
 
 

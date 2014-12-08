@@ -81,7 +81,7 @@ app.use(function (req, res, next) {
     err.status = 404;
     next(err);
   } else {
-    res.send('Page not found');
+    res.end('Page not found');
   }
 });
 

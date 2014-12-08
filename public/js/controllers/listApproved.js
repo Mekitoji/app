@@ -35,7 +35,7 @@ angular.module('project')
       "type": "select",
       "name": "TV",
       "value": "COL_FIELD",
-      "values": ["Approve", "Reject", "Partial"]
+      "values": ["Approved", "Reject", "Partial"]
     },
     respProp: {
       "type": "select",

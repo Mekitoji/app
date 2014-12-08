@@ -11,7 +11,7 @@ if (userG === 'gk' || userG === 'root') {
 }
 
 var data_manual = {};
-var url = 'api/calendar/';
+var url = 'api/cis/calendar/';
 var patentX;
 $.get(url, function (data) {
 
