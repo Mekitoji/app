@@ -18,9 +18,9 @@
           <option value="Tajikistan">Tajikistan</option>
         </select>
         <!-- <span class="error" ng-show="myForm.$error.required">Required!</span> -->
-      
+
       </div>
-      
+
       <div class='form-row'>
         <label>Application name</label>
         <input type="text" placeholder="app name" ng-model="formData.appName" required>
@@ -29,7 +29,7 @@
         <label>Application id</label>
         <input type="text" placeholder="app ID" ng-model="formData.applicationId" required>
       </div>
-      
+
       <div class='form-row'>
         <label> Category</label>
         <select name="category" id="table-category" ng-model='formData.category' required>
@@ -59,12 +59,12 @@
 
       <div class='form-row'>
         <label>Update Time</label>
-        <input type="date" ng-model="formData.updateTime"  required> 
+        <input type="date" ng-model="formData.updateTime"  required>
       </div>
 
       <div class='form-row'>
         <label>Seller</label>
-        <input type="text" placeholder="Seller" ng-model="formData.seller" required> 
+        <input type="text" placeholder="Seller" ng-model="formData.seller" required>
       </div>
 
       <div class='form-row'>
@@ -87,14 +87,14 @@
 
 <!--       <div class='form-row'>
         <label>Test Cycles</label>
-        <input type="text" placeholder="Test Cycles" ng-model="formData.testCycles" required> 
+        <input type="text" placeholder="Test Cycles" ng-model="formData.testCycles" required>
       </div>
 
       <div class='form-row'>
         <label>Reply Time</label>
-        <input type="text" placeholder="Reply Time" ng-model="formData.replyTime" required> 
+        <input type="text" placeholder="Reply Time" ng-model="formData.replyTime" required>
       </div> -->
-  
+
       <div class='form-row'>
         <label>Resp</label>
         <select name="resp" id="table-resp" ng-model='formData.resp' required>
@@ -110,7 +110,7 @@
     <!-- updateApp() WILL CREATE update row  -->
 
     <div class='button-holder' >
-      <a href="#/"><button type="submit" class="btn btn-primary btn-lg" ng-click="createApp()" ng-disabled="myForm.$invalid" ng-show='{{perm}}'>Save</button></a>
+      <a href="#/"><button type="submit" class="btn btn-primary btn-lg" ng-click="createApp()" ng-disabled="myForm.$invalid">Save</button></a>
       <a href="#/"><button type="submit" class="btn btn-primary btn-lg" ng-click="updateApp(formData._id)" ng-disabled="myForm.$invalid" ng-show='edit'>Save</button></a>
       <a href="#/" class="btn btn-primary btn-lg">Cancel</a>
       <a href="#/" class="btn btn-primary btn-lg" ng-show='edit' ng-click='deleteApp(formData._id)'>Delete</a>

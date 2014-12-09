@@ -13,7 +13,7 @@ module.exports = function (app) {
 
   //get all
   app.get('/api/cis/gk', function (req, res) {
-    console.log(Apps);
+
     // use mongoose to get all gk in the database
     Apps.find(function (err, app) {
       // if there is an error retrieving, send the error. nothing after res.send(err) will execute
@@ -267,7 +267,7 @@ module.exports = function (app) {
 };
 
 /*.post(function(req, res) {
-    
+
     var bear = new Bear();    // create a new instance of the Bear model
     bear.name = req.body.name;  // set the bears name (comes from the request)
 
@@ -278,6 +278,6 @@ module.exports = function (app) {
 
       res.json({ message: 'Bear created!' });
     });
-    
+
   });
 */

@@ -1,6 +1,6 @@
 angular.module('project')
 
-.controller('ListCtrl', function ($scope, $http, Apps, Tester) {
+.controller('ListCtrl', function($scope, $http, Apps, Tester) {
 
   //Ng-options object Select->Option
   //watch part with  template
@@ -17,68 +17,67 @@ angular.module('project')
   }
   Tester.get()
 
-  .success(function (data) {
+  .success(function(data) {
     $scope.tester = [];
     $scope.testersArr = data;
-    $scope.testersArr.forEach(function (item, i) {
+    $scope.testersArr.forEach(function(item, i) {
       $scope.tester.push(item.tester);
-
-
-
-      $scope.Options = {
-        countryProp: {
-          "type": "select",
-          "name": "Country",
-          "value": "COL_FIELD",
-          "values": ["Russia", "Ukraine", "Belarus", "Latvia", "Kazakhstan", "Lithuania", "Estonia", "Uzbekistan", "Kyrgyzstan", "Tajikistan"]
-        },
-        categoryProp: {
-          "type": "select",
-          "name": "Category",
-          "value": "COL_FIELD",
-          "values": ["OTT", "Pay TV", "Broadcast", "OTT + Pay TV", "Game", "Others"]
-        },
-        sdpStatusProp: {
-          "type": "select",
-          "name": "Category",
-          "value": "COL_FIELD",
-          "values": ["Gk review request", "GK review", "GK Review Reject", "Verification Request", "Pre-test", "Function Testing", "Content Testing", "Final review", "App QA Approved", "App QA Rejected"]
-        },
-        tvProp: {
-          "type": "select",
-          "name": "Tv",
-          "value": "COL_FIELD",
-          "values": ["Approved", "Reject", "Partial"]
-        },
-        respProp: {
-          "type": "select",
-          "name": "Resp",
-          "value": "COL_FIELD",
-          "values": $scope.tester
-        },
-        currentStatusProp: {
-          "type": "select",
-          "name": "currentStatus",
-          "value": "COL_FIELD",
-          "values": ["Waiting for fix", "Waiting for review", "Waiting for QA", "Approved"]
-        },
-        outdated: {
-          "type": "select",
-          "name": "outdated",
-          "value": "COL_FIELD",
-          "values": [true, false]
-        },
-        color: {
-          "type": "select",
-          "name": "color",
-          "value": "COL_FIELD",
-          "values": ['red', 'green', 'purple', 'orange']
-        },
-
-      };
     });
+
+    $scope.Options = {
+      countryProp: {
+        "type": "select",
+        "name": "Country",
+        "value": "COL_FIELD",
+        "values": ["Russia", "Ukraine", "Belarus", "Latvia", "Kazakhstan", "Lithuania", "Estonia", "Uzbekistan", "Kyrgyzstan", "Tajikistan"]
+      },
+      categoryProp: {
+        "type": "select",
+        "name": "Category",
+        "value": "COL_FIELD",
+        "values": ["OTT", "Pay TV", "Broadcast", "OTT + Pay TV", "Game", "Others"]
+      },
+      sdpStatusProp: {
+        "type": "select",
+        "name": "Category",
+        "value": "COL_FIELD",
+        "values": ["Gk review request", "GK review", "GK Review Reject", "Verification Request", "Pre-test", "Function Testing", "Content Testing", "Final review", "App QA Approved", "App QA Rejected"]
+      },
+      tvProp: {
+        "type": "select",
+        "name": "Tv",
+        "value": "COL_FIELD",
+        "values": ["Approved", "Reject", "Partial"]
+      },
+      respProp: {
+        "type": "select",
+        "name": "Resp",
+        "value": "COL_FIELD",
+        "values": $scope.tester
+      },
+      currentStatusProp: {
+        "type": "select",
+        "name": "currentStatus",
+        "value": "COL_FIELD",
+        "values": ["Waiting for fix", "Waiting for review", "Waiting for QA", "Approved"]
+      },
+      outdated: {
+        "type": "select",
+        "name": "outdated",
+        "value": "COL_FIELD",
+        "values": [true, false]
+      },
+      color: {
+        "type": "select",
+        "name": "color",
+        "value": "COL_FIELD",
+        "values": ['red', 'green', 'purple', 'orange']
+      },
+
+    };
   });
-  //let get template for our editable part 
+
+  //let get template for our editable part
   //mb in diff file
   $scope.cellSelectEditableTemplateCountry = '<select ng-class="\'colt\' + col.index" ng-input="COL_FIELD" ng-model="COL_FIELD" ng-options=" v for v in Options.countryProp.values" />';
   $scope.cellSelectEditableTemplateCategory = '<select ng-class="\'colt\' + col.index" ng-input="COL_FIELD" ng-model="COL_FIELD" ng-options=" v for v in Options.categoryProp.values" />';
@@ -94,49 +93,49 @@ angular.module('project')
 
   //get list of apps
   Apps.get()
-    .success(function (data) {
+    .success(function(data) {
       $scope.apps = data;
-      $scope.$watch('apps', function (newVal, old) {
+      $scope.$watch('apps', function(newVal, old) {
         old = newVal;
       });
     });
 
-  $scope.getRowIndex = function () {
+  $scope.getRowIndex = function() {
     var index = this.row.rowIndex;
     // $scope.gridOptions.selectItem(index, false);
     return index + 1;
   };
 
-  $scope.$on('ngGridEventStartCellEdit', function (elm) {
+  $scope.$on('ngGridEventStartCellEdit', function(elm) {
     console.log(elm.targetScope);
     // elm.targetScope.col.cellClass = 'blue';
     console.log(elm.targetScope.col);
 
   });
 
-  $scope.$on('ngGridEventEndCellEdit', function (evt) {
+  $scope.$on('ngGridEventEndCellEdit', function(evt) {
 
     var currentObj = evt.targetScope.row.entity;
     console.log(currentObj); //debug
     // the underlying data bound to the row
-    // Detect changes and send entity to server 
-    console.log(currentObj._id); //debug 
+    // Detect changes and send entity to server
+    console.log(currentObj._id); //debug
 
     //update database value
     var projectUrl = currentObj._id;
     Apps.update(projectUrl, currentObj)
-      .success(function (data) {
+      .success(function(data) {
         $scope.formData = data;
       });
   });
 
-  $scope.dateParse = function (data) {
+  $scope.dateParse = function(data) {
     return Date.parse(data);
   };
 
   $scope.currenDate = Date.now();
 
-  //ng-grid setting 
+  //ng-grid setting
   $scope.gridOptions = {
     data: 'apps',
     columnDefs: [{

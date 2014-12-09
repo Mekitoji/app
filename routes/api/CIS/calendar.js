@@ -1,23 +1,121 @@
 var Cal = require('../../../models/CIS/calendar');
 var Apps = require('../../../models/CIS/gkbase');
-module.exports = function (app) {
+var ApprovedApps = require('../../../models/CIS/gkbaseApproved');
+var ApprovedCal = require('../../../models/CIS/calendarForApprovedApps');
+
+module.exports = function(app) {
 
   //GET data in json
-  app.get('/api/cis/calendar', function (req, res) {
-    Cal.find(function (err, app) {
+  app.get('/api/cis/calendar', function(req, res) {
+    Cal.find(function(err, app) {
       if (err) {
         res.send(err);
       }
       console.log(app);
       Cal.populate(app, {
         path: 'appId'
-      }, function (err, data) {
+      }, function(err, data) {
         res.json(data);
       });
     });
   });
 
+  app.get('/api/cis/calendar/approved', function(req, res) {
+    ApprovedCal.find(function(err, app) {
+      if (err) {
+        res.send(err);
+      }
+      console.log(app);
+      ApprovedCal.populate(app, {
+        path: 'appId'
+      }, function(err, data) {
+        res.json(data);
+      });
+    });
+  });
 
+  app.get('/api/cis/calendar/rejected', function(req, res) {
+    var rejectedApp;
+    Apps.find(function(err, app) {
+      var rejected = [];
+      // if there is an error retrieving, send the error. nothing after res.send(err) will execute
+      if (err) {
+        res.send(err);
+      }
+      for (var i = 0; i < app.length; i++) {
+        if (app[i].tv === 'Reject' && app[i].outdated === false) {
+          rejected.push(app[i]);
+        }
+      }
+      rejectedApp = rejected; // return all users in JSON format
+      // log.info(new Date() + '  - GET /API/CIS/GK/REJECTED');
+    });
+
+
+    Cal.find(function(err, app) {
+      if (err) {
+        res.send(err);
+      }
+      console.log(app);
+      Cal.populate(app, {
+        path: 'appId'
+      }, function(err, data) {
+        console.log(!rejectedApp);
+        if (rejectedApp!== undefined) {
+          for (var i = 0; i < data.length; i++) {
+            if (data[i].appId._id.toString() != rejectedApp[i]._id.toString()) {
+              data.splice(i, 1);
+            }
+          }
+        } else {
+          data.splice(0,data.length);
+        }
+        res.json(data);
+      });
+    });
+  });
+
+  app.get('/api/cis/calendar/outdated', function(req, res) {
+    var outdatedApp;
+    Apps.find(function(err, app) {
+      var outdated = [];
+      // if there is an error retrieving, send the error. nothing after res.send(err) will execute
+      if (err) {
+        res.send(err);
+      }
+      for (var i = 0; i < app.length; i++) {
+        if (app[i].outdated === true) {
+          outdated.push(app[i]);
+        }
+      }
+      outdatedApp = outdated;
+      // res.json(outdated); // return all users in JSON format
+      // log.info(new Date() + '  - GET /API/CIS/GK/OUTDATED');
+    });
+
+    Cal.find(function(err, app) {
+      if (err) {
+        res.send(err);
+      }
+      console.log(app);
+      Cal.populate(app, {
+        path: 'appId'
+      }, function(err, data) {
+        console.log('outdatedApp');
+        console.log(outdatedApp);
+        if (outdatedApp[0]!== undefined ) {
+          for (var i = 0; i < data.length; i++) {
+            if (data[i].appId._id.toString() != outdatedApp[i]._id.toString()) {
+              data.splice(i, 1);
+            }
+          }
+        } else {
+          data.splice(0, data.length);
+        }
+        res.json(data);
+      });
+    });
+  });
 
   //post and delete method was deleted, coz unuse
 
@@ -58,15 +156,15 @@ module.exports = function (app) {
 
 
   //pushing data in array
-  app.put('/api/cis/calendar/:calendar_id', function (req, res) {
-    Cal.findById(req.params.calendar_id, function (err, cal) { //findByIdAndUpdate
+  app.put('/api/cis/calendar/:calendar_id', function(req, res) {
+    Cal.findById(req.params.calendar_id, function(err, cal) { //findByIdAndUpdate
       if (err) {
         res.send(err);
       }
 
       //save calendar date in arr
-      var saveCalendar = function () {
-        cal.save(function (err, data) {
+      var saveCalendar = function() {
+        cal.save(function(err, data) {
           if (err) {
             res.send(err);
           }
@@ -74,7 +172,7 @@ module.exports = function (app) {
         });
       };
 
-      var coutReplyTime = function (appId, storage) {
+      var coutReplyTime = function(appId, storage) {
         var justL = 0,
           withHiddenL = 0,
           replyTime = 0;
@@ -90,9 +188,9 @@ module.exports = function (app) {
         if (replyTime === Infinity || isNaN(replyTime)) {
           replyTime = 0;
         }
-        Apps.findById(appId, function (err, app) {
+        Apps.findById(appId, function(err, app) {
           app.replyTime = replyTime;
-          app.save(function (err, data) {
+          app.save(function(err, data) {
             if (err) throw err;
           });
         });

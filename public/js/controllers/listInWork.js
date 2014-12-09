@@ -13,7 +13,7 @@ angular.module('project')
   }
   Tester.get()
 
-  .success(function (data) {
+  .success(function (data) {});
     $scope.tester = [];
     $scope.testersArr = data;
     $scope.testersArr.forEach(function (item, i) {
@@ -70,7 +70,7 @@ angular.module('project')
         },
       };
     });
-  });
+
 
   $scope.cellSelectEditableTemplateCountry = '<select ng-class="\'colt\' + col.index" ng-input="COL_FIELD" ng-model="COL_FIELD" ng-options=" v for v in Options.countryProp.values" ng-blur="updateEntity(row)" />';
   $scope.cellSelectEditableTemplateCategory = '<select ng-class="\'colt\' + col.index" ng-input="COL_FIELD" ng-model="COL_FIELD" ng-options=" v for v in Options.categoryProp.values" ng-blur="updateEntity(row)" />';
@@ -100,8 +100,8 @@ angular.module('project')
     var currentObj = evt.targetScope.row.entity;
     console.log(currentObj); //debug
     // the underlying data bound to the row
-    // Detect changes and send entity to server 
-    console.log(currentObj._id); //debug 
+    // Detect changes and send entity to server
+    console.log(currentObj._id); //debug
 
     //update database value
     var projectUrl = currentObj._id;
@@ -228,4 +228,5 @@ angular.module('project')
       directions: ['asc']
     },
   };
+
 });
