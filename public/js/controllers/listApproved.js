@@ -1,61 +1,83 @@
 angular.module('project')
 
-.controller('approvedListCtrl', function ($scope, $http, Apps) {
+.controller('approvedListCtrl', function ($scope, $http, Apps, Tester) {
   $scope.loc = 'Approved';
   var permission;
   // take permission right from server
-  if (userG === 'gk' || userG === 'root') {
-    permission = true;
-    $scope.perm = true;
-  } else {
-    permission = false;
-    $scope.perm = false;
+  var locationC = document.URL.split('/')[3];
+  // take permission right from server
+  if (locationC === 'cis') {
+    if (userG === 'gk' || userG === 'root') {
+      permission = true;
+      $scope.perm = true;
+    } else {
+      permission = false;
+      $scope.perm = false;
+    }
+  } else if (locationC === 'eu') {
+    if (userG === 'gkEU' || userG === 'root') {
+      permission = true;
+      $scope.perm = true;
+    } else {
+      permission = false;
+      $scope.perm = false;
+    }
   }
 
-  $scope.Options = {
-    countryProp: {
-      "type": "select",
-      "name": "Country",
-      "value": "COL_FIELD",
-      "values": ["Russia", "Ukraine", "Belarus", "Latvia", "Kazakhstan", "Lithuania", "Estonia", "Uzbekistan", "Kyrgyzstan", "Tajikistan"]
-    },
-    categoryProp: {
-      "type": "select",
-      "name": "Category",
-      "value": "COL_FIELD",
-      "values": ["OTT", "Pay TV", "Broadcast", "OTT + Pay TV", "Game", "Others"]
-    },
-    sdpStatusProp: {
-      "type": "select",
-      "name": "Category",
-      "value": "COL_FIELD",
-      "values": ["Gk review request", "GK review", "GK Review Reject", "Verification Request", "Pre-test", "Function Testing", "Content Testing", "Final review", "App QA Approved", "App QA Rejected"]
-    },
-    tvProp: {
-      "type": "select",
-      "name": "TV",
-      "value": "COL_FIELD",
-      "values": ["Approved", "Reject", "Partial"]
-    },
-    respProp: {
-      "type": "select",
-      "name": "Resp",
-      "value": "COL_FIELD",
-      "values": ["AS", "DP", "VE", "YK"]
-    },
-    currentStatusProp: {
-      "type": "select",
-      "name": "currentStatus",
-      "value": "COL_FIELD",
-      "values": ["Waiting for fix", "Waiting for review", "Waiting for QA"]
-    },
-    color: {
-      "type": "select",
-      "name": "color",
-      "value": "COL_FIELD",
-      "values": ['red', 'green', 'purple', 'orange']
-    },
-  };
+  Tester.get()
+
+  .success(function (data) {
+    $scope.tester = [];
+    $scope.testersArr = data;
+    $scope.testersArr.forEach(function (item, i) {
+      $scope.tester.push(item.tester);
+    });
+
+    $scope.Options = {
+      countryProp: {
+        "type": "select",
+        "name": "Country",
+        "value": "COL_FIELD",
+        "values": ["Russia", "Ukraine", "Belarus", "Latvia", "Kazakhstan", "Lithuania", "Estonia", "Uzbekistan", "Kyrgyzstan", "Tajikistan"]
+      },
+      categoryProp: {
+        "type": "select",
+        "name": "Category",
+        "value": "COL_FIELD",
+        "values": ["OTT", "Pay TV", "Broadcast", "OTT + Pay TV", "Game", "Others"]
+      },
+      sdpStatusProp: {
+        "type": "select",
+        "name": "Category",
+        "value": "COL_FIELD",
+        "values": ["Gk review request", "GK review", "GK Review Reject", "Verification Request", "Pre-test", "Function Testing", "Content Testing", "Final review", "App QA Approved", "App QA Rejected"]
+      },
+      tvProp: {
+        "type": "select",
+        "name": "TV",
+        "value": "COL_FIELD",
+        "values": ["Approved", "Reject", "Partial"]
+      },
+      respProp: {
+        "type": "select",
+        "name": "Resp",
+        "value": "COL_FIELD",
+        "values": ["AS", "DP", "VE", "YK"]
+      },
+      currentStatusProp: {
+        "type": "select",
+        "name": "currentStatus",
+        "value": "COL_FIELD",
+        "values": ["Waiting for fix", "Waiting for review", "Waiting for QA"]
+      },
+      color: {
+        "type": "select",
+        "name": "color",
+        "value": "COL_FIELD",
+        "values": ['red', 'green', 'purple', 'orange']
+      },
+    };
+  });
 
   $scope.cellSelectEditableTemplateCountry = '<select ng-class="\'colt\' + col.index" ng-input="COL_FIELD" ng-model="COL_FIELD" ng-options=" v for v in Options.countryProp.values" ng-blur="updateEntity(row)" />';
   $scope.cellSelectEditableTemplateCategory = '<select ng-class="\'colt\' + col.index" ng-input="COL_FIELD" ng-model="COL_FIELD" ng-options=" v for v in Options.categoryProp.values" ng-blur="updateEntity(row)" />';

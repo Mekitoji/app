@@ -1,26 +1,38 @@
 angular.module('project')
 
-.controller('ListCtrl', function($scope, $http, Apps, Tester) {
+.controller('ListCtrl', function ($scope, $http, Apps, Tester) {
 
   //Ng-options object Select->Option
   //watch part with  template
   $scope.loc = 'Main';
 
   var permission;
+  var locationC = document.URL.split('/')[3];
   // take permission right from server
-  if (userG === 'gk' || userG === 'root') {
-    permission = true;
-    $scope.perm = true;
-  } else {
-    permission = false;
-    $scope.perm = false;
+  if (locationC === 'cis') {
+    if (userG === 'gk' || userG === 'root') {
+      permission = true;
+      $scope.perm = true;
+    } else {
+      permission = false;
+      $scope.perm = false;
+    }
+  } else if (locationC === 'eu') {
+    if (userG === 'gkEU' || userG === 'root') {
+      permission = true;
+      $scope.perm = true;
+    } else {
+      permission = false;
+      $scope.perm = false;
+    }
   }
+
   Tester.get()
 
-  .success(function(data) {
+  .success(function (data) {
     $scope.tester = [];
     $scope.testersArr = data;
-    $scope.testersArr.forEach(function(item, i) {
+    $scope.testersArr.forEach(function (item, i) {
       $scope.tester.push(item.tester);
     });
 
@@ -93,27 +105,27 @@ angular.module('project')
 
   //get list of apps
   Apps.get()
-    .success(function(data) {
+    .success(function (data) {
       $scope.apps = data;
-      $scope.$watch('apps', function(newVal, old) {
+      $scope.$watch('apps', function (newVal, old) {
         old = newVal;
       });
     });
 
-  $scope.getRowIndex = function() {
+  $scope.getRowIndex = function () {
     var index = this.row.rowIndex;
     // $scope.gridOptions.selectItem(index, false);
     return index + 1;
   };
 
-  $scope.$on('ngGridEventStartCellEdit', function(elm) {
+  $scope.$on('ngGridEventStartCellEdit', function (elm) {
     console.log(elm.targetScope);
     // elm.targetScope.col.cellClass = 'blue';
     console.log(elm.targetScope.col);
 
   });
 
-  $scope.$on('ngGridEventEndCellEdit', function(evt) {
+  $scope.$on('ngGridEventEndCellEdit', function (evt) {
 
     var currentObj = evt.targetScope.row.entity;
     console.log(currentObj); //debug
@@ -124,12 +136,12 @@ angular.module('project')
     //update database value
     var projectUrl = currentObj._id;
     Apps.update(projectUrl, currentObj)
-      .success(function(data) {
+      .success(function (data) {
         $scope.formData = data;
       });
   });
 
-  $scope.dateParse = function(data) {
+  $scope.dateParse = function (data) {
     return Date.parse(data);
   };
 
