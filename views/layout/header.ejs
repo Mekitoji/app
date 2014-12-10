@@ -9,6 +9,7 @@
     <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
 
       <ul class="nav navbar-nav">
+        <% if(user.local.group==='root') { %>
         <li class= 'dropdown'>
           <a href="dropdown-toogle" data-toggle="dropdown">Region   <b class='caret'></b></a>
           <ul class='dropdown-menu'>
@@ -16,6 +17,11 @@
             <li><a href="/eu/main">EU</a></li>
           </ul>
         </li>
+        <% } else if(user.local.group==='gkEU' || user.local.group==='employerEU') { %>
+          <li><a href="/eu/main">Workspace</a></li>
+        <% } else if(user.local.group==='gkCIS' || user.local.group==='employerCIS') { %>
+          <li><a href="/cis/main">Workspace</a></li>
+        <% } %>
         <li class="dropdown">
           <a  class="dropdown-toggle" data-toggle="dropdown">Applications <b class="caret"></b></a>
           <ul class="dropdown-menu">

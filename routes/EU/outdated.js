@@ -2,7 +2,7 @@ var routesFunction = require('../../libs/routesFunction');
 
 
 module.exports = function (app) {
-  app.get('/eu/outdated', routesFunction.unAuth, function (req, res) {
+  app.get('/eu/outdated', routesFunction.checkPermissionEU, function (req, res) {
     res.locals.path = req.path;
     if (req.user) {
       res.render('outdated.ejs', {

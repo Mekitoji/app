@@ -1,7 +1,7 @@
 var routesFunction = require('../../libs/routesFunction');
 
 module.exports = function (app) {
-  app.get('/eu/rejected', routesFunction.unAuth, function (req, res) {
+  app.get('/eu/rejected', routesFunction.checkPermissionEU, function (req, res) {
     res.locals.path = req.path;
     if (req.user) {
       res.render('inwork.ejs', {

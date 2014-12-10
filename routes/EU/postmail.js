@@ -1,7 +1,7 @@
 var nodemailer = require('nodemailer');
 var routesFunction = require('../../libs/routesFunction');
 module.exports = function (app) {
-  app.get('/eu/postmail', routesFunction.checkPermission, function (req, res, next) {
+  app.get('/eu/postmail', routesFunction.checkPermissionGkEU, function (req, res, next) {
     res.locals.path = req.path;
     if (req.user) {
       res.render('postmail.ejs', {
@@ -11,7 +11,7 @@ module.exports = function (app) {
 
   });
 
-  app.post('eu/postmail', routesFunction.checkPermission, function (req, res) {
+  app.post('eu/postmail', routesFunction.checkPermissionGkEU, function (req, res) {
     console.log(req.body.text);
     var transport = nodemailer.createTransport();
 
