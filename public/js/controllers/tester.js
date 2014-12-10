@@ -7,7 +7,7 @@ angular.module('project')
   var locationC = document.URL.split('/')[3];
   // take permission right from server
   if (locationC === 'cis') {
-    if (userG === 'gk' || userG === 'root') {
+    if (userG === 'gkCIS' || userG === 'root') {
       permission = true;
       $scope.perm = true;
     } else {

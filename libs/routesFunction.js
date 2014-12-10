@@ -43,7 +43,7 @@ function checkPermissionRoot(req, res, next) {
 
 function checkPermissionGkCIS(req, res, next) {
   if (req.isAuthenticated()) {
-    if (req.user.local.group === 'root' || req.user.local.group === 'gk') {
+    if (req.user.local.group === 'root' || req.user.local.group === 'gkCIS') {
       return next();
     } else {
       res.redirect('/403');
@@ -67,7 +67,7 @@ function checkPermissionGkEU(req, res, next) {
 
 function checkPermissionCIS(req, res, next) {
   if (req.isAuthenticated()) {
-    if (req.user.local.group === 'root' || req.user.local.group === 'gk' || req.user.local.group === 'employerCIS') {
+    if (req.user.local.group === 'root' || req.user.local.group === 'gkCIS' || req.user.local.group === 'employerCIS') {
       return next();
     } else {
       res.redirect('/403');
