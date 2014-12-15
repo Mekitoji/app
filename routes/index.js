@@ -37,6 +37,7 @@ module.exports = function (app, passport) {
   //api CORE
   var api_user = require('./api/user')(app);
   var api_getJson = require('./api/getJson')(app);
+  var api_auth = require('./api/auth')(app, passport);
 
   //api CIS
   var apiGkCIS = require('./api/CIS/gk')(app);

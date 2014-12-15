@@ -1,7 +1,7 @@
 var routesFunction = require('../../libs/routesFunction');
 
 module.exports = function (app) {
-  app.get('/cis/approved', routesFunction.checkPermission, function (req, res) {
+  app.get('/cis/approved', routesFunction.checkPermissionCIS, function (req, res) {
     res.locals.path = req.path;
     if (req.user) {
       res.render('approved.ejs', {
