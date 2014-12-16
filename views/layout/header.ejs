@@ -27,12 +27,21 @@
             <li><a href="/<%=route%>/outdated#/outdated">Outdated</a></li>
           </ul>
         </li>
+        <li class="dropdown">
+          <a  class="dropdown-toggle" data-toggle="dropdown">Calendar <b class="caret"></b></a>
+          <ul class="dropdown-menu">
+            <li><a href="/<%=route%>/main#/calendar">Main</a></li>
+            <li><a href="/<%=route%>/rejected#/calendar">In work</a></li>
+            <li><a href="/<%=route%>/approved#/calendar">Approved</a></li>
+          </ul>
+        </li>
+        <li><a href="/<%=route%>/main#/test">Test Cycle</a></li>
         <li><a href="/<%=route%>/postmail">Post Mail</a></li>
       </ul>
 
       <ul class="nav navbar-nav navbar-right">
 
-        <li><a class="navbar-brand" href="#">
+        <li><a class="navbar-brand" href="/profile">
         <%=' '+ user.local.group %><br></a></li>
         <li class='active'> <a href="/profile"><%= user.local.username.first+ ' '+user.local.username.last %></a></li>
       </ul>
