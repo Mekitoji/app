@@ -1,6 +1,6 @@
 angular.module('project')
 
-.controller('ListCtrl', function ($scope, $http, Apps, Tester) {
+.controller('ListCtrl', function ($scope, $http, Apps, Tester, Calendar) {
 
   //Ng-options object Select->Option
   //watch part with  template
@@ -85,6 +85,12 @@ angular.module('project')
         "value": "COL_FIELD",
         "values": ['red', 'green', 'purple', 'orange']
       },
+      calendar: {
+        "type": "select",
+        "name": "color",
+        "value": "COL_FIELD",
+        "values": ['H', 'D', 'L', 'LL']
+      },
 
     };
   });
@@ -98,6 +104,7 @@ angular.module('project')
   $scope.cellSelectEditableTemplateResp = '<select ng-class="\'colt\' + col.index" ng-input="COL_FIELD" ng-model="COL_FIELD" ng-options=" v for v in Options.respProp.values" />';
   $scope.cellSelectEditableTemplateCurrentStatus = '<input auto-complete ng-class="\'colt\' + col.index" ng-input="COL_FIELD" ng-model="COL_FIELD" type="text" />';
   $scope.cellSelectEditableTemplateOutdated = '<select  ng-class="\'colt\' + col.index" ng-input="COL_FIELD" ng-model="COL_FIELD" ng-options=" v for v in Options.outdated.values" />';
+  $scope.cellSelectEditableTemplateCalendar = '<select  ng-class="\'colt\' + col.index" ng-input="COL_FIELD" ng-model="COL_FIELD" ng-options=" v for v in Options.calendar.values" />';
   $scope.cellSelectEditableTemplateColor = '<select ng-class="\'colt\' + col.index" ng-input="COL_FIELD" ng-model="COL_FIELD" ng-options=" v for v in Options.color.values" />';
   $scope.cellSelectEditableTemplateUpdateTime = '<input ng-class="\'colt\' + col.index" ng-input="COL_FIELD" ng-model="COL_FIELD"  type="date" />';
 
@@ -105,12 +112,46 @@ angular.module('project')
 
   //get list of apps
   Apps.get()
-    .success(function (data) {
-      $scope.apps = data;
-      $scope.$watch('apps', function (newVal, old) {
-        old = newVal;
-      });
+
+  .success(function (data) {
+    $scope.apps = data;
+    $scope.$watch('apps', function (newVal, old) {
+      old = newVal;
     });
+
+    Calendar.get()
+      .success(function (calData) {
+        $scope.calendarr = calData;
+        var result = {};
+
+        for (var k = 0; k < $scope.calendarr.length; k++) {
+          var dep = {};
+          for (var v = 0; v < $scope.calendarr[k].storage.length; v++) {
+
+            dep[$scope.calendarr[k].storage[v].fullDate] = $scope.calendarr[k].storage[v].value;
+            result[$scope.calendarr[k].appId._id] = dep;
+            console.log(dep);
+          }
+        }
+        console.log(result);
+
+
+        for (var i = 0; i < $scope.apps.length; i++) {
+          for (var j = 0; j < $scope.calendarr.length; j++) {
+            if ($scope.apps[i]._id === calData[j].appId._id) {
+              $scope.apps[i].calendar = result[calData[j].appId._id][getCurrentDate()];
+              console.log(result[calData[j].appId._id][getCurrentDate()]);
+            }
+          }
+        }
+      });
+  });
+
+  Calendar.get()
+    .success(function (data) {
+      $scope.calData = data;
+    });
+
 
   $scope.getRowIndex = function () {
     var index = this.row.rowIndex;
@@ -125,20 +166,46 @@ angular.module('project')
 
   });
 
-  $scope.$on('ngGridEventEndCellEdit', function (evt) {
+  var getCurrentDate = function getCurrentDate() {
+    var date = new Date();
+    var dd = date.getDate();
+    var dm = date.getMonth() + 1;
+    var dy = date.getFullYear();
+    return dy + '-' + dm + '-' + dd;
+  };
 
+
+  $scope.$on('ngGridEventEndCellEdit', function (evt) {
+    console.log('evt');
+    console.dir(evt);
+    console.dir(evt.targetScope.row);
+    console.dir(evt.targetScope.row.entity.calendar);
     var currentObj = evt.targetScope.row.entity;
+    var displayName = evt.targetScope.col.displayName;
     console.log(currentObj); //debug
     // the underlying data bound to the row
     // Detect changes and send entity to server
     console.log(currentObj._id); //debug
+    // if this a calendar row, update db
+    if (displayName === 'Calendar') {
+      console.log($scope.calData);
+      for (var i = 0; i < $scope.calData.length; i++) {
+        if ($scope.calData[i].appId._id === currentObj._id) {
+          Calendar.update($scope.calData[i]._id, {
+            value: evt.targetScope.row.entity.calendar,
+            fullDate: getCurrentDate()
+          });
+        }
+      }
+    } else {
+      //update database value
+      var projectUrl = currentObj._id;
+      Apps.update(projectUrl, currentObj)
+        .success(function (data) {
+          $scope.formData = data;
+        });
+    }
 
-    //update database value
-    var projectUrl = currentObj._id;
-    Apps.update(projectUrl, currentObj)
-      .success(function (data) {
-        $scope.formData = data;
-      });
   });
 
   $scope.dateParse = function (data) {
@@ -234,8 +301,15 @@ angular.module('project')
         enableCellEdit: permission,
         editableCellTemplate: $scope.cellSelectEditableTemplateOutdated,
         width: 75
+      }, {
+        field: 'calendar',
+        displayName: 'Calendar',
+        cellClass: 'calendar',
+        editableCellTemplate: $scope.cellSelectEditableTemplateCalendar,
+        visible: permission,
+        enableCellEdit: permission,
+        width: 75,
       },
-      // move script to the header will fix bug with fail first click
       // {
       //   cellTemplate: '<div name={{row.entity._id}}  class=\'calendar-cell \' popover="<div  id=\'calendar\'></div><script src=\'js/calendar.js\'></script><script src=\'js/getCalendarDataForOneApp.js\'></script>"  popover-placement="left" popover-append-to-body="true">Click</div>',
       //   cellClass: 'calendar-btn',

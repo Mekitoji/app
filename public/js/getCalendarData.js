@@ -1,12 +1,5 @@
 // $(document).ready($('.inner-table-appName tbody'));
 
-var permission;
-// take permission right from server
-if (userG === 'gk' || userG === 'root') {
-  permission = true;
-} else {
-  permission = false;
-}
 
 
 var data_manual = {};
