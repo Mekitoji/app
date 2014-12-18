@@ -89,7 +89,8 @@ angular.module('project')
         "type": "select",
         "name": "color",
         "value": "COL_FIELD",
-        "values": ['H', 'D', 'L', 'LL']
+        "values": ['H', 'D', 'L', 'LL'],
+        "color": ['#B19CD9', 'green', 'orange', 'orange']
       },
 
     };
@@ -148,9 +149,10 @@ angular.module('project')
   });
 
   Calendar.get()
-    .success(function (data) {
-      $scope.calData = data;
-    });
+
+  .success(function (data) {
+    $scope.calData = data;
+  });
 
 
   $scope.getRowIndex = function () {
@@ -305,6 +307,7 @@ angular.module('project')
         field: 'calendar',
         displayName: 'Calendar',
         cellClass: 'calendar',
+        cellTemplate: '<div ng-class="{\'green\': row.entity.calendar == \'D\',\'orange\': row.entity.calendar == \'L\',\'calendarll\': row.entity.calendar == \'LL\',\'purple\': row.entity.calendar == \'H\' }" " ><div class="ngCellText">{{row.getProperty(col.field)}}</div></div>',
         editableCellTemplate: $scope.cellSelectEditableTemplateCalendar,
         visible: permission,
         enableCellEdit: permission,

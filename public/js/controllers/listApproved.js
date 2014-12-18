@@ -76,6 +76,12 @@ angular.module('project')
         "value": "COL_FIELD",
         "values": ['red', 'green', 'purple', 'orange']
       },
+      calendar: {
+        "type": "select",
+        "name": "color",
+        "value": "COL_FIELD",
+        "values": ['H', 'D', 'L', 'LL']
+      },
     };
   });
 
