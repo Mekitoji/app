@@ -124,28 +124,35 @@ angular.module('project')
       .success(function (calData) {
         $scope.calendarr = calData;
         var result = {};
-
+        console.log($scope.calendarr.length);
         for (var k = 0; k < $scope.calendarr.length; k++) {
           var dep = {};
+          result[$scope.calendarr[k].appId._id] = {};
           for (var v = 0; v < $scope.calendarr[k].storage.length; v++) {
 
             dep[$scope.calendarr[k].storage[v].fullDate] = $scope.calendarr[k].storage[v].value;
+
             result[$scope.calendarr[k].appId._id] = dep;
             console.log(dep);
+            console.log(result);
           }
         }
+        console.log('result');
         console.log(result);
-
 
         for (var i = 0; i < $scope.apps.length; i++) {
           for (var j = 0; j < $scope.calendarr.length; j++) {
             if ($scope.apps[i]._id === calData[j].appId._id) {
+
+
               $scope.apps[i].calendar = result[calData[j].appId._id][getCurrentDate()];
               console.log(result[calData[j].appId._id][getCurrentDate()]);
             }
           }
         }
+        console.log(result);
       });
+
   });
 
   Calendar.get()

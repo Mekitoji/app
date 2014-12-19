@@ -175,9 +175,11 @@ module.exports = function (app) {
           if (req.body.tv === 'Approved') {
             apps.tv = 'Approved';
             apps.currentStatus = 'Approved';
+            apps.outdated = false;
           } else if (req.body.tv === 'Partial') {
             apps.tv = 'Partial';
             apps.currentStatus = 'Approved on partial devices';
+            apps.outdated = false;
           }
           //save
           apps.save(function (err, data) {
