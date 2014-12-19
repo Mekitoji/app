@@ -20,23 +20,23 @@ module.exports = function (app) {
     });
   });
 
-app.get('/api/eu/calendar/approved', function(req, res) {
-    ApprovedCal.find(function(err, app) {
+  app.get('/api/eu/calendar/approved', function (req, res) {
+    ApprovedCal.find(function (err, app) {
       if (err) {
         res.send(err);
       }
       console.log(app);
       ApprovedCal.populate(app, {
         path: 'appId'
-      }, function(err, data) {
+      }, function (err, data) {
         res.json(data);
       });
     });
   });
 
-  app.get('/api/eu/calendar/rejected', function(req, res) {
+  app.get('/api/eu/calendar/rejected', function (req, res) {
     var rejectedApp;
-    Apps.find(function(err, app) {
+    Apps.find(function (err, app) {
       var rejected = [];
       // if there is an error retrieving, send the error. nothing after res.send(err) will execute
       if (err) {
@@ -48,36 +48,57 @@ app.get('/api/eu/calendar/approved', function(req, res) {
         }
       }
       rejectedApp = rejected; // return all users in JSON format
-      // log.info(new Date() + '  - GET /API/eu/GK/REJECTED');
+      // log.info(new Date() + '  - GET /API/CIS/GK/REJECTED');
     });
 
 
-    Cal.find(function(err, app) {
+    Cal.find(function (err, app) {
       if (err) {
         res.send(err);
       }
       console.log(app);
       Cal.populate(app, {
         path: 'appId'
-      }, function(err, data) {
-        console.log(!rejectedApp);
-        if (rejectedApp!== undefined) {
-          for (var i = 0; i < data.length; i++) {
-            if (data[i].appId._id.toString() != rejectedApp[i]._id.toString()) {
-              data.splice(i, 1);
+      }, function (err, data) {
+        console.log('rejectedApp');
+        console.log(rejectedApp);
+        var result = [];
+        var dataMap;
+        if (rejectedApp[0] !== undefined) {
+          console.log('here');
+          for (var j = 0; j < rejectedApp.length; j++) {
+            dataMap = data.map(function (dat) {
+              return dat;
+            });
+            console.log(dataMap);
+            for (var i = dataMap.length - 1; i >= 0; i--) {
+              if (dataMap[i].appId._id !== undefined) {
+                console.log(dataMap[i].appId._id.toString());
+                console.log(rejectedApp[j]._id.toString());
+                console.log(dataMap[i].appId._id.toString() !== rejectedApp[j]._id.toString());
+                if (dataMap[i].appId._id.toString() !== rejectedApp[j]._id.toString()) {
+                  dataMap.splice(i, 1);
+                  console.log(i);
+                }
+              }
             }
+            result = result.concat(dataMap);
+            console.log(data);
           }
+          console.log('final data');
+          console.log(result);
         } else {
-          data.splice(0,data.length);
+          data.splice(0, data.length);
         }
-        res.json(data);
+        console.log(result);
+        res.json(result);
       });
     });
   });
 
-  app.get('/api/eu/calendar/outdated', function(req, res) {
+  app.get('/api/eu/calendar/outdated', function (req, res) {
     var outdatedApp;
-    Apps.find(function(err, app) {
+    Apps.find(function (err, app) {
       var outdated = [];
       // if there is an error retrieving, send the error. nothing after res.send(err) will execute
       if (err) {
@@ -93,17 +114,17 @@ app.get('/api/eu/calendar/approved', function(req, res) {
       // log.info(new Date() + '  - GET /API/eu/GK/OUTDATED');
     });
 
-    Cal.find(function(err, app) {
+    Cal.find(function (err, app) {
       if (err) {
         res.send(err);
       }
       console.log(app);
       Cal.populate(app, {
         path: 'appId'
-      }, function(err, data) {
+      }, function (err, data) {
         console.log('outdatedApp');
         console.log(outdatedApp);
-        if (outdatedApp[0]!== undefined ) {
+        if (outdatedApp[0] !== undefined) {
           for (var i = 0; i < data.length; i++) {
             if (data[i].appId._id.toString() != outdatedApp[i]._id.toString()) {
               data.splice(i, 1);
