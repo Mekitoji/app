@@ -1,9 +1,30 @@
 var permission;
 // take permission right from server
-if (userG === 'gk' || userG === 'root') {
-  permission = true;
-} else {
-  permission = false;
+var permission;
+var locationC = document.URL.split('/')[3];
+var subLoc = document.URL.split('/')[4].slice(0, -1);
+// take permission right from server
+if (locationC === 'cis') {
+  if (userG === 'gkCIS' || userG === 'root') {
+    if (subLoc === 'approved') {
+      permission = false;
+    } else {
+      permission = true;
+    }
+
+  } else {
+    permission = false;
+  }
+} else if (locationC === 'eu') {
+  if (userG === 'gkEU' || userG === 'root') {
+    if (subLoc === 'approved') {
+      permission = false;
+    } else {
+      permission = true;
+    }
+  } else {
+    permission = false;
+  }
 }
 
 $(document).ready(function () {

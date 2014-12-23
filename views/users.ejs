@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="usersList">
+<head>
+  <meta charset="UTF-8">
+  <title>Users</title>
+<link rel="stylesheet" href="../vendor/bootstrap/dist/css/bootstrap.min.css">
+
+<!-- Jquery -->
+<script src= "../vendor/jquery/dist/jquery.min.js"></script>
+<script src= "../vendor/jquery/jquery-ui-1.11.1/jquery-ui.min.js"></script>
+<link rel="stylesheet" href="../vendor/jquery/jquery-ui-1.11.1/jquery-ui.min.css">
+<script src='../js/mindmup-editabletable.js'></script>
+<!-- Bootstrap -->
+<script src= "../vendor/bootstrap/dist/js/bootstrap.min.js"></script>
+<!-- Angular -->
+<script src= "../vendor/angular/angular.min.js"></script>
+<script src= '../js/users.js'></script>
+</head>
+<body ng-controller="list">
+  <% include layout/profile_header %>
+<input type="text" ng-model="search" class="search-query" placeholder="Search">
+ 
+  <div class='container'>
+   <table id='usersTable' class='inside-container'>
+    <tr>
+      <th>User</th>
+      <th>Mail</th>
+    </tr>
+    <tr ng-repeat="user in users track by $index |filter: search ">
+      <td>{{user.local.username.first+' '+user.local.username.last}}</td>
+      <td>{{user.local.email}}</td>
+    </tr>
+  </table>
+  <table id='groupList' class='inside-container'>
+    <tr>
+      <th>Group</th>
+    </tr>
+    <tr ng-repeat="user in users track by $index |filter: search ">
+      <td class='changeGroup {{user._id}}'>{{user.local.group}}</td>
+    </tr>
+  </table>
+</div>
+
+<script>
+  $('#groupList').editableTableWidget({
+    editor:$('<select name="group" id="editData"class ><option value="employerCIS">employerCIS</option><option value="employerEU">employerEU</option><option value="gkCIS">gkCIS</option><option value="gkEU">gkEU</option><option value="user">user</option></select>')
+  });
+
+  $( "#groupList" ).click(function() {
+
+    $( ".changeGroup" ).on('change',function(evt, newValue){
+    var thisElem = $(this);
+    console.log(thisElem);
+    var classArr = thisElem.attr('class').split(' ');
+    console.log(classArr);
+    $.ajax({
+      type: 'PUT',
+      url: '/api/users/' + classArr[1],
+      data: {
+        group:newValue 
+      }
+    });
+    });
+  });
+</script>
+
+<style>
+  .container{
+    display:block;
+    margin:2px;
+    padding: 0px;
+  }
+  .inside-container {
+    display: inline-block;
+    margin: 0px;
+    padding: 0px;
+  }
+  td {
+    padding-right: 5px;
+    padding-left: 5px;
+    text-align: center;
+  }
+
+  th, td{
+    border: 1px solid black;
+  }
+  table {
+    margin-left: 0px;
+    padding-left: 0px;
+  }
+</style>
+
+</body>
+</html>

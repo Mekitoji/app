@@ -5,26 +5,20 @@
 
   <% include layout/head_main %>
 
-  <link rel="stylesheet" href="css/main.css">
+  <!-- <link rel="stylesheet" href="../css/main.css"> -->
 
 </head>
 
 <body >
 
   <% include layout/header %>
-  <ul class="nav nav-tabs" id='mainTab'>
-    <li class="active"><a href="#" >List of apps</a></li>
-    <li><a href="#calendar" >Calendar</a></li>
-    <li><a href="#test" >Test Cycles</a></li>
-  </ul>
-  
+
 <div class="container" ng-view></div>
 <script>
-  $('#mainTab a').click(function () {
-    $(this).tab('show')
-  });
-</script>
 
+var userG= <%- JSON.stringify(user.local.group) %>
+
+</script>
 
 </body>
 </html>

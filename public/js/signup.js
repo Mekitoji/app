@@ -1,6 +1,6 @@
 var btn = document.getElementById('form-btn');
 
-var checkPassword = function() {
+var checkPassword = function () {
   var pw = document.getElementById('form-password'),
     pwRpt = document.getElementById('form-password-repeat'),
     message = document.getElementById('confirmMessage');
@@ -20,6 +20,6 @@ var checkPassword = function() {
     pwRpt.style.backgroundColor = fail;
     message.innerHTML = "Passwords Do Not Match!";
   }
-}
+};
 
 btn.addEventListener('click', checkPassword, true);

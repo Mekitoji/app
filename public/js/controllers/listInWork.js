@@ -1,68 +1,95 @@
 angular.module('project')
 
-.controller('inWorkListCtrl', function ($scope, $http, Apps) {
+.controller('inWorkListCtrl', function ($scope, $http, Apps, Tester, Calendar) {
   $scope.loc = 'In work';
   var permission;
+  var locationC = document.URL.split('/')[3];
   // take permission right from server
-  if (userG === 'gk' || userG === 'root') {
-    permission = true;
-    $scope.perm = true;
-  } else {
-    permission = false;
-    $scope.perm = false;
+  if (locationC === 'cis') {
+    if (userG === 'gkCIS' || userG === 'root') {
+      permission = true;
+      $scope.perm = true;
+    } else {
+      permission = false;
+      $scope.perm = false;
+    }
+  } else if (locationC === 'eu') {
+    if (userG === 'gkEU' || userG === 'root') {
+      permission = true;
+      $scope.perm = true;
+    } else {
+      permission = false;
+      $scope.perm = false;
+    }
   }
 
-  $scope.Options = {
-    countryProp: {
-      "type": "select",
-      "name": "Country",
-      "value": "COL_FIELD",
-      "values": ["Russia", "Ukraine", "Belarus", "Latvia", "Kazakhstan", "Lithuania", "Estonia", "Uzbekistan", "Kyrgyzstan", "Tajikistan"]
-    },
-    categoryProp: {
-      "type": "select",
-      "name": "Category",
-      "value": "COL_FIELD",
-      "values": ["OTT", "Pay TV", "Broadcast", "OTT + Pay TV", "Game", "Others"]
-    },
-    sdpStatusProp: {
-      "type": "select",
-      "name": "Category",
-      "value": "COL_FIELD",
-      "values": ["Gk review request", "GK review", "GK Review Reject", "Verification Request", "Pre-test", "Function Testing", "Content Testing", "Final review", "App QA Approved", "App QA Rejected"]
-    },
-    tvProp: {
-      "type": "select",
-      "name": "TV",
-      "value": "COL_FIELD",
-      "values": ["Approved", "Reject", "Partial"]
-    },
-    respProp: {
-      "type": "select",
-      "name": "Resp",
-      "value": "COL_FIELD",
-      "values": ["AS", "DP", "VE", "YK"]
-    },
-    currentStatusProp: {
-      "type": "select",
-      "name": "currentStatus",
-      "value": "COL_FIELD",
-      "values": ["Waiting for fix", "Waiting for review", "Waiting for QA"]
-    },
-    outdated: {
-      "type": "select",
-      "name": "outdated",
-      "value": "COL_FIELD",
-      "values": [true, false]
-    },
-    color: {
-      "type": "select",
-      "name": "color",
-      "value": "COL_FIELD",
-      "values": ['red', 'green', 'purple', 'orange']
-    },
+  Tester.get()
 
-  };
+  .success(function (data) {
+    $scope.tester = [];
+    $scope.testersArr = data;
+    $scope.testersArr.forEach(function (item, i) {
+      $scope.tester.push(item.tester);
+    });
+
+    $scope.Options = {
+      countryProp: {
+        "type": "select",
+        "name": "Country",
+        "value": "COL_FIELD",
+        "values": ["Russia", "Ukraine", "Belarus", "Latvia", "Kazakhstan", "Lithuania", "Estonia", "Uzbekistan", "Kyrgyzstan", "Tajikistan"]
+      },
+      categoryProp: {
+        "type": "select",
+        "name": "Category",
+        "value": "COL_FIELD",
+        "values": ["OTT", "Pay TV", "Broadcast", "OTT + Pay TV", "Game", "Others"]
+      },
+      sdpStatusProp: {
+        "type": "select",
+        "name": "Category",
+        "value": "COL_FIELD",
+        "values": ["Gk review request", "GK review", "GK Review Reject", "Verification Request", "Pre-test", "Function Testing", "Content Testing", "Final review", "App QA Approved", "App QA Rejected"]
+      },
+      tvProp: {
+        "type": "select",
+        "name": "TV",
+        "value": "COL_FIELD",
+        "values": ["Approved", "Reject", "Partial"]
+      },
+      respProp: {
+        "type": "select",
+        "name": "Resp",
+        "value": "COL_FIELD",
+        "values": ["AS", "DP", "VE", "YK"]
+      },
+      currentStatusProp: {
+        "type": "select",
+        "name": "currentStatus",
+        "value": "COL_FIELD",
+        "values": ["Waiting for fix", "Waiting for review", "Waiting for QA"]
+      },
+      outdated: {
+        "type": "select",
+        "name": "outdated",
+        "value": "COL_FIELD",
+        "values": [true, false]
+      },
+      color: {
+        "type": "select",
+        "name": "color",
+        "value": "COL_FIELD",
+        "values": ['red', 'green', 'purple', 'orange']
+      },
+      calendar: {
+        "type": "select",
+        "name": "color",
+        "value": "COL_FIELD",
+        "values": ['H', 'D', 'L', 'LL']
+      },
+    };
+  });
+
 
   $scope.cellSelectEditableTemplateCountry = '<select ng-class="\'colt\' + col.index" ng-input="COL_FIELD" ng-model="COL_FIELD" ng-options=" v for v in Options.countryProp.values" ng-blur="updateEntity(row)" />';
   $scope.cellSelectEditableTemplateCategory = '<select ng-class="\'colt\' + col.index" ng-input="COL_FIELD" ng-model="COL_FIELD" ng-options=" v for v in Options.categoryProp.values" ng-blur="updateEntity(row)" />';
@@ -73,6 +100,7 @@ angular.module('project')
   $scope.cellSelectEditableTemplateColor = '<select ng-class="\'colt\' + col.index" ng-input="COL_FIELD" ng-model="COL_FIELD" ng-options=" v for v in Options.color.values" />';
   $scope.cellSelectEditableTemplateOutdated = '<select ng-class="\'colt\' + col.index" ng-input="COL_FIELD" ng-model="COL_FIELD" ng-options=" v for v in Options.outdated.values" />';
   $scope.cellSelectEditableTemplateUpdateTime = '<input ng-class="\'colt\' + col.index" ng-input="COL_FIELD" ng-model="COL_FIELD"  type="date" />';
+  $scope.cellSelectEditableTemplateCalendar = '<select  ng-class="\'colt\' + col.index" ng-input="COL_FIELD" ng-model="COL_FIELD" ng-options=" v for v in Options.calendar.values" />';
 
   $scope.edit = false;
 
@@ -80,6 +108,39 @@ angular.module('project')
 
   .success(function (data) {
     $scope.apps = data;
+
+    Calendar.get()
+      .success(function (calData) {
+        $scope.calendarr = calData;
+        var result = {};
+
+        for (var k = 0; k < $scope.calendarr.length; k++) {
+          var dep = {};
+          for (var v = 0; v < $scope.calendarr[k].storage.length; v++) {
+
+            dep[$scope.calendarr[k].storage[v].fullDate] = $scope.calendarr[k].storage[v].value;
+            result[$scope.calendarr[k].appId._id] = dep;
+            console.log(dep);
+          }
+        }
+        console.log(result);
+
+
+        for (var i = 0; i < $scope.apps.length; i++) {
+          for (var j = 0; j < $scope.calendarr.length; j++) {
+            if ($scope.apps[i]._id === calData[j].appId._id) {
+              $scope.apps[i].calendar = result[calData[j].appId._id][getCurrentDate()];
+              console.log(result[calData[j].appId._id][getCurrentDate()]);
+            }
+          }
+        }
+      });
+  });
+
+  Calendar.get()
+
+  .success(function (data) {
+    $scope.calData = data;
   });
 
   $scope.getRowIndex = function () {
@@ -89,19 +150,46 @@ angular.module('project')
   };
 
   $scope.$on('ngGridEventEndCellEdit', function (evt) {
+    console.log('evt');
+    console.dir(evt);
+    console.dir(evt.targetScope.row);
+    console.dir(evt.targetScope.row.entity.calendar);
     var currentObj = evt.targetScope.row.entity;
+    var displayName = evt.targetScope.col.displayName;
     console.log(currentObj); //debug
     // the underlying data bound to the row
-    // Detect changes and send entity to server 
-    console.log(currentObj._id); //debug 
-
-    //update database value
-    var projectUrl = currentObj._id;
-    Apps.update(projectUrl, currentObj)
-      .success(function (data) {
-        $scope.formData = data;
-      });
+    // Detect changes and send entity to server
+    console.log(currentObj._id); //debug
+    // if this a calendar row, update db
+    if (displayName === 'Calendar') {
+      console.log($scope.calData);
+      for (var i = 0; i < $scope.calData.length; i++) {
+        if ($scope.calData[i].appId._id === currentObj._id) {
+          Calendar.update($scope.calData[i]._id, {
+            value: evt.targetScope.row.entity.calendar,
+            fullDate: getCurrentDate()
+          });
+        }
+      }
+    } else {
+      //update database value
+      var projectUrl = currentObj._id;
+      Apps.update(projectUrl, currentObj)
+        .success(function (data) {
+          $scope.formData = data;
+        });
+    }
   });
+
+
+  var getCurrentDate = function getCurrentDate() {
+    var date = new Date();
+    var dd = date.getDate();
+    var dm = date.getMonth() + 1;
+    var dy = date.getFullYear();
+    return dy + '-' + dm + '-' + dd;
+  };
+
 
   $scope.dateParse = function (data) {
     return Date.parse(data);
@@ -196,6 +284,15 @@ angular.module('project')
         enableCellEdit: permission,
         editableCellTemplate: $scope.cellSelectEditableTemplateOutdated,
         width: 75
+      }, {
+        field: 'calendar',
+        displayName: 'Calendar',
+        cellClass: 'calendar',
+        cellTemplate: '<div ng-class="{\'green\': row.entity.calendar == \'D\',\'orange\': row.entity.calendar == \'L\',\'calendarll\': row.entity.calendar == \'LL\',\'purple\': row.entity.calendar == \'H\' }" " ><div class="ngCellText">{{row.getProperty(col.field)}}</div></div>',
+        editableCellTemplate: $scope.cellSelectEditableTemplateCalendar,
+        visible: permission,
+        enableCellEdit: permission,
+        width: 75,
       },
       // {
       //   cellTemplate: '<div name={{row.entity._id}}  class=\'calendar-cell \' popover="<div  id=\'calendar\'></div><script src=\'js/calendar.js\'></script><script src=\'js/getCalendarDataForOneApp.js\'></script>"  popover-placement="left" popover-append-to-body="true">Click</div>',
@@ -220,4 +317,5 @@ angular.module('project')
       directions: ['asc']
     },
   };
+
 });

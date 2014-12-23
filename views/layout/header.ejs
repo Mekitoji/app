@@ -1,4 +1,4 @@
-
+<% var route = path.split('/')[1]%>
 <header>
 <nav class="navbar navbar-default" role="navigation">
   <div class="container-fluid">
@@ -7,22 +7,40 @@
 
     <!-- Collect the nav links, forms, and other content for toggling -->
     <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+
       <ul class="nav navbar-nav">
+        <% if(user.local.group==='root') { %>
+        <li class= 'dropdown'>
+          <a href="dropdown-toogle" data-toggle="dropdown">Region   <b class='caret'></b></a>
+          <ul class='dropdown-menu'>
+            <li><a href="/cis/main">CIS</a></li>
+            <li><a href="/eu/main">EU</a></li>
+          </ul>
+        </li>
+        <% } %>
         <li class="dropdown">
           <a  class="dropdown-toggle" data-toggle="dropdown">Applications <b class="caret"></b></a>
           <ul class="dropdown-menu">
-            <li><a href="/main">Main</a></li>
-            <li><a href="/main#inwork">In work</a></li>
-            <li><a href="/main#approved">Approved</a></li>
-            <li><a href="/main#outdated">Outdated</a></li>
+            <li><a href="/<%=route%>/main">Main</a></li>
+            <li><a href="/<%=route%>/rejected#/inwork">In work</a></li>
+            <li><a href="/<%=route%>/approved#/approved">Approved</a></li>
+            <li><a href="/<%=route%>/outdated#/outdated">Outdated</a></li>
           </ul>
         </li>
-        <li><a href="/postmail">Post Mail</a></li>
+        <li class="dropdown">
+          <a  class="dropdown-toggle" data-toggle="dropdown">Calendar <b class="caret"></b></a>
+          <ul class="dropdown-menu">
+            <li><a href="/<%=route%>/rejected#/calendar">In work</a></li>
+            <li><a href="/<%=route%>/approved#/calendar">Approved</a></li>
+          </ul>
+        </li>
+        <li><a href="/<%=route%>/main#/test">Test Cycle</a></li>
+        <li><a href="/<%=route%>/postmail">Post Mail</a></li>
       </ul>
 
       <ul class="nav navbar-nav navbar-right">
 
-        <li><a class="navbar-brand" href="#">
+        <li><a class="navbar-brand" href="/profile">
         <%=' '+ user.local.group %><br></a></li>
         <li class='active'> <a href="/profile"><%= user.local.username.first+ ' '+user.local.username.last %></a></li>
       </ul>

@@ -19,7 +19,7 @@ function unAuth(req, res, next) {
 //check user group 
 function checkPermission(req, res, next) {
   if (req.isAuthenticated()) {
-    if (req.user.local.group === 'root' || req.user.local.group === 'gk') {
+    if (req.user.local.group === 'root' || req.user.local.group === 'gk' || req.user.local.group === 'gkEU') {
       return next();
     } else {
       res.redirect('/403');
@@ -28,6 +28,69 @@ function checkPermission(req, res, next) {
   }
   res.redirect('/401');
 }
+
+function checkPermissionRoot(req, res, next) {
+  if (req.isAuthenticated()) {
+    if (req.user.local.group === 'root') {
+      return next();
+    } else {
+      res.redirect('/403');
+    }
+    return next();
+  }
+  res.redirect('/401');
+}
+
+function checkPermissionGkCIS(req, res, next) {
+  if (req.isAuthenticated()) {
+    if (req.user.local.group === 'root' || req.user.local.group === 'gkCIS') {
+      return next();
+    } else {
+      res.redirect('/403');
+    }
+    return next();
+  }
+  res.redirect('/401');
+}
+
+function checkPermissionGkEU(req, res, next) {
+  if (req.isAuthenticated()) {
+    if (req.user.local.group === 'root' || req.user.local.group === 'gkEU') {
+      return next();
+    } else {
+      res.redirect('/403');
+    }
+    return next();
+  }
+  res.redirect('/401');
+}
+
+function checkPermissionCIS(req, res, next) {
+  if (req.isAuthenticated()) {
+    if (req.user.local.group === 'root' || req.user.local.group === 'gkCIS' || req.user.local.group === 'employerCIS') {
+      return next();
+    } else {
+      res.redirect('/403');
+    }
+    return next();
+  }
+  res.redirect('/401');
+}
+
+function checkPermissionEU(req, res, next) {
+  if (req.isAuthenticated()) {
+    if (req.user.local.group === 'root' || req.user.local.group === 'employerEU' || req.user.local.group === 'gkEU') {
+      return next();
+    } else {
+      res.redirect('/403');
+    }
+    return next();
+  }
+  res.redirect('/401');
+}
+
+
+
 // in libs or middleware&
 function alreadyLoginIn(req, res, next) {
   if (req.isAuthenticated()) {
@@ -40,3 +103,8 @@ function alreadyLoginIn(req, res, next) {
 exports.unAuth = unAuth;
 exports.alreadyLoginIn = alreadyLoginIn;
 exports.checkPermission = checkPermission;
+exports.checkPermissionCIS = checkPermissionCIS;
+exports.checkPermissionEU = checkPermissionEU;
+exports.checkPermissionGkCIS = checkPermissionGkCIS;
+exports.checkPermissionGkEU = checkPermissionGkEU;
+exports.checkPermissionRoot = checkPermissionRoot;

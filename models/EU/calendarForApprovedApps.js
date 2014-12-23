@@ -1,4 +1,4 @@
-var mongoose = require('../libs/mongoose');
+var mongoose = require('../../libs/mongoose');
 var Schema = mongoose.Schema;
 
 var dataStorage = new Schema({
@@ -13,9 +13,9 @@ var dataStorage = new Schema({
 var Calendar = new Schema({
   appId: {
     type: Schema.ObjectId,
-    ref: 'Apps'
+    ref: 'approvedAppsEU'
   },
   storage: [dataStorage]
 });
 
-module.exports = mongoose.model('approvedCalendar', Calendar);
+module.exports = mongoose.model('approvedCalendarEU', Calendar);

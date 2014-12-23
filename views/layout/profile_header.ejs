@@ -1,0 +1,37 @@
+<header>
+<nav class="navbar navbar-default" role="navigation">
+  <div class="container-fluid">
+    <!-- Brand and toggle get grouped for better mobile display -->
+
+
+    <!-- Collect the nav links, forms, and other content for toggling -->
+    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+      
+      <ul class="nav navbar-nav">
+
+  <% if(user.local.group==='root') { %>
+        <li class= 'dropdown'>
+          <a href="dropdown-toogle" data-toggle="dropdown">Region   <b class='caret'></b></a>
+          <ul class='dropdown-menu'>
+            <li><a href="/cis/main">CIS</a></li>
+            <li><a href="/eu/main">EU</a></li>
+          </ul>
+        </li>
+        <li><a href="/tools/users">Users</a></li>
+  <% }  else if(user.local.group==='gkEU' || user.local.group==='employerEU') { %>
+        <li><a href="/eu/main">Workspace</a></li>
+  <% } else if(user.local.group==='gkCIS' || user.local.group==='employerCIS') { %>
+        <li><a href="/cis/main">Workspace</a></li>
+  <% } %>
+      </ul>
+      
+      <ul class="nav navbar-nav navbar-right">
+
+        <li><a class="navbar-brand" href="#">
+        <%=' '+ user.local.group %><br></a></li>
+        <li class='active'> <a href="/profile"><%= user.local.username.first+ ' '+user.local.username.last %></a></li>
+      </ul>
+    </div><!-- /.navbar-collapse -->
+  </div><!-- /.container-fluid -->
+</nav>
+</header>

@@ -1,5 +1,5 @@
 
-    
+
 <!--   <div class="gridStyle" ng-grid="gridOptions"></div>
  -->
 
@@ -10,9 +10,13 @@
 <select name="Month" id="">
   <option ng-repeat='Month in Schredules.months' value="{{Month}}">{{Month}}</option>
 </select> -->
-<input type='text' id='datepicker'>
-<div class="container">
 
+<input type='text' id='datepicker'>
+<div id="navigation">
+  
+</div>
+<div class="container">
+      <h2 class='text-center' ng-bind="loc"></h2>
   <div class='inner-table-appName'>
 
     <table class='in-row' id='test'>
@@ -20,7 +24,7 @@
         <th>App Name</th>
       </thead>
       <tbody>
-        
+
       </tbody>
     </table>
   </div>
@@ -30,8 +34,8 @@
 <!--     <div class="gridStyle" ng-grid="gridOptions"></div>
     <button ng-click='prev($event)'>&laquo Prev</button>
     <button ng-click='next($event)'>Next &raquo</button> -->
-    
-    <link rel="stylesheet" href="css/calendar.css">
-    <script src='js/calendar.js'></script>
-    <script src='js/getCalendarData.js'></script>
-    <script src='js/datepicker.js'></script>
+
+    <link rel="stylesheet" href="../css/calendar.css">
+    <script src='../js/calendar.js'></script>
+    <script src='../js/getCalendarData.js'></script>
+    <script src='../js/datepicker.js'></script>

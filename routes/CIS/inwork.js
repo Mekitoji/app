@@ -1,13 +1,14 @@
 var routesFunction = require('../../libs/routesFunction');
 
 module.exports = function (app) {
-  app.get('/approved', routesFunction.unAuth, function (req, res) {
+  app.get('/cis/rejected', routesFunction.checkPermissionCIS, function (req, res) {
+    res.locals.path = req.path;
     if (req.user) {
-      res.render('approved.ejs', {
-        user: req.user // get the user out of session and pass to template
+      res.render('inwork.ejs', {
+        user: req.user, // get the user out of session and pass to template
       });
     } else {
-      res.render('approved.ejs', {
+      res.render('inwork.ejs', {
         user: {
           local: {
             username: {

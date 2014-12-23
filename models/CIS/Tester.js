@@ -1,4 +1,4 @@
-var mongoose = require('../libs/mongoose');
+var mongoose = require('../../libs/mongoose');
 var Schema = mongoose.Schema;
 
 
@@ -14,7 +14,7 @@ var testCycleStorage = new Schema({
   },
 });
 
-module.exports = mongoose.model('Tester', {
+var Tester = new Schema({
   tester: {
     type: String,
     unique: true
@@ -25,3 +25,5 @@ module.exports = mongoose.model('Tester', {
   // },
   Storage: [testCycleStorage]
 });
+
+module.exports = mongoose.model('Tester', Tester);

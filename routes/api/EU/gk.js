@@ -1,9 +1,9 @@
-var Apps = require('../../models/gkbase');
-var ApprovedApps = require('../../models/gkbaseApproved');
-var Cal = require('../../models/calendar');
-var ApprovedCal = require('../../models/calendarForApprovedApps');
+var Apps = require('../../../models/EU/gkbase');
+var ApprovedApps = require('../../../models/EU/gkbaseApproved');
+var Cal = require('../../../models/EU/calendar');
+var ApprovedCal = require('../../../models/EU/calendarForApprovedApps');
 var ObjectId = require('mongoose').Types.ObjectId;
-var log = require('../../libs/log');
+var log = require('../../../libs/log');
 
 
 module.exports = function (app) {
@@ -12,19 +12,19 @@ module.exports = function (app) {
   // api ---------------------------------------------------------------------
 
   //get all
-  app.get('/api/gk', function (req, res) {
+  app.get('/api/eu/gk', function (req, res) {
     // use mongoose to get all gk in the database
     Apps.find(function (err, app) {
       // if there is an error retrieving, send the error. nothing after res.send(err) will execute
       if (err)
         res.send(err);
       res.json(app); // return all users in JSON format
-      log.info(new Date() + '  - GET /API/GK');
+      log.info(new Date() + '  - GET /api/eu/GK');
     });
   });
 
   //rejected filter
-  app.get('/api/gk/rejected', function (req, res) {
+  app.get('/api/eu/gk/rejected', function (req, res) {
     // use mongoose to get rejected apps from the database
     Apps.find(function (err, app) {
       var rejected = [];
@@ -38,12 +38,12 @@ module.exports = function (app) {
         }
       }
       res.json(rejected); // return all users in JSON format
-      log.info(new Date() + '  - GET /API/GK/REJECTED');
+      log.info(new Date() + '  - GET /api/eu/GK/REJECTED');
     });
   });
 
   //approved filter
-  app.get('/api/gk/approved', function (req, res) {
+  app.get('/api/eu/gk/approved', function (req, res) {
     // use mongoose to get approved apps from the database
     ApprovedApps.find(function (err, app) {
       if (err) res.send(err);
@@ -53,13 +53,13 @@ module.exports = function (app) {
       //   }
       // }
       res.json(app); // return all users in JSON format
-      log.info(new Date() + '  - GET /API/GK/APPROVED');
+      log.info(new Date() + '  - GET /api/eu/GK/APPROVED');
 
     });
   });
 
   //outdated filter
-  app.get('/api/gk/outdated', function (req, res) {
+  app.get('/api/eu/gk/outdated', function (req, res) {
     // use mongoose to get outdated apps from the database
     Apps.find(function (err, app) {
       var outdated = [];
@@ -73,12 +73,12 @@ module.exports = function (app) {
         }
       }
       res.json(outdated); // return all users in JSON format
-      log.info(new Date() + '  - GET /API/GK/OUTDATED');
+      log.info(new Date() + '  - GET /api/eu/GK/OUTDATED');
     });
   });
 
 
-  app.get('/api/gk/:app_id', function (req, res) {
+  app.get('/api/eu/gk/:app_id', function (req, res) {
     console.log(req.params.app_id);
     Apps.findById(req.params.app_id, function (err, data) {
 
@@ -88,7 +88,7 @@ module.exports = function (app) {
   });
 
   // create user and send back all users after creation
-  app.post('/api/gk', function (req, res) {
+  app.post('/api/eu/gk', function (req, res) {
     // create a user, information comes from request from Angular
     Apps.create({
       country: req.body.country,
@@ -122,14 +122,14 @@ module.exports = function (app) {
         cal.save(function (err, data) {
           if (err) console.log(err);
           res.json(data);
-          log.info(new Date() + '  - POST /API/GK/' + data.appId);
+          log.info(new Date() + '  - POST /api/eu/GK/' + data.appId);
         });
       });
     });
   });
 
   // delete a user
-  app.delete('/api/gk/:app_id', function (req, res) {
+  app.delete('/api/eu/gk/:app_id', function (req, res) {
     Apps.remove({
       _id: req.params.app_id
     }, function (err, app) {
@@ -160,7 +160,7 @@ module.exports = function (app) {
 
 
   //update a user
-  app.put('/api/gk/:app_id', function (req, res) {
+  app.put('/api/eu/gk/:app_id', function (req, res) {
 
     //check if data is approved
     //then delete in thisd db and save at new
@@ -175,9 +175,11 @@ module.exports = function (app) {
           if (req.body.tv === 'Approved') {
             apps.tv = 'Approved';
             apps.currentStatus = 'Approved';
+            apps.outdated = false;
           } else if (req.body.tv === 'Partial') {
             apps.tv = 'Partial';
             apps.currentStatus = 'Approved on partial devices';
+            apps.outdated = false;
           }
           //save
           apps.save(function (err, data) {

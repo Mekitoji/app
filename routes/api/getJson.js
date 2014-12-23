@@ -1,48 +1,95 @@
 var _ = require('underscore');
-var Apps = require('../../models/gkbase');
-var approvedApps = require('../../models/gkbaseApproved');
-var Cal = require('../../models/calendar');
+var Apps = require('../../models/CIS/gkbase');
+var AppsEU = require('../../models/EU/gkbase');
+var approvedApps = require('../../models/CIS/gkbaseApproved');
+var approvedAppsEU = require('../../models/EU/gkbaseApproved');
+var Cal = require('../../models/CIS/calendar');
+var CalEU = require('../../models/EU/calendar');
 var log = require('../../libs/log');
 
 
 module.exports = function (app) {
-  app.post('/getJson', function (req, res) {
+  app.post('/api/getJson', function (req, res) {
     var headerArr = ['empty', 'appId', 'region', 'categoty', 'appName', 'seller', 'usagePeriod', 'updateDate', 'gk', 'appStatus', 'gkReview'];
     var headerArr2 = ['appId', 'appVer', 'Categoty', 'FileType', 'appName', 'country', 'price', 'updateDate', 'appStatus', 'gkReview', 'addTest'];
     var tempArr = [];
     //req.body.data
     console.log(req.body);
+    console.log(req.body.region);
+    console.log(req.body.region === 'CS');
+    console.log(req.body.region === 'EU');
+    if (req.body.region === 'CS') {
+      //check table caption
+      if (req.body.table_caption === 'QA Request Mgt. List') {
+        //parse incoming obj to json view
+        var objectX = JSON.parse(req.body.data);
 
-    //check table caption
-    if (req.body.table_caption === 'QA Request Mgt. List') {
-      //parse incoming obj to json view
-      var objectX = JSON.parse(req.body.data);
+        _.each(objectX, function (arr) {
+          tempArr.push(_.object(headerArr, arr));
+        });
+        // console.log(tempArr);
+        _.each(tempArr, function (obj, num) {
 
-      _.each(objectX, function (arr) {
-        tempArr.push(_.object(headerArr, arr));
-      });
-      // console.log(tempArr);
-      _.each(tempArr, function (obj, num) {
+          Apps.find({
+            applicationId: obj.appId,
+          }, function (err, data) {
+            if (err) res.json({
+              "result": err
+            });
+            if (data.length === 0) {
+              approvedApps.findOne({
+                applicationId: obj.appId
+              }, function (err, dataA) {
+                if (dataA) {
+                  if (obj.appStatus !== 'App QA approved') {
+                    Apps.create({
+                      appName: obj.appName,
+                      seller: obj.seller,
+                      sdpStatus: obj.appStatus,
+                      tv: 'Reject',
+                      testCycles: 1,
+                      updateTime: obj.updateDate,
+                      replyTime: 0,
+                      applicationId: obj.appId
+                    }, function (err, app) {
+                      if (err) res.json({
+                        "result": err
+                      });
+                      Apps.find({
+                        applicationId: obj.appId
+                      }, function (err, app) {
+                        if (err) res.json({
+                          "result": err
+                        });
 
-        Apps.find({
-          applicationId: obj.appId,
-        }, function (err, data) {
-          if (err) res.json({
-            "result": err
-          });
-          if (data.length === 0) {
-            approvedApps.findOne({
-              applicationId: obj.appId
-            }, function (err, dataA) {
-              if (dataA) {
-                if (obj.appStatus !== 'App QA approved') {
+                        // create Calendar data with this appName
+                        var cal = new Cal({
+                          appId: app[0]._id
+                        });
+                        cal.save(function (err, data) {
+                          if (err) res.send({
+                            "result": err
+                          });
+                          res.json({
+                            "result": true,
+                            "data": data
+                          });
+
+                          log.info(new Date() + '  - POST /API/GK/' + data.appId);
+                        });
+                      });
+                    });
+                  } else {
+
+                  }
+                } else {
                   Apps.create({
                     appName: obj.appName,
                     seller: obj.seller,
                     sdpStatus: obj.appStatus,
                     tv: 'Reject',
-                    testCycles: 1,
                     updateTime: obj.updateDate,
+                    testCycles: 1,
                     replyTime: 0,
                     applicationId: obj.appId
                   }, function (err, app) {
@@ -61,82 +108,96 @@ module.exports = function (app) {
                         appId: app[0]._id
                       });
                       cal.save(function (err, data) {
-                        if (err) res.send({
+                        if (err) res.json({
                           "result": err
                         });
                         res.json({
                           "result": true,
                           "data": data
                         });
-
                         log.info(new Date() + '  - POST /API/GK/' + data.appId);
                       });
                     });
                   });
-                } else {
-
                 }
-              } else {
-                Apps.create({
-                  appName: obj.appName,
-                  seller: obj.seller,
-                  sdpStatus: obj.appStatus,
-                  tv: 'Reject',
-                  updateTime: obj.updateDate,
-                  testCycles: 1,
-                  replyTime: 0,
-                  applicationId: obj.appId
-                }, function (err, app) {
-                  if (err) res.json({
-                    "result": err
-                  });
-                  Apps.find({
-                    applicationId: obj.appId
-                  }, function (err, app) {
-                    if (err) res.json({
-                      "result": err
-                    });
-
-                    // create Calendar data with this appName
-                    var cal = new Cal({
-                      appId: app[0]._id
-                    });
-                    cal.save(function (err, data) {
-                      if (err) res.json({
-                        "result": err
-                      });
-                      res.json({
-                        "result": true,
-                        "data": data
-                      });
-                      log.info(new Date() + '  - POST /API/GK/' + data.appId);
-                    });
-                  });
-                });
-              }
-            });
-
-
-            // console.log(data);
-          } else {
-            /********************************NEED CHECK IT********************************/
-            Apps.findOne({
-              applicationId: obj.appId
-            }, function (err, app) {
-              if (err) res.json({
-                "result": err
               });
 
 
-              obj.updateDate = obj.updateDate.split(' ')[0];
+              // console.log(data);
+            } else {
+              /********************************NEED CHECK IT********************************/
+              Apps.findOne({
+                applicationId: obj.appId
+              }, function (err, app) {
+                if (err) res.json({
+                  "result": err
+                });
 
+
+                obj.updateDate = obj.updateDate.split(' ')[0];
+
+                //put some data for update here
+                app.appName = obj.appName;
+                app.sdpStatus = obj.appStatus;
+                app.seller = obj.seller;
+                app.applicationId = obj.appId;
+                app.updateTime = new Date(obj.updateDate);
+                // save the bear
+                app.save(function (err) {
+                  if (err)
+                    res.json({
+                      "result": err
+                    });
+                  res.json({
+                    "result": true,
+                    "data": app
+                  });
+                });
+              });
+            }
+          });
+        });
+
+
+      } else if (req.body.table_caption === 'QA Request Mgmt') {
+        var objectY = JSON.parse(req.body.data);
+
+        _.each(objectY, function (arr) {
+          tempArr.push(_.object(headerArr2, arr));
+          // console.log(_.object(headerArr2, arr));
+        });
+        // console.log(tempArr);
+        _.each(tempArr, function (obj, num) {
+          // console.log(obj.appName);
+          // console.log(obj);
+          /********************************NEED CHECK IT********************************/
+          Apps.findOne({
+              applicationId: obj.appId
+            },
+            function (err, app) {
+              if (err) res.json({
+                "result": err
+              });
+              // console.log(app);
               //put some data for update here
-              app.appName = obj.appName;
-              app.sdpStatus = obj.appStatus;
-              app.seller = obj.seller;
-              app.applicationId = obj.appId;
+              // app.appName = obj.appName;
+              // app.sdpStatus = obj.sdpStatus;
+              var reg = /.+\((.+)\)/;
+              if (app === null) {
+                // console.log(obj.appId);
+
+                return false;
+              }
+              // console.log(reg.exec(obj.country)[1]);
+              console.log(obj.updateDate);
+              obj.updateDate = obj.updateDate.split(' ')[0];
+              console.log(obj.updateDate);
+              console.log(new Date(obj.updateDate));
+              // console.log(obj.appId);
+
+              app.country = reg.exec(obj.country)[1];
               app.updateTime = new Date(obj.updateDate);
-              // save the bear
+
               app.save(function (err) {
                 if (err)
                   res.json({
@@ -147,68 +208,211 @@ module.exports = function (app) {
                   "data": app
                 });
               });
+
             });
-          }
+
         });
-      });
 
 
-    } else if (req.body.table_caption === 'QA Request Mgmt') {
-      var objectY = JSON.parse(req.body.data);
+      }
 
-      _.each(objectY, function (arr) {
-        tempArr.push(_.object(headerArr2, arr));
-        // console.log(_.object(headerArr2, arr));
-      });
-      // console.log(tempArr);
-      _.each(tempArr, function (obj, num) {
-        // console.log(obj.appName);
-        // console.log(obj);
-        /********************************NEED CHECK IT********************************/
-        Apps.findOne({
-            applicationId: obj.appId
-          },
-          function (err, app) {
+    } else if (req.body.region === 'EU') {
+      //check table caption
+      if (req.body.table_caption === 'QA Request Mgt. List') {
+        //parse incoming obj to json view
+        var objectEU = JSON.parse(req.body.data);
+
+        _.each(objectEU, function (arr) {
+          tempArr.push(_.object(headerArr, arr));
+        });
+        // console.log(tempArr);
+        _.each(tempArr, function (obj, num) {
+
+          AppsEU.find({
+            applicationId: obj.appId,
+          }, function (err, data) {
             if (err) res.json({
               "result": err
             });
-            // console.log(app);
-            //put some data for update here
-            // app.appName = obj.appName;
-            // app.sdpStatus = obj.sdpStatus;
-            var reg = /.+\((.+)\)/;
-            if (app === null) {
-              // console.log(obj.appId);
+            if (data.length === 0) {
+              approvedAppsEU.findOne({
+                applicationId: obj.appId
+              }, function (err, dataA) {
+                if (dataA) {
+                  if (obj.appStatus !== 'App QA approved') {
+                    AppsEU.create({
+                      appName: obj.appName,
+                      seller: obj.seller,
+                      sdpStatus: obj.appStatus,
+                      tv: 'Reject',
+                      testCycles: 1,
+                      updateTime: obj.updateDate,
+                      replyTime: 0,
+                      applicationId: obj.appId
+                    }, function (err, app) {
+                      if (err) res.json({
+                        "result": err
+                      });
+                      AppsEU.find({
+                        applicationId: obj.appId
+                      }, function (err, app) {
+                        if (err) res.json({
+                          "result": err
+                        });
 
-              return false;
-            }
-            // console.log(reg.exec(obj.country)[1]);
-            console.log(obj.updateDate);
-            obj.updateDate = obj.updateDate.split(' ')[0];
-            console.log(obj.updateDate);
-            console.log(new Date(obj.updateDate));
-            // console.log(obj.appId);
+                        // create Calendar data with this appName
+                        var cal = new CalEU({
+                          appId: app[0]._id
+                        });
+                        cal.save(function (err, data) {
+                          if (err) res.send({
+                            "result": err
+                          });
+                          res.json({
+                            "result": true,
+                            "data": data
+                          });
 
-            app.country = reg.exec(obj.country)[1];
-            app.updateTime = new Date(obj.updateDate);
+                          log.info(new Date() + '  - POST /API/GK/' + data.appId);
+                        });
+                      });
+                    });
+                  } else {
 
-            app.save(function (err) {
-              if (err)
-                res.json({
+                  }
+                } else {
+                  AppsEU.create({
+                    appName: obj.appName,
+                    seller: obj.seller,
+                    sdpStatus: obj.appStatus,
+                    tv: 'Reject',
+                    updateTime: obj.updateDate,
+                    testCycles: 1,
+                    replyTime: 0,
+                    applicationId: obj.appId
+                  }, function (err, app) {
+                    if (err) res.json({
+                      "result": err
+                    });
+                    AppsEU.find({
+                      applicationId: obj.appId
+                    }, function (err, app) {
+                      if (err) res.json({
+                        "result": err
+                      });
+
+                      // create Calendar data with this appName
+                      var cal = new CalEU({
+                        appId: app[0]._id
+                      });
+                      cal.save(function (err, data) {
+                        if (err) res.json({
+                          "result": err
+                        });
+                        res.json({
+                          "result": true,
+                          "data": data
+                        });
+                        log.info(new Date() + '  - POST /API/GK/' + data.appId);
+                      });
+                    });
+                  });
+                }
+              });
+
+
+              // console.log(data);
+            } else {
+              /********************************NEED CHECK IT********************************/
+              AppsEU.findOne({
+                applicationId: obj.appId
+              }, function (err, app) {
+                if (err) res.json({
                   "result": err
                 });
-              res.json({
-                "result": true,
-                "data": app
+
+
+                obj.updateDate = obj.updateDate.split(' ')[0];
+
+                //put some data for update here
+                app.appName = obj.appName;
+                app.sdpStatus = obj.appStatus;
+                app.seller = obj.seller;
+                app.applicationId = obj.appId;
+                app.updateTime = new Date(obj.updateDate);
+                // save the bear
+                app.save(function (err) {
+                  if (err)
+                    res.json({
+                      "result": err
+                    });
+                  res.json({
+                    "result": true,
+                    "data": app
+                  });
+                });
               });
+            }
+          });
+        });
+
+
+      } else if (req.body.table_caption === 'QA Request Mgmt') {
+        var objectEU2 = JSON.parse(req.body.data);
+
+        _.each(objectEU2, function (arr) {
+          tempArr.push(_.object(headerArr2, arr));
+          // console.log(_.object(headerArr2, arr));
+        });
+        // console.log(tempArr);
+        _.each(tempArr, function (obj, num) {
+          // console.log(obj.appName);
+          // console.log(obj);
+          /********************************NEED CHECK IT********************************/
+          AppsEU.findOne({
+              applicationId: obj.appId
+            },
+            function (err, app) {
+              if (err) res.json({
+                "result": err
+              });
+              // console.log(app);
+              //put some data for update here
+              // app.appName = obj.appName;
+              // app.sdpStatus = obj.sdpStatus;
+              var reg = /.+\((.+)\)/;
+              if (app === null) {
+                // console.log(obj.appId);
+
+                return false;
+              }
+              // console.log(reg.exec(obj.country)[1]);
+              console.log(obj.updateDate);
+              obj.updateDate = obj.updateDate.split(' ')[0];
+              console.log(obj.updateDate);
+              console.log(new Date(obj.updateDate));
+              // console.log(obj.appId);
+
+              app.country = reg.exec(obj.country)[1];
+              app.updateTime = new Date(obj.updateDate);
+
+              app.save(function (err) {
+                if (err)
+                  res.json({
+                    "result": err
+                  });
+                res.json({
+                  "result": true,
+                  "data": app
+                });
+              });
+
             });
 
-          });
-
-      });
+        });
 
 
+      }
     }
-
   });
 };

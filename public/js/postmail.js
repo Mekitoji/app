@@ -8,7 +8,7 @@ angular.module('postmail', [])
 .factory('mail', function ($http) {
   return {
     post: function (data) {
-      return $http.post('/postmail', data);
+      return $http.post('/cis/postmail', data);
     }
   };
 })
@@ -22,16 +22,16 @@ angular.module('postmail', [])
 .factory('Apps', function ($http) {
   return {
     get: function () {
-      return $http.get('/api/gk/');
+      return $http.get('/api/cis/gk/');
     },
     getApproved: function () {
-      return $http.get('/api/gk/approved');
+      return $http.get('/api/cis/gk/approved');
     },
     getRejected: function () {
-      return $http.get('/api/gk/rejected');
+      return $http.get('/api/cis/gk/rejected');
     },
     getOutdated: function () {
-      return $http.get('/api/gk/outdated');
+      return $http.get('/api/cis/gk/outdated');
     },
   };
 })
@@ -44,7 +44,7 @@ angular.module('postmail', [])
   .success(function (data) {
     $scope.apps = data;
     $scope.previewText = 'Dear Ted,<br />Here I summarize those apps that are on App QA team.' +
-      '<style type="text/css">.red{background-color:#F00;} table, table th, table td{border:1px solid black;padding:10px;border-collapse:collapse;}</style> <br /> <br /> <table border=\'1\'  cellspacing=\'0\' cellpadding=\'0\'><tr><th><b>COUNTRY</b><th><b>App Id</b></th></th><th><b>APP</b></th><th><b>STATUS</b></th><th><b>Update Date</b></th><th><b>SELLER</b></th><th><b>Comments</b></th></tr>';
+      '<style type="text/css">.red{background-color:#F00;} table, table th, table td{border:1px solid black;padding:10px;border-collapse:collapse;}</style> <br /> <br /> <table border=\'1\'  cellspacing=\'0\' cellpadding=\'0\'><tr><th><b>COUNTRY</b><th><b>App Id</b></th></th><th><b>APP</b></th><th><b>STATUS</b></th><th><b>Update Date</b></th><th><b>SELLER</b></th><th><b>Comments</b></th><th><b>Resp</b></th></tr>';
     _.each($scope.apps, function (num) {
       _.each(num, function (data, key) {
 
@@ -71,12 +71,12 @@ angular.module('postmail', [])
             bgcolor = 'bgcolor="red"';
           }
           num.updateTime = temp_year + "-" + temp_month + "-" + temp_date;
-          $scope.previewText += "<tr><td>" + num.country + "</td><td>" + num.applicationId + "</td><td>" + num.appName + "</td><td>" + num.sdpStatus + "</td><td class='" + classx + "' " + bgcolor + ">" + num.updateTime + "</td><td>" + num.seller + "</td><td>" + num.currentStatus + "</td></tr>";
+          $scope.previewText += "<tr><td>" + num.country + "</td><td>" + num.applicationId + "</td><td>" + num.appName + "</td><td>" + num.sdpStatus + "</td><td class='" + classx + "' " + bgcolor + ">" + num.updateTime + "</td><td>" + num.seller + "</td><td>" + num.currentStatus + "</td><td>" + num.resp + "</td></tr>";
         }
       });
     });
 
-    $scope.previewText += "</table><br />Here I summarize those apps that are on CIS team. <br /><br /><table border='1' cellspacing=\'0\' cellpadding=\'0\'><tr><th><b>COUNTRY</b></th><th><b>App Id</b></th><th><b>APP</b></th><th><b>STATUS</b></th><th><b>Update Date</b></th><th><b>SELLER</b></th><th><b>Comments</b></th></tr>";
+    $scope.previewText += "</table><br />Here I summarize those apps that are on CIS team. <br /><br /><table border='1' cellspacing=\'0\' cellpadding=\'0\'><tr><th><b>COUNTRY</b></th><th><b>App Id</b></th><th><b>APP</b></th><th><b>STATUS</b></th><th><b>Update Date</b></th><th><b>SELLER</b></th><th><b>Comments</b></th><th><b>Resp</b></th></tr>";
 
     _.each($scope.apps, function (num) {
       _.each(num, function (data, key) {
@@ -94,7 +94,7 @@ angular.module('postmail', [])
             temp_date = '0' + temp_date;
           }
           num.updateTime = temp_year + "-" + temp_month + "-" + temp_date;
-          $scope.previewText += "<tr><td>" + num.country + "</td><td>" + num.applicationId + '</td><td>' + num.appName + "</td><td>" + num.sdpStatus + "</td><td>" + num.updateTime + "</td><td>" + num.seller + "</td><td>" + num.currentStatus + "</td></tr>";
+          $scope.previewText += "<tr><td>" + num.country + "</td><td>" + num.applicationId + '</td><td>' + num.appName + "</td><td>" + num.sdpStatus + "</td><td>" + num.updateTime + "</td><td>" + num.seller + "</td><td>" + num.currentStatus + "</td><td>" + num.resp + "</td></tr>";
         }
       });
     });
@@ -103,11 +103,12 @@ angular.module('postmail', [])
 
     $scope.submit = function () {
       console.log($scope.previewText);
+      var region = document.URL.split('/')[3];
       mail.post({
         "text": $scope.previewText
       })
 
-      .success(window.location = "/mailSuccess");
+      .success(window.location = "/" + region + "/mailSuccess");
 
     };
   });

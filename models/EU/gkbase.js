@@ -1,8 +1,8 @@
-var mongoose = require('../libs/mongoose');
+var mongoose = require('../../libs/mongoose');
 var Schema = mongoose.Schema;
 
 // create the model for users and expose it to our app
-module.exports = mongoose.model('Apps', {
+var Apps = new Schema({
 
   country: {
     type: String
@@ -43,7 +43,6 @@ module.exports = mongoose.model('Apps', {
   },
   applicationId: {
     type: String,
-
   },
   outdated: {
     type: Boolean,
@@ -51,3 +50,5 @@ module.exports = mongoose.model('Apps', {
     // true - outdated, false in progress
   }
 });
+
+module.exports = mongoose.model('AppsEU', Apps);

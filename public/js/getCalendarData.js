@@ -1,16 +1,37 @@
 // $(document).ready($('.inner-table-appName tbody'));
 
-var permission;
-// take permission right from server
-if (userG === 'gk' || userG === 'root') {
-  permission = true;
-} else {
-  permission = false;
-}
 
 
 var data_manual = {};
-var url = 'api/calendar/';
+var url;
+
+var region = document.URL.split('/')[3];
+var subLoc = document.URL.split('/')[4].slice(0, -1);
+console.log(subLoc);
+if (region == 'cis') {
+  if (subLoc === 'approved') {
+    url = '../api/cis/calendar/approved';
+  } else if (subLoc === 'rejected') {
+    url = '../api/cis/calendar/rejected';
+  } else if (subLoc === 'outdated') {
+    url = '../api/cis/calendar/outdated';
+  } else {
+    url = '../api/cis/calendar/';
+  }
+} else {
+  if (subLoc === 'approved') {
+    url = '../api/eu/calendar/approved';
+  } else if (subLoc === 'rejected') {
+    url = '../api/eu/calendar/rejected';
+  } else if (subLoc === 'outdated') {
+    url = '../api/eu/calendar/outdated';
+  } else {
+    url = '../api/eu/calendar/';
+  }
+}
+
+
+
 
 $.get(url, function (data) {
 
@@ -18,25 +39,16 @@ $.get(url, function (data) {
   console.log(data);
   var storageOfDate = [];
   var appNameObj = {};
-  var calendarId = {}; //calendarId
-  var arr = [];
+  var calendarId = {};
   var checkOutdated = {};
-
   // var test = {};
   //Push data in array
   for (var i = 0; i < data.length; i++) {
-    var innerStorage = data[i].storage;
 
-    calendarId[data[i]._id] = data[i].appId._id; //calendarId
-
-    console.log(data[i]);
-    console.log(data[i]._id + ' = ' + data[i].appId._id);
-
+    calendarId[data[i]._id] = data[i].appId._id;
     appNameObj[data[i].appId._id] = data[i].appId.appName;
-
-    console.log(data[i].appId._id + ' = ' + data[i].appId.appName);
-    console.log(appNameObj[data[i].appId._id]);
     // storageOfDate.push(data[i].storage);
+    var innerStorage = data[i].storage;
     checkOutdated[data[i].appId._id] = data[i].appId.outdated;
 
     for (j = 0; j < innerStorage.length; j++) {
@@ -68,11 +80,7 @@ $.get(url, function (data) {
     });
   console.log(appNameObjNew);
 
-  //now keys array contain keys of obj in sorted order of values
-  console.log('keys');
-  console.log(keys);
 
-  // appNameObj.sort('value');
   console.log('\n\ndata_manual:');
   console.log(data_manual);
 
@@ -82,9 +90,10 @@ $.get(url, function (data) {
   console.log(calendarId); //calendarId
   // console.log('storageOfDate:');
   // console.log(storageOfDate);
-  console.log('checkOutdated:');
-  console.log(checkOutdated);
 
+  $('.appNameRow').each(function () {
+    $(this).remove();
+  });
 
   //create tr for each elem in data array
   $.each(appNameObjNew, function (i, appName) {
@@ -105,14 +114,11 @@ $.get(url, function (data) {
 
       thisColTable = table.addClass('column-table').attr('id', 'dataTableColumn' + (++count)).appendTo(thisCol);
 
-
-
     $.each(data_manual, function (date, valueArr) {
 
       $.each(appNameObjNew, function (appId, appName) {
         if (checkOutdated[appId] === false) {
           if (date == dd) {
-
             if (valueArr[appId]) {
               // console.log(date + ' ' + appName + " = " + valueArr[appId]);
               var tr = $('<tr>').css({
@@ -124,6 +130,7 @@ $.get(url, function (data) {
                 if (appId === appId11)
                   td.html(valueArr[appId]).addClass(date).addClass(calId).appendTo(tr);
               });
+              thisColTable.append(tr);
               if (td.html() == 'L') {
                 td.css({
                   "background-color": "orange",
@@ -145,8 +152,8 @@ $.get(url, function (data) {
                   "color": "orange"
                 });
               }
-              thisColTable.append(tr);
               td.on('change', function (evt, newValue) {
+
                 var thisElem = $(this);
                 console.log('thisElem');
                 console.log(thisElem);
@@ -156,6 +163,7 @@ $.get(url, function (data) {
                 console.log(newValue);
                 var classArr = thisElem.attr('class').split(' ');
                 console.log(classArr);
+
                 if (newValue == 'L') {
                   thisElem.css({
                     "background-color": "orange",
@@ -177,9 +185,10 @@ $.get(url, function (data) {
                     "color": "orange"
                   });
                 }
+
                 $.ajax({
                   type: 'PUT',
-                  url: url + classArr[1],
+                  url: '../api/' + region + '/calendar/' + classArr[1],
                   data: {
                     value: newValue,
                     fullDate: classArr[0],
@@ -194,32 +203,9 @@ $.get(url, function (data) {
               var td1 = $('<td>');
               $.each(calendarId, function (calId, appId11) {
                 if (appId === appId11)
-                  td1.html('').addClass(dd).addClass(calId).appendTo(empty);
+                  td1.html('').addClass(date).addClass(calId).appendTo(empty);
               });
-              if (td1.html() == 'L') {
-                td1.css({
-                  "background-color": "orange",
-                  "color": "black"
-                });
-              } else if (td1.html() == 'H') {
-                td1.css({
-                  "background-color": "#B19CD9",
-                  "color": "black"
-                });
-              } else if (td1.html() == 'D') {
-                td1.css({
-                  "background-color": "green",
-                  "color": "black"
-                });
-              } else if (td1.html() == 'LL') {
-                td1.css({
-                  "background-color": "orange",
-                  "color": "orange"
-                });
-              }
-
               thisColTable.append(empty);
-
               td1.on('change', function (evt, newValue) {
                 var thisElem = $(this);
                 console.log('thisElem');
@@ -253,7 +239,7 @@ $.get(url, function (data) {
                 }
                 $.ajax({
                   type: 'PUT',
-                  url: url + classArr[1],
+                  url: '../api/' + region + '/calendar/' + classArr[1],
                   data: {
                     value: newValue,
                     fullDate: classArr[0],
@@ -264,10 +250,11 @@ $.get(url, function (data) {
           }
         }
       });
+
     });
     if (thisColTable[0].childNodes[0] === undefined) {
       $.each(appNameObjNew, function (appId, appName) {
-        if (checkOutdated[appId]) {
+        if (checkOutdated[appId] === false) {
           var empty = $('<tr>').css({
             'height': '21px ',
             'text-align': 'center'
@@ -277,27 +264,6 @@ $.get(url, function (data) {
             if (appId === appId11)
               td.html('').addClass(dd).addClass(calId).appendTo(empty);
           });
-          if (td.html() == 'L') {
-            td.css({
-              "background-color": "orange",
-              "color": "black"
-            });
-          } else if (td.html() == 'H') {
-            td.css({
-              "background-color": "#B19CD9",
-              "color": "black"
-            });
-          } else if (td.html() == 'D') {
-            td.css({
-              "background-color": "green",
-              "color": "black"
-            });
-          } else if (td.html() == 'LL') {
-            td.css({
-              "background-color": "orange",
-              "color": "orange"
-            });
-          }
           thisColTable.append(empty);
           td.on('change', function (evt, newValue) {
             var thisElem = $(this);
@@ -332,7 +298,7 @@ $.get(url, function (data) {
             }
             $.ajax({
               type: 'PUT',
-              url: url + classArr[1],
+              url: '../api/' + region + '/calendar/' + classArr[1],
               data: {
                 value: newValue,
                 fullDate: classArr[0],
@@ -350,7 +316,6 @@ $.get(url, function (data) {
     }
   });
   $('.fc-content-skeleton').remove();
-
 });
 
 
@@ -511,7 +476,7 @@ $('.fc-next-button, .fc-prev-button, .fc-today-button').click(function () {
 
                     $.ajax({
                       type: 'PUT',
-                      url: url + classArr[1],
+                      url: '../api/' + region + '/calendar/' + classArr[1],
                       data: {
                         value: newValue,
                         fullDate: classArr[0],
@@ -562,7 +527,7 @@ $('.fc-next-button, .fc-prev-button, .fc-today-button').click(function () {
                     }
                     $.ajax({
                       type: 'PUT',
-                      url: url + classArr[1],
+                      url: '../api/' + region + '/calendar/' + classArr[1],
                       data: {
                         value: newValue,
                         fullDate: classArr[0],
@@ -621,7 +586,7 @@ $('.fc-next-button, .fc-prev-button, .fc-today-button').click(function () {
                 }
                 $.ajax({
                   type: 'PUT',
-                  url: url + classArr[1],
+                  url: '../api/' + region + '/calendar/' + classArr[1],
                   data: {
                     value: newValue,
                     fullDate: classArr[0],

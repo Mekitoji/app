@@ -1,9 +1,11 @@
 var routesFunction = require('../../libs/routesFunction');
+
 // SIGNUP =================================
 // show the signup form
 
 module.exports = function (app, passport) {
   app.get('/signup', routesFunction.alreadyLoginIn, function (req, res) {
+    res.locals.path = req.path;
     res.render('signup.ejs', {
       message: req.flash('signupMessage')
     });
