@@ -19,14 +19,14 @@
 <body ng-controller="list">
   <% include layout/profile_header %>
 <input type="text" ng-model="search" class="search-query" placeholder="Search">
- 
+
   <div class='container'>
    <table id='usersTable' class='inside-container'>
     <tr>
       <th>User</th>
       <th>Mail</th>
     </tr>
-    <tr ng-repeat="user in users track by $index |filter: search ">
+    <tr ng-repeat="user in users |filter: search ">
       <td>{{user.local.username.first+' '+user.local.username.last}}</td>
       <td>{{user.local.email}}</td>
     </tr>
@@ -35,7 +35,7 @@
     <tr>
       <th>Group</th>
     </tr>
-    <tr ng-repeat="user in users track by $index |filter: search ">
+    <tr ng-repeat="user in users |filter: search ">
       <td class='changeGroup {{user._id}}'>{{user.local.group}}</td>
     </tr>
   </table>
@@ -57,7 +57,7 @@
       type: 'PUT',
       url: '/api/users/' + classArr[1],
       data: {
-        group:newValue 
+        group:newValue
       }
     });
     });
