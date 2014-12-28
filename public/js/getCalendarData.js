@@ -68,8 +68,8 @@ $.get(url, function (data) {
       return [k, appNameObj[k]];
     })
     .sort(function (a, b) {
-      if (a[1] < b[1]) return -1;
-      if (a[1] > b[1]) return 1;
+      if (a[1].toLowerCase() < b[1].toLowerCase()) return -1;
+      if (a[1].toLowerCase()> b[1].toLowerCase()) return 1;
       return 0;
     })
     .forEach(function (d) {
@@ -356,8 +356,8 @@ $('.fc-next-button, .fc-prev-button, .fc-today-button').click(function () {
           return [k, appNameObj[k]];
         })
         .sort(function (a, b) {
-          if (a[1] < b[1]) return -1;
-          if (a[1] > b[1]) return 1;
+          if (a[1].toLowerCase() < b[1].toLowerCase()) return -1;
+          if (a[1].toLowerCase() > b[1].toLowerCase()) return 1;
           return 0;
         })
         .forEach(function (d) {

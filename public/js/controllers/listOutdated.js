@@ -124,8 +124,8 @@ angular.module('project')
     var currentObj = evt.targetScope.row.entity;
     console.log(currentObj); //debug
     // the underlying data bound to the row
-    // Detect changes and send entity to server 
-    console.log(currentObj._id); //debug 
+    // Detect changes and send entity to server
+    console.log(currentObj._id); //debug
 
     //update database value
     var projectUrl = currentObj._id;
@@ -235,13 +235,13 @@ angular.module('project')
       //   width: 75,
       //   visible: permission
       // },
-      {
-        editableCellTemplate: $scope.cellSelectEditableTemplateCalendarCurrentDate,
-        displayName: 'Calendar',
-        enableCellEdit: permission,
-        width: 45,
-        visible: permission,
-      }
+      // {
+      //   editableCellTemplate: $scope.cellSelectEditableTemplateCalendarCurrentDate,
+      //   displayName: 'Calendar',
+      //   enableCellEdit: permission,
+      //   width: 45,
+      //   visible: permission,
+      // }
     ],
     showGroupPanel: true,
     enableColumnResize: true,
