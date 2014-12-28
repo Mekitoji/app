@@ -53,7 +53,7 @@ angular.module('project')
                 "type": "select",
                 "name": "Category",
                 "value": "COL_FIELD",
-                "values": ["Gk review request", "GK review", "GK Review Reject", "Verification Request", "Pre-test", "Function Testing", "Content Testing", "Final review", "App QA Approved", "App QA Rejected"]
+                "values": ["GK review request", "GK review", "GK Review Reject", "Verification Request", "Pre-test", "Function Testing", "Content Testing", "Final review", "App QA Approved", "App QA Rejected", "Delete", "Revise", "Save as draft"]
             },
             tvProp: {
                 "type": "select",

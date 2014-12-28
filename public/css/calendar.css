@@ -1,5 +1,4 @@
 body {
-  margin-top: 0;
   text-align: right;
   font-size: 14px;
   font-family: "Lucida Grande",Helvetica,Arial,Verdana,sans-serif;
@@ -7,6 +6,7 @@ body {
 th{
 text-align: right;
 }
+td {height: 21px;}
 #calendar {
   width: 900px;
   margin: 0 auto;
