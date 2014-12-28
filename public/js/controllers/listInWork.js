@@ -108,33 +108,43 @@ angular.module('project')
 
   .success(function (data) {
     $scope.apps = data;
+    $scope.$watch('apps', function (newVal, old) {
+      old = newVal;
+    });
 
-    Calendar.get()
+    Calendar.getRejected()
       .success(function (calData) {
         $scope.calendarr = calData;
         var result = {};
-
+        console.log($scope.calendarr.length);
         for (var k = 0; k < $scope.calendarr.length; k++) {
           var dep = {};
+          result[$scope.calendarr[k].appId._id] = {};
           for (var v = 0; v < $scope.calendarr[k].storage.length; v++) {
 
             dep[$scope.calendarr[k].storage[v].fullDate] = $scope.calendarr[k].storage[v].value;
+
             result[$scope.calendarr[k].appId._id] = dep;
             console.log(dep);
+            console.log(result);
           }
         }
+        console.log('result');
         console.log(result);
-
 
         for (var i = 0; i < $scope.apps.length; i++) {
           for (var j = 0; j < $scope.calendarr.length; j++) {
             if ($scope.apps[i]._id === calData[j].appId._id) {
+
+
               $scope.apps[i].calendar = result[calData[j].appId._id][getCurrentDate()];
               console.log(result[calData[j].appId._id][getCurrentDate()]);
             }
           }
         }
+        console.log(result);
       });
+
   });
 
   Calendar.get()
@@ -147,6 +157,14 @@ angular.module('project')
     var index = this.row.rowIndex;
     // $scope.gridOptions.selectItem(index, false);
     return index + 1;
+  };
+
+  var getCurrentDate = function getCurrentDate() {
+    var date = new Date();
+    var dd = date.getDate();
+    var dm = date.getMonth() + 1;
+    var dy = date.getFullYear();
+    return dy + '-' + dm + '-' + dd;
   };
 
   $scope.$on('ngGridEventEndCellEdit', function (evt) {
@@ -180,15 +198,6 @@ angular.module('project')
         });
     }
   });
-
-
-  var getCurrentDate = function getCurrentDate() {
-    var date = new Date();
-    var dd = date.getDate();
-    var dm = date.getMonth() + 1;
-    var dy = date.getFullYear();
-    return dy + '-' + dm + '-' + dd;
-  };
 
 
   $scope.dateParse = function (data) {
