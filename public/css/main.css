@@ -44,7 +44,14 @@
 
 .green {
     background-color: green;
-    color: white;
+    color: black;
+}
+
+
+.greenCalendar {
+    background-color: green;
+    color: black;
+    text-align: center;
 }
 
 .yellow {
@@ -64,11 +71,13 @@
 
 .purple {
     background-color:  rgb(209, 143, 209);
-    color: white;
+    color: black;
+    text-align: center;
 }
 .orange {
     background-color: orange;
-    color: white;
+    color: black;
+    text-align: center;
 }
 
 .pink {
@@ -79,6 +88,7 @@
 .calendarll {
   background-color: orange;
   color: orange;
+  text-align: center;
 }
 
 
