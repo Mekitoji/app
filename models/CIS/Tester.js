@@ -17,7 +17,6 @@ var testCycleStorage = new Schema({
 var Tester = new Schema({
   tester: {
     type: String,
-    unique: true
   },
   // user: {
   //   type: Schema.ObjectId,
