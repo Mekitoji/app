@@ -2,45 +2,49 @@ var mongoose = require('../../libs/mongoose');
 var Schema = mongoose.Schema;
 
 var TesterStat = new Schema({
-    name: {
-        type: String,
-        unique: true
-    },
-    region: {
-        type: String
-    },
-    user: {
-        type: Schema.ObjectId,
-        ref:'User'
-    },
-    appStorage: [appStorage], //store array of app
+  name: {
+    type: String,
+    unique: true
+  },
+  user: {
+    type: Schema.ObjectId,
+    ref: 'User'
+  },
+  appStorage: [appStorage], //store array of app
 });
 
 
 var appStorage = new Schema({
-    app: {
-        type: Schema.ObjectId,
-        ref: 'Apps'
+  app: {
+    _id: {
+      type: String
     },
-    year: {
-        type: Number
+    name: {
+      type: String
     },
-    testCycle: {
-        type: Number // test cycle of current app
-    },
-    respTime: {
-        type: Number //response time for current app
-    },
-    storage: [testCycleStorage] //contain info about testCycle of current app
+    sdpId: {
+      type: String
+    }
+  },
+  year: {
+    type: Number
+  },
+  testCycle: {
+    type: Number // test cycle of current app
+  },
+  respTime: {
+    type: Number //response time for current app
+  },
+  storage: [testCycleStorage] //contain info about testCycle of current app
 });
 
 var testCycleStorage = new Schema({
-    date: {
-        type: Date
-    },
-    reason: {
-        type: String
-    },
+  date: {
+    type: Date
+  },
+  reason: {
+    type: String
+  },
 });
 
 
