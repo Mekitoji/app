@@ -36,25 +36,28 @@ app.set('view engine', 'ejs');
 
 //set up express application
 app.use(favicon());
-app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded());
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
-
+//enable logger if env not production
+if (process.env.NODE_ENV !== 'production') {
+  app.use(logger('dev'));
+}
 
 //pass passport fot configutation
 require('./libs/passport')(passport);
 
 //required for passport
+app.use(session({
+  secret: 'igotasecret'
+}));
 app.use(passport.initialize());
 app.use(passport.session());
 app.use(flash());
 
-app.use(session({
-  secret: 'igotasecret'
-}));
+
 
 
 

@@ -20,6 +20,27 @@ var Forbidden = function Forbidden(response) {
   });
 }
 
+var checkPermFor = function checkPermFor(req, res, next) {
+  var args = arguments;
+  var access = false;
+  if (req.isAuthenticated()) {
+    for (var i = 3; i < args.length; i++) {
+      if (req.user.local.group === args[i]) {
+        access = true;
+      }
+    }
+    if (access) {
+      return next();
+    } else {
+      // 403 error
+      Forbidden(res);
+    }
+    return next();
+  }
+  // 401 error
+  Unauthorized(res);
+}
+
 //check passport auth
 function unAuth(req, res, next) {
   // if user is authenticated in the session, carry on
@@ -39,88 +60,27 @@ function unAuth(req, res, next) {
 
 //check user group
 function checkPermission(req, res, next) {
-  if (req.isAuthenticated()) {
-    if (req.user.local.group === 'root' || req.user.local.group === 'gk' || req.user.local.group === 'gkEU') {
-      return next();
-    } else {
-      // 403 error
-      Forbidden();
-    }
-    return next();
-  }
-  // 401 error
-  Unauthorized(res);
+  checkPermFor(req, res, next, 'root', 'gk', 'gkEU');
 }
 
 function checkPermissionRoot(req, res, next) {
-  if (req.isAuthenticated()) {
-    if (req.user.local.group === 'root') {
-      return next();
-    } else {
-      // 403 error
-      Forbidden();
-    }
-    return next();
-  }
-  // 401 error
-  Unauthorized(res);
+  checkPermFor(req, res, next, 'root');
 }
 
 function checkPermissionGkCIS(req, res, next) {
-  if (req.isAuthenticated()) {
-    if (req.user.local.group === 'root' || req.user.local.group === 'gkCIS') {
-      return next();
-    } else {
-      // 403 error
-      Forbidden();
-    }
-    return next();
-  }
-
-  // 401 error
-  Unauthorized(res);
+  checkPermFor(req, res, next, 'root', 'gk');
 }
 
 function checkPermissionGkEU(req, res, next) {
-  if (req.isAuthenticated()) {
-    if (req.user.local.group === 'root' || req.user.local.group === 'gkEU') {
-      return next();
-    } else {
-      // 403 error
-      Forbidden();
-    }
-    return next();
-  }
-  // 401 error
-  Unauthorized(res);
+  checkPermFor(req, res, next, 'root', 'gk', 'gkEU');
 }
 
 function checkPermissionCIS(req, res, next) {
-  if (req.isAuthenticated()) {
-    if (req.user.local.group === 'root' || req.user.local.group === 'gkCIS' || req.user.local.group === 'employerCIS') {
-      return next();
-    } else {
-      // 403 error
-      Forbidden();
-    }
-    return next();
-  }
-  // 401 error
-  Unauthorized(res);
+  checkPermFor(req, res, next, 'root', 'gk', 'employerCIS');
 }
 
 function checkPermissionEU(req, res, next) {
-  if (req.isAuthenticated()) {
-    if (req.user.local.group === 'root' || req.user.local.group === 'employerEU' || req.user.local.group === 'gkEU') {
-      return next();
-    } else {
-      // 403 error
-      Forbidden();
-    }
-    return next();
-  }
-  // 401 error
-  Unauthorized(res);
+  checkPermFor(req, res, next, 'root', 'gk', 'employerEU');
 }
 
 
