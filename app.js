@@ -26,7 +26,6 @@ var flash = require('connect-flash');
 //session
 var session = require('express-session');
 
-
 //init express
 var app = express();
 
@@ -45,37 +44,26 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 
 
-// =================================
-// PASSPORT=========================
-// =================================
-//pass passport fot configutation 
+//pass passport fot configutation
 require('./libs/passport')(passport);
 
-//required for passport 
-app.use(session({
-  secret: 'igotasecret'
-}));
+//required for passport
 app.use(passport.initialize());
 app.use(passport.session());
 app.use(flash());
 
+app.use(session({
+  secret: 'igotasecret'
+}));
+
+
 
 // ******Routes
-// var routes = require('./routes/index');
-// var users = require('./routes/users');
-
-// app.use('/', routes);
-// app.use('/users', users);
 var routes = require('./routes/index')(app, passport);
-// ******END of routes
-
-
-
-
 
 // catch 404 and forward to error handler if it developement env
 // or send message about err to user if it production env
-app.use(function (req, res, next) {
+app.use(function(req, res, next) {
   if (app.get('env') === 'development') {
     var err = new Error('Not Found');
     err.status = 404;
@@ -90,32 +78,23 @@ app.use(function (req, res, next) {
 // development error handler
 // will print stacktrace
 if (app.get('env') === 'development') {
-  app.use(function (err, req, res, next) {
+  app.use(function(err, req, res, next) {
     res.status(err.status || 500);
     res.render('error.ejs', {
       message: err.message,
       error: err
     });
   });
-}
-
-// production error handler
-// no stacktraces leaked to user
-app.use(function (err, req, res, next) {
-  res.status(err.status || 500);
-  res.render('error.ejs', {
-    message: err.message,
-    error: {}
+} else {
+  // production error handler
+  // no stacktraces leaked to user
+  app.use(function(err, req, res, next) {
+    res.status(err.status || 500);
+    res.render('error.ejs', {
+      message: err.message,
+      error: {}
+    });
   });
-});
-
-
-
-// start listen port
-// app.listen(config.get('port'), function() {
-//   log.info('server welcome you');
-// });
-
-
+}
 
 module.exports = app;

@@ -6,9 +6,10 @@
 node_modules/
 
 #test folder
-test/
+#test/
 
 
 #config file
 config/config.json
+
 *.dmp
