@@ -57,10 +57,6 @@ app.use(passport.initialize());
 app.use(passport.session());
 app.use(flash());
 
-
-
-
-
 // ******Routes
 var routes = require('./routes/index')(app, passport);
 

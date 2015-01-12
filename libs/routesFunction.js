@@ -20,6 +20,7 @@ var Forbidden = function Forbidden(response) {
   });
 }
 
+//check perm for page
 var checkPermFor = function checkPermFor(req, res, next) {
   var args = arguments;
   var access = false;
@@ -45,13 +46,6 @@ var checkPermFor = function checkPermFor(req, res, next) {
 function unAuth(req, res, next) {
   // if user is authenticated in the session, carry on
   if (req.isAuthenticated()) {
-    // if (req.user.local.group === 'root' || req.user.local.group === 'gk') {
-    //   res.locals.permission = 'root';
-    // } else {
-    //   res.locals.permission = 'user';
-    // }
-    // console.log(res.permission);
-    // return next();
     return next();
   }
   // 401 error
@@ -82,8 +76,6 @@ function checkPermissionCIS(req, res, next) {
 function checkPermissionEU(req, res, next) {
   checkPermFor(req, res, next, 'root', 'gk', 'employerEU');
 }
-
-
 
 // in libs or middleware&
 function alreadyLoginIn(req, res, next) {
