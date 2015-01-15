@@ -11,7 +11,7 @@ module.exports = function (app) {
       if (err) {
         res.send(err);
       }
-      console.log(app);
+      // console.log(app);
       Cal.populate(app, {
         path: 'appId'
       }, function (err, data) {
@@ -25,7 +25,7 @@ module.exports = function (app) {
       if (err) {
         res.send(err);
       }
-      console.log(app);
+      // console.log(app);
       ApprovedCal.populate(app, {
         path: 'appId'
       }, function (err, data) {
@@ -56,12 +56,12 @@ module.exports = function (app) {
       if (err) {
         res.send(err);
       }
-      console.log(app);
+      // console.log(app);
       Cal.populate(app, {
         path: 'appId'
       }, function (err, data) {
-        console.log('rejectedApp');
-        console.log(rejectedApp);
+        // console.log('rejectedApp');
+        // console.log(rejectedApp);
         var result = [];
         var dataMap;
         if (rejectedApp[0] !== undefined) {
@@ -70,27 +70,27 @@ module.exports = function (app) {
             dataMap = data.map(function (dat) {
               return dat;
             });
-            console.log(dataMap);
+            // console.log(dataMap);
             for (var i = dataMap.length - 1; i >= 0; i--) {
               if (dataMap[i].appId._id !== undefined) {
-                console.log(dataMap[i].appId._id.toString());
-                console.log(rejectedApp[j]._id.toString());
-                console.log(dataMap[i].appId._id.toString() !== rejectedApp[j]._id.toString());
+                // console.log(dataMap[i].appId._id.toString());
+                // console.log(rejectedApp[j]._id.toString());
+                // console.log(dataMap[i].appId._id.toString() !== rejectedApp[j]._id.toString());
                 if (dataMap[i].appId._id.toString() !== rejectedApp[j]._id.toString()) {
                   dataMap.splice(i, 1);
-                  console.log(i);
+                  // console.log(i);
                 }
               }
             }
             result = result.concat(dataMap);
-            console.log(data);
+            // console.log(data);
           }
-          console.log('final data');
-          console.log(result);
+          // console.log('final data');
+          // console.log(result);
         } else {
           data.splice(0, data.length);
         }
-        console.log(result);
+        // console.log(result);
         res.json(result);
       });
     });
@@ -116,41 +116,41 @@ module.exports = function (app) {
         if (err) {
           res.send(err);
         }
-        console.log(app);
+        // console.log(app);
         Cal.populate(app, {
           path: 'appId'
         }, function (err, data) {
-          console.log('outdatedApp');
-          console.log(outdatedApp);
+          // console.log('outdatedApp');
+          // console.log(outdatedApp);
           var result = [];
           var dataMap;
           if (outdatedApp[0] !== undefined) {
-            console.log('here');
+            // console.log('here');
             for (var j = 0; j < outdatedApp.length; j++) {
               dataMap = data.map(function (dat) {
                 return dat;
               });
-              console.log(dataMap);
+              // console.log(dataMap);
               for (var i = dataMap.length - 1; i >= 0; i--) {
                 if (dataMap[i].appId._id !== undefined) {
-                  console.log(dataMap[i].appId._id.toString());
-                  console.log(outdatedApp[j]._id.toString());
-                  console.log(dataMap[i].appId._id.toString() !== outdatedApp[j]._id.toString());
+                  // console.log(dataMap[i].appId._id.toString());
+                  // console.log(outdatedApp[j]._id.toString());
+                  // console.log(dataMap[i].appId._id.toString() !== outdatedApp[j]._id.toString());
                   if (dataMap[i].appId._id.toString() !== outdatedApp[j]._id.toString()) {
                     dataMap.splice(i, 1);
-                    console.log(i);
+                    // console.log(i);
                   }
                 }
               }
               result = result.concat(dataMap);
               console.log(data);
             }
-            console.log('final data');
-            console.log(result);
+            // console.log('final data');
+            // console.log(result);
           } else {
             data.splice(0, data.length);
           }
-          console.log(result);
+          // console.log(result);
           res.json(result);
         });
       });
@@ -159,7 +159,7 @@ module.exports = function (app) {
 
   });
 
-  //post and delete method was deleted, coz unuse
+  //  post and delete method was deleted, coz unuse
 
   /*  app.post('/api/calendar', function (req, res) {
     var cal = new Cal({
@@ -242,8 +242,8 @@ module.exports = function (app) {
       for (var i = 0; i < cal.storage.length; i++) {
         if (cal.storage[i].fullDate == req.body.fullDate) {
           cal.storage[i].value = req.body.value;
-          console.log('rewrite');
-          console.log(cal.appId);
+          // console.log('rewrite');
+          // console.log(cal.appId);
           coutReplyTime(cal.appId, cal.storage);
           saveCalendar();
           return false;
@@ -251,28 +251,27 @@ module.exports = function (app) {
       }
       if (cal.storage[cal.storage.length - 1] === undefined) {
         cal.storage.push({
-          //omg it a string!!
           fullDate: req.body.fullDate,
           value: req.body.value
         });
-        console.log('push in new app');
-        console.log(cal.appId);
+        // console.log('push in new app');
+        // console.log(cal.appId);
         coutReplyTime(cal.appId, cal.storage);
         saveCalendar();
         return false;
       } else {
         if (cal.storage[cal.storage.length - 1].fullDate !== req.body.fullDate) {
-          console.log(cal.storage.length);
-          console.log(cal.storage[cal.storage.length - 1].fullDate);
-          console.log(req.body.fullDate);
+          // console.log(cal.storage.length);
+          // console.log(cal.storage[cal.storage.length - 1].fullDate);
+          // console.log(req.body.fullDate);
           cal.storage.push({
             //omg it a string!!
 
             fullDate: req.body.fullDate,
             value: req.body.value
           });
-          console.log('push new');
-          console.log(cal.appId);
+          // console.log('push new');
+          // console.log(cal.appId);
           coutReplyTime(cal.appId, cal.storage);
           saveCalendar();
           return false;

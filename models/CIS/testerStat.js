@@ -16,15 +16,8 @@ var TesterStat = new Schema({
 
 var appStorage = new Schema({
   app: {
-    _id: {
-      type: String
-    },
-    name: {
-      type: String
-    },
-    sdpId: {
-      type: String
-    }
+    type: Schema.ObjectId,
+    ref: 'Apps'
   },
   year: {
     type: Number
