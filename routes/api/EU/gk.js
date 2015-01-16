@@ -79,7 +79,6 @@ module.exports = function (app) {
 
 
   app.get('/api/eu/gk/:app_id', function (req, res) {
-    console.log(req.params.app_id);
     Apps.findById(req.params.app_id, function (err, data) {
 
       if (err) res.send(err);
@@ -120,7 +119,7 @@ module.exports = function (app) {
           appId: app[0]._id
         });
         cal.save(function (err, data) {
-          if (err) console.log(err);
+          if (err) res.send(err);
           res.json(data);
           log.info(new Date() + '  - POST /api/eu/GK/' + data.appId);
         });
@@ -233,11 +232,9 @@ module.exports = function (app) {
 
       app.outdated = req.body.outdated;
       //check and change with preload Status
-      console.log(req.body);
       if (req.body.currentStatus) {
         app.currentStatus = req.body.currentStatus;
         if (req.body.currentStatus === 'Waiting for fix' || req.body.currentStatus === 'Approved') {
-          console.log('here');
           app.color = 'green';
           req.body.color = 'green';
         } else if (req.body.currentStatus === 'Waiting for review') {
@@ -247,7 +244,6 @@ module.exports = function (app) {
         } else if (req.body.currentStatus === 'Waiting for QA') {
           app.color = 'purple';
           req.body.color = 'purple';
-          console.log('here2');
         }
       }
 
@@ -259,7 +255,6 @@ module.exports = function (app) {
 
       if (req.body.tv === 'Approved' || req.body.tv === 'Partial') {
         checkApproved(req.params.app_id);
-        console.log(req.body.outdated);
       }
     });
   });

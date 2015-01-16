@@ -14,10 +14,6 @@ module.exports = function (app) {
     var headerArr2 = ['appId', 'appVer', 'Categoty', 'FileType', 'appName', 'country', 'price', 'updateDate', 'appStatus', 'gkReview', 'addTest'];
     var tempArr = [];
     //req.body.data
-    console.log(req.body);
-    console.log(req.body.region);
-    console.log(req.body.region === 'CS');
-    console.log(req.body.region === 'EU');
     if (req.body.region === 'CS') {
       //check table caption
       if (req.body.table_caption === 'QA Request Mgt. List') {
@@ -27,7 +23,6 @@ module.exports = function (app) {
         _.each(objectX, function (arr) {
           tempArr.push(_.object(headerArr, arr));
         });
-        // console.log(tempArr);
         _.each(tempArr, function (obj, num) {
 
           Apps.find({
@@ -123,7 +118,6 @@ module.exports = function (app) {
               });
 
 
-              // console.log(data);
             } else {
               /********************************NEED CHECK IT********************************/
               Apps.findOne({
@@ -164,12 +158,8 @@ module.exports = function (app) {
 
         _.each(objectY, function (arr) {
           tempArr.push(_.object(headerArr2, arr));
-          // console.log(_.object(headerArr2, arr));
         });
-        // console.log(tempArr);
         _.each(tempArr, function (obj, num) {
-          // console.log(obj.appName);
-          // console.log(obj);
           /********************************NEED CHECK IT********************************/
           Apps.findOne({
               applicationId: obj.appId
@@ -178,22 +168,14 @@ module.exports = function (app) {
               if (err) res.json({
                 "result": err
               });
-              // console.log(app);
               //put some data for update here
               // app.appName = obj.appName;
               // app.sdpStatus = obj.sdpStatus;
               var reg = /.+\((.+)\)/;
               if (app === null) {
-                // console.log(obj.appId);
-
                 return false;
               }
-              // console.log(reg.exec(obj.country)[1]);
-              console.log(obj.updateDate);
               obj.updateDate = obj.updateDate.split(' ')[0];
-              console.log(obj.updateDate);
-              console.log(new Date(obj.updateDate));
-              // console.log(obj.appId);
 
               app.country = reg.exec(obj.country)[1];
               app.updateTime = new Date(obj.updateDate);
@@ -225,7 +207,6 @@ module.exports = function (app) {
         _.each(objectEU, function (arr) {
           tempArr.push(_.object(headerArr, arr));
         });
-        // console.log(tempArr);
         _.each(tempArr, function (obj, num) {
 
           AppsEU.find({
@@ -321,7 +302,6 @@ module.exports = function (app) {
               });
 
 
-              // console.log(data);
             } else {
               /********************************NEED CHECK IT********************************/
               AppsEU.findOne({
@@ -362,12 +342,8 @@ module.exports = function (app) {
 
         _.each(objectEU2, function (arr) {
           tempArr.push(_.object(headerArr2, arr));
-          // console.log(_.object(headerArr2, arr));
         });
-        // console.log(tempArr);
         _.each(tempArr, function (obj, num) {
-          // console.log(obj.appName);
-          // console.log(obj);
           /********************************NEED CHECK IT********************************/
           AppsEU.findOne({
               applicationId: obj.appId
@@ -376,23 +352,14 @@ module.exports = function (app) {
               if (err) res.json({
                 "result": err
               });
-              // console.log(app);
               //put some data for update here
               // app.appName = obj.appName;
               // app.sdpStatus = obj.sdpStatus;
               var reg = /.+\((.+)\)/;
               if (app === null) {
-                // console.log(obj.appId);
-
                 return false;
               }
-              // console.log(reg.exec(obj.country)[1]);
-              console.log(obj.updateDate);
               obj.updateDate = obj.updateDate.split(' ')[0];
-              console.log(obj.updateDate);
-              console.log(new Date(obj.updateDate));
-              // console.log(obj.appId);
-
               app.country = reg.exec(obj.country)[1];
               app.updateTime = new Date(obj.updateDate);
 

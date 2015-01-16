@@ -4,6 +4,6 @@ var debug = require('debug')('app');
 var app = require('../app');
 var nconf = require('../config');
 
-var server = app.listen(nconf.get('port'), function() {
+var server= module.exports = app.listen(nconf.get('port'), function() {
   debug('Express server listening on port ' + nconf.get('port'));
 });
