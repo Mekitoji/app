@@ -38,7 +38,6 @@ module.exports = function (app) {
         reason: req.body.reason
       });
 
-
       tester.save(function (err, data) {
         if (err) res.send(err);
         Apps.findOne({

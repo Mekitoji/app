@@ -59,7 +59,7 @@ angular.module('postmail', [])
             temp_date = '0' + temp_date;
           }
           if (temp_month.toString().length === 1) {
-            temp_date = '0' + temp_date;
+            temp_month = '0' + temp_month;
           }
           //here start
           var classx = 'currentDate ';

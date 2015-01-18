@@ -1,4 +1,4 @@
-var testCycle = function testCycle() {
+var testCycle = function testCycle(data) {
 
 }
 
