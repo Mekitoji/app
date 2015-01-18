@@ -159,13 +159,17 @@ angular.module('project')
         return index + 1;
     };
 
-    var getCurrentDate = function getCurrentDate() {
-        var date = new Date();
-        var dd = date.getDate();
-        var dm = date.getMonth() + 1;
-        var dy = date.getFullYear();
-        return dy + '-' + dm + '-' + dd;
-    };
+  var getCurrentDate = function getCurrentDate() {
+    var date = new Date();
+    var dd = date.getDate();
+    var dm = date.getMonth() + 1;
+    var dy = date.getFullYear();
+    if (dm <10) {
+      dm = '0' + dm;
+    }
+    console.log(dy + '-' + dm + '-' + dd);
+    return dy + '-' + dm + '-' + dd;
+  };
 
     $scope.$on('ngGridEventEndCellEdit', function(evt) {
         console.log('evt');
