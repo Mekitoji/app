@@ -231,14 +231,13 @@ module.exports = function (app) {
       if (req.body.resp) app.resp = req.body.resp;
       if (req.body.applicationId) app.applicationId = req.body.applicationId;
       if (req.body.color) app.color = req.body.color;
-      // if (req.body.outdated === 'true') {
-      //   app.outdated = true;
-      // } else if (req.body.outdated === 'false') {
-      //   app.outdated = false
-      // } else {
-      //   app.outdated = false
-      // }
-      if (req.body.outdated) app.outdated = req.body.outdated;
+      if (req.body.outdated === 'true' || req.body.outdated === true) {
+        app.outdated = true;
+      } else if (req.body.outdated === 'false' || req.body.outdated === false) {
+        app.outdated = false
+      } else {
+        app.outdated = false
+      }
       //check and change with preload Status
       // console.log(req.body);
       if (req.body.currentStatus) {
