@@ -36,7 +36,7 @@ var checkPermFor = function checkPermFor(req, res, next) {
       // 403 error
       Forbidden(res);
     }
-    return next();
+
   }
   // 401 error
   Unauthorized(res);

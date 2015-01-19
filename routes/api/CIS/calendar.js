@@ -72,6 +72,13 @@ module.exports = function (app) {
             });
             // console.log(dataMap);
             for (var i = dataMap.length - 1; i >= 0; i--) {
+              if (dataMap[i].appId === null) {
+                Cal.remove({
+                  _id: dataMap[i]._id
+                }, function (err) {
+                  if (err) throw err
+                });
+              }
               if (dataMap[i].appId._id !== undefined) {
                 // console.log(dataMap[i].appId._id.toString());
                 // console.log(rejectedApp[j]._id.toString());
