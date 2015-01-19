@@ -54,7 +54,7 @@ function unAuth(req, res, next) {
 
 //check user group
 function checkPermission(req, res, next) {
-  checkPermFor(req, res, next, 'root', 'gk', 'gkEU');
+  checkPermFor(req, res, next, 'root', 'gkCIS', 'gkEU');
 }
 
 function checkPermissionRoot(req, res, next) {
@@ -62,19 +62,19 @@ function checkPermissionRoot(req, res, next) {
 }
 
 function checkPermissionGkCIS(req, res, next) {
-  checkPermFor(req, res, next, 'root', 'gk');
+  checkPermFor(req, res, next, 'root', 'gkCIS');
 }
 
 function checkPermissionGkEU(req, res, next) {
-  checkPermFor(req, res, next, 'root', 'gk', 'gkEU');
+  checkPermFor(req, res, next, 'root', 'gkCIS', 'gkEU');
 }
 
 function checkPermissionCIS(req, res, next) {
-  checkPermFor(req, res, next, 'root', 'gk', 'employerCIS');
+  checkPermFor(req, res, next, 'root', 'gkCIS', 'employerCIS');
 }
 
 function checkPermissionEU(req, res, next) {
-  checkPermFor(req, res, next, 'root', 'gk', 'employerEU');
+  checkPermFor(req, res, next, 'root', 'gkCIS', 'employerEU');
 }
 
 // in libs or middleware&
