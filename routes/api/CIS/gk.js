@@ -6,16 +6,16 @@ var ObjectId = require('mongoose').Types.ObjectId;
 var log = require('../../../libs/log');
 
 
-module.exports = function(app) {
+module.exports = function (app) {
 
 
   // api ---------------------------------------------------------------------
 
   //get all
-  app.get('/api/cis/gk', function(req, res) {
+  app.get('/api/cis/gk', function (req, res) {
 
     // use mongoose to get all gk in the database
-    Apps.find(function(err, app) {
+    Apps.find(function (err, app) {
       // if there is an error retrieving, send the error. nothing after res.send(err) will execute
       if (err)
         res.send(err);
@@ -25,9 +25,9 @@ module.exports = function(app) {
   });
 
   //rejected filter
-  app.get('/api/cis/gk/rejected', function(req, res) {
+  app.get('/api/cis/gk/rejected', function (req, res) {
     // use mongoose to get rejected apps from the database
-    Apps.find(function(err, app) {
+    Apps.find(function (err, app) {
       var rejected = [];
       // if there is an error retrieving, send the error. nothing after res.send(err) will execute
       if (err) {
@@ -44,9 +44,9 @@ module.exports = function(app) {
   });
 
   //approved filter
-  app.get('/api/cis/gk/approved', function(req, res) {
+  app.get('/api/cis/gk/approved', function (req, res) {
     // use mongoose to get approved apps from the database
-    ApprovedApps.find(function(err, app) {
+    ApprovedApps.find(function (err, app) {
       if (err) res.send(err);
       // for (var i = 0; i < app.length; i++) {
       //   if (app[i].tv === 'Approve' || app[i].tv === 'Partial') {
@@ -60,9 +60,9 @@ module.exports = function(app) {
   });
 
   //outdated filter
-  app.get('/api/cis/gk/outdated', function(req, res) {
+  app.get('/api/cis/gk/outdated', function (req, res) {
     // use mongoose to get outdated apps from the database
-    Apps.find(function(err, app) {
+    Apps.find(function (err, app) {
       var outdated = [];
       // if there is an error retrieving, send the error. nothing after res.send(err) will execute
       if (err) {
@@ -79,9 +79,9 @@ module.exports = function(app) {
   });
 
 
-  app.get('/api/cis/gk/:app_id', function(req, res) {
+  app.get('/api/cis/gk/:app_id', function (req, res) {
     // console.log(req.params.app_id);
-    Apps.findById(req.params.app_id, function(err, data) {
+    Apps.findById(req.params.app_id, function (err, data) {
 
       if (err) res.send(err);
       res.json(data);
@@ -89,7 +89,7 @@ module.exports = function(app) {
   });
 
   // create user and send back all users after creation
-  app.post('/api/cis/gk', function(req, res) {
+  app.post('/api/cis/gk', function (req, res) {
     // create a user, information comes from request from Angular
     Apps.create({
       country: req.body.country,
@@ -106,13 +106,13 @@ module.exports = function(app) {
       outdated: false,
       applicationId: req.body.applicationId,
       color: req.body.color
-    }, function(err, app) {
+    }, function (err, app) {
       if (err)
         res.send(err);
       // get and return all the users after you create another
       Apps.find({
         applicationId: req.body.applicationId
-      }, function(err, app) {
+      }, function (err, app) {
         if (err) res.send(err);
         //get our field
         res.json(app);
@@ -120,7 +120,7 @@ module.exports = function(app) {
         var cal = new Cal({
           appId: app[0]._id
         });
-        cal.save(function(err, data) {
+        cal.save(function (err, data) {
           if (err) res.send(err);
           res.json(data);
           log.info(new Date() + '  - POST /API/CIS/GK/' + data.appId);
@@ -130,24 +130,24 @@ module.exports = function(app) {
   });
 
   // delete a user
-  app.delete('/api/cis/gk/:app_id', function(req, res) {
+  app.delete('/api/cis/gk/:app_id', function (req, res) {
     Apps.remove({
       _id: req.params.app_id
-    }, function(err, app) {
+    }, function (err, app) {
       if (err)
         res.send(err);
 
       // get and return all the users after you create another
       Apps.find({
         appId: req.params.app_id
-      }, function(err, apps) {
+      }, function (err, apps) {
         if (err)
           res.send(err);
         Cal.remove({
           appId: new ObjectId(req.params.app_id)
-        }, function(err, cal) {
+        }, function (err, cal) {
           if (err) res.send(err);
-          Cal.find(function(err, data) {
+          Cal.find(function (err, data) {
             if (err) res.send(err);
             res.json(data);
           });
@@ -161,16 +161,16 @@ module.exports = function(app) {
 
 
   //update a user
-  app.put('/api/cis/gk/:app_id', function(req, res) {
+  app.put('/api/cis/gk/:app_id', function (req, res) {
 
     //check if data is approved
     //then delete in thisd db and save at new
-    var checkApproved = function(id) {
+    var checkApproved = function (id) {
 
       //for apps
-      Apps.findById(id, function(err, data) {
+      Apps.findById(id, function (err, data) {
         if (err) res.send(err);
-        ApprovedApps.create(data, function(err, apps) {
+        ApprovedApps.create(data, function (err, apps) {
           if (err) res.send(err);
           //check if it approved for all device or not
           if (req.body.tv === 'Approved') {
@@ -183,13 +183,13 @@ module.exports = function(app) {
             apps.outdated = false;
           }
           //save
-          apps.save(function(err, data) {
+          apps.save(function (err, data) {
             if (err) res.send(err);
             res.json(data);
           });
         });
         //remove from main gk base
-        Apps.findByIdAndRemove(id, function(err, data) {
+        Apps.findByIdAndRemove(id, function (err, data) {
           if (err) res.send(err);
         });
       });
@@ -197,26 +197,26 @@ module.exports = function(app) {
       //for calendar
       Cal.findOne({
         'appId': id
-      }, function(err, cal) {
+      }, function (err, cal) {
         if (err) res.send(err);
         //save in new collection
-        ApprovedCal.create(cal, function(err, data) {
+        ApprovedCal.create(cal, function (err, data) {
           if (err) res.send(err);
-          data.save(function(err, data) {
+          data.save(function (err, data) {
             if (err) res.send(err);
           });
         });
         //remove from main gk base
         Cal.findOneAndRemove({
           'appId': id
-        }, function(err, data) {
+        }, function (err, data) {
           if (err) res.send(err);
         });
       });
     };
 
     // use our bear model to find the bear we want
-    Apps.findById(req.params.app_id, function(err, app) {
+    Apps.findById(req.params.app_id, function (err, app) {
       if (err) res.send(err);
       //put some data for update here
       if (req.body.country) app.country = req.body.country;
@@ -231,14 +231,14 @@ module.exports = function(app) {
       if (req.body.resp) app.resp = req.body.resp;
       if (req.body.applicationId) app.applicationId = req.body.applicationId;
       if (req.body.color) app.color = req.body.color;
-      if (req.body.outdated === 'true') {
-        app.outdated = true;
-      } else if (req.body.outdated === 'false') {
-        app.outdated = false
-      } else {
-        app.outdated = false
-      }
-
+      // if (req.body.outdated === 'true') {
+      //   app.outdated = true;
+      // } else if (req.body.outdated === 'false') {
+      //   app.outdated = false
+      // } else {
+      //   app.outdated = false
+      // }
+      if (req.body.outdated) app.outdated = req.body.outdated;
       //check and change with preload Status
       // console.log(req.body);
       if (req.body.currentStatus) {
@@ -256,7 +256,7 @@ module.exports = function(app) {
         }
       }
 
-      app.save(function(err, data) {
+      app.save(function (err, data) {
         if (err) res.send(err);
 
         res.json(data);
