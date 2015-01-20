@@ -1,0 +1,47 @@
+button {
+  display: block;
+  position:absolute;
+  margin: 10px;
+  left:20%;
+}
+
+table {
+  display: block;
+  position: absolute;
+  margin:5px;
+
+}
+
+#cisTester {
+  margin-top:15px;
+  top:30%;
+  left:10%;
+}
+
+#euTester {
+  margin-top:15px;
+  top:30%;
+  left:30%;
+}
+
+.table-header {
+  display: block;
+  position: absolute;
+  padding: 5px;
+  margin-bottom:5px;
+}
+
+#cis-header {
+  top: 20%;
+  left: 10%;
+}
+
+#eu-header {
+  top: 20%;
+  left:30%;
+}
+
+th, td, tr {
+  padding:5px;
+  border: 1px solid black;
+}

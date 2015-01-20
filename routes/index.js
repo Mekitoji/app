@@ -14,7 +14,6 @@ module.exports = function (app, passport) {
   var signup = require('./core/signup')(app, passport);
   var profile = require('./core/profile')(app);
   var logout = require('./core/logout')(app);
-  var users = require('./core/users')(app);
 
   // var region = require('./core/region')(app);
 
@@ -25,6 +24,8 @@ module.exports = function (app, passport) {
   var inworkCIS = require('./CIS/inwork')(app);
   var postmailCIS = require('./CIS/postmail')(app);
   var mailSuccessCIS = require('./CIS/mailSuccess')(app);
+  var testerCIS = require('./CIS/tester')(app);
+
 
   //EU pages
   var mainEU = require('./EU/main')(app);
@@ -33,6 +34,11 @@ module.exports = function (app, passport) {
   var inworkEU = require('./EU/inwork')(app);
   var postmailEU = require('./EU/postmail')(app);
   var mailSuccessEU = require('./EU/mailSuccess')(app);
+
+  //admin tools
+  var users = require('./tools/users')(app);
+  var tester = require('./tools/testers')(app);
+
 
   //api CORE
   var api_user = require('./api/user')(app);

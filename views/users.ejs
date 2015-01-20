@@ -51,9 +51,9 @@
 
     $( ".changeGroup" ).on('change',function(evt, newValue){
     var thisElem = $(this);
-    console.log(thisElem);
+    // console.log(thisElem);
     var classArr = thisElem.attr('class').split(' ');
-    console.log(classArr);
+    // console.log(classArr);
     $.ajax({
       type: 'PUT',
       url: '/api/users/' + classArr[1],
