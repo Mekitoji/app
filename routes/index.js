@@ -25,6 +25,7 @@ module.exports = function (app, passport) {
   var postmailCIS = require('./CIS/postmail')(app);
   var mailSuccessCIS = require('./CIS/mailSuccess')(app);
   var testerCIS = require('./CIS/tester')(app);
+  var newTesterCIS = require('./CIS/newTester')(app);
 
 
   //EU pages
@@ -34,6 +35,8 @@ module.exports = function (app, passport) {
   var inworkEU = require('./EU/inwork')(app);
   var postmailEU = require('./EU/postmail')(app);
   var mailSuccessEU = require('./EU/mailSuccess')(app);
+  var testerEU = require('./CIS/tester')(app);
+  var newTesterEU = require('./EU/newTester')(app);
 
   //admin tools
   var users = require('./tools/users')(app);

@@ -40,5 +40,4 @@ var testCycleStorage = new Schema({
   },
 });
 
-
 module.exports = mongoose.model('TesterStat', TesterStat);

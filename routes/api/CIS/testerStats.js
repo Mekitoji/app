@@ -27,11 +27,14 @@ module.exports = function (app) {
     });
   });
 
-  app.post('/api/cis/testerStat', function (req, res) {
 
+
+  app.post('/api/cis/testerStat', function (req, res) {
+    console.log(req.body);
+    var user = new ObjectId(req.body.user);
     TesterStat.create({
       name: req.body.name,
-      user: req.body.user
+      user: user
     }, function (err, data) {
       if (err) {
         throw err;

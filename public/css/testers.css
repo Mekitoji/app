@@ -1,8 +1,8 @@
+
 button {
   display: block;
   position:absolute;
   margin: 10px;
-  left:20%;
 }
 
 table {
@@ -14,13 +14,15 @@ table {
 
 #cisTester {
   margin-top:15px;
-  top:30%;
+  /*top:20%;*/
+  margin-top:75px;
   left:10%;
 }
 
 #euTester {
   margin-top:15px;
-  top:30%;
+  /*top:20%;*/
+  margin-top:75px;
   left:30%;
 }
 
@@ -32,16 +34,30 @@ table {
 }
 
 #cis-header {
-  top: 20%;
+/*  top: 15%;
+  left: 10%;*/
   left: 10%;
+  margin-top: 45px;
+
 }
 
 #eu-header {
-  top: 20%;
+/*  top: 15%;
+  left:30%;*/
   left:30%;
+  float:left;
+  margin-top: 45px;
 }
 
 th, td, tr {
   padding:5px;
   border: 1px solid black;
+}
+
+#cis-add {
+  left:9.7%;
+}
+
+#eu-add {
+  left:29.7%;
 }

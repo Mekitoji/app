@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Add Tester</title>
+  <script src= "../../vendor/angular/angular.min.js"></script>
+  <script src='../../js/controllers/newTesterUser.js'></script>
+  <script src='../../js/factories/Users.js'></script>
+  <script src='../../js/factories/testerCIS.js'></script>
+
+</head>
+<body ng-app='newTester'>
+<div class="container" ng-controller="cisCtrl">
+  <h2>New tester</h2>
+    <form action="">
+      <label for='id_name' >Id</label> 
+      <input id='id_name' name='name' min='2' type="text" ng-model='cisData.name'><br>
+      <label for='user-profile'> User </label> 
+      <select ng-model='cisData.user' name="" id="" >
+        <option ng-repeat='user in users' value="{{user._id}}" >{{user.local.username.last}} {{user.local.username.first}}</option>
+      </select><br>
+      <button type='submit' onclick="location.href='/tools/testers'" ng-click='createTester()' class='btn' >Create</button>
+    </form>
+</div>
+</body>
+</html>

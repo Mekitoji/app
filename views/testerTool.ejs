@@ -6,20 +6,39 @@
   <% include layout/head_main %>
   <link rel="stylesheet" href="../css/testers.css">
 </head>
+<!-- <body ng-app="testerList"> -->
 <body>
   <% include layout/profile_header %>
   <div class="container">
-    <a href="/tools/testers/new"><button>Create New Tester</button></a>
-      <h3 class='table-header' id="cis-header">CIS Testers</h3>
-      <table id='cisTester'>
+    <div class='inner-container'>
+    <a href="/tools/testers/newCIS"><button id='cis-add'>Create New CIS Tester</button></a>
+
+    <h3 class='table-header' id="cis-header">CIS Testers</h3>
+    <table id='cisTester'>
+      <tr>
         <th>Tester</th>
         <th>User</th>
-      </table>
-      <h3 class='table-header' id="eu-header">EU Testers</h3>
-      <table id='euTester'>
+      </tr>
+      <tr>
+        <td>{{testerCIS.name}}</td>
+        <td>{{testerCIS.user}}</td>
+      </tr>
+    </table>
+    </div>
+    <div class="inner-container">
+    <a href="/tools/testers/newEU" ><button id='eu-add'>Create New EU Tester</button></a>
+    <h3 class='table-header' id="eu-header">EU Testers</h3>
+    <table id='euTester'>
+      <tr>
         <th>Tester</th>
         <th>User</th>
-      </table>
+      </tr>
+      <tr>
+        <td>{{testerEU.name}}</td>
+        <td>{{testerEU.user}}</td>
+      </tr>
+    </table>
+    </div>
   </div>
 </body>
 </html>
