@@ -1,52 +1,52 @@
-angular.module('newTester', [])
+var newTester = angular.module('newTester', []);
 
-.controller('cisCtrl', function ($scope, $http, cisTester, User) {
+newTester.controller('cisCtrl', function($scope, cisTester, User) {
   $scope.cisData = {};
 
   User.get()
 
-  .success(function (data) {
+  .success(function(data) {
     $scope.users = data;
   });
 
   cisTester.get()
-    .success(function (data) {
+    .success(function(data) {
       $scope.cisTesterData = data;
+      console.log(data);
     });
 
   //create new tester
-  $scope.createTester = function () {
-    console.log($scope.cisData);
-
+  $scope.createTester = function() {
     cisTester.createTester($scope.cisData)
-      .success(function (data) {
+      .success(function(data) {
         $scope.cisTesterData = data;
         $scope.cisData = {};
       });
   };
 
-})
+});
 
-.controller('euCtrl ', function ($scope, $http, euTester) {
+newTester.controller('euCtrl', function($scope, euTester, User) {
   $scope.euData = {};
 
   User.get()
 
-  .success(function (data) {
+  .success(function(data) {
     $scope.users = data;
   });
 
   euTester.get()
-    .success(function (data) {
+    .success(function(data) {
       $scope.euTesterData = data;
+      console.log(data);
     });
 
   //create new tester
-  $scope.createTester() = function () {
+  $scope.createTester = function() {
     euTester.createTester($scope.euData)
-      .success(function (data) {
-        $scope.euData = data;
-        $scope.euTesterData = {};
+      .success(function(data) {
+        $scope.euTesterData = data;
+        $scope.euData = {};
       });
   };
 

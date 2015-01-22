@@ -2,8 +2,6 @@ angular.module('project')
 
 .controller('NewTesterCtrl', function ($scope, $http, Apps, Tester) {
 
-
-
   $scope.testCycle = {};
   Apps.get()
     .success(function (apps) {
