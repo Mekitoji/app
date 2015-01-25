@@ -58,6 +58,7 @@ module.exports = function (app, passport) {
   var apiGkEU = require('./api/EU/gk')(app);
   var apiCalendarEU = require('./api/EU/calendar')(app);
   var apiTesterEU = require('./api/EU/tester')(app);
+  var apiTesterStatEU = require('./api/EU/testerStats')(app); //new
 
   //errors
   var unauthorized = require('./errors/401')(app);
