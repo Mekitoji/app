@@ -1,0 +1,38 @@
+<div class="container">
+  <!-- <table class="table table-striped table-bordered table-hover table-responsive">
+    <tr>
+      <th>No</th>
+      <th>Date</th>
+      <th>Reason</th>
+    </tr>
+    <tr>
+      <td><input type="text"></td>
+      <td><input type="date"></td>
+      <td><textarea name="reason" id="table-test-reason" cols="100" rows="2"></textarea></td>
+    </tr>
+  </table> -->
+  <div id="testCycle">
+    <table class="table table-striped table-borderes table-hover table-responsive" >
+      <tr>
+        <th>AppName</th>
+        <th>Date</th>
+        <th>Reason</th>
+        <th>Tester</th>
+      </tr>
+      <tbody ng-repeat='testerData in testerDatas'>
+        <tr ng-repeat='storage in testerData.Storage'>
+          <td>{{storage.appNameTest}}</td>
+          <td>{{storage.date | date:"MM/dd/yyyy"}}</td>
+          <td>{{storage.reason}}</td>
+          <td>{{testerData.tester}}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+      <a href="#/new_Test"><input type="button" value='Add' name='add' ng-show='{{perm}}' class='add-button'></input></a>
+
+</div>
+
+
+

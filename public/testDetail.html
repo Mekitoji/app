@@ -1,0 +1,37 @@
+<div class="container">
+<form name="" action="">
+    <div class="form-group">
+
+      <div class='form-row'>
+        <label>Application Name</label>
+        <select ng-required='true' name="appNameTest" id="appNameTest" ng-model='testCycle.appNameTest' ng-options='o as o for o in temps'>
+          <option value="">==choose app==</option>
+        </select>
+      </div>
+
+      <div class='form-row'>
+        <label>Date</label>
+        <input name='date' ng-model='testCycle.date' type="date" ng-required='true'>
+      </div>
+
+      <div class='form-row'>
+        <label>Reason</label>
+        <textarea ng-required='true' ng-model='testCycle.reason' name="reason" id="" cols="23" rows="5"></textarea>
+      </div>
+
+      <div class='form-row'>
+      <label>Current Tester</label>
+      <select ng-required='true' ng-model='testCycle.tester._id' ng-options='tester.name for tester in testers' id="">
+        <option value="">==choose tester==</option>
+      </select>
+      </div>
+
+    </div>
+    <div class='button-holder'>
+      <a href="#/testList"><button type="submit" class="btn btn-primary btn-lg" ng-click="createNewTestCycle()" ng-disabled="testCycle.$invalid" >Save</button></a>
+      <a href="#/testList" class="btn btn-primary btn-lg">Cancel</a>
+    </div>
+
+</form>
+</div>
+<link rel="stylesheet" href="../css/main.css">
