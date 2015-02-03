@@ -1,27 +1,27 @@
 <div class="container">
-<form name="" action="">
+<form name="testCycle" action="">
     <div class="form-group">
 
       <div class='form-row'>
         <label>Application Name</label>
-        <select ng-required='true' name="appNameTest" id="appTest" ng-model='testCycle.appNameTest' ng-options=' t._id as t.appName for t in temps' >
+        <select ng-required='true' name="appNameTest" id="appTest" ng-model='appNameTest' ng-options=' t._id as t.appName for t in temps' >
           <option value="">==choose app==</option>
         </select>
       </div>
 
       <div class='form-row'>
         <label>Date</label>
-        <input name='date' ng-model='testCycle.date' type="date" ng-required='true'>
+        <input name='date' ng-model='date' type="date" ng-required='true'>
       </div>
 
       <div class='form-row'>
         <label>Reason</label>
-        <textarea ng-required='true' ng-model='testCycle.reason' name="reason" id="" cols="23" rows="5"></textarea>
+        <textarea ng-required='true' ng-model='reason' name="reason" id="" cols="23" rows="5"></textarea>
       </div>
 
       <div class='form-row'>
       <label>Current Tester</label>
-      <select ng-required='true' ng-model='testCycle.tester' ng-options='tester.name for tester in testers' id="">
+      <select ng-required='true' ng-model='tester' ng-options='tester.name for tester in testers' id="">
         <option value="">==choose tester==</option>
       </select>
       </div>

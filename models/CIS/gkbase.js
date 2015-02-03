@@ -36,7 +36,8 @@ var Apps = new Schema({
     type: Number
   },
   resp: {
-    type: String
+    type: Schema.ObjectId,
+    ref: 'TesterStat'
   },
   color: {
     type: String

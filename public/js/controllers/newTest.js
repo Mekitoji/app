@@ -25,6 +25,12 @@ angular.module('project')
 
   $scope.createNewTestCycle = function () {
     // $scope.testCycle.tester
+    $scope.testCycle={
+      tester:$scope.tester,
+      reason:$scope.reason,
+      appNameTest:$scope.appNameTest,
+      date:$scope.date
+    };
     console.log($scope.testCycle);
     console.log($scope.testCycle.tester._id);
     iTester.update($scope.testCycle.tester._id, $scope.testCycle)
