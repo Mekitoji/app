@@ -5,7 +5,6 @@ var ApprovedCal = require('../../../models/CIS/calendarForApprovedApps');
 var ObjectId = require('mongoose').Types.ObjectId;
 var log = require('../../../libs/log');
 
-
 module.exports = function (app) {
 
 
@@ -16,10 +15,17 @@ module.exports = function (app) {
 
     // use mongoose to get all gk in the database
     Apps.find(function (err, app) {
+      var rejected = [];
       // if there is an error retrieving, send the error. nothing after res.send(err) will execute
-      if (err)
+      if (err) {
         res.send(err);
-      res.json(app); // return all users in JSON format
+      }
+      for (var i = 0; i < app.length; i++) {
+        if (app[i].tv !== 'Approved' || app[i].tv !== 'Patrial') {
+          rejected.push(app[i]);
+        }
+      }
+      res.json(rejected); // return all users in JSON format
       log.info(new Date() + '  - GET /API/CIS/GK');
     });
   });
@@ -217,6 +223,7 @@ module.exports = function (app) {
 
     // use our bear model to find the bear we want
     Apps.findById(req.params.app_id, function (err, app) {
+
       if (err) res.send(err);
       //put some data for update here
       if (req.body.country) app.country = req.body.country;
@@ -238,6 +245,7 @@ module.exports = function (app) {
       } else {
         app.outdated = false
       }
+
       //check and change with preload Status
       // console.log(req.body);
       if (req.body.currentStatus) {

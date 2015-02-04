@@ -2,6 +2,9 @@ var Cal = require('../../../models/CIS/calendar');
 var Apps = require('../../../models/CIS/gkbase');
 var ApprovedApps = require('../../../models/CIS/gkbaseApproved');
 var ApprovedCal = require('../../../models/CIS/calendarForApprovedApps');
+var TesterStat = require('../../../models/CIS/testerStat');
+var _ = require('lodash');
+var ObjectId = require('mongoose').Types.ObjectId;
 
 module.exports = function (app) {
 
@@ -245,6 +248,90 @@ module.exports = function (app) {
         });
       };
 
+      var findTesterAndPush = function (appId, newValue) {
+        console.log(appId);
+        console.log(newValue);
+        //
+        Apps.findById(appId, function (err, testerData) {
+          if (err) {
+            res.send(err)
+          }
+          console.log('testerData');
+          console.log(testerData);
+
+          TesterStat.findOne({
+            name: testerData.resp
+          }, function (err, tester) {
+            if (err) {
+              res.send(err);
+            } else {
+              var index = _.findIndex(tester.appStorage, function (data) {
+                console.log(data.app);
+                console.log(req.body.appNameTest);
+                return data.app.toString() === appId.toString();
+              });
+              if (index !== -1) {
+                var updated = false;
+                console.log(tester);
+                console.log(tester.appStorage);
+                for (var i = 0; i <= tester.appStorage.length; i++) {
+                  console.log(tester.appStorage);
+                  if (!tester.appStorage[i].respStorage) {
+                    tester.appStorage[i].respStorage = [];
+                  }
+                  console.log(tester.appStorage[i].respStorage.length);
+                  for (var j = 0; j < tester.appStorage[i].respStorage.length; j++) {
+                    if (tester.appStorage[i].respStorage[j].fullDate === newValue.fullDate) {
+                      tester.appStorage[i].respStorage[j].value = newValue.value;
+                      updated = true;
+                    }
+                  }
+                  if (!updated) {
+                    if (tester.appStorage[i].app === appId) {
+                      tester.appStorage[i].respStorage.push(newValue); //check {}
+                    };
+                  }
+                }
+                tester.save(function (err, data) {
+                  if (err) {
+                    res.send(err);
+                  } else {
+                    res.send(data);
+                  }
+                });
+              } else {
+                console.log('gate3');
+                var date = new Date();
+                if (!tester.appStorage) {
+                  tester.appStorage = [];
+                }
+                console.log(tester);
+                tester.appStorage.push({ //app obj
+                  app: new ObjectId(appId), // get _id of mongo
+                  year: date.getFullYear(),
+                  testCycle: 1, //init testCycle 1
+                  respTime: 0, //init with respTime 0
+                  testCycleStorage: [], // init testCycle array for insert obj = {date: Date(), reason: String}
+                  respStorage: [newValue],
+                });
+                Apps.findById(appId, function (err, app) {
+                  if (err) res.send(err);
+                  // app.save(function (err, data) {
+                  //   if (err) res.send(err);
+                  // });
+                });
+                tester.save(function (err, data) {
+                  if (err) {
+                    res.send(err)
+                  } else {
+                    res.send(data);
+                  }
+                });
+              }
+            }
+          });
+        });
+      }
 
       for (var i = 0; i < cal.storage.length; i++) {
         if (cal.storage[i].fullDate == req.body.fullDate) {
@@ -252,6 +339,11 @@ module.exports = function (app) {
           // console.log('rewrite');
           // console.log(cal.appId);
           coutReplyTime(cal.appId, cal.storage);
+          console.log(cal);
+          // findTesterAndPush(cal.appId, {
+          //   fullDate: req.body.fullDate,
+          //   value: req.body.value
+          // });
           saveCalendar();
           return false;
         }
@@ -264,6 +356,11 @@ module.exports = function (app) {
         // console.log('push in new app');
         // console.log(cal.appId);
         coutReplyTime(cal.appId, cal.storage);
+        console.log(cal);
+        // findTesterAndPush(cal.appId, {
+        //   fullDate: req.body.fullDate,
+        //   value: req.body.value
+        // });
         saveCalendar();
         return false;
       } else {
@@ -272,14 +369,17 @@ module.exports = function (app) {
           // console.log(cal.storage[cal.storage.length - 1].fullDate);
           // console.log(req.body.fullDate);
           cal.storage.push({
-            //omg it a string!!
-
             fullDate: req.body.fullDate,
             value: req.body.value
           });
           // console.log('push new');
           // console.log(cal.appId);
           coutReplyTime(cal.appId, cal.storage);
+          console.log(cal);
+          // findTesterAndPush(cal.appId, {
+          //   fullDate: req.body.fullDate,
+          //   value: req.body.value
+          // });
           saveCalendar();
           return false;
         }

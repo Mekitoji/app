@@ -28,7 +28,13 @@ var appStorage = new Schema({
   respTime: {
     type: Number //response time for current app
   },
+  respStorage: [respStorage],
   storage: [testCycleStorage] //contain info about testCycle of current app
+});
+
+var respStorage = new Schema({
+  fullDate: String,
+  value: String,
 });
 
 var testCycleStorage = new Schema({

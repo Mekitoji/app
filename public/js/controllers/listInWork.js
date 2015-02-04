@@ -167,6 +167,9 @@ angular.module('project')
     if (dm < 10) {
       dm = '0' + dm;
     }
+    if (dd < 10) {
+      dd = '0' + dd;
+    }
     console.log(dy + '-' + dm + '-' + dd);
     return dy + '-' + dm + '-' + dd;
   };

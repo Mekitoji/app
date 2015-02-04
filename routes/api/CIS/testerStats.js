@@ -6,9 +6,9 @@ var User = require('../../../models/user');
 var ObjectId = require('mongoose').Types.ObjectId;
 var _ = require('lodash');
 
-module.exports = function(app) {
+module.exports = function (app) {
 
-  app.get('/api/cis/testerStat', function(req, res) {
+  app.get('/api/cis/testerStat', function (req, res) {
     // TesterStat.find(function (err, data) {
     //   if (err) {
     //     throw err;
@@ -27,14 +27,14 @@ module.exports = function(app) {
     // });
     TesterStat.find({})
       .populate('user')
-      .exec(function(err, data) {
+      .exec(function (err, data) {
         if (err) {
           res.send(err);
         } else {
           TesterStat.populate(data, {
             path: 'appStorage.app',
             model: 'Apps'
-          }, function(err, data) {
+          }, function (err, data) {
             if (err) {
               res.send(err)
             } else {
@@ -47,17 +47,17 @@ module.exports = function(app) {
 
 
 
-  app.post('/api/cis/testerStat', function(req, res) {
+  app.post('/api/cis/testerStat', function (req, res) {
     console.log(req.body);
     var user = new ObjectId(req.body.user);
     TesterStat.create({
       name: req.body.name,
       user: user
-    }, function(err, data) {
+    }, function (err, data) {
       if (err) {
         throw err;
       } else {
-        data.save(function(err, data) {
+        data.save(function (err, data) {
           if (err) res.send(err);
         });
         res.send(data);
@@ -66,15 +66,15 @@ module.exports = function(app) {
   });
 
 
-  app.put('/api/cis/testerStat/insertCycle/:tester_id', function(req, res) {
+  app.put('/api/cis/testerStat/insertCycle/:tester_id', function (req, res) {
     console.log(req.body);
-    TesterStat.findById(req.params.tester_id, function(err, tester) {
+    TesterStat.findById(req.params.tester_id, function (err, tester) {
       if (err) {
         throw err;
       } else {
         if (req.body.appNameTest) {
           console.log('gate1');
-          var index = _.findIndex(tester.appStorage, function(data) {
+          var index = _.findIndex(tester.appStorage, function (data) {
             console.log(data.app);
             console.log(req.body.appNameTest);
             return data.app.toString() === req.body.appNameTest.toString();
@@ -89,11 +89,17 @@ module.exports = function(app) {
                 reason: req.body.reason
               });
               tester.appStorage[index].testCycle = tester.appStorage[index].testCycleStorage.length;
-
+              Apps.findById(req.body.appNameTest, function (err, app) {
+                if (err) res.send(err);
+                app.testCycles++;
+                app.save(function (err, data) {
+                  if (err) res.send(err);
+                });
+              });
               console.log(tester);
               console.log(tester.appStorage[index]);
               tester.markModified('appStorage');
-              tester.save(function(err, data) {
+              tester.save(function (err, data) {
                 if (err) {
                   res.send(err)
                 } else {
@@ -116,7 +122,14 @@ module.exports = function(app) {
                 reason: req.body.reason
               }], // init testCycle array for insert obj = {date: Date(), reason: String}
             });
-            tester.save(function(err, data) {
+            Apps.findById(req.body.appNameTest, function (err, app) {
+              if (err) res.send(err);
+              app.testCycles++;
+              app.save(function (err, data) {
+                if (err) res.send(err);
+              });
+            });
+            tester.save(function (err, data) {
               if (err) {
                 res.send(err)
               } else {
@@ -129,9 +142,9 @@ module.exports = function(app) {
     });
   });
 
-  app.put('/api/cis/testerStat/:tester_id', function(req, res) {
+  app.put('/api/cis/testerStat/:tester_id', function (req, res) {
     //get tester by id
-    TesterStat.findById(req.params.tester_id, function(err, tester) {
+    TesterStat.findById(req.params.tester_id, function (err, tester) {
       if (err) {
         throw err;
       } else {
@@ -148,7 +161,7 @@ module.exports = function(app) {
             });
           }
           //save or new data
-          tester.save(function(err, data) {
+          tester.save(function (err, data) {
             if (err) {
               res.send(err)
             } else {
@@ -157,7 +170,7 @@ module.exports = function(app) {
           });
         } else if (req.body.insertNewApp === false) {
           if (req.body.appId) {
-            var index = _.findIndex(tester.appStorage, function(data) {
+            var index = _.findIndex(tester.appStorage, function (data) {
               return data.app.toString() === req.body.appId.toString();
             });
             if (tester.appStorage[index] && req.body.date && req.body.reason) {
@@ -165,7 +178,7 @@ module.exports = function(app) {
                 date: req.body.date,
                 reason: req.body.reason
               });
-              tester.save(function(err, data) {
+              tester.save(function (err, data) {
                 if (err) res.send(500, err);
                 res.send(data)
               });
@@ -179,10 +192,10 @@ module.exports = function(app) {
     });
   });
 
-  app.delete('/api/cis/testerStat/:tester_id', function(req, res) {
+  app.delete('/api/cis/testerStat/:tester_id', function (req, res) {
     TesterStat.remove({
       _id: req.params.tester_id
-    }, function(err, tester) {
+    }, function (err, tester) {
       if (err) res.send(err);
       res.send(200);
     });
