@@ -15,17 +15,12 @@ module.exports = function (app) {
 
     // use mongoose to get all gk in the database
     Apps.find(function (err, app) {
-      var rejected = [];
       // if there is an error retrieving, send the error. nothing after res.send(err) will execute
       if (err) {
         res.send(err);
       }
-      for (var i = 0; i < app.length; i++) {
-        if (app[i].tv !== 'Approved' || app[i].tv !== 'Patrial') {
-          rejected.push(app[i]);
-        }
-      }
-      res.json(rejected); // return all users in JSON format
+
+      res.json(app); // return all users in JSON format
       log.info(new Date() + '  - GET /API/CIS/GK');
     });
   });
@@ -176,8 +171,10 @@ module.exports = function (app) {
       //for apps
       Apps.findById(id, function (err, data) {
         if (err) res.send(err);
+        console.log("data - %o", data);
         ApprovedApps.create(data, function (err, apps) {
           if (err) res.send(err);
+          console.log(apps);
           //check if it approved for all device or not
           if (req.body.tv === 'Approved') {
             apps.tv = 'Approved';
