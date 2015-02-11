@@ -5,6 +5,7 @@ var Cal = require('../../models/CIS/calendar');
 var Apps = require('../../models/CIS/gkbase');
 var _ = require('lodash');
 
+//take handler for access
 module.exports = function (app) {
   app.get('/cis/tester/:tester_id', function (req, res) {
     TesterStat.findById(req.params.tester_id)
@@ -19,15 +20,13 @@ module.exports = function (app) {
             res.send(err)
           } else {
             // res.send(data);
+            res.locals.path = req.path;
             res.locals.tester = data;
             res.render('testerProfile.ejs', {
               user: req.user, // get the user out of session and pass to template
             });
           }
         });
-
       });
-
   })
-
 }

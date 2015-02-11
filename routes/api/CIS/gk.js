@@ -15,12 +15,20 @@ module.exports = function (app) {
 
     // use mongoose to get all gk in the database
     Apps.find(function (err, app) {
+      var rejectedAndOutdated = [];
       // if there is an error retrieving, send the error. nothing after res.send(err) will execute
       if (err) {
         res.send(err);
       }
-
-      res.json(app); // return all users in JSON format
+      for (var i = 0; i < app.length; i++) {
+        if (app[i].tv !== "Approved" && app[i].tv !== "Partial") {
+          rejectedAndOutdated.push(app[i]);
+          console.log(app[i].tv);
+        } else {
+          console.log(app[i].appName);
+        }
+      }
+      res.json(rejectedAndOutdated); // return all users in JSON format
       log.info(new Date() + '  - GET /API/CIS/GK');
     });
   });
@@ -172,6 +180,17 @@ module.exports = function (app) {
       Apps.findById(id, function (err, data) {
         if (err) res.send(err);
         console.log("data - %o", data);
+        data.applicationId = data.applicationId + "/private/" + Math.random().toString().slice(2);
+        console.log("New app id i %s", data.applicationId);
+        if (req.body.tv === 'Approved') {
+          data.tv = 'Approved';
+          data.currentStatus = 'Approved';
+          data.outdated = false;
+        } else if (req.body.tv === 'Partial') {
+          data.tv = 'Partial';
+          data.currentStatus = 'Approved on partial devices';
+          data.outdated = false;
+        }
         ApprovedApps.create(data, function (err, apps) {
           if (err) res.send(err);
           console.log(apps);
@@ -192,8 +211,11 @@ module.exports = function (app) {
           });
         });
         //remove from main gk base
-        Apps.findByIdAndRemove(id, function (err, data) {
-          if (err) res.send(err);
+        // Apps.findByIdAndRemove(id, function (err, data) {
+        //   if (err) res.send(err);
+        // });
+        data.save(function (err, appz) {
+          if (err) throw err;
         });
       });
 

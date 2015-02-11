@@ -14,7 +14,11 @@
   </script>
 </head>
 <body>
-  <div class="container">
+    <% include layout/header%>
+    <div class="container">
+    <% if(tester.user===null) {%>
+      <%tester.user={};%>
+    <%}%>
   <button type="button" class="btn btn-lg" data-toggle="popover" title="<%= tester.user.local.username.first %> <%= tester.user.local.username.last %>" data-content="<b>TesterId:</b><%=tester._id%><br> <b>User Id:</b>  <%=tester.user._id%><br> <b>Mail:</b>  <%=tester.user.local.email   %> <br> <b>Group:</b>  <%=tester.user.local.group%>"> <%=tester.name%></button>
 
   <table class="table-hover table">
@@ -28,7 +32,7 @@
   <% for(var i =0;i<tester.appStorage.length;i++) { %>
   <tr>
     <% if(tester.appStorage[i].app===null) {%>
-      <%tester.appStorage[i].app={appName:undefined};%>
+      <%tester.appStorage[i].app={};%>
     <%}%>
     <td> <%= tester.appStorage[i].app.appName%></td>
     <td> <%= tester.appStorage[i].respTime%></td>
