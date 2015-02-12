@@ -33,6 +33,25 @@ module.exports = function (app) {
     });
   });
 
+  app.get('/api/cis/gk/notReviewed', function (req, res) {
+
+    // use mongoose to get all gk in the database
+    Apps.find(function (err, app) {
+      var notReviewed = [];
+      // if there is an error retrieving, send the error. nothing after res.send(err) will execute
+      if (err) {
+        res.send(err);
+      }
+      for (var i = 0; i < app.length; i++) {
+        if (app[i].tv === "Not Reviewed") {
+          notReviewed.push(app[i]);
+        }
+      }
+      res.json(notReviewed); // return all users in JSON format
+      log.info(new Date() + '  - GET /API/CIS/GK');
+    });
+  });
+
   //rejected filter
   app.get('/api/cis/gk/rejected', function (req, res) {
     // use mongoose to get rejected apps from the database
@@ -43,7 +62,7 @@ module.exports = function (app) {
         res.send(err);
       }
       for (var i = 0; i < app.length; i++) {
-        if (app[i].tv === 'Reject' && app[i].outdated === false) {
+        if (app[i].tv === 'In Progress' && app[i].outdated === false) {
           rejected.push(app[i]);
         }
       }
@@ -264,6 +283,9 @@ module.exports = function (app) {
       } else {
         app.outdated = false
       }
+      if (req.body.tv === "Not Reviewed") {
+        app.currentStatus = "Not Reviewed";
+      }
 
       //check and change with preload Status
       // console.log(req.body);
@@ -279,6 +301,9 @@ module.exports = function (app) {
         } else if (req.body.currentStatus === 'Waiting for QA') {
           app.color = 'purple';
           req.body.color = 'purple';
+        } else if (req.body.currentStatus === 'Not Reviewed') {
+          app.color = 'grey';
+          req.body.color = 'grey';
         }
       }
 

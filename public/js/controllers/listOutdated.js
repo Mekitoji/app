@@ -58,7 +58,7 @@ angular.module('project')
         "type": "select",
         "name": "Tv",
         "value": "COL_FIELD",
-        "values": ["Approved", "Reject", "Partial"]
+        "values": ["Approved", "In Progress", "Partial", "Not Reviewed"]
       },
       respProp: {
         "type": "select",
@@ -212,7 +212,7 @@ angular.module('project')
         enableCellEdit: false,
         width: 90
       }, {
-        field: 'replyTime',
+        field: 'replyTime.toFixed(2)',
         displayName: 'Reply Time',
         enableCellEdit: false,
         width: 85

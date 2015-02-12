@@ -2,14 +2,14 @@
 <html lang="en" >
 <head>
   <meta charset="UTF-8">
-  <title>TesterProfile</title>
+  <title><%=tester.name%></title>
   <script src= "../../vendor/jquery/dist/jquery.min.js"></script>
 
   <link rel="stylesheet" href="../../vendor/bootstrap/dist/css/bootstrap.min.css">
   <script src= "../../vendor/bootstrap/dist/js/bootstrap.min.js"></script>
   <script>
   $(function () {
-    $('[data-toggle="popover"]').popover({"html":true})
+    $('[data-toggle="popover"]').popover({"html":true, trigger:"hover"})
   })
   </script>
 </head>
@@ -23,23 +23,40 @@
 
   <table class="table-hover table">
     <tr>
-      <th>App Name</th>
-      <th>Response Time</th>
-      <th>Test Cycle</th>
+      <th>Application Name</th>
+      <th>Reply Time</th>
+      <th>Test Cycles</th>
       <th>Info about app</th>
     </tr>
+
+  <% var total={respTime:0,testCycles:0,count:0} %>
 
   <% for(var i =0;i<tester.appStorage.length;i++) { %>
   <tr>
     <% if(tester.appStorage[i].app===null) {%>
       <%tester.appStorage[i].app={};%>
     <%}%>
+
+    <%total.respTime+=tester.appStorage[i].respTime%>
+    <%total.testCycles+=tester.appStorage[i].testCycle%>
+    <%total.count++%>
+    
     <td> <%= tester.appStorage[i].app.appName%></td>
-    <td> <%= tester.appStorage[i].respTime%></td>
+    <td> <%= tester.appStorage[i].respTime.toFixed(2)%></td>
     <td> <%= tester.appStorage[i].testCycle%></td>
-    <td> <button type="button" class="btn " data-toggle="popover" title="<%= tester.appStorage[i].app.appName%>" data-content="<b>App Id:</b> <%=tester.appStorage[i].app._id%> <br> <b>Seller:</b> <%=tester.appStorage[i].app.seller%> <br> <b>SDP status:</b> <%=tester.appStorage[i].app.sdpStatus%> <br> <b>TV:</b> <%=tester.appStorage[i].app.tv%> <br> <b>Update Time:</b> <%=tester.appStorage[i].app.updateTime%> <br> <b>Reply Time: </b><%=tester.appStorage[i].app.replyTime%> <br> <b>Test Cycle:</b> <%=tester.appStorage[i].app.testCycles%> <br> <b>Last Resp:</b> <%=tester.appStorage[i].app.resp%> <br><b> Outdated Status: </b><%=tester.appStorage[i].app.outdated%> <br> ">More Info</button> </td>
+<!--     <% if (tester.appStorage[i].app.replyTime === undefined) { %>
+        <% tester.appStorage[i].app.replyTime=0 %>
+    <% } %> -->
+    <td> <button type="button" class="btn " data-toggle="popover" title="<%= tester.appStorage[i].app.appName%>" data-content="<b>App Id:</b> <%=tester.appStorage[i].app._id%> <br> <b>Seller:</b> <%=tester.appStorage[i].app.seller%> <br> <b>SDP status:</b> <%=tester.appStorage[i].app.sdpStatus%> <br> <b>TV:</b> <%=tester.appStorage[i].app.tv%> <br> <b>Current status:</b> <%=tester.appStorage[i].app.currentStatus%> <br> <b>Update Date:</b> <%=tester.appStorage[i].app.updateTime%> <br> <b>Reply Time: </b><%=tester.appStorage[i].app.replyTime %> <br> <b>Test Cycles:</b> <%=tester.appStorage[i].app.testCycles%> <br> <b>Last Resp:</b> <%=tester.appStorage[i].app.resp%> <br><b> Outdated Status: </b><%=tester.appStorage[i].app.outdated%> <br> ">More Info</button> </td>
   </tr>
-  <% } %>
+    <% } %>
+    <%total.respTime=total.respTime/total.count%>
+    <%total.testCycles=total.testCycles/total.count%>
+  <tr>
+    <td><b>Total:</b></td>
+    <td><b><%=total.respTime.toFixed(2) %></b></td>
+    <td><b><%=total.testCycles.toFixed(2) %></b></td>
+  </tr>
   </table>
   </div>
 </body>

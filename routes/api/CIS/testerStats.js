@@ -88,7 +88,7 @@ module.exports = function (app) {
                 date: req.body.date,
                 reason: req.body.reason
               });
-              tester.appStorage[index].testCycle = tester.appStorage[index].testCycleStorage.length;
+              tester.appStorage[index].testCycle = tester.appStorage[index].testCycleStorage.length + 1;
               Apps.findById(req.body.appNameTest, function (err, app) {
                 if (err) res.send(err);
                 app.testCycles++;
@@ -115,7 +115,7 @@ module.exports = function (app) {
             tester.appStorage.push({ //app obj
               app: new ObjectId(req.body.appNameTest), // get _id of mongo
               year: date.getFullYear(),
-              testCycle: 1, //init testCycle 1
+              testCycle: 2, //init testCycle 2 here
               respTime: 0, //init with respTime 0
               testCycleStorage: [{
                 date: req.body.date,

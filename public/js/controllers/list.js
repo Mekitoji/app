@@ -60,7 +60,7 @@ angular.module('project')
         "type": "select",
         "name": "Tv",
         "value": "COL_FIELD",
-        "values": ["Approved", "Reject", "Partial"]
+        "values": ["Approved", "In Progress", "Partial", "Not Reviewed"]
       },
       respProp: {
         "type": "select",
@@ -72,7 +72,7 @@ angular.module('project')
         "type": "select",
         "name": "currentStatus",
         "value": "COL_FIELD",
-        "values": ["Waiting for fix", "Waiting for review", "Waiting for QA", "Approved"]
+        "values": ["Waiting for fix", "Waiting for review", "Waiting for QA", "Approved", "Not Reviewed"]
       },
       outdated: {
         "type": "select",
@@ -105,7 +105,7 @@ angular.module('project')
   $scope.cellSelectEditableTemplateTv = '<select watch-elem ng-class="\'colt\' + col.index" ng-input="COL_FIELD" ng-model="COL_FIELD" ng-options=" v for v in Options.tvProp.values" />';
   $scope.cellSelectEditableTemplateResp = '<select ng-class="\'colt\' + col.index" ng-input="COL_FIELD" ng-model="COL_FIELD" ng-options="v for v in Options.respProp.values" />';
   $scope.cellSelectEditableTemplateCurrentStatus = '<input auto-complete ng-class="\'colt\' + col.index" ng-input="COL_FIELD" ng-model="COL_FIELD" type="text" />';
-  $scope.cellSelectEditableTemplateOutdated = '<select  ng-class="\'colt\' + col.index" ng-input="COL_FIELD" ng-model="COL_FIELD" ng-options=" v. for v in Options.outdated.values" />';
+  $scope.cellSelectEditableTemplateOutdated = '<select  ng-class="\'colt\' + col.index" ng-input="COL_FIELD" ng-model="COL_FIELD" ng-options=" v for v in Options.outdated.values" />';
   $scope.cellSelectEditableTemplateCalendar = '<select  ng-class="\'colt\' + col.index" ng-input="COL_FIELD" ng-model="COL_FIELD"><option ng-repeat="v in Options.calendar.values" ng-class="{\'greenCalendar\': v == \'D\',\'orange\': v == \'L\',\'calendarll\': v == \'LL\',\'purple\': v == \'H\' }">{{v}}</option></select>';
   $scope.cellSelectEditableTemplateColor = '<select ng-class="\'colt\' + col.index" ng-input="COL_FIELD" ng-model="COL_FIELD" ng-options=" v for v in Options.color.values" />';
   $scope.cellSelectEditableTemplateUpdateTime = '<input ng-class="\'colt\' + col.index" ng-input="COL_FIELD" ng-model="COL_FIELD"  type="date" />';
@@ -285,7 +285,7 @@ angular.module('project')
       }, {
         field: 'currentStatus',
         displayName: 'Current status',
-        cellTemplate: '<div class={{row.entity.color}} ><div ng-class="{\'purple\': row.entity.currentStatus == \'Waiting for QA\',\'orange\': row.entity.currentStatus== \'Waiting for review\',\'green\':row.entity.currentStatus==\'Waiting for fix\'}" style="color:black" class="ngCellText">{{row.getProperty(col.field)}}</div></div>',
+        cellTemplate: '<div class={{row.entity.color}} ><div ng-class="{\'purple\': row.entity.currentStatus == \'Waiting for QA\',\'orange\': row.entity.currentStatus== \'Waiting for review\',\'grey\': row.entity.currentStatus== \'Not Reviewed\',\'green\':row.entity.currentStatus==\'Waiting for fix\'}" style="color:black" class="ngCellText">{{row.getProperty(col.field)}}</div></div>',
         enableCellEdit: permission,
         editableCellTemplate: $scope.cellSelectEditableTemplateCurrentStatus,
         width: 125
@@ -302,7 +302,7 @@ angular.module('project')
         enableCellEdit: false,
         width: 90
       }, {
-        field: 'replyTime',
+        field: 'replyTime.toFixed(2)',
         displayName: 'Reply Time',
         enableCellEdit: false,
         width: 85

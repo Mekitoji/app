@@ -21,6 +21,7 @@ module.exports = function (app, passport) {
   var approvedCIS = require('./CIS/approved')(app);
   var outdatedCIS = require('./CIS/outdated')(app);
   var inworkCIS = require('./CIS/inwork')(app);
+  var norReviewed = require('./CIS/notReviewed')(app);
   var postmailCIS = require('./CIS/postmail')(app);
   var mailSuccessCIS = require('./CIS/mailSuccess')(app);
   var testerCIS = require('./CIS/tester')(app);
@@ -33,11 +34,13 @@ module.exports = function (app, passport) {
   var approvedEU = require('./EU/approved')(app);
   var outdatedEU = require('./EU/outdated')(app);
   var inworkEU = require('./EU/inwork')(app);
+  var norReviewedEU = require('./EU/notReviewed')(app);
   var postmailEU = require('./EU/postmail')(app);
   var mailSuccessEU = require('./EU/mailSuccess')(app);
   var testerEU = require('./CIS/tester')(app);
   var newTesterEU = require('./EU/newTester')(app);
   var testerProfileEU = require('./EU/testerViewPage')(app);
+  var testerList = require('./EU/testerList')(app);
 
   //admin tools
   var users = require('./tools/users')(app);
