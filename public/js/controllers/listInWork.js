@@ -268,7 +268,7 @@ angular.module('project')
       }, {
         field: 'currentStatus',
         displayName: 'Current status',
-        cellTemplate: '<div class={{row.entity.color}} ><div ng-class="{\'purple\': row.entity.currentStatus == \'Waiting for QA\',\'orange\': row.entity.currentStatus== \'Waiting for review\',\'green\':row.entity.currentStatus==\'Waiting for fix\'}" style="color:black" class="ngCellText">{{row.getProperty(col.field)}}</div></div>',
+        cellTemplate: '<div class={{row.entity.color}} ><div ng-class="{\'purple\': row.entity.currentStatus == \'Waiting for QA\',\'grey\': row.entity.currentStatus== \'Not Reviewed\',\'orange\': row.entity.currentStatus== \'Waiting for review\',\'green\':row.entity.currentStatus==\'Waiting for fix\'}" style="color:black" class="ngCellText">{{row.getProperty(col.field)}}</div></div>',
         enableCellEdit: permission,
         editableCellTemplate: $scope.cellSelectEditableTemplateCurrentStatus,
         width: 125

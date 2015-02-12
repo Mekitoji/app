@@ -285,6 +285,7 @@ module.exports = function (app) {
       }
       if (req.body.tv === "Not Reviewed") {
         app.currentStatus = "Not Reviewed";
+        app.color = 'grey';
       }
 
       //check and change with preload Status
