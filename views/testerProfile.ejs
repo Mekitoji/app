@@ -12,6 +12,11 @@
     $('[data-toggle="popover"]').popover({"html":true, trigger:"hover"})
   })
   </script>
+  <style>
+    tr>th {
+      border: 0px !important;
+    }
+  </style>
 </head>
 <body>
     <% include layout/header%>
@@ -53,6 +58,7 @@
     <td><b>Total:</b></td>
     <td><b><%=total.respTime.toFixed(2) %></b></td>
     <td><b><%=total.testCycles.toFixed(2) %></b></td>
+    <td></td>
   </tr>
   </table>
   </div>
