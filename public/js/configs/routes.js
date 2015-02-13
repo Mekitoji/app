@@ -37,6 +37,18 @@ angular.module('project')
     .when('/test', {
       controller: 'TesterCtrl',
       templateUrl: '../test.html'
+    })
+    .when('/newTest', {
+      controller: 'newCycleCtrl',
+      templateUrl: '../testDetail.html'
+    })
+    .when('/testList', {
+      controller: 'testerListCtrl',
+      templateUrl: '../testList.html'
+    })
+    .when('/notReviewed', {
+      controller: 'notReviewedListCtrl',
+      templateUrl: '../list.html'
     });
 
 });

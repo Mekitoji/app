@@ -55,7 +55,7 @@ angular.module('project')
         "type": "select",
         "name": "TV",
         "value": "COL_FIELD",
-        "values": ["Approved", "Reject", "Partial"]
+        "values": ["Approved", "In Progress", "Partial", "Not Reviewed"]
       },
       respProp: {
         "type": "select",
@@ -67,7 +67,7 @@ angular.module('project')
         "type": "select",
         "name": "currentStatus",
         "value": "COL_FIELD",
-        "values": ["Waiting for fix", "Waiting for review", "Waiting for QA"]
+        "values": ["Waiting for fix", "Waiting for review", "Waiting for QA", "Not Reviewed"]
       },
       outdated: {
         "type": "select",
@@ -167,6 +167,9 @@ angular.module('project')
     if (dm < 10) {
       dm = '0' + dm;
     }
+    if (dd < 10) {
+      dd = '0' + dd;
+    }
     console.log(dy + '-' + dm + '-' + dd);
     return dy + '-' + dm + '-' + dd;
   };
@@ -265,7 +268,7 @@ angular.module('project')
       }, {
         field: 'currentStatus',
         displayName: 'Current status',
-        cellTemplate: '<div class={{row.entity.color}} ><div ng-class="{\'purple\': row.entity.currentStatus == \'Waiting for QA\',\'orange\': row.entity.currentStatus== \'Waiting for review\',\'green\':row.entity.currentStatus==\'Waiting for fix\'}" style="color:black" class="ngCellText">{{row.getProperty(col.field)}}</div></div>',
+        cellTemplate: '<div class={{row.entity.color}} ><div ng-class="{\'purple\': row.entity.currentStatus == \'Waiting for QA\',\'grey\': row.entity.currentStatus== \'Not Reviewed\',\'orange\': row.entity.currentStatus== \'Waiting for review\',\'green\':row.entity.currentStatus==\'Waiting for fix\'}" style="color:black" class="ngCellText">{{row.getProperty(col.field)}}</div></div>',
         enableCellEdit: permission,
         editableCellTemplate: $scope.cellSelectEditableTemplateCurrentStatus,
         width: 125
@@ -282,7 +285,7 @@ angular.module('project')
         enableCellEdit: false,
         width: 90
       }, {
-        field: 'replyTime',
+        field: 'replyTime.toFixed(2)',
         displayName: 'Reply Time',
         enableCellEdit: false,
         width: 85

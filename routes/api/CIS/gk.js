@@ -5,7 +5,6 @@ var ApprovedCal = require('../../../models/CIS/calendarForApprovedApps');
 var ObjectId = require('mongoose').Types.ObjectId;
 var log = require('../../../libs/log');
 
-
 module.exports = function (app) {
 
 
@@ -16,10 +15,39 @@ module.exports = function (app) {
 
     // use mongoose to get all gk in the database
     Apps.find(function (err, app) {
+      var rejectedAndOutdated = [];
       // if there is an error retrieving, send the error. nothing after res.send(err) will execute
-      if (err)
+      if (err) {
         res.send(err);
-      res.json(app); // return all users in JSON format
+      }
+      for (var i = 0; i < app.length; i++) {
+        if (app[i].tv !== "Approved" && app[i].tv !== "Partial") {
+          rejectedAndOutdated.push(app[i]);
+          console.log(app[i].tv);
+        } else {
+          console.log(app[i].appName);
+        }
+      }
+      res.json(rejectedAndOutdated); // return all users in JSON format
+      log.info(new Date() + '  - GET /API/CIS/GK');
+    });
+  });
+
+  app.get('/api/cis/gk/notReviewed', function (req, res) {
+
+    // use mongoose to get all gk in the database
+    Apps.find(function (err, app) {
+      var notReviewed = [];
+      // if there is an error retrieving, send the error. nothing after res.send(err) will execute
+      if (err) {
+        res.send(err);
+      }
+      for (var i = 0; i < app.length; i++) {
+        if (app[i].tv === "Not Reviewed") {
+          notReviewed.push(app[i]);
+        }
+      }
+      res.json(notReviewed); // return all users in JSON format
       log.info(new Date() + '  - GET /API/CIS/GK');
     });
   });
@@ -34,7 +62,7 @@ module.exports = function (app) {
         res.send(err);
       }
       for (var i = 0; i < app.length; i++) {
-        if (app[i].tv === 'Reject' && app[i].outdated === false) {
+        if (app[i].tv === 'In Progress' && app[i].outdated === false) {
           rejected.push(app[i]);
         }
       }
@@ -170,8 +198,21 @@ module.exports = function (app) {
       //for apps
       Apps.findById(id, function (err, data) {
         if (err) res.send(err);
+        console.log("data - %o", data);
+        data.applicationId = data.applicationId + "/private/" + Math.random().toString().slice(2);
+        console.log("New app id i %s", data.applicationId);
+        if (req.body.tv === 'Approved') {
+          data.tv = 'Approved';
+          data.currentStatus = 'Approved';
+          data.outdated = false;
+        } else if (req.body.tv === 'Partial') {
+          data.tv = 'Partial';
+          data.currentStatus = 'Approved on partial devices';
+          data.outdated = false;
+        }
         ApprovedApps.create(data, function (err, apps) {
           if (err) res.send(err);
+          console.log(apps);
           //check if it approved for all device or not
           if (req.body.tv === 'Approved') {
             apps.tv = 'Approved';
@@ -189,8 +230,11 @@ module.exports = function (app) {
           });
         });
         //remove from main gk base
-        Apps.findByIdAndRemove(id, function (err, data) {
-          if (err) res.send(err);
+        // Apps.findByIdAndRemove(id, function (err, data) {
+        //   if (err) res.send(err);
+        // });
+        data.save(function (err, appz) {
+          if (err) throw err;
         });
       });
 
@@ -217,6 +261,7 @@ module.exports = function (app) {
 
     // use our bear model to find the bear we want
     Apps.findById(req.params.app_id, function (err, app) {
+
       if (err) res.send(err);
       //put some data for update here
       if (req.body.country) app.country = req.body.country;
@@ -238,6 +283,11 @@ module.exports = function (app) {
       } else {
         app.outdated = false
       }
+      if (req.body.tv === "Not Reviewed") {
+        app.currentStatus = "Not Reviewed";
+        app.color = 'grey';
+      }
+
       //check and change with preload Status
       // console.log(req.body);
       if (req.body.currentStatus) {
@@ -252,6 +302,9 @@ module.exports = function (app) {
         } else if (req.body.currentStatus === 'Waiting for QA') {
           app.color = 'purple';
           req.body.color = 'purple';
+        } else if (req.body.currentStatus === 'Not Reviewed') {
+          app.color = 'grey';
+          req.body.color = 'grey';
         }
       }
 

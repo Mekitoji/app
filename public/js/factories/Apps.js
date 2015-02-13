@@ -14,6 +14,9 @@ angular.module('project')
     getOutdated: function () {
       return $http.get('/api/cis/gk/outdated');
     },
+    getNotReviewed: function () {
+      return $http.get('/api/cis/gk/notReviewed');
+    },
     create: function (appData) {
       return $http.post('/api/cis/gk', appData);
     },

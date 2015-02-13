@@ -1,6 +1,6 @@
 angular.module('project')
 
-.controller('ListCtrl', function($scope, $http, Apps, Tester, Calendar) {
+.controller('ListCtrl', function ($scope, $http, Apps, iTester, Calendar) {
 
   //Ng-options object Select->Option
   //watch part with  template
@@ -27,13 +27,14 @@ angular.module('project')
     }
   }
 
-  Tester.get()
+  iTester.get()
 
-  .success(function(data) {
+  .success(function (data) {
     $scope.tester = [];
     $scope.testersArr = data;
-    $scope.testersArr.forEach(function(item, i) {
-      $scope.tester.push(item.tester);
+    $scope.testersArr.forEach(function (item, i) {
+      $scope.tester.push(item.name);
+      console.log(item.name);
     });
 
     $scope.Options = {
@@ -59,7 +60,7 @@ angular.module('project')
         "type": "select",
         "name": "Tv",
         "value": "COL_FIELD",
-        "values": ["Approved", "Reject", "Partial"]
+        "values": ["Approved", "In Progress", "Partial", "Not Reviewed"]
       },
       respProp: {
         "type": "select",
@@ -71,7 +72,7 @@ angular.module('project')
         "type": "select",
         "name": "currentStatus",
         "value": "COL_FIELD",
-        "values": ["Waiting for fix", "Waiting for review", "Waiting for QA", "Approved"]
+        "values": ["Waiting for fix", "Waiting for review", "Waiting for QA", "Approved", "Not Reviewed"]
       },
       outdated: {
         "type": "select",
@@ -102,7 +103,7 @@ angular.module('project')
   $scope.cellSelectEditableTemplateCategory = '<select ng-class="\'colt\' + col.index" ng-input="COL_FIELD" ng-model="COL_FIELD" ng-options=" v for v in Options.categoryProp.values" />';
   $scope.cellSelectEditableTemplateSdpStatus = '<select ng-class="\'colt\' + col.index" ng-input="COL_FIELD" ng-model="COL_FIELD" ng-options=" v for v in Options.sdpStatusProp.values" />';
   $scope.cellSelectEditableTemplateTv = '<select watch-elem ng-class="\'colt\' + col.index" ng-input="COL_FIELD" ng-model="COL_FIELD" ng-options=" v for v in Options.tvProp.values" />';
-  $scope.cellSelectEditableTemplateResp = '<select ng-class="\'colt\' + col.index" ng-input="COL_FIELD" ng-model="COL_FIELD" ng-options=" v for v in Options.respProp.values" />';
+  $scope.cellSelectEditableTemplateResp = '<select ng-class="\'colt\' + col.index" ng-input="COL_FIELD" ng-model="COL_FIELD" ng-options="v for v in Options.respProp.values" />';
   $scope.cellSelectEditableTemplateCurrentStatus = '<input auto-complete ng-class="\'colt\' + col.index" ng-input="COL_FIELD" ng-model="COL_FIELD" type="text" />';
   $scope.cellSelectEditableTemplateOutdated = '<select  ng-class="\'colt\' + col.index" ng-input="COL_FIELD" ng-model="COL_FIELD" ng-options=" v for v in Options.outdated.values" />';
   $scope.cellSelectEditableTemplateCalendar = '<select  ng-class="\'colt\' + col.index" ng-input="COL_FIELD" ng-model="COL_FIELD"><option ng-repeat="v in Options.calendar.values" ng-class="{\'greenCalendar\': v == \'D\',\'orange\': v == \'L\',\'calendarll\': v == \'LL\',\'purple\': v == \'H\' }">{{v}}</option></select>';
@@ -114,14 +115,14 @@ angular.module('project')
   //get list of apps
   Apps.get()
 
-  .success(function(data) {
+  .success(function (data) {
     $scope.apps = data;
-    $scope.$watch('apps', function(newVal, old) {
+    $scope.$watch('apps', function (newVal, old) {
       old = newVal;
     });
 
     Calendar.get()
-      .success(function(calData) {
+      .success(function (calData) {
         $scope.calendarr = calData;
         var result = {};
         console.log($scope.calendarr.length);
@@ -157,18 +158,18 @@ angular.module('project')
 
   Calendar.get()
 
-  .success(function(data) {
+  .success(function (data) {
     $scope.calData = data;
   });
 
 
-  $scope.getRowIndex = function() {
+  $scope.getRowIndex = function () {
     var index = this.row.rowIndex;
     // $scope.gridOptions.selectItem(index, false);
     return index + 1;
   };
 
-  $scope.$on('ngGridEventStartCellEdit', function(elm) {
+  $scope.$on('ngGridEventStartCellEdit', function (elm) {
     console.log(elm.targetScope);
     // elm.targetScope.col.cellClass = 'blue';
     console.log(elm.targetScope.col);
@@ -180,15 +181,18 @@ angular.module('project')
     var dd = date.getDate();
     var dm = date.getMonth() + 1;
     var dy = date.getFullYear();
-    if (dm <10) {
+    if (dm < 10) {
       dm = '0' + dm;
+    }
+    if (dd < 10) {
+      dd = '0' + dd;
     }
     console.log(dy + '-' + dm + '-' + dd);
     return dy + '-' + dm + '-' + dd;
   };
 
 
-  $scope.$on('ngGridEventEndCellEdit', function(evt) {
+  $scope.$on('ngGridEventEndCellEdit', function (evt) {
     console.log('evt');
     console.dir(evt);
     console.dir(evt.targetScope.row);
@@ -214,14 +218,14 @@ angular.module('project')
       //update database value
       var projectUrl = currentObj._id;
       Apps.update(projectUrl, currentObj)
-        .success(function(data) {
+        .success(function (data) {
           $scope.formData = data;
         });
     }
 
   });
 
-  $scope.dateParse = function(data) {
+  $scope.dateParse = function (data) {
     return Date.parse(data);
   };
 
@@ -281,7 +285,7 @@ angular.module('project')
       }, {
         field: 'currentStatus',
         displayName: 'Current status',
-        cellTemplate: '<div class={{row.entity.color}} ><div ng-class="{\'purple\': row.entity.currentStatus == \'Waiting for QA\',\'orange\': row.entity.currentStatus== \'Waiting for review\',\'green\':row.entity.currentStatus==\'Waiting for fix\'}" style="color:black" class="ngCellText">{{row.getProperty(col.field)}}</div></div>',
+        cellTemplate: '<div class={{row.entity.color}} ><div ng-class="{\'purple\': row.entity.currentStatus == \'Waiting for QA\',\'orange\': row.entity.currentStatus== \'Waiting for review\',\'grey\': row.entity.currentStatus== \'Not Reviewed\',\'green\':row.entity.currentStatus==\'Waiting for fix\'}" style="color:black" class="ngCellText">{{row.getProperty(col.field)}}</div></div>',
         enableCellEdit: permission,
         editableCellTemplate: $scope.cellSelectEditableTemplateCurrentStatus,
         width: 125
@@ -298,7 +302,7 @@ angular.module('project')
         enableCellEdit: false,
         width: 90
       }, {
-        field: 'replyTime',
+        field: 'replyTime.toFixed(2)',
         displayName: 'Reply Time',
         enableCellEdit: false,
         width: 85

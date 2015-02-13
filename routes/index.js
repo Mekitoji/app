@@ -14,8 +14,6 @@ module.exports = function (app, passport) {
   var signup = require('./core/signup')(app, passport);
   var profile = require('./core/profile')(app);
   var logout = require('./core/logout')(app);
-  var users = require('./core/users')(app);
-
   // var region = require('./core/region')(app);
 
   //CIS pages
@@ -23,16 +21,31 @@ module.exports = function (app, passport) {
   var approvedCIS = require('./CIS/approved')(app);
   var outdatedCIS = require('./CIS/outdated')(app);
   var inworkCIS = require('./CIS/inwork')(app);
+  var norReviewed = require('./CIS/notReviewed')(app);
   var postmailCIS = require('./CIS/postmail')(app);
   var mailSuccessCIS = require('./CIS/mailSuccess')(app);
+  var testerCIS = require('./CIS/tester')(app);
+  var newTesterCIS = require('./CIS/newTester')(app);
+  var testerProfile = require('./CIS/testerViewPage')(app);
+  var testerList = require('./CIS/testerList')(app);
 
   //EU pages
   var mainEU = require('./EU/main')(app);
   var approvedEU = require('./EU/approved')(app);
   var outdatedEU = require('./EU/outdated')(app);
   var inworkEU = require('./EU/inwork')(app);
+  var norReviewedEU = require('./EU/notReviewed')(app);
   var postmailEU = require('./EU/postmail')(app);
   var mailSuccessEU = require('./EU/mailSuccess')(app);
+  var testerEU = require('./CIS/tester')(app);
+  var newTesterEU = require('./EU/newTester')(app);
+  var testerProfileEU = require('./EU/testerViewPage')(app);
+  var testerList = require('./EU/testerList')(app);
+
+  //admin tools
+  var users = require('./tools/users')(app);
+  var tester = require('./tools/testers')(app);
+
 
   //api CORE
   var api_user = require('./api/user')(app);
@@ -49,6 +62,7 @@ module.exports = function (app, passport) {
   var apiGkEU = require('./api/EU/gk')(app);
   var apiCalendarEU = require('./api/EU/calendar')(app);
   var apiTesterEU = require('./api/EU/tester')(app);
+  var apiTesterStatEU = require('./api/EU/testerStats')(app); //new
 
   //errors
   var unauthorized = require('./errors/401')(app);

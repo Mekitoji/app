@@ -25,6 +25,7 @@
             <li><a href="/<%=route%>/rejected#/inwork">In work</a></li>
             <li><a href="/<%=route%>/approved#/approved">Approved</a></li>
             <li><a href="/<%=route%>/outdated#/outdated">Outdated</a></li>
+            <li><a href="/<%=route%>/notReviewed#/notReviewed">Not Reviewed</a></li>
           </ul>
         </li>
         <li class="dropdown">
@@ -34,8 +35,18 @@
             <li><a href="/<%=route%>/approved#/calendar">Approved</a></li>
           </ul>
         </li>
-        <li><a href="/<%=route%>/main#/test">Test Cycle</a></li>
+        <li><a href="/<%=route%>/tester">KPI</a></li>
+        <li><a href="/<%=route%>/main#/testList">Test Cycle</a></li>
         <li><a href="/<%=route%>/postmail">Post Mail</a></li>
+        <% if(user.local.group==='root') { %>
+        <li class= 'dropdown'>
+          <a href="dropdown-toogle" data-toggle="dropdown">Tools   <b class='caret'></b></a>
+          <ul class='dropdown-menu'>
+            <li><a href="/tools/users">Users</a></li>
+            <li><a href="/tools/testers">Testers</a></li>
+          </ul>
+        </li>
+        <% } %>
       </ul>
 
       <ul class="nav navbar-nav navbar-right">

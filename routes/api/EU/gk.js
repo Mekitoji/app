@@ -15,11 +15,40 @@ module.exports = function (app) {
   app.get('/api/eu/gk', function (req, res) {
     // use mongoose to get all gk in the database
     Apps.find(function (err, app) {
+      var rejectedAndOutdated = [];
       // if there is an error retrieving, send the error. nothing after res.send(err) will execute
-      if (err)
+      if (err) {
         res.send(err);
-      res.json(app); // return all users in JSON format
-      log.info(new Date() + '  - GET /api/eu/GK');
+      }
+      for (var i = 0; i < app.length; i++) {
+        if (app[i].tv !== "Approved" && app[i].tv !== "Partial") {
+          rejectedAndOutdated.push(app[i]);
+          console.log(app[i].tv);
+        } else {
+          console.log(app[i].appName);
+        }
+      }
+      res.json(rejectedAndOutdated); // return all users in JSON format
+      log.info(new Date() + '  - GET /API/EU/GK');
+    });
+  });
+
+  app.get('/api/eu/gk/notReviewed', function (req, res) {
+
+    // use mongoose to get all gk in the database
+    Apps.find(function (err, app) {
+      var notReviewed = [];
+      // if there is an error retrieving, send the error. nothing after res.send(err) will execute
+      if (err) {
+        res.send(err);
+      }
+      for (var i = 0; i < app.length; i++) {
+        if (app[i].tv === "Not Reviewed") {
+          notReviewed.push(app[i]);
+        }
+      }
+      res.json(notReviewed); // return all users in JSON format
+      log.info(new Date() + '  - GET /API/CIS/GK');
     });
   });
 
@@ -33,7 +62,7 @@ module.exports = function (app) {
         res.send(err);
       }
       for (var i = 0; i < app.length; i++) {
-        if (app[i].tv === 'Reject' && app[i].outdated === false) {
+        if (app[i].tv === 'In Progress' && app[i].outdated === false) {
           rejected.push(app[i]);
         }
       }

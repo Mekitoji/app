@@ -29,6 +29,16 @@ var session = require('express-session');
 //init express
 var app = express();
 
+
+var allowCrossDomain = function (req, res, next) {
+  res.header('Access-Control-Allow-Origin', '*');
+  res.header('Access-Control-Allow-Methods', 'GET');
+  res.header('Access-Control-Allow-Headers', 'Content-Type');
+  next();
+}
+
+app.use(allowCrossDomain);
+
 // view engine setup
 // set up ejs for templating
 app.set('views', path.join(__dirname, 'views'));
@@ -62,7 +72,7 @@ var routes = require('./routes/index')(app, passport);
 
 // catch 404 and forward to error handler if it developement env
 // or send message about err to user if it production env
-app.use(function(req, res, next) {
+app.use(function (req, res, next) {
   if (app.get('env') === 'development') {
     var err = new Error('Not Found');
     err.status = 404;
@@ -77,7 +87,7 @@ app.use(function(req, res, next) {
 // development error handler
 // will print stacktrace
 if (app.get('env') === 'development') {
-  app.use(function(err, req, res, next) {
+  app.use(function (err, req, res, next) {
     res.status(err.status || 500);
     res.render('error.ejs', {
       message: err.message,
@@ -87,7 +97,7 @@ if (app.get('env') === 'development') {
 } else {
   // production error handler
   // no stacktraces leaked to user
-  app.use(function(err, req, res, next) {
+  app.use(function (err, req, res, next) {
     res.status(err.status || 500);
     res.render('error.ejs', {
       message: err.message,

@@ -5,6 +5,7 @@
 <script src= "../vendor/jquery/dist/jquery.min.js"></script>
 <script src= "../vendor/jquery/jquery-ui-1.11.1/jquery-ui.min.js"></script>
 <link rel="stylesheet" href="../vendor/jquery/jquery-ui-1.11.1/jquery-ui.min.css">
+<!-- plugin -->
 <script src='../js/mindmup-editabletable.js'></script>
 <!-- Bootstrap -->
 <script src= "../vendor/bootstrap/dist/js/bootstrap.min.js"></script>
@@ -28,7 +29,7 @@
 <script src= '../vendor/ui-bootstrap-custom-tpls-0.10.0.min.js'></script>
 <!-- My app -->
 <script src= '../js/new-core.js'></script>
-<!-- config -->
+<!-- configs -->
 <script src= '../js/configs/routes.js'></script>
 <!-- ctrl -->
 <script src= '../js/controllers/createNewApp.js'></script>
@@ -37,9 +38,12 @@
 <script src= '../js/controllers/listApproved.js'></script>
 <script src= '../js/controllers/listInWork.js'></script>
 <script src= '../js/controllers/listOutdated.js'></script>
+<script src= '../js/controllers/listNotReviewed.js'></script>
 <script src= '../js/controllers/mainCtrl.js'></script>
 <script src= '../js/controllers/newTester.js'></script>
 <script src= '../js/controllers/tester.js'></script>
+<script src= '../js/controllers/newTest.js'></script>
+<script src= '../js/controllers/testerList.js'></script>
 <!-- directives -->
 <script src= '../js/directives/watchElem.js'></script>
 <script src= '../js/directives/autoComplete.js'></script>
@@ -51,10 +55,12 @@
 <script src='../js/factories/Apps.js'></script>
 <script src='../js/factories/Testers.js'></script>
 <script src='../js/factories/Calendar.js'></script>
+<script src='../js/factories/TesterCIS.js'></script>
 <% } else if(route === 'eu') {%>
 <script src='../js/factories/AppsEu.js'></script>
 <script src='../js/factories/TestersEu.js'></script>
 <script src='../js/factories/CalendarEU.js'></script>
+<script src='../js/factories/TesterEU.js'></script>
 <% }%>
 <!-- templates -->
 
