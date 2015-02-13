@@ -1,7 +1,7 @@
 angular.module('project')
 
 .controller('newCycleCtrl', function ($scope, $http, Apps, iTester) {
-  Apps.get()
+  Apps.getRejected()
     .success(function (apps) {
       $scope.apps = apps;
       $scope.temps = [];
@@ -9,7 +9,8 @@ angular.module('project')
         $scope.temps.push({
           _id: apps[i]._id,
           appName: apps[i].appName
-        })
+        });
+        $scope.temps = _.sortBy($scope.temps, "appName");
         console.log($scope.temps);
       }
     });
@@ -25,11 +26,11 @@ angular.module('project')
 
   $scope.createNewTestCycle = function () {
     // $scope.testCycle.tester
-    $scope.testCycle={
-      tester:$scope.tester,
-      reason:$scope.reason,
-      appNameTest:$scope.appNameTest,
-      date:$scope.date
+    $scope.testCycle = {
+      tester: $scope.tester,
+      reason: $scope.reason,
+      appNameTest: $scope.appNameTest,
+      date: $scope.date
     };
     console.log($scope.testCycle);
     console.log($scope.testCycle.tester._id);
