@@ -8,7 +8,8 @@ angular.module('project')
       for (var i = 0; i < apps.length; i++) {
         $scope.temps.push({
           _id: apps[i]._id,
-          appName: apps[i].appName
+          appName: apps[i].appName,
+          applicationId: apps[i].applicationId,
         });
         $scope.temps = _.sortBy($scope.temps, "appName");
         console.log($scope.temps);

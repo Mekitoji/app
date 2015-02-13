@@ -4,7 +4,7 @@
 
       <div class='form-row'>
         <label>Application Name</label>
-        <select ng-required='true' name="appNameTest" id="appTest" ng-model='appNameTest' ng-options=' t._id as t.appName for t in temps' >
+        <select ng-required='true' name="appNameTest" id="appTest" ng-model='appNameTest' ng-options=' t._id as t.appName+" - "+ t.applicationId for t in temps' >
           <option value="">==choose app==</option>
         </select>
       </div>
