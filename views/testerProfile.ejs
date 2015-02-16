@@ -16,6 +16,9 @@
     tr>th {
       border: 0px !important;
     }
+    .green {
+      background-color: green !important;
+    }
   </style>
 </head>
 <body>
@@ -41,16 +44,21 @@
     <% if(tester.appStorage[i].app===null) {%>
       <%tester.appStorage[i].app={};%>
     <%}%>
-
-    <%total.respTime+=tester.appStorage[i].respTime%>
-    <%total.testCycles+=tester.appStorage[i].testCycle%>
     <% if(tester.appStorage[i].respTime !== 0) { %>
       <% total.countResp++; %>
+      <%total.respTime+=tester.appStorage[i].respTime%>
     <% } else { %>
       <% tester.appStorage[i].respTime = "N/A"; %>
     <% } %>
-    <% total.countCycle++; %>
-    <td> <%= tester.appStorage[i].app.appName%></td>
+
+    <% if(tester.appStorage[i].app.tv==='Approved' || tester.appStorage[i].app.tv==='Partial') { %>
+      <% total.testCycles+=tester.appStorage[i].testCycle %>
+      <% total.countCycle++ %>
+      <td class='green'> <%= tester.appStorage[i].app.appName%></td>
+    <% } else { %>
+      <td> <%= tester.appStorage[i].app.appName%></td>
+    <% } %>
+
     <% if(tester.appStorage[i].respTime!=='N/A') { %>
       <td> <%= tester.appStorage[i].respTime.toFixed(2)%></td>
     <% } else { %>
@@ -69,7 +77,11 @@
     <% } else { %>
       <td><b>N/A</b></td>
     <% } %>
-    <td><b><%=total.testCycles.toFixed(2) %></b></td>
+    <% if(!isNaN(total.testCycles)) { %>
+      <td><b><%=total.testCycles.toFixed(2) %></b></td>
+    <% } else { %>
+      <td><b>N/A</b></td>
+    <% } %>
     <td></td>
   </tr>
   </table>
