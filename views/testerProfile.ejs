@@ -34,7 +34,7 @@
       <th>Info about app</th>
     </tr>
 
-  <% var total={respTime:0,testCycles:0,count:0} %>
+  <% var total={respTime:0,testCycles:0,countResp:0,countCycle:0} %>
 
   <% for(var i =0;i<tester.appStorage.length;i++) { %>
   <tr>
@@ -44,19 +44,31 @@
 
     <%total.respTime+=tester.appStorage[i].respTime%>
     <%total.testCycles+=tester.appStorage[i].testCycle%>
-    <%total.count++%>
-    
+    <% if(tester.appStorage[i].respTime !== 0) { %>
+      <% total.countResp++; %>
+    <% } else { %>
+      <% tester.appStorage[i].respTime = "N/A"; %>
+    <% } %>
+    <% total.countCycle++; %>
     <td> <%= tester.appStorage[i].app.appName%></td>
-    <td> <%= tester.appStorage[i].respTime.toFixed(2)%></td>
+    <% if(tester.appStorage[i].respTime!=='N/A') { %>
+      <td> <%= tester.appStorage[i].respTime.toFixed(2)%></td>
+    <% } else { %>
+      <td> <%= tester.appStorage[i].respTime%></td>
+    <% } %>
     <td> <%= tester.appStorage[i].testCycle%></td>
     <td> <button type="button" class="btn " data-toggle="popover" title="<%= tester.appStorage[i].app.appName%>" data-content="<b>App Id:</b> <%=tester.appStorage[i].app.applicationId.split("/")[0]%> <br> <b>Seller:</b> <%=tester.appStorage[i].app.seller%> <br> <b>SDP status:</b> <%=tester.appStorage[i].app.sdpStatus%> <br> <b>TV:</b> <%=tester.appStorage[i].app.tv%> <br> <b>Current status:</b> <%=tester.appStorage[i].app.currentStatus%> <br> <b>Update Date:</b> <%=tester.appStorage[i].app.updateTime.toLocaleDateString()%> <br> <b>Reply Time: </b><%=tester.appStorage[i].app.replyTime.toFixed(2) %> <br> <b>Test Cycles:</b> <%=tester.appStorage[i].app.testCycles%> <br> <b>Last Resp:</b> <%=tester.appStorage[i].app.resp%> <br><b> Outdated Status: </b><%=tester.appStorage[i].app.outdated%> <br> ">More Info</button> </td>
   </tr>
     <% } %>
-    <%total.respTime=total.respTime/total.count%>
-    <%total.testCycles=total.testCycles/total.count%>
+    <%total.respTime=total.respTime/total.countResp%>
+    <%total.testCycles=total.testCycles/total.countCycle%>
   <tr>
     <td><b>Total:</b></td>
-    <td><b><%=total.respTime.toFixed(2) %></b></td>
+    <% if(!isNaN(total.respTime)) { %>
+      <td><b><%=total.respTime.toFixed(2) %></b></td>
+    <% } else { %>
+      <td><b>N/A</b></td>
+    <% } %>
     <td><b><%=total.testCycles.toFixed(2) %></b></td>
     <td></td>
   </tr>

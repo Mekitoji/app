@@ -14,6 +14,8 @@
       <tr>
         <th>TesterId</th>
         <th>Username</th>
+        <th>Reply Time</th>
+        <th>Test Cycle</th>
       </tr>
 
       <% for(var i=0;i<testers.length;i++) { %>
@@ -26,7 +28,9 @@
             <td><%= testers[i].user.local.username.first%> <%= testers[i].user.local.username.last%></td>
           <%} else {%>
               <td></td>
-          <%}%> 
+          <%}%>
+          <td></td>
+          <td></td> 
         </tr>
       <%}%>
     </table>
