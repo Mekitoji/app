@@ -61,7 +61,9 @@ require('./libs/passport')(passport);
 
 //required for passport
 app.use(session({
-  secret: 'igotasecret'
+  secret: 'igotasecret',
+  resave: false,
+  saveUninitialized: true,
 }));
 app.use(passport.initialize());
 app.use(passport.session());

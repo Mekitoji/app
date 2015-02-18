@@ -2,6 +2,9 @@ var Cal = require('../../../models/EU/calendar');
 var Apps = require('../../../models/EU/gkbase');
 var ApprovedApps = require('../../../models/EU/gkbaseApproved');
 var ApprovedCal = require('../../../models/EU/calendarForApprovedApps');
+var TesterStat = require('../../../models/EU/testerStat');
+var _ = require('lodash');
+var ObjectId = require('mongoose').Types.ObjectId;
 
 module.exports = function (app) {
 
