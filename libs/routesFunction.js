@@ -77,10 +77,10 @@ function checkPermissionEU(req, res, next) {
 }
 
 function checkPermissionSandbox(req, res, next) {
-  checkPermFor(req, res, next, 'root', 'gkCIS', 'employerCIS', 'gkCIS', 'employerEU', 'Sandbox');
+  checkPermFor(req, res, next, 'root', 'global');
 }
 
-// in libs or middleware&
+// in libs or middleware& 
 function alreadyLoginIn(req, res, next) {
   if (req.isAuthenticated()) {
     res.redirect('/profile');
