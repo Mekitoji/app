@@ -28,7 +28,6 @@ module.exports = function (app) {
       if (err) {
         res.send(err);
       }
-      // console.log(app);
       ApprovedCal.populate(app, {
         path: 'appId'
       }, function (err, data) {
@@ -54,17 +53,13 @@ module.exports = function (app) {
       // log.info(new Date() + '  - GET /API/CIS/GK/REJECTED');
     });
 
-
     Cal.find(function (err, app) {
       if (err) {
         res.send(err);
       }
-      // console.log(app);
       Cal.populate(app, {
         path: 'appId'
       }, function (err, data) {
-        // console.log('rejectedApp');
-        // console.log(rejectedApp);
         var result = [];
         var dataMap;
         if (rejectedApp[0] !== undefined) {
@@ -168,44 +163,6 @@ module.exports = function (app) {
 
 
   });
-
-  //  post and delete method was deleted, coz unuse
-
-  /*  app.post('/api/calendar', function (req, res) {
-    var cal = new Cal({
-      appName: req.body.appName,
-      appId: req.body._id,
-      storage: [{
-        day: req.body.date.getDay(),
-        month: req.body.date.getMonth(),
-        year: req.body.date.getYear(),
-        value: req.body.value,
-      }]
-    });
-
-    cal.save(function (err, data) {
-      if (err) throw err;
-      res.json(data);
-    });
-  });*/
-
-  /*app.delete('/api/calendar/:calendar_id', function (req, res) {
-    Cal.remove({
-      _id: req.params.calendar_id
-    }, function (err, cal) {
-      if (err) {
-        res.send(err);
-      }
-
-      Cal.find(function (err, calen) {
-        if (err) {
-          res.send(err);
-        }
-        res.json(calen);
-      });
-    });
-  });*/
-
 
   //pushing data in array
   app.put('/api/cis/calendar/:calendar_id', function (req, res) {

@@ -11,7 +11,7 @@ module.exports = function (app) {
 
   });
 
-  app.post('eu/postmail', routesFunction.checkPermissionGkEU, function (req, res) {
+  app.post('/eu/postmail', routesFunction.checkPermissionGkEU, function (req, res) {
     console.log(req.body.text);
     var transport = nodemailer.createTransport();
 

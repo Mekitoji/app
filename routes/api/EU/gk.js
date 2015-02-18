@@ -5,7 +5,6 @@ var ApprovedCal = require('../../../models/EU/calendarForApprovedApps');
 var ObjectId = require('mongoose').Types.ObjectId;
 var log = require('../../../libs/log');
 
-
 module.exports = function (app) {
 
 
@@ -13,6 +12,7 @@ module.exports = function (app) {
 
   //get all
   app.get('/api/eu/gk', function (req, res) {
+
     // use mongoose to get all gk in the database
     Apps.find(function (err, app) {
       var rejectedAndOutdated = [];
@@ -29,7 +29,7 @@ module.exports = function (app) {
         }
       }
       res.json(rejectedAndOutdated); // return all users in JSON format
-      log.info(new Date() + '  - GET /API/EU/GK');
+      log.info(new Date() + '  - GET /API/eu/GK');
     });
   });
 
@@ -48,7 +48,7 @@ module.exports = function (app) {
         }
       }
       res.json(notReviewed); // return all users in JSON format
-      log.info(new Date() + '  - GET /API/CIS/GK');
+      log.info(new Date() + '  - GET /API/eu/GK');
     });
   });
 
@@ -67,7 +67,7 @@ module.exports = function (app) {
         }
       }
       res.json(rejected); // return all users in JSON format
-      log.info(new Date() + '  - GET /api/eu/GK/REJECTED');
+      log.info(new Date() + '  - GET /API/eu/GK/REJECTED');
     });
   });
 
@@ -82,7 +82,7 @@ module.exports = function (app) {
       //   }
       // }
       res.json(app); // return all users in JSON format
-      log.info(new Date() + '  - GET /api/eu/GK/APPROVED');
+      log.info(new Date() + '  - GET /API/GK/APPROVED');
 
     });
   });
@@ -102,12 +102,13 @@ module.exports = function (app) {
         }
       }
       res.json(outdated); // return all users in JSON format
-      log.info(new Date() + '  - GET /api/eu/GK/OUTDATED');
+      log.info(new Date() + '  - GET /API/eu/GK/OUTDATED');
     });
   });
 
 
   app.get('/api/eu/gk/:app_id', function (req, res) {
+    // console.log(req.params.app_id);
     Apps.findById(req.params.app_id, function (err, data) {
 
       if (err) res.send(err);
@@ -130,7 +131,7 @@ module.exports = function (app) {
       testCycles: req.body.testCycles,
       replyTime: req.body.replyTime,
       resp: req.body.resp,
-      outdated: req.body.outdated,
+      outdated: false,
       applicationId: req.body.applicationId,
       color: req.body.color
     }, function (err, app) {
@@ -150,7 +151,7 @@ module.exports = function (app) {
         cal.save(function (err, data) {
           if (err) res.send(err);
           res.json(data);
-          log.info(new Date() + '  - POST /api/eu/GK/' + data.appId);
+          log.info(new Date() + '  - POST /API/eu/GK/' + data.appId);
         });
       });
     });
@@ -197,8 +198,21 @@ module.exports = function (app) {
       //for apps
       Apps.findById(id, function (err, data) {
         if (err) res.send(err);
+        console.log("data - %o", data);
+        data.applicationId = data.applicationId + "/private/" + Math.random().toString().slice(2);
+        console.log("New app id i %s", data.applicationId);
+        if (req.body.tv === 'Approved') {
+          data.tv = 'Approved';
+          data.currentStatus = 'Approved';
+          data.outdated = false;
+        } else if (req.body.tv === 'Partial') {
+          data.tv = 'Partial';
+          data.currentStatus = 'Approved on partial devices';
+          data.outdated = false;
+        }
         ApprovedApps.create(data, function (err, apps) {
           if (err) res.send(err);
+          console.log(apps);
           //check if it approved for all device or not
           if (req.body.tv === 'Approved') {
             apps.tv = 'Approved';
@@ -216,8 +230,11 @@ module.exports = function (app) {
           });
         });
         //remove from main gk base
-        Apps.findByIdAndRemove(id, function (err, data) {
-          if (err) res.send(err);
+        // Apps.findByIdAndRemove(id, function (err, data) {
+        //   if (err) res.send(err);
+        // });
+        data.save(function (err, appz) {
+          if (err) throw err;
         });
       });
 
@@ -244,6 +261,7 @@ module.exports = function (app) {
 
     // use our bear model to find the bear we want
     Apps.findById(req.params.app_id, function (err, app) {
+
       if (err) res.send(err);
       //put some data for update here
       if (req.body.country) app.country = req.body.country;
@@ -258,9 +276,20 @@ module.exports = function (app) {
       if (req.body.resp) app.resp = req.body.resp;
       if (req.body.applicationId) app.applicationId = req.body.applicationId;
       if (req.body.color) app.color = req.body.color;
+      if (req.body.outdated === 'true' || req.body.outdated === true) {
+        app.outdated = true;
+      } else if (req.body.outdated === 'false' || req.body.outdated === false) {
+        app.outdated = false
+      } else {
+        app.outdated = false
+      }
+      if (req.body.tv === "Not Reviewed") {
+        app.currentStatus = "Not Reviewed";
+        app.color = 'grey';
+      }
 
-      app.outdated = req.body.outdated;
       //check and change with preload Status
+      // console.log(req.body);
       if (req.body.currentStatus) {
         app.currentStatus = req.body.currentStatus;
         if (req.body.currentStatus === 'Waiting for fix' || req.body.currentStatus === 'Approved') {
@@ -273,6 +302,9 @@ module.exports = function (app) {
         } else if (req.body.currentStatus === 'Waiting for QA') {
           app.color = 'purple';
           req.body.color = 'purple';
+        } else if (req.body.currentStatus === 'Not Reviewed') {
+          app.color = 'grey';
+          req.body.color = 'grey';
         }
       }
 
@@ -284,25 +316,8 @@ module.exports = function (app) {
 
       if (req.body.tv === 'Approved' || req.body.tv === 'Partial') {
         checkApproved(req.params.app_id);
+        // console.log(req.body.outdated);
       }
     });
   });
-  // application -------------------------------------------------------------
-  //add emitter for development and production env
 };
-
-/*.post(function(req, res) {
-    
-    var bear = new Bear();    // create a new instance of the Bear model
-    bear.name = req.body.name;  // set the bears name (comes from the request)
-
-    // save the bear and check for errors
-    bear.save(function(err) {
-      if (err)
-        res.send(err);
-
-      res.json({ message: 'Bear created!' });
-    });
-    
-  });
-*/
