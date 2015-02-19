@@ -18,7 +18,7 @@ if (region == 'cis') {
   } else {
     url = '../api/cis/calendar/';
   }
-} else {
+} else if (region == 'eu') {
   if (subLoc === 'approved') {
     url = '../api/eu/calendar/approved';
   } else if (subLoc === 'rejected') {
@@ -27,6 +27,16 @@ if (region == 'cis') {
     url = '../api/eu/calendar/outdated';
   } else {
     url = '../api/eu/calendar/';
+  }
+} else if (region == 'global') {
+  if (subLoc === 'approved') {
+    url = '../api/global/calendar/approved';
+  } else if (subLoc === 'rejected') {
+    url = '../api/global/calendar/rejected';
+  } else if (subLoc === 'outdated') {
+    url = '../api/global/calendar/outdated';
+  } else {
+    url = '../api/global/calendar/';
   }
 }
 

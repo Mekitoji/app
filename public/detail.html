@@ -44,16 +44,19 @@
       <div class='form-row'>
         <label>SDP status</label>
         <select name="sdp-status" id="table-sdp-status" ng-model='formData.sdpStatus' required>
-          <option value="Gk review request">Gk review request</option>
-          <option value="GK review">GK review</option>
-          <option value="GK Review Reject">GK Review Reject</option>
+          <option value="Gate Keeper Review Request">Gate Keeper Review Request</option>
+          <option value="Gate Keeper Review">Gate Keeper Review</option>
+          <option value="Gate Keeper Review Reject">Gate Keeper Review Reject</option>
           <option value="Verification Request">Verification Request</option>
           <option value="Pre-test">Pre-test</option>
+          <option value="Revise">Revise</option>
+          <option value="Delete">Delete</option>
+          <option value="Save as draft">Save as draft</option>
           <option value="Function Testing">Function Testing</option>
           <option value="Content Testing">Content Testing</option>
           <option value="Final review">Final review</option>
-          <option value="App QA Approved">App QA Approved</option>
-          <option value="App QA Rejected">App QA Rejected</option>
+          <option value="App QA approved">App QA approved</option>
+          <option value="App QA rejected">App QA rejected</option>
         </select>
       </div>
 
@@ -70,9 +73,7 @@
       <div class='form-row'>
         <label>Tv</label>
         <select name="Tv" id="table-tv" ng-model='formData.tv' required>
-          <option value="Reject">Reject</option>
-          <option value="Approved">Approve</option>
-          <option value="Partial">Partial</option>
+          <option value="In progress">In progress</option>
         </select>
       </div>
 
@@ -97,11 +98,8 @@
 
       <div class='form-row'>
         <label>Resp</label>
-        <select name="resp" id="table-resp" ng-model='formData.resp' required>
-          <option value="YK">YK</option>
-          <option value="DP">DP</option>
-          <option value="VE">VE</option>
-          <option value="AS">AS</option>
+        <select name="resp" id="table-resp" ng-model='formData.resp' ng-options='tester.name for tester in testers'  required>
+
         </select>
       </div>
     </div>

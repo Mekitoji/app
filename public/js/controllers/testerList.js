@@ -2,7 +2,7 @@ angular.module('project')
 
 .controller('testerListCtrl', function ($scope, $http, Apps, iTester) {
 
-var permission;
+  var permission;
   var locationC = document.URL.split('/')[3];
   // take permission right from server
   if (locationC === 'cis') {
@@ -14,6 +14,14 @@ var permission;
       $scope.perm = false;
     }
   } else if (locationC === 'eu') {
+    if (userG === 'gkEU' || userG === 'root') {
+      permission = true;
+      $scope.perm = true;
+    } else {
+      permission = false;
+      $scope.perm = false;
+    }
+  } else if (locationC === 'global') {
     if (userG === 'gkEU' || userG === 'root') {
       permission = true;
       $scope.perm = true;

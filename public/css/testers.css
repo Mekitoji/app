@@ -26,6 +26,13 @@ table {
   left:30%;
 }
 
+#sandboxTester {
+  margin-top:15px;
+  /*top:20%;*/
+  margin-top:75px;
+  right:40%;
+}
+
 .table-header {
   display: block;
   position: absolute;
@@ -46,6 +53,14 @@ table {
   left:30%;*/
   left:30%;
   float:left;
+  margin-top: 45px;
+}
+
+#sandbox-header {
+/*  top: 15%;
+  left:30%;*/
+  right:30%;
+  float:right;
   margin-top: 45px;
 }
 

@@ -1,7 +1,7 @@
-var Apps = require('../../../models/CIS/gkbase');
-var ApprovedApps = require('../../../models/CIS/gkbaseApproved');
-var Cal = require('../../../models/CIS/calendar');
-var ApprovedCal = require('../../../models/CIS/calendarForApprovedApps');
+var Apps = require('../../../models/Sandbox/gkbase');
+var ApprovedApps = require('../../../models/Sandbox/gkbaseApproved');
+var Cal = require('../../../models/Sandbox/calendar');
+var ApprovedCal = require('../../../models/Sandbox/calendarForApprovedApps');
 var ObjectId = require('mongoose').Types.ObjectId;
 var log = require('../../../libs/log');
 
@@ -11,7 +11,7 @@ module.exports = function (app) {
   // api ---------------------------------------------------------------------
 
   //get all
-  app.get('/api/cis/gk', function (req, res) {
+  app.get('/api/global/gk', function (req, res) {
 
     // use mongoose to get all gk in the database
     Apps.find(function (err, app) {
@@ -29,11 +29,11 @@ module.exports = function (app) {
         }
       }
       res.json(rejectedAndOutdated); // return all users in JSON format
-      log.info(new Date() + '  - GET /API/CIS/GK');
+      log.info(new Date() + '  - GET /API/global/GK');
     });
   });
 
-  app.get('/api/cis/gk/notReviewed', function (req, res) {
+  app.get('/api/global/gk/notReviewed', function (req, res) {
 
     // use mongoose to get all gk in the database
     Apps.find(function (err, app) {
@@ -48,12 +48,12 @@ module.exports = function (app) {
         }
       }
       res.json(notReviewed); // return all users in JSON format
-      log.info(new Date() + '  - GET /API/CIS/GK');
+      log.info(new Date() + '  - GET /API/global/GK');
     });
   });
 
   //rejected filter
-  app.get('/api/cis/gk/rejected', function (req, res) {
+  app.get('/api/global/gk/rejected', function (req, res) {
     // use mongoose to get rejected apps from the database
     Apps.find(function (err, app) {
       var rejected = [];
@@ -67,12 +67,12 @@ module.exports = function (app) {
         }
       }
       res.json(rejected); // return all users in JSON format
-      log.info(new Date() + '  - GET /API/CIS/GK/REJECTED');
+      log.info(new Date() + '  - GET /API/global/GK/REJECTED');
     });
   });
 
   //approved filter
-  app.get('/api/cis/gk/approved', function (req, res) {
+  app.get('/api/global/gk/approved', function (req, res) {
     // use mongoose to get approved apps from the database
     ApprovedApps.find(function (err, app) {
       if (err) res.send(err);
@@ -88,7 +88,7 @@ module.exports = function (app) {
   });
 
   //outdated filter
-  app.get('/api/cis/gk/outdated', function (req, res) {
+  app.get('/api/global/gk/outdated', function (req, res) {
     // use mongoose to get outdated apps from the database
     Apps.find(function (err, app) {
       var outdated = [];
@@ -102,12 +102,12 @@ module.exports = function (app) {
         }
       }
       res.json(outdated); // return all users in JSON format
-      log.info(new Date() + '  - GET /API/CIS/GK/OUTDATED');
+      log.info(new Date() + '  - GET /API/global/GK/OUTDATED');
     });
   });
 
 
-  app.get('/api/cis/gk/:app_id', function (req, res) {
+  app.get('/api/global/gk/:app_id', function (req, res) {
     // console.log(req.params.app_id);
     Apps.findById(req.params.app_id, function (err, data) {
 
@@ -117,7 +117,7 @@ module.exports = function (app) {
   });
 
   // create user and send back all users after creation
-  app.post('/api/cis/gk', function (req, res) {
+  app.post('/api/global/gk', function (req, res) {
     // create a user, information comes from request from Angular
     Apps.create({
       country: req.body.country,
@@ -151,14 +151,14 @@ module.exports = function (app) {
         cal.save(function (err, data) {
           if (err) res.send(err);
           res.json(data);
-          log.info(new Date() + '  - POST /API/CIS/GK/' + data.appId);
+          log.info(new Date() + '  - POST /API/global/GK/' + data.appId);
         });
       });
     });
   });
 
   // delete a user
-  app.delete('/api/cis/gk/:app_id', function (req, res) {
+  app.delete('/api/global/gk/:app_id', function (req, res) {
     Apps.remove({
       _id: req.params.app_id
     }, function (err, app) {
@@ -189,7 +189,7 @@ module.exports = function (app) {
 
 
   //update a user
-  app.put('/api/cis/gk/:app_id', function (req, res) {
+  app.put('/api/global/gk/:app_id', function (req, res) {
 
     //check if data is approved
     //then delete in thisd db and save at new

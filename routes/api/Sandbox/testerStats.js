@@ -1,13 +1,13 @@
-var TesterStat = require('../../../models/CIS/testerStat');
-var Cal = require('../../../models/CIS/calendar');
-var Apps = require('../../../models/CIS/gkbase');
+var TesterStat = require('../../../models/Sandbox/testerStat');
+var Cal = require('../../../models/Sandbox/calendar');
+var Apps = require('../../../models/Sandbox/gkbase');
 var log = require('../../../libs/log');
 var User = require('../../../models/user');
 var ObjectId = require('mongoose').Types.ObjectId;
 var _ = require('lodash');
 
 module.exports = function (app) {
-  app.get('/api/cis/testerStat', function (req, res) {
+  app.get('/api/global/testerStat', function (req, res) {
     TesterStat.find({})
       .populate('user')
       .exec(function (err, data) {
@@ -16,7 +16,7 @@ module.exports = function (app) {
         } else {
           TesterStat.populate(data, {
             path: 'appStorage.app',
-            model: 'Apps'
+            model: 'AppsSandbox'
           }, function (err, data) {
             if (err) {
               res.send(err)
@@ -30,7 +30,7 @@ module.exports = function (app) {
 
 
 
-  app.post('/api/cis/testerStat', function (req, res) {
+  app.post('/api/global/testerStat', function (req, res) {
     console.log(req.body);
     var user = new ObjectId(req.body.user);
     TesterStat.create({
@@ -49,7 +49,7 @@ module.exports = function (app) {
   });
 
 
-  app.put('/api/cis/testerStat/insertCycle/:tester_id', function (req, res) {
+  app.put('/api/global/testerStat/insertCycle/:tester_id', function (req, res) {
     console.log(req.body);
     TesterStat.findById(req.params.tester_id, function (err, tester) {
       if (err) {
@@ -125,7 +125,7 @@ module.exports = function (app) {
     });
   });
 
-  app.put('/api/cis/testerStat/:tester_id', function (req, res) {
+  app.put('/api/global/testerStat/:tester_id', function (req, res) {
     //get tester by id
     TesterStat.findById(req.params.tester_id, function (err, tester) {
       if (err) {
@@ -175,7 +175,7 @@ module.exports = function (app) {
     });
   });
 
-  app.delete('/api/cis/testerStat/:tester_id', function (req, res) {
+  app.delete('/api/global/testerStat/:tester_id', function (req, res) {
     TesterStat.remove({
       _id: req.params.tester_id
     }, function (err, tester) {

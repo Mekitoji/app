@@ -37,6 +37,7 @@ var allowCrossDomain = function (req, res, next) {
   next();
 }
 
+//allow cross domain
 app.use(allowCrossDomain);
 
 // view engine setup

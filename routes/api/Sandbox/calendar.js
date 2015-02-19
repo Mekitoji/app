@@ -1,15 +1,15 @@
-var Cal = require('../../../models/CIS/calendar');
-var Apps = require('../../../models/CIS/gkbase');
-var ApprovedApps = require('../../../models/CIS/gkbaseApproved');
-var ApprovedCal = require('../../../models/CIS/calendarForApprovedApps');
-var TesterStat = require('../../../models/CIS/testerStat');
+var Cal = require('../../../models/Sandbox/calendar');
+var Apps = require('../../../models/Sandbox/gkbase');
+var ApprovedApps = require('../../../models/Sandbox/gkbaseApproved');
+var ApprovedCal = require('../../../models/Sandbox/calendarForApprovedApps');
+var TesterStat = require('../../../models/Sandbox/testerStat');
 var _ = require('lodash');
 var ObjectId = require('mongoose').Types.ObjectId;
 
 module.exports = function (app) {
 
   //GET data in json
-  app.get('/api/cis/calendar', function (req, res) {
+  app.get('/api/global/calendar', function (req, res) {
     Cal.find(function (err, app) {
       if (err) {
         res.send(err);
@@ -23,7 +23,7 @@ module.exports = function (app) {
     });
   });
 
-  app.get('/api/cis/calendar/approved', function (req, res) {
+  app.get('/api/global/calendar/approved', function (req, res) {
     ApprovedCal.find(function (err, app) {
       if (err) {
         res.send(err);
@@ -36,7 +36,7 @@ module.exports = function (app) {
     });
   });
 
-  app.get('/api/cis/calendar/rejected', function (req, res) {
+  app.get('/api/global/calendar/rejected', function (req, res) {
     var rejectedApp;
     Apps.find(function (err, app) {
       var rejected = [];
@@ -50,7 +50,7 @@ module.exports = function (app) {
         }
       }
       rejectedApp = rejected; // return all users in JSON format
-      // log.info(new Date() + '  - GET /API/CIS/GK/REJECTED');
+      // log.info(new Date() + '  - GET /API/global/GK/REJECTED');
     });
 
     Cal.find(function (err, app) {
@@ -101,7 +101,7 @@ module.exports = function (app) {
     });
   });
 
-  app.get('/api/cis/calendar/outdated', function (req, res) {
+  app.get('/api/global/calendar/outdated', function (req, res) {
     var outdatedApp;
     Apps.find(function (err, app) {
       var outdated = [];
@@ -116,7 +116,7 @@ module.exports = function (app) {
       }
       outdatedApp = outdated;
       // res.json(outdated); // return all users in JSON format
-      // log.info(new Date() + '  - GET /API/CIS/GK/OUTDATED');
+      // log.info(new Date() + '  - GET /API/global/GK/OUTDATED');
       Cal.find(function (err, app) {
         if (err) {
           res.send(err);
@@ -165,7 +165,7 @@ module.exports = function (app) {
   });
 
   //pushing data in array
-  app.put('/api/cis/calendar/:calendar_id', function (req, res) {
+  app.put('/api/global/calendar/:calendar_id', function (req, res) {
     Cal.findById(req.params.calendar_id, function (err, cal) { //findByIdAndUpdate
       if (err) {
         res.send(err);

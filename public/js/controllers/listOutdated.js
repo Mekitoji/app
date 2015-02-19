@@ -23,6 +23,14 @@ angular.module('project')
       permission = false;
       $scope.perm = false;
     }
+  } else if (locationC === 'global') {
+    if (userG === 'gkEU' || userG === 'root') {
+      permission = true;
+      $scope.perm = true;
+    } else {
+      permission = false;
+      $scope.perm = false;
+    }
   }
 
   Tester.get()

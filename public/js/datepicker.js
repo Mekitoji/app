@@ -25,6 +25,16 @@ if (locationC === 'cis') {
   } else {
     permission = false;
   }
+} else if (locationC === 'global') {
+  if (userG === 'global' || userG === 'root') {
+    if (subLoc === 'approved') {
+      permission = false;
+    } else {
+      permission = true;
+    }
+  } else {
+    permission = false;
+  }
 }
 
 $(document).ready(function () {

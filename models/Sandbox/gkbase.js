@@ -51,4 +51,4 @@ var Apps = new Schema({
   }
 });
 
-module.exports = mongoose.model('AppsSandBox', Apps);
+module.exports = mongoose.model('AppsSandbox', Apps);

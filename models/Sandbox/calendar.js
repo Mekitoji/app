@@ -13,7 +13,7 @@ var dataStorage = new Schema({
 var Calendar = new Schema({
   appId: {
     type: Schema.ObjectId,
-    ref: 'AppsEU'
+    ref: 'AppsSandbox'
   },
   storage: [dataStorage]
 });
