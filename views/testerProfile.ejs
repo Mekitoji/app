@@ -38,10 +38,11 @@
     </tr>
   <%%>
   <% var total={respTime:0,testCycles:0,countResp:0,countCycle:0} %>
-  <% var color; %>
-
+  
   <% for(var i =0;i<tester.appStorage.length;i++) { %>
   <tr>
+  <% var color; %>
+
     <% if(tester.appStorage[i].app===null) {
       tester.appStorage[i].app={};
     }
