@@ -6,7 +6,14 @@ body {
 th{
 text-align: right;
 }
-td {height: 21px;}
+td {
+  height: 21px;
+}
+
+td.appNameRow {
+  height: 21px
+}
+
 #calendar {
   width: 900px;
   margin: 0 auto;
