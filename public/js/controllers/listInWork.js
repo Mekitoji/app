@@ -294,7 +294,7 @@ angular.module('project')
         width: 90
       }, {
         field: 'replyTime.toFixed(2)',
-        displayName: 'Reply Time',
+        displayName: 'Review Time',
         enableCellEdit: false,
         width: 85
       }, {

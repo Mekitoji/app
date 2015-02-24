@@ -9,17 +9,14 @@
 </head>
 <body ng-controller='post'>
     <% include layout/header %>
-  <form ng-submit='submit()'>
-  <div class="container">
-    <div id='textHandler'><textarea name="changeText" id="writeToWin" cols="80" rows="30" ng-model="previewText"></textarea></div>
-    <div id='preview' ng-bind-html="previewText | unsafe"></div>
-  </div>
-
-  <div class="container buttonPlace">
-  <button type="submit" id="send" class="btn btn-success">Send</button>
-  </div>
-  </form>
-  
+    <div class="container-fluid row">
+      <form ng-submit='submit()'>
+        <div class='col-md-offset-1 col-md-5' ><textarea name="changeText" id="writeToWin" cols="80" rows="30" ng-model="previewText"></textarea></div>
+        <div class='col-md-5'  ng-bind-html="previewText | unsafe"></div>
+      <div class="container ">
+        <button type="submit" id="send" class="btn btn-success">Send</button>
+      </div>
+      </form>
+    </div>
 </body>
-
 </html>

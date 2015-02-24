@@ -32,7 +32,7 @@
   <table class="table-hover table">
     <tr>
       <th>Application Name</th>
-      <th>Reply Time</th>
+      <th>Review Time</th>
       <th>Test Cycles</th>
       <th>Info about app</th>
     </tr>
@@ -68,7 +68,7 @@
       <td> <%= tester.appStorage[i].respTime%></td>
     <% } %>
     <td> <%= tester.appStorage[i].testCycle%></td>
-    <td> <button type="button" class="btn <%= color%>" data-toggle="popover" title="<%= tester.appStorage[i].app.appName%>" data-content="<b>App Id:</b> <%=tester.appStorage[i].app.applicationId.split("/")[0]%> <br> <b>Seller:</b> <%=tester.appStorage[i].app.seller%> <br> <b>SDP status:</b> <%=tester.appStorage[i].app.sdpStatus%> <br> <b>TV:</b> <%=tester.appStorage[i].app.tv%> <br> <b>Current status:</b> <%=tester.appStorage[i].app.currentStatus%> <br> <b>Update Date:</b> <%=tester.appStorage[i].app.updateTime.toLocaleDateString()%> <br> <b>Reply Time: </b><%=tester.appStorage[i].app.replyTime.toFixed(2) %> <br> <b>Test Cycles:</b> <%=tester.appStorage[i].app.testCycles%> <br> <b>Last Resp:</b> <%=tester.appStorage[i].app.resp%> <br><b> Outdated Status: </b><%=tester.appStorage[i].app.outdated%> <br> ">More Info</button> </td>
+    <td> <button type="button" class="btn <%= color%>" data-toggle="popover" title="<%= tester.appStorage[i].app.appName%>" data-content="<b>App Id:</b> <%=tester.appStorage[i].app.applicationId.split("/")[0]%> <br> <b>Seller:</b> <%=tester.appStorage[i].app.seller%> <br> <b>SDP status:</b> <%=tester.appStorage[i].app.sdpStatus%> <br> <b>TV:</b> <%=tester.appStorage[i].app.tv%> <br> <b>Current status:</b> <%=tester.appStorage[i].app.currentStatus%> <br> <b>Update Date:</b> <%=tester.appStorage[i].app.updateTime.toLocaleDateString()%> <br> <b>Review Time: </b><%=tester.appStorage[i].app.replyTime.toFixed(2) %> <br> <b>Test Cycles:</b> <%=tester.appStorage[i].app.testCycles%> <br> <b>Last Resp:</b> <%=tester.appStorage[i].app.resp%> <br><b> Outdated Status: </b><%=tester.appStorage[i].app.outdated%> <br> ">More Info</button> </td>
   </tr>
 
     <% } %>
