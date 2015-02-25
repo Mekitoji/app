@@ -1,7 +1,7 @@
 angular.module('project')
 
 
-.controller('outdatedListCtrl', function ($scope, $http, Apps, Tester) {
+.controller('outdatedListCtrl', function ($scope, $http, Apps, iTester) {
 
   $scope.loc = 'Outdated';
   var permission;
@@ -33,13 +33,13 @@ angular.module('project')
     }
   }
 
-  Tester.get()
+  iTester.get()
 
   .success(function (data) {
     $scope.tester = [];
     $scope.testersArr = data;
     $scope.testersArr.forEach(function (item, i) {
-      $scope.tester.push(item.tester);
+      $scope.tester.push(item.name);
     });
 
     $scope.Options = {
@@ -71,7 +71,7 @@ angular.module('project')
         "type": "select",
         "name": "Resp",
         "value": "COL_FIELD",
-        "values": ["AS", "DP", "VE", "YK"]
+        "values": $scope.tester
       },
       currentStatusProp: {
         "type": "select",
@@ -106,7 +106,7 @@ angular.module('project')
   $scope.cellSelectEditableTemplateCategory = '<select ng-class="\'colt\' + col.index" ng-input="COL_FIELD" ng-model="COL_FIELD" ng-options=" v for v in Options.categoryProp.values" ng-blur="updateEntity(row)" />';
   $scope.cellSelectEditableTemplateSdpStatus = '<select ng-class="\'colt\' + col.index" ng-input="COL_FIELD" ng-model="COL_FIELD" ng-options=" v for v in Options.sdpStatusProp.values" ng-blur="updateEntity(row)" />';
   $scope.cellSelectEditableTemplateTv = '<select watch-elem ng-class="\'colt\' + col.index" ng-input="COL_FIELD" ng-model="COL_FIELD" ng-options=" v for v in Options.tvProp.values" ng-blur="updateEntity(row)" />';
-  $scope.cellSelectEditableTemplateResp = '<select ng-class="\'colt\' + col.index" ng-input="COL_FIELD" ng-model="COL_FIELD" ng-options=" v for v in Options.respProp.values" ng-blur="updateEntity(row)" />';
+  $scope.cellSelectEditableTemplateResp = '<select ng-class="\'colt\' + col.index" ng-input="COL_FIELD" ng-model="COL_FIELD" ng-options="v for v in Options.respProp.values" ng-blur="updateEntity(row)" />';
   $scope.cellSelectEditableTemplateCurrentStatus = '<input auto-complete ng-class="\'colt\' + col.index" ng-input="COL_FIELD" ng-model="COL_FIELD" type="text" />';
   $scope.cellSelectEditableTemplateOutdated = '<select ng-class="\'colt\' + col.index" ng-input="COL_FIELD" ng-model="COL_FIELD" ng-options=" v for v in Options.outdated.values" />';
   $scope.cellSelectEditableTemplateColor = '<select ng-class="\'colt\' + col.index" ng-input="COL_FIELD" ng-model="COL_FIELD" ng-options=" v for v in Options.color.values" />';
