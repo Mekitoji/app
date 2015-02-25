@@ -44,12 +44,12 @@ angular.module('postmail', [])
   .success(function (data) {
     $scope.apps = data;
     $scope.previewText = '<style type="text/css">.red{background-color:#F00;} table, table th, table td{border:1px solid black;padding:10px;border-collapse:collapse;padding:1px 5px 1px 6px;font:10pt Arial;} .mail-page {font:10pt Arial;} </style>\n\n\n<div class="mail-page">\n\n\nDear Ted,<br />\nHere I summarize those apps that are on App QA team.\n\n' +
-      '<br /> <br /> \n\n<table border=\'1\'  cellspacing=\'0\' cellpadding=\'0\'>\n\t<tr>\n\t\t<th><b>Country</b>\n\t\t<th><b>Application Id</b></th>\n\t\t<th><b>Application Name</b></th>\n\t\t<th><b>SDP Status</b></th>\n\t\t<th><b>Update Date</b></th>\n\t\t<th><b>Seller</b></th>\n\t\t<th><b>Current Status</b></th>\n\t\t<th><b>Resp</b></th>\n\t</tr>\n';
+      '<br /> <br /> \n\n<table border=\'1\'  cellspacing=\'0\' cellpadding=\'0\'>\n\t<tr>\n\t\t<th><b>Country</b>\n\t\t<th><b>Application Id</b></th>\n\t\t<th><b>Application name</b></th>\n\t\t<th><b>SDP Status</b></th>\n\t\t<th><b>Update Date</b></th>\n\t\t<th><b>Seller</b></th>\n\t\t<th><b>Current Status</b></th>\n\t\t<th><b>Resp</b></th>\n\t</tr>\n';
     _.each($scope.apps, function (num) {
       _.each(num, function (data, key) {
 
         if (key == 'color' && data == 'purple') {
-          if (num.tv === 'In Progress') {
+          if (num.tv === 'In Progress' && num.outdated === false) {
             console.log(num);
             var temp = new Date(num.updateTime);
             var temp_date = temp.getDate();
@@ -84,7 +84,7 @@ angular.module('postmail', [])
       _.each(num, function (data, key) {
 
         if (key == 'color' && data == 'red' || data == 'orange') {
-          if (num.tv === "In Progress") {
+          if (num.tv === "In Progress" && num.outdated === false) {
             var temp = new Date(num.updateTime);
             var temp_date = temp.getDate();
             var temp_month = temp.getMonth() + 1;
