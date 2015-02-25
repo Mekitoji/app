@@ -315,14 +315,25 @@ module.exports = function (app) {
                   console.log("respArray - ", respArray);
                   console.log("%o", valueObj);
                   //let push new obj in our appStorage
-                  tester.appStorage.push({
-                    app: new ObjectId(appId),
-                    year: date.getFullYear(),
-                    testCycle: 1,
-                    respTime: 0,
-                    testCycleStorage: [],
-                    respStorage: respArray
-                  });
+                  if (valueObj.value === "L" || valueObj.value === "LL") {
+                    tester.appStorage.push({
+                      app: new ObjectId(appId),
+                      year: date.getFullYear(),
+                      testCycle: 1,
+                      respTime: 1,
+                      testCycleStorage: [],
+                      respStorage: respArray
+                    });
+                  } else {
+                    tester.appStorage.push({
+                      app: new ObjectId(appId),
+                      year: date.getFullYear(),
+                      testCycle: 1,
+                      respTime: 0,
+                      testCycleStorage: [],
+                      respStorage: respArray
+                    });
+                  }
                   //here we not counting respTime L, coz it our first insert in respStorage
                   //save this obj
                   tester.save(function (err, result) {
