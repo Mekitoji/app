@@ -24,7 +24,7 @@ angular.module('project')
       return $http.put('/api/cis/gk/' + id, appData);
     },
     delete: function (id) {
-      return $http.delete('api/cis/gk/' + id);
+      return $http.delete('/api/cis/gk/' + id);
     }
   };
 });

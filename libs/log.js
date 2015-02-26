@@ -1,3 +1,5 @@
+//TODO: add log in mongoDB
+
 var winston = require('winston');
 var path = module.filename.split('/').slice(-2).join('/');
 

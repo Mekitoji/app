@@ -4,13 +4,13 @@
     <div class="testerId">{{tester.name}}</div>
     <table class="table table-striped table-borderes table-hover table-responsive">
       <tr>
-        <th>AppName</th>
+        <th>Application name</th>
         <th>Date</th>
         <th>Reason</th>
       </tr>
       <tbody ng-repeat="storage in tester.appStorage">
-        <tr ng-repeat="zz in storage.testCycleStorage">
-           <td>{{storage.app.appName}}</td>
+        <tr class='test-cycle' ng-repeat="zz in storage.testCycleStorage">
+          <td>{{storage.app.appName}}</td>
           <td>{{zz.date | date:"MM/dd/yyyy"}}</td>
           <td>{{zz.reason}}</td>
         </tr>

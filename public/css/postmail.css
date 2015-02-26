@@ -29,6 +29,7 @@ label {
 }
 
 #send {
-  position: absolute;
-  top: 700px;
+  position: relative;
+  margin-left: 15px;
+  margin-top: 15px;
 }

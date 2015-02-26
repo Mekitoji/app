@@ -12,6 +12,9 @@
   },
   "session": {
     "secret": "MKTJparty",
+    "resave": false,
+    "saveUninitialized": true,
+    "name": "connect.Server.sid",
     "cookie": {
       "path": "/",
       "httpOnly": true,

@@ -1,6 +1,6 @@
 // route middleware to make sure a user is logged in
 
-//handle 400 error
+//handle 401 error
 var Unauthorized = function Unauthorized(response) {
   var err = new Error('Unauthorized: Access is denied');
   err.status = 401;
@@ -36,7 +36,6 @@ var checkPermFor = function checkPermFor(req, res, next) {
       // 403 error
       Forbidden(res);
     }
-
   }
   // 401 error
   Unauthorized(res);
@@ -66,7 +65,7 @@ function checkPermissionGkCIS(req, res, next) {
 }
 
 function checkPermissionGkEU(req, res, next) {
-  checkPermFor(req, res, next, 'root', 'gkCIS', 'gkEU');
+  checkPermFor(req, res, next, 'root', 'gkEU');
 }
 
 function checkPermissionCIS(req, res, next) {
@@ -74,10 +73,14 @@ function checkPermissionCIS(req, res, next) {
 }
 
 function checkPermissionEU(req, res, next) {
-  checkPermFor(req, res, next, 'root', 'gkCIS', 'employerEU');
+  checkPermFor(req, res, next, 'root', 'gkEU', 'employerEU');
 }
 
-// in libs or middleware&
+function checkPermissionSandbox(req, res, next) {
+  checkPermFor(req, res, next, 'root', 'global');
+}
+
+// in libs or middleware& 
 function alreadyLoginIn(req, res, next) {
   if (req.isAuthenticated()) {
     res.redirect('/profile');
@@ -85,6 +88,7 @@ function alreadyLoginIn(req, res, next) {
     return next(); // load the index.ejs file
   }
 }
+
 
 exports.unAuth = unAuth;
 exports.alreadyLoginIn = alreadyLoginIn;
@@ -94,3 +98,4 @@ exports.checkPermissionEU = checkPermissionEU;
 exports.checkPermissionGkCIS = checkPermissionGkCIS;
 exports.checkPermissionGkEU = checkPermissionGkEU;
 exports.checkPermissionRoot = checkPermissionRoot;
+exports.checkPermissionSandbox = checkPermissionSandbox;

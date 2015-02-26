@@ -1,6 +1,6 @@
 angular.module('project')
 
-.controller('inWorkListCtrl', function ($scope, $http, Apps, Tester, Calendar) {
+.controller('inWorkListCtrl', function ($scope, $http, Apps, iTester, Calendar) {
   $scope.loc = 'In work';
   var permission;
   var locationC = document.URL.split('/')[3];
@@ -21,15 +21,23 @@ angular.module('project')
       permission = false;
       $scope.perm = false;
     }
+  } else if (locationC === 'global') {
+    if (userG === 'global' || userG === 'root') {
+      permission = true;
+      $scope.perm = true;
+    } else {
+      permission = false;
+      $scope.perm = false;
+    }
   }
 
-  Tester.get()
+  iTester.get()
 
   .success(function (data) {
     $scope.tester = [];
     $scope.testersArr = data;
     $scope.testersArr.forEach(function (item, i) {
-      $scope.tester.push(item.tester);
+      $scope.tester.push(item.name);
     });
 
     $scope.Options = {
@@ -49,7 +57,7 @@ angular.module('project')
         "type": "select",
         "name": "Category",
         "value": "COL_FIELD",
-        "values": ["GK review request", "GK review", "GK Review Reject", "Verification Request", "Pre-test", "Function Testing", "Content Testing", "Final review", "App QA Approved", "App QA Rejected", "Delete", "Revise", "Save as draft"]
+        "values": ["Gate Keeper Review Request", "Gate Keeper Review", "Gate Keeper Review Reject", "Verification Request", "Pretest", "Function Testing", "Ad Testing", "Content Testing", "Final review", "App QA approved", "App QA rejected", "Delete", "Revise", "Save as draft", "Request for Deletion", "Item Review", "App Packaging Request", "Re-Verification Request"]
       },
       tvProp: {
         "type": "select",
@@ -61,7 +69,7 @@ angular.module('project')
         "type": "select",
         "name": "Resp",
         "value": "COL_FIELD",
-        "values": ["AS", "DP", "VE", "YK"]
+        "values": $scope.tester
       },
       currentStatusProp: {
         "type": "select",
@@ -95,7 +103,7 @@ angular.module('project')
   $scope.cellSelectEditableTemplateCategory = '<select ng-class="\'colt\' + col.index" ng-input="COL_FIELD" ng-model="COL_FIELD" ng-options=" v for v in Options.categoryProp.values" ng-blur="updateEntity(row)" />';
   $scope.cellSelectEditableTemplateSdpStatus = '<select ng-class="\'colt\' + col.index" ng-input="COL_FIELD" ng-model="COL_FIELD" ng-options=" v for v in Options.sdpStatusProp.values" ng-blur="updateEntity(row)" />';
   $scope.cellSelectEditableTemplateTv = '<select watch-elem ng-class="\'colt\' + col.index" ng-input="COL_FIELD" ng-model="COL_FIELD" ng-options=" v for v in Options.tvProp.values" ng-blur="updateEntity(row)" />';
-  $scope.cellSelectEditableTemplateResp = '<select ng-class="\'colt\' + col.index" ng-input="COL_FIELD" ng-model="COL_FIELD" ng-options=" v for v in Options.respProp.values" ng-blur="updateEntity(row)" />';
+  $scope.cellSelectEditableTemplateResp = '<select ng-class="\'colt\' + col.index" ng-input="COL_FIELD" ng-model="COL_FIELD" ng-options="v for v in Options.respProp.values" />';
   $scope.cellSelectEditableTemplateCurrentStatus = '<input auto-complete ng-class="\'colt\' + col.index" ng-input="COL_FIELD" ng-model="COL_FIELD" type="text" />';
   $scope.cellSelectEditableTemplateColor = '<select ng-class="\'colt\' + col.index" ng-input="COL_FIELD" ng-model="COL_FIELD" ng-options=" v for v in Options.color.values" />';
   $scope.cellSelectEditableTemplateOutdated = '<select ng-class="\'colt\' + col.index" ng-input="COL_FIELD" ng-model="COL_FIELD" ng-options=" v for v in Options.outdated.values" />';
@@ -286,14 +294,14 @@ angular.module('project')
         width: 90
       }, {
         field: 'replyTime.toFixed(2)',
-        displayName: 'Reply Time',
+        displayName: 'Review Time',
         enableCellEdit: false,
         width: 85
       }, {
         field: 'resp',
         displayName: 'Resp',
         cellTemplate: '<div ng-class="{\'green\': row.entity.resp == \'VE\',\'red\': row.entity.resp == \'AS\',\'yellow\': row.entity.resp == \'YK\',\'blue\': row.entity.resp == \'DP\' }" " ><div class="ngCellText">{{row.getProperty(col.field)}}</div></div>',
-        enableCellEdit: true,
+        enableCellEdit: permission,
         editableCellTemplate: $scope.cellSelectEditableTemplateResp,
         width: 50
       }, {

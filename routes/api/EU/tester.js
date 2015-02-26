@@ -10,7 +10,7 @@ module.exports = function (app) {
         res.send(err);
       }
       res.json(data);
-      log.info(new Date() + '  - GET /api/eu/TESTER');
+      log.info(new Date() + '  - GET /API/EU/TESTER');
     });
   });
 
@@ -37,7 +37,6 @@ module.exports = function (app) {
         date: req.body.date,
         reason: req.body.reason
       });
-
 
       tester.save(function (err, data) {
         if (err) res.send(err);

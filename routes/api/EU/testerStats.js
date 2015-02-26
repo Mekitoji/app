@@ -7,24 +7,7 @@ var ObjectId = require('mongoose').Types.ObjectId;
 var _ = require('lodash');
 
 module.exports = function (app) {
-
   app.get('/api/eu/testerStat', function (req, res) {
-    // TesterStat.find(function (err, data) {
-    //   if (err) {
-    //     throw err;
-    //   } else {
-    //     TesterStat.populate(data, {
-    //       path: 'user appStorage.app'
-    //     }, function (err, data) {
-    //       if (err) {
-    //         res.send(err);
-    //       } else {
-    //         log.info(new Date() + ' - GET /API/eu/TESTERSTAT');
-    //         res.send(data);
-    //       }
-    //     });
-    //   }
-    // });
     TesterStat.find({})
       .populate('user')
       .exec(function (err, data) {
@@ -33,7 +16,7 @@ module.exports = function (app) {
         } else {
           TesterStat.populate(data, {
             path: 'appStorage.app',
-            model: 'Apps'
+            model: 'AppsEU'
           }, function (err, data) {
             if (err) {
               res.send(err)
@@ -115,7 +98,7 @@ module.exports = function (app) {
             tester.appStorage.push({ //app obj
               app: new ObjectId(req.body.appNameTest), // get _id of mongo
               year: date.getFullYear(),
-              testCycle: 2, //init testCycle 1
+              testCycle: 2, //init testCycle 2 here
               respTime: 0, //init with respTime 0
               testCycleStorage: [{
                 date: req.body.date,

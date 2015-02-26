@@ -3,7 +3,7 @@
     <div class="form-group">
 
       <div class='form-row'>
-        <label>Application Name</label>
+        <label>Application name</label>
         <select ng-required='true' name="appNameTest" id="appTest" ng-model='appNameTest' ng-options=' t._id as t.appName+" - "+ t.applicationId for t in temps' >
           <option value="">==choose app==</option>
         </select>
@@ -16,7 +16,7 @@
 
       <div class='form-row'>
         <label>Reason</label>
-        <textarea ng-required='true' ng-model='reason' name="reason" id="" cols="23" rows="5"></textarea>
+        <textarea ng-required='true' ng-model='reason' name="reason" id="" cols="23" rows="5" ng-init='reason="Several issues were found on App QA stage"'></textarea>
       </div>
 
       <div class='form-row'>

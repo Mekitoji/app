@@ -76,12 +76,10 @@
 .purple {
     background-color:  rgb(209, 143, 209);
     color: black;
-    text-align: center;
 }
 .orange {
     background-color: orange;
     color: black;
-    text-align: center;
 }
 
 .pink {
@@ -134,3 +132,6 @@ div.ngCellText.ng-binding {
   margin: 0;
 }
 
+.ng-scope.ngRow:hover {
+  background-color: #ccc;
+}

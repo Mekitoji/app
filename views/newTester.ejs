@@ -17,6 +17,7 @@
   <script src='../../js/factories/Users.js'></script>
   <script src='../../js/factories/addTesterCIS.js'></script>
   <script src='../../js/factories/addTesterEU.js'></script>
+  <script src='../../js/factories/addTesterSandbox.js'></script>
   <style>
     .container {
       position:absolute;
@@ -61,6 +62,25 @@
       <div class='form-group'>
         <label> User </label>
         <select class="form-control" ng-model='euData.user' name="" id="" >
+          <option value="">Empty</option>
+          <option ng-repeat='user in users'   value="{{user._id}}" >{{user.local.username.last}} {{user.local.username.first}}</option>
+        </select><br>
+      </div>
+      <button type='submit'  ng-disabled="myForm.$invalid" onclick="location.href='/tools/testers'" ng-click='createTester()' class='btn btn-primary btn-lg' >Create</button>
+    </div>
+    </form>
+<% }  else if(route==='newSandbox'){ %>
+<div class="container" ng-controller="sandboxCtrl">
+  <h2>Sandbox new tester</h2>
+      <form name='myForm'>
+    <div class="form-group">
+      <div class="form-group">
+        <label>Id</label>
+        <input id='id_name' required name='name' class="form-control"  type="text" ng-model='sandboxData.name'><br>
+      </div>
+      <div class='form-group'>
+        <label> User </label>
+        <select class="form-control" ng-model='sandboxData.user' name="" id="" >
           <option value="">Empty</option>
           <option ng-repeat='user in users'   value="{{user._id}}" >{{user.local.username.last}} {{user.local.username.first}}</option>
         </select><br>

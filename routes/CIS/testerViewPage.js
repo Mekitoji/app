@@ -1,3 +1,4 @@
+var routesFunction = require('../../libs/routesFunction');
 var TesterStat = require('../../models/CIS/testerStat');
 var ObjectId = require('mongoose').Types.ObjectId;
 var User = require('../../models/user');
@@ -7,7 +8,7 @@ var _ = require('lodash');
 
 //take handler for access
 module.exports = function (app) {
-  app.get('/cis/tester/:tester_id', function (req, res) {
+  app.get('/cis/tester/:tester_id', routesFunction.checkPermissionCIS, function (req, res) {
     TesterStat.findById(req.params.tester_id)
       .populate('user')
       .exec(function (err, tester) {

@@ -15,7 +15,7 @@ angular.module('project')
       return $http.get('/api/eu/gk/outdated');
     },
     getNotReviewed: function () {
-      return $http.get('/api/cis/eu/notReviewed');
+      return $http.get('/api/eu/gk/notReviewed');
     },
     create: function (appData) {
       return $http.post('/api/eu/gk', appData);
@@ -24,7 +24,7 @@ angular.module('project')
       return $http.put('/api/eu/gk/' + id, appData);
     },
     delete: function (id) {
-      return $http.delete('api/eu/gk/' + id);
+      return $http.delete('/api/eu/gk/' + id);
     }
   };
 });

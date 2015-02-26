@@ -22,6 +22,14 @@ angular.module('project')
       permission = false;
       $scope.perm = false;
     }
+  } else if (locationC === 'global') {
+    if (userG === 'global' || userG === 'root') {
+      permission = true;
+      $scope.perm = true;
+    } else {
+      permission = false;
+      $scope.perm = false;
+    }
   }
 
   Tester.get()
@@ -50,7 +58,7 @@ angular.module('project')
         "type": "select",
         "name": "Category",
         "value": "COL_FIELD",
-        "values": ["GK review request", "GK review", "GK Review Reject", "Verification Request", "Pre-test", "Function Testing", "Content Testing", "Final review", "App QA Approved", "App QA Rejected", "Delete", "Revise", "Save as draft"]
+        "values": ["Gate Keeper Review Request", "Gate Keeper Review", "Gate Keeper Review Reject", "Verification Request", "Pretest", "Function Testing", "Ad Testing", "Content Testing", "Final review", "App QA approved", "App QA rejected", "Delete", "Revise", "Save as draft", "Request for Deletion", "Item Review", "App Packaging Request", "Re-Verification Request"]
       },
       tvProp: {
         "type": "select",
@@ -199,7 +207,7 @@ angular.module('project')
       width: 90
     }, {
       field: 'replyTime.toFixed(2)',
-      displayName: 'Reply Time',
+      displayName: 'Review Time',
       enableCellEdit: false,
       width: 85
     }, {

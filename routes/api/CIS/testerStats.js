@@ -7,24 +7,7 @@ var ObjectId = require('mongoose').Types.ObjectId;
 var _ = require('lodash');
 
 module.exports = function (app) {
-
   app.get('/api/cis/testerStat', function (req, res) {
-    // TesterStat.find(function (err, data) {
-    //   if (err) {
-    //     throw err;
-    //   } else {
-    //     TesterStat.populate(data, {
-    //       path: 'user appStorage.app'
-    //     }, function (err, data) {
-    //       if (err) {
-    //         res.send(err);
-    //       } else {
-    //         log.info(new Date() + ' - GET /API/CIS/TESTERSTAT');
-    //         res.send(data);
-    //       }
-    //     });
-    //   }
-    // });
     TesterStat.find({})
       .populate('user')
       .exec(function (err, data) {

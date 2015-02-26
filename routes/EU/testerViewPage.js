@@ -1,3 +1,4 @@
+var routesFunction = require('../../libs/routesFunction');
 var TesterStat = require('../../models/EU/testerStat');
 var ObjectId = require('mongoose').Types.ObjectId;
 var User = require('../../models/user');
@@ -6,7 +7,7 @@ var Apps = require('../../models/EU/gkbase');
 var _ = require('lodash');
 
 module.exports = function (app) {
-  app.get('/eu/tester/:tester_id', function (req, res) {
+  app.get('/eu/tester/:tester_id', routesFunction.checkPermissionEU, function (req, res) {
     TesterStat.findById(req.params.tester_id)
       .populate('user')
       .exec(function (err, tester) {

@@ -25,6 +25,16 @@ if (locationC === 'cis') {
   } else {
     permission = false;
   }
+} else if (locationC === 'global') {
+  if (userG === 'global' || userG === 'root') {
+    if (subLoc === 'approved') {
+      permission = false;
+    } else {
+      permission = true;
+    }
+  } else {
+    permission = false;
+  }
 }
 
 $(document).ready(function () {
@@ -35,9 +45,10 @@ $(document).ready(function () {
       $('#calendar').fullCalendar('gotoDate', d);
       $('td.fc-day').ready(function () {
         $.get(url, function (data) {
-
-          console.log('data:');
-          console.log(data);
+          $('.column-table').remove();
+          $('.appNameRow').remove();
+          // console.log('data:');
+          // console.log(data);
           var storageOfDate = [];
           var appNameObj = {};
           var calendarId = {};
@@ -59,14 +70,31 @@ $(document).ready(function () {
               data_manual[innerStorage[j].fullDate][data[i].appId._id] = innerStorage[j].value;
             }
           }
+          var keys = [];
+          var sortedAppNameObj = {};
+          Object.keys(appNameObj)
+            .map(function (k) {
+              return [k, appNameObj[k]];
+            })
+            .sort(function (a, b) {
+              if (a[1].toLowerCase() < b[1].toLowerCase()) return -1;
+              if (a[1].toLowerCase() > b[1].toLowerCase()) return 1;
+              return 0;
+            })
+            .forEach(function (d) {
+              sortedAppNameObj[d[0]] = d[1];
+              keys.push(d[0]);
+              console.log('here');
+              console.log(d[1]);
+            });
+          console.log(sortedAppNameObj);
+          // console.log('\n\ndata_manual:');
+          // console.log(data_manual);
 
-          console.log('\n\ndata_manual:');
-          console.log(data_manual);
-
-          console.log('appNameObj:');
-          console.log(appNameObj);
-          console.log('calendarId'); //calendarId
-          console.log(calendarId); //calendarId
+          // console.log('appNameObj:');
+          // console.log(appNameObj);
+          // console.log('calendarId'); //calendarId
+          // console.log(calendarId); //calendarId
           // console.log('storageOfDate:');
           // console.log(storageOfDate);
 
@@ -75,10 +103,10 @@ $(document).ready(function () {
           });
 
           //create tr for each elem in data array
-          $.each(appNameObj, function (i, appName) {
+          $.each(sortedAppNameObj, function (i, appName) {
             var tr = $('<tr>').addClass('appNameRow');
             $('<td>').html(appName).appendTo(tr).css({
-              'height': '21px'
+              'height': '23px'
             });
             $('.inner-table-appName tbody').append(tr);
           });
@@ -91,16 +119,14 @@ $(document).ready(function () {
 
               thisColTable = table.addClass('column-table').attr('id', 'dataTableColumn' + (++count)).appendTo(thisCol);
 
-
-
             $.each(data_manual, function (date, valueArr) {
 
-              $.each(appNameObj, function (appId, appName) {
+              $.each(sortedAppNameObj, function (appId, appName) {
                 if (date == dd) {
                   if (valueArr[appId]) {
                     // console.log(date + ' ' + appName + " = " + valueArr[appId]);
                     var tr = $('<tr>').css({
-                      'height': '21px ',
+                      'height': '23px ',
                       'text-align': 'center'
                     });
                     var td = $('<td>');
@@ -175,7 +201,7 @@ $(document).ready(function () {
                     });
                   } else {
                     var empty = $('<tr>').css({
-                      'height': '21px ',
+                      'height': '23px ',
                       'text-align': 'center'
                     });
                     var td1 = $('<td>');
@@ -230,9 +256,9 @@ $(document).ready(function () {
 
             });
             if (thisColTable[0].childNodes[0] === undefined) {
-              $.each(appNameObj, function (appId, appName) {
+              $.each(sortedAppNameObj, function (appId, appName) {
                 var empty = $('<tr>').css({
-                  'height': '21px ',
+                  'height': '23px ',
                   'text-align': 'center'
                 });
                 var td = $('<td>');

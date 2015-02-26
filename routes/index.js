@@ -37,10 +37,24 @@ module.exports = function (app, passport) {
   var norReviewedEU = require('./EU/notReviewed')(app);
   var postmailEU = require('./EU/postmail')(app);
   var mailSuccessEU = require('./EU/mailSuccess')(app);
-  var testerEU = require('./CIS/tester')(app);
+  var testerEU = require('./EU/tester')(app);
   var newTesterEU = require('./EU/newTester')(app);
   var testerProfileEU = require('./EU/testerViewPage')(app);
-  var testerList = require('./EU/testerList')(app);
+  var testerListEU = require('./EU/testerList')(app);
+
+  //Sandbox pages
+  var mainSandbox = require('./Sandbox/main')(app);
+  var approvedSandbox = require('./Sandbox/approved')(app);
+  var outdatedSandbox = require('./Sandbox/outdated')(app);
+  var inworkSandbox = require('./Sandbox/inwork')(app);
+  var norReviewedSandbox = require('./Sandbox/notReviewed')(app);
+  var postmailSandbox = require('./Sandbox/postmail')(app);
+  var mailSuccessSandbox = require('./Sandbox/mailSuccess')(app);
+  var testerSandbox = require('./Sandbox/tester')(app);
+  var newTesterSandbox = require('./Sandbox/newTester')(app);
+  var testerProfileSandbox = require('./Sandbox/testerViewPage')(app);
+  var testerListSandbox = require('./Sandbox/testerList')(app);
+
 
   //admin tools
   var users = require('./tools/users')(app);
@@ -63,6 +77,12 @@ module.exports = function (app, passport) {
   var apiCalendarEU = require('./api/EU/calendar')(app);
   var apiTesterEU = require('./api/EU/tester')(app);
   var apiTesterStatEU = require('./api/EU/testerStats')(app); //new
+
+  //api Sandbox
+  var apiGkSandbox = require('./api/Sandbox/gk')(app);
+  var apiCalendarSandbox = require('./api/Sandbox/calendar')(app);
+  var apiTesterSandbox = require('./api/Sandbox/tester')(app);
+  var apiTesterStatSandbox = require('./api/Sandbox/testerStats')(app); //new
 
   //errors
   var unauthorized = require('./errors/401')(app);

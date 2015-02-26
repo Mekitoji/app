@@ -9,11 +9,14 @@
   <script src='../../js/factories/Users.js'></script>
   <script src='../../js/factories/addTesterCIS.js'></script>
   <script src='../../js/factories/addTesterEU.js'></script>
+  <script src='../../js/factories/addTesterSandbox.js'></script>
 </head>
 <body ng-app='newTester'>
   <% include layout/profile_header %>
   <div class="container">
-    <div class='inner-container' ng-controller="cisCtrl">
+  <div class='row'>
+  <div class="col-sm-10 row">
+    <div class='col-md-4' ng-controller="cisCtrl">
     <a href="/tools/testers/newCIS"><button id='cis-add'>Create New CIS Tester</button></a>
 
     <h3 class='table-header' id="cis-header">CIS Testers</h3>
@@ -28,8 +31,7 @@
       </tr>
     </table>
     </div>
-
-    <div class="inner-container" ng-controller='euCtrl'>
+    <div class="col-md-4" ng-controller='euCtrl'>
     <a href="/tools/testers/newEU" ><button id='eu-add'>Create New EU Tester</button></a>
     <h3 class='table-header' id="eu-header">EU Testers</h3>
     <table id='euTester'>
@@ -43,6 +45,24 @@
       </tr>
     </table>
     </div>
+
+    <div class="col-md-4" ng-controller='sandboxCtrl'>
+    <a href="/tools/testers/newSandbox" ><button id='sandbox-add'>Create New Sandbox Tester</button></a>
+    <h3 class='table-header' id="sandbox-header">Sandbox Testers</h3>
+    <table id='sandboxTester'>
+      <tr>
+        <th>Tester</th>
+        <th>User</th>
+      </tr>
+      <tr ng-repeat='dataSandbox in sandboxTesterData'>
+        <td>{{dataSandbox.name}}</td>
+        <td>{{dataSandbox.user.local.username.first}} {{dataSandbox.user.local.username.last}}</td>
+      </tr>
+    </table>
+    </div>
+
+    </div> 
+  </div>
   </div>
 </body>
 </html>

@@ -31,7 +31,6 @@ var approvedApps = new Schema({
   },
   testCycles: {
     type: Number,
-    default: 1
   },
   replyTime: {
     type: Number
