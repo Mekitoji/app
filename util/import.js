@@ -40,7 +40,7 @@ ApprovedCalendar.find({
             console.log("App already exist in this collection!");
             throw err;
           };
-          console.log("App %s succesfully imported from approved collection[%s]", res.appName, res.applicationId)
+          console.log("App \"%s\"succesfully imported from approved collection[%s]", res.appName, res.applicationId)
           count++;
         });
       }
