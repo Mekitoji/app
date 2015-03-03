@@ -1,7 +1,7 @@
 {
   "port": 3000,
   "mongoose": {
-    "uri": "mongodb://localhost/testapp198",
+    "uri": "mongodb://localhost/prodGk",
     "options": {
       "server": {
         "sockedOptions": {

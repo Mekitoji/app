@@ -5,8 +5,11 @@ var Calendar = require('../models/CIS/calendar');
 var ApprovedCalendar = require('../models/CIS/calendarForApprovedApps');
 var async = require('async');
 var testerStat = require('../models/CIS/testerStat');
+var ObjectId = require('mongoose').Types.ObjectId;
 var _ = require('lodash');
+var Promise = require('promise');
 var count = 0;
+var countUP = 0;
 
 process.stdin.setRawMode(true);
 process.stdin.resume();
@@ -31,7 +34,6 @@ var countReplyTime = function (storage) {
   return replyTime;
 };
 
-
 async.waterfall([
 
     function (cb) {
@@ -45,7 +47,7 @@ async.waterfall([
         });
     },
     function (apps, cb) {
-      var temp = {};
+      var tempCal = [];
       _.forEach(apps, function (n, key) {
         Calendar.findOne({
           "appId": n._id
@@ -57,10 +59,38 @@ async.waterfall([
             cb(err);
           }
           if (cal !== null && cal.storage.length !== 0) {
-            var resp = n.resp;
+            //null
+          } else if (cal === null) {
+            //make request to approved collection
+            tempCal.push(n);
+          }
+        })
+      });
+      console.log("working...");
+      setTimeout(function () {
+        cb(null, tempCal);
+      }, 5000);
+    },
+    function (tempCal, cb) {
+      var temp = {};
+      // console.log(tempCal);
+      _.forEach(tempCal, function (c) {
+        ApprovedCalendar.findOne({
+          "appId": c._id
+        })
+
+        .exec(function (err, cal) {
+          if (err) {
+            console.log("gate 3 screw up")
+            cb(err);
+          }
+          if (cal === null || cal.storage.length === 0) {
+            console.log("Something go wrong here. App'll not be updated");
+          } else {
+            var resp = c.resp;
             cal = cal.toObject();
-            n = n.toObject();
-            cal.n = n;
+            c = c.toObject();
+            cal.c = c;
 
             cal.storage = _.forEach(cal.storage, function (j) {
               if (j.value === undefined) {
@@ -76,24 +106,21 @@ async.waterfall([
               temp[resp] = [];
               temp[resp].push(cal);
             }
-            // console.log(temp);
-          } else if (cal === null) {
-            //make request to approved collection
           }
-        })
+        });
       });
       console.log("working...");
       setTimeout(function () {
-    cb(null, temp);
+        cb(null, temp);
       }, 5000);
     },
-    function (cal, cb) {
-      console.log(cal);
+    function (temp, cb) {
+      // console.log(temp);
       var respArray = [];
-      _.forEach(cal, function (d, key) {
+      _.forEach(temp, function (d, key) {
         respArray.push(key);
       });
-      console.log(respArray);
+      // console.log(respArray);
 
       async.map(respArray, function (resp) {
         testerStat.findOne({
@@ -105,14 +132,34 @@ async.waterfall([
             console.log("gate 5 screw up");
             cb(err);
           }
-          tester.appStorage = _.forEach(tester.appStorage, function (d) {
-            _.forEach(cal[resp], function (s) {
-              if (d.app.toString() === s.n._id.toString()) {
-                d.respStorage = s.storage;
-                d.respTime = countReplyTime(s.storage);
-                count++;
+          _.forEach(temp[resp], function (g) {
+            var changed = false;
+
+            _.forEach(tester.appStorage, function (x) {
+              if (g.storage !== null && g.storage !== undefined) {
+                if (x.app.toString() === g.c._id.toString()) {
+                  console.log(true);
+                  x.respStorage = g.storage;
+                  x.respTime = countReplyTime(g.storage);
+                  countUP++;
+                  delete g.storage;
+                }
               }
             });
+
+            if (g.storage !== null && g.storage !== undefined) {
+              var respTime = countReplyTime(g.storage);
+              var date = new Date();
+              tester.appStorage.push({ //app obj
+                app: new ObjectId(g.appId), // get _id of mongo
+                year: date.getFullYear(),
+                testCycle: 1, //init testCycle 1
+                respTime: respTime, //init with respTime 
+                testCycleStorage: [], // init testCycle array for insert obj = {date: Date(), reason: String}
+              })
+              count++;
+            }
+
           });
           cb(null, tester);
         });
@@ -126,11 +173,12 @@ async.waterfall([
       if (err) {
         console.error("Bull shit!");
       }
-      console.log(res);
+      // console.log(res);
     })
     process.stdin.on('data', function (key) {
       if (key) {
-        process.stdout.write(count + " storage was changed.\n");
+        process.stdout.write(count + " app was insert.\n");
+        process.stdout.write(countUP + " storage was updated.\n");
         process.stdout.write("Goodbye!");
         process.exit();
       }
