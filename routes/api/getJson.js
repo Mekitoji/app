@@ -25,7 +25,7 @@ module.exports = function (app) {
         tempArr.push(_.zipObject(headerArr, arr));
       });
       _.forEach(tempArr, function (n, key) {
-        console.log(n);
+        // console.log(n);
         Apps.findOne({
           applicationId: n.appId
         })
@@ -39,6 +39,15 @@ module.exports = function (app) {
           };
 
           if (app === null && n.appStatus !== "App QA approved") {
+            var gk = {
+              "POLITAEVDMITRY": "DP",
+              "SayantsAndrey": "AS",
+              "EgorovVladimir": "VE",
+              "KirillovYury": "YK"
+            };
+
+            var resp = gk[n.gk] ? gk[n.gk] : "";
+
             Apps.create({
               appName: n.appName,
               seller: n.seller,
@@ -47,6 +56,7 @@ module.exports = function (app) {
               testCycles: 1,
               updateTime: n.updateDate,
               replyTime: 0,
+              resp: resp,
               applicationId: n.appId
             });
 
@@ -87,10 +97,20 @@ module.exports = function (app) {
                   data: err
                 })
               }
+              var gk = {
+                "POLITAEVDMITRY": "DP",
+                "SayantsAndrey": "AS",
+                "EgorovVladimir": "VE",
+                "KirillovYury": "YK"
+              };
+
+              var resp = gk[n.gk] ? gk[n.gk] : "";
 
               n.updateDate = new Date(n.updateDate);
               app.sdpStatus = n.appStatus;
               app.updateTime = n.updateDate;
+              app.appName = n.appName;
+              app.resp = resp;
               app.save(function (err, result) {
                 if (err) {
                   res.json({
