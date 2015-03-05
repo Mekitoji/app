@@ -58,11 +58,8 @@ module.exports = function (app) {
               replyTime: 0,
               resp: resp,
               applicationId: n.appId
-            });
-
-            Apps.save()
-
-            .exec(function (err, resultA) {
+            }, function (err, resultA) {
+              console.log(resultA);
               if (err) {
                 res.json({
                   "result": false,
@@ -71,8 +68,7 @@ module.exports = function (app) {
               }
               Cal.create({
                 appId: resultA._id
-              });
-              Cal.save(function (err, result) {
+              }, function (err, result) {
                 if (err) {
                   res.json({
                     "result": false,
@@ -158,10 +154,7 @@ module.exports = function (app) {
               updateTime: n.updateDate,
               replyTime: 0,
               applicationId: n.appId
-            })
-            AppsEU.save()
-
-            .exec(function (err, resultA) {
+            }, function (err, resultA) {
               if (err) {
                 res.json({
                   "result": false,
@@ -170,8 +163,7 @@ module.exports = function (app) {
               }
               CalEU.create({
                 appId: resultA._id
-              });
-              CalEU.save(function (err, result) {
+              }, function (err, result) {
                 if (err) {
                   res.json({
                     "result": false,
@@ -246,11 +238,7 @@ module.exports = function (app) {
               updateTime: n.updateDate,
               replyTime: 0,
               applicationId: n.appId
-            });
-
-            AppsSandbox.save()
-
-            .exec(function (err, resultA) {
+            }, function (err, resultA) {
               if (err) {
                 res.json({
                   "result": false,
@@ -259,8 +247,7 @@ module.exports = function (app) {
               }
               CalSandbox.create({
                 appId: resultA._id
-              });
-              CalSandbox.save(function (err, result) {
+              }, function (err, result) {
                 if (err) {
                   res.json({
                     "result": false,
