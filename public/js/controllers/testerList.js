@@ -22,7 +22,7 @@ angular.module('project')
       $scope.perm = false;
     }
   } else if (locationC === 'global') {
-    if (userG === 'gkEU' || userG === 'root') {
+    if (userG === 'global' || userG === 'root') {
       permission = true;
       $scope.perm = true;
     } else {
@@ -31,11 +31,21 @@ angular.module('project')
     }
   }
 
+  function sortName(a, b) {
+    return a.name.localeCompare(b.name);
+  }
+
+  function sortAppStorage(a, b) {
+    return a.app.appName.localeCompare(b.app.appName);
+  }
 
   iTester.get()
-    .success(function (testers) {
-      $scope.testers = testers;
-      console.log(testers);
-    });
 
+  .success(function (testers) {
+    $scope.testers = testers.sort(sortName);
+    _.forEach($scope.testers, function (n, key) {
+      console.log(n);
+      n.appStorage = n.appStorage.sort(sortAppStorage);
+    });
+  });
 });

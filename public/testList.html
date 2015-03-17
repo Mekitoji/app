@@ -11,7 +11,7 @@
       <tbody ng-repeat="storage in tester.appStorage">
         <tr class='test-cycle' ng-repeat="zz in storage.testCycleStorage">
           <td>{{storage.app.appName}}</td>
-          <td>{{zz.date | date:"MM/dd/yyyy"}}</td>
+          <td>{{zz.date | date:"dd/MM/yyyy"}}</td>
           <td>{{zz.reason}}</td>
         </tr>
       </tbody>

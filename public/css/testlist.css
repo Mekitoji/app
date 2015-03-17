@@ -3,5 +3,5 @@
   font: italic bold 18px Georgia, sans-serif;
 }
 .test-cycle>td {
-  width: 100px
+  width: 33% !important;
 }

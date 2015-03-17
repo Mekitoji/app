@@ -17,3 +17,6 @@ config/config.json
 #sublime
 *.sublime-project
 *.sublime-workspace
+
+#todo
+*.todo
