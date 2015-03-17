@@ -144,7 +144,8 @@ angular.module('project')
     }, {
       field: 'applicationId',
       displayName: 'Application Id',
-      enableCellEdit: false
+      enableCellEdit: false,
+      cellFilter: 'hidePrivate'
     }, {
       field: 'country',
       displayName: 'Country',

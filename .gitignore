@@ -13,3 +13,7 @@ node_modules/
 config/config.json
 
 *.dmp
+
+#sublime
+*.sublime-project
+*.sublime-workspace
