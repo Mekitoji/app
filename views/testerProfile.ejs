@@ -38,7 +38,7 @@
     </tr>
   <% var total={respTime:0,testCycles:0,countResp:0,countCycle:0} %>
   <% tester.appStorage = tester.appStorage.sort(function(a, b) {
-    return a.app.appName.localeCompare(b.app.appName);
+    return a.app.appName.toLowerCase().localeCompare(b.app.appName.toLowerCase());
   });%>
   <% for(var i =0;i<tester.appStorage.length;i++) { %>
   <tr>
