@@ -31,6 +31,14 @@ angular.module('project')
       permission = false;
       $scope.perm = false;
     }
+  } else if (locationC === 'sia') {
+    if (userG === 'gkSIA' || userG === 'root') {
+      permission = true;
+      $scope.perm = true;
+    } else {
+      permission = false;
+      $scope.perm = false;
+    }
   }
 
   iTester.get()
@@ -130,10 +138,8 @@ angular.module('project')
 
   $scope.$on('ngGridEventEndCellEdit', function (evt) {
     var currentObj = evt.targetScope.row.entity;
-    console.log(currentObj); //debug
     // the underlying data bound to the row
     // Detect changes and send entity to server
-    console.log(currentObj._id); //debug
 
     //update database value
     var projectUrl = currentObj._id;

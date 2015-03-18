@@ -77,3 +77,28 @@ newTester.controller('sandboxCtrl', function ($scope, sandboxTester, User) {
   };
 
 });
+
+newTester.controller('siaCtrl', function ($scope, siaTester, User) {
+  $scope.siaData = {};
+
+  User.get()
+
+  .success(function (data) {
+    $scope.users = data;
+  });
+
+  siaTester.get()
+    .success(function (data) {
+      $scope.siaTesterData = data;
+      console.log(data);
+    });
+
+  //create new tester
+  $scope.createTester = function () {
+    siaTester.createTester($scope.siaData)
+      .success(function (data) {
+        $scope.siaTesterData = data;
+        $scope.siaData = {};
+      });
+  };
+});

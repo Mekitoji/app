@@ -42,6 +42,19 @@ module.exports = function (app, passport) {
   var testerProfileEU = require('./EU/testerViewPage')(app);
   var testerListEU = require('./EU/testerList')(app);
 
+  //SIA pages
+  var mainEU = require('./SIA/main')(app);
+  var approvedSIA = require('./SIA/approved')(app);
+  var outdatedSIA = require('./SIA/outdated')(app);
+  var inworkSIA = require('./SIA/inwork')(app);
+  var norReviewedSIA = require('./SIA/notReviewed')(app);
+  var postmailSIA = require('./SIA/postmail')(app);
+  var mailSuccessSIA = require('./SIA/mailSuccess')(app);
+  var testerSIA = require('./SIA/tester')(app);
+  var newTesterSIA = require('./SIA/newTester')(app);
+  var testerProfileSIA = require('./SIA/testerViewPage')(app);
+  var testerListSIA = require('./SIA/testerList')(app);
+
   //Sandbox pages
   var mainSandbox = require('./Sandbox/main')(app);
   var approvedSandbox = require('./Sandbox/approved')(app);
@@ -83,6 +96,12 @@ module.exports = function (app, passport) {
   var apiCalendarSandbox = require('./api/Sandbox/calendar')(app);
   var apiTesterSandbox = require('./api/Sandbox/tester')(app);
   var apiTesterStatSandbox = require('./api/Sandbox/testerStats')(app); //new
+
+  //api Sandbox
+  var apiGkSIA = require('./api/sia/gk')(app);
+  var apiCalendarSIA = require('./api/sia/calendar')(app);
+  var apiTesterSIA = require('./api/sia/tester')(app);
+  var apiTesterStatSIA = require('./api/sia/testerStats')(app); //new
 
   //errors
   var unauthorized = require('./errors/401')(app);

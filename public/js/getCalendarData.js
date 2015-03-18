@@ -7,7 +7,6 @@ var url;
 
 var region = document.URL.split('/')[3];
 var subLoc = document.URL.split('/')[4].slice(0, -1);
-console.log(subLoc);
 if (region == 'cis') {
   if (subLoc === 'approved') {
     url = '../api/cis/calendar/approved';
@@ -43,10 +42,11 @@ if (region == 'cis') {
 
 
 
-$.get(url, function (data) {
+$.ajax({
+  method: 'GET',
+  url: url
+}).done(function (data) {
 
-  console.log('data:');
-  console.log(data);
   var storageOfDate = [];
   var appNameObj = {};
   var calendarId = {};
@@ -86,18 +86,6 @@ $.get(url, function (data) {
       appNameObjNew[d[0]] = d[1];
       keys.push(d[0]);
     });
-  // console.log(appNameObjNew);
-
-
-  // console.log('\n\ndata_manual:');
-  // console.log(data_manual);
-
-  // console.log('appNameObj:');
-  // console.log(appNameObj);
-  // console.log('calendarId'); //calendarId
-  // console.log(calendarId); //calendarId
-  // console.log('storageOfDate:');
-  // console.log(storageOfDate);
 
   $('.appNameRow').each(function () {
     $(this).remove();
@@ -126,7 +114,6 @@ $.get(url, function (data) {
 
         if (date == dd) {
           if (valueArr[appId]) {
-            // console.log(date + ' ' + appName + " = " + valueArr[appId]);
             var tr = $('<tr>').css({
               'height': '21px ',
               'text-align': 'center'
@@ -161,15 +148,7 @@ $.get(url, function (data) {
             td.on('change', function (evt, newValue) {
 
               var thisElem = $(this);
-              // console.log('thisElem');
-              // console.log(thisElem);
-              // console.log('evt');
-              // console.log(evt);
-              // console.log('newValue');
-              // console.log(newValue);
               var classArr = thisElem.attr('class').split(' ');
-              // console.log(classArr);
-
               if (newValue == 'L') {
                 thisElem.css({
                   "background-color": "orange",
@@ -214,14 +193,7 @@ $.get(url, function (data) {
             thisColTable.append(empty);
             td1.on('change', function (evt, newValue) {
               var thisElem = $(this);
-              // console.log('thisElem');
-              // console.log(thisElem);
-              // console.log('evt');
-              // console.log(evt);
-              // console.log('newValue');
-              // console.log(newValue);
               var classArr = thisElem.attr('class').split(' ');
-              // console.log(classArr);
               if (newValue == 'L') {
                 thisElem.css({
                   "background-color": "orange",
@@ -272,14 +244,7 @@ $.get(url, function (data) {
         thisColTable.append(empty);
         td.on('change', function (evt, newValue) {
           var thisElem = $(this);
-          // console.log('thisElem');
-          // console.log(thisElem);
-          // console.log('evt');
-          // console.log(evt);
-          // console.log('newValue');
-          // console.log(newValue);
           var classArr = thisElem.attr('class').split(' ');
-          // console.log(classArr);
           if (newValue == 'L') {
             thisElem.css({
               "background-color": "orange",
@@ -327,10 +292,12 @@ $.get(url, function (data) {
 //fc-toolbar click event listener
 $('.fc-next-button, .fc-prev-button, .fc-today-button').click(function () {
   $('td.fc-day').ready(function () {
-    $.get(url, function (data) {
+    $.ajax({
+      method: 'GET',
+      url: url
+    })
 
-      // console.log('data:');
-      // console.log(data);
+    .done(function (data) {
       var storageOfDate = [];
       var appNameObj = {};
       var calendarId = {};
@@ -366,21 +333,7 @@ $('.fc-next-button, .fc-prev-button, .fc-today-button').click(function () {
         .forEach(function (d) {
           appNameObjNew[d[0]] = d[1];
           keys.push(d[0]);
-          console.log('here');
-          console.log(d[1]);
         });
-      console.log(appNameObjNew);
-
-
-      // console.log('\n\ndata_manual:');
-      // console.log(data_manual);
-
-      // console.log('appNameObj:');
-      // console.log(appNameObj);
-      // console.log('calendarId'); //calendarId
-      // console.log(calendarId); //calendarId
-      // console.log('storageOfDate:');
-      // console.log(storageOfDate);
 
       $('.appNameRow').each(function () {
         $(this).remove();
@@ -411,7 +364,6 @@ $('.fc-next-button, .fc-prev-button, .fc-today-button').click(function () {
 
             if (date == dd) {
               if (valueArr[appId]) {
-                // console.log(date + ' ' + appName + " = " + valueArr[appId]);
                 var tr = $('<tr>').css({
                   'height': '21px ',
                   'text-align': 'center'
@@ -446,14 +398,7 @@ $('.fc-next-button, .fc-prev-button, .fc-today-button').click(function () {
                 td.on('change', function (evt, newValue) {
 
                   var thisElem = $(this);
-                  // console.log('thisElem');
-                  // console.log(thisElem);
-                  // console.log('evt');
-                  // console.log(evt);
-                  // console.log('newValue');
-                  // console.log(newValue);
                   var classArr = thisElem.attr('class').split(' ');
-                  // console.log(classArr);
 
                   if (newValue == 'L') {
                     thisElem.css({
@@ -499,14 +444,7 @@ $('.fc-next-button, .fc-prev-button, .fc-today-button').click(function () {
                 thisColTable.append(empty);
                 td1.on('change', function (evt, newValue) {
                   var thisElem = $(this);
-                  // console.log('thisElem');
-                  // console.log(thisElem);
-                  // console.log('evt');
-                  // console.log(evt);
-                  // console.log('newValue');
-                  // console.log(newValue);
                   var classArr = thisElem.attr('class').split(' ');
-                  // console.log(classArr);
                   if (newValue == 'L') {
                     thisElem.css({
                       "background-color": "orange",
@@ -557,14 +495,7 @@ $('.fc-next-button, .fc-prev-button, .fc-today-button').click(function () {
             thisColTable.append(empty);
             td.on('change', function (evt, newValue) {
               var thisElem = $(this);
-              // console.log('thisElem');
-              // console.log(thisElem);
-              // console.log('evt');
-              // console.log(evt);
-              // console.log('newValue');
-              // console.log(newValue);
               var classArr = thisElem.attr('class').split(' ');
-              // console.log(classArr);
               if (newValue == 'L') {
                 thisElem.css({
                   "background-color": "orange",

@@ -19,7 +19,7 @@ angular.module('postmail', [])
   };
 })
 
-.factory('Apps', function ($http) {
+.factory('AppsCIS', function ($http) {
   return {
     get: function () {
       return $http.get('/api/cis/gk/');
@@ -36,9 +36,73 @@ angular.module('postmail', [])
   };
 })
 
-.controller('post', function ($scope, $http, mail, Apps) {
+.factory('AppsEU', function ($http) {
+  return {
+    get: function () {
+      return $http.get('/api/eu/gk/');
+    },
+    getApproved: function () {
+      return $http.get('/api/eu/gk/approved');
+    },
+    getRejected: function () {
+      return $http.get('/api/eu/gk/rejected');
+    },
+    getOutdated: function () {
+      return $http.get('/api/eu/gk/outdated');
+    },
+  };
+})
+
+.factory('AppsSandbox', function ($http) {
+  return {
+    get: function () {
+      return $http.get('/api/sandbox/gk/');
+    },
+    getApproved: function () {
+      return $http.get('/api/sandbox/gk/approved');
+    },
+    getRejected: function () {
+      return $http.get('/api/sandbox/gk/rejected');
+    },
+    getOutdated: function () {
+      return $http.get('/api/sandbox/gk/outdated');
+    },
+  };
+})
+
+.factory('AppsSIA', function ($http) {
+  return {
+    get: function () {
+      return $http.get('/api/sia/gk/');
+    },
+    getApproved: function () {
+      return $http.get('/api/sia/gk/approved');
+    },
+    getRejected: function () {
+      return $http.get('/api/sia/gk/rejected');
+    },
+    getOutdated: function () {
+      return $http.get('/api/sia/gk/outdated');
+    },
+  };
+})
+
+.controller('post', function ($scope, $http, mail, AppsCIS, AppsEU, AppsSIA, AppsSandbox) {
   $scope.tag = [];
   //get all app in work
+  var Apps;
+  var route = window.location.pathname.split('/')[1];
+  if (route === 'cis') {
+    Apps = AppsCIS;
+  } else if (route === 'eu') {
+    Apps = AppsEu;
+  } else if (route === 'sandbox') {
+    Apps = AppsSandbox
+  } else if (route === 'sia') {
+    Apps = AppsSIA;
+  }
+  //TODO: make different message for all region
+
   Apps.get()
 
   .success(function (data) {

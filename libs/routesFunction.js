@@ -68,12 +68,20 @@ function checkPermissionGkEU(req, res, next) {
   checkPermFor(req, res, next, 'root', 'gkEU');
 }
 
+function checkPermissionGkSIA(req, res, next) {
+  checkPermFor(req, res, next, 'root', 'gkSIA');
+}
+
 function checkPermissionCIS(req, res, next) {
   checkPermFor(req, res, next, 'root', 'gkCIS', 'employerCIS');
 }
 
 function checkPermissionEU(req, res, next) {
   checkPermFor(req, res, next, 'root', 'gkEU', 'employerEU');
+}
+
+function checkPermissionSIA(req, res, next) {
+  checkPermFor(req, res, next, 'root', 'gkSIA', 'employerSIA');
 }
 
 function checkPermissionSandbox(req, res, next) {
@@ -95,7 +103,9 @@ exports.alreadyLoginIn = alreadyLoginIn;
 exports.checkPermission = checkPermission;
 exports.checkPermissionCIS = checkPermissionCIS;
 exports.checkPermissionEU = checkPermissionEU;
+exports.checkPermissionSIA = checkPermissionSIA;
 exports.checkPermissionGkCIS = checkPermissionGkCIS;
 exports.checkPermissionGkEU = checkPermissionGkEU;
+exports.checkPermissionGkSIA = checkPermissionGkSIA;
 exports.checkPermissionRoot = checkPermissionRoot;
 exports.checkPermissionSandbox = checkPermissionSandbox;

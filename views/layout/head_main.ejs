@@ -53,19 +53,24 @@
 <!-- factories -->
 <% var route = path.split('/')[1]%>
 <% if(route === 'cis') { %>
-<script src='../js/factories/Apps.js'></script>
-<script src='../js/factories/Testers.js'></script>
-<script src='../js/factories/Calendar.js'></script>
-<script src='../js/factories/TesterCIS.js'></script>
+<script src='../js/factories/CIS/Apps.js'></script>
+<script src='../js/factories/CIS/Testers.js'></script>
+<script src='../js/factories/CIS/Calendar.js'></script>
+<script src='../js/factories/CIS/Tester.js'></script>
 <% } else if(route === 'eu') {%>
-<script src='../js/factories/AppsEu.js'></script>
-<script src='../js/factories/TestersEu.js'></script>
-<script src='../js/factories/CalendarEU.js'></script>
-<script src='../js/factories/TesterEU.js'></script>
+<script src='../js/factories/EU/Apps.js'></script>
+<script src='../js/factories/EU/Testers.js'></script>
+<script src='../js/factories/EU/Calendar.js'></script>
+<script src='../js/factories/EU/Tester.js'></script>
 <% } else if(route === 'global') { %>
-<script src='../js/factories/AppsSandbox.js'></script>
-<script src='../js/factories/TestersSandbox.js'></script>
-<script src='../js/factories/CalendarSandbox.js'></script>
-<script src='../js/factories/TesterSandbox.js'></script>
+<script src='../js/factories/Sandbox/Apps.js'></script>
+<script src='../js/factories/Sandbox/Testers.js'></script>
+<script src='../js/factories/Sandbox/Calendar.js'></script>
+<script src='../js/factories/Sandbox/Tester.js'></script>
+<% } else if(route === 'sia') { %>
+  <script src='../js/factories/SIA/Apps.js'></script>
+<script src='../js/factories/SIA/Testers.js'></script>
+<script src='../js/factories/SIA/Calendar.js'></script>
+<script src='../js/factories/SIA/Tester.js'></script>
 <% } %>
 <!-- templates -->

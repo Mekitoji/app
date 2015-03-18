@@ -4,23 +4,23 @@
   <meta charset="UTF-8">
   <title>Tools - tester control</title>
   <% include layout/head_main %>
-  <link rel="stylesheet" href="../css/testers.css">
   <script src='../../js/controllers/newTesterUser.js'></script>
   <script src='../../js/factories/Users.js'></script>
-  <script src='../../js/factories/addTesterCIS.js'></script>
-  <script src='../../js/factories/addTesterEU.js'></script>
-  <script src='../../js/factories/addTesterSandbox.js'></script>
+  <script src='../../js/factories/CIS/addTester.js'></script>
+  <script src='../../js/factories/EU/addTester.js'></script>
+  <script src='../../js/factories/SIA/addTester.js'></script>
+  <script src='../../js/factories/Sandbox/addTester.js'></script>
 </head>
 <body ng-app='newTester'>
   <% include layout/profile_header %>
   <div class="container">
   <div class='row'>
   <div class="col-sm-10 row">
-    <div class='col-md-4' ng-controller="cisCtrl">
+    <div class='' ng-controller="cisCtrl">
     <a href="/tools/testers/newCIS"><button id='cis-add'>Create New CIS Tester</button></a>
 
     <h3 class='table-header' id="cis-header">CIS Testers</h3>
-    <table id='cisTester' >
+    <table id='cisTester' class = 'table' >
       <tr>
         <th>Tester</th>
         <th>User</th>
@@ -31,11 +31,11 @@
       </tr>
     </table>
     </div>
-    <div class="col-md-4" ng-controller='euCtrl'>
+    <div class="" ng-controller='euCtrl'>
     <a href="/tools/testers/newEU" ><button id='eu-add'>Create New EU Tester</button></a>
     <h3 class='table-header' id="eu-header">EU Testers</h3>
-    <table id='euTester'>
-      <tr>
+    <table id='euTester' class='table'>
+     <tr>
         <th>Tester</th>
         <th>User</th>
       </tr>
@@ -46,10 +46,10 @@
     </table>
     </div>
 
-    <div class="col-md-4" ng-controller='sandboxCtrl'>
+    <div class="" ng-controller='sandboxCtrl'>
     <a href="/tools/testers/newSandbox" ><button id='sandbox-add'>Create New Sandbox Tester</button></a>
     <h3 class='table-header' id="sandbox-header">Sandbox Testers</h3>
-    <table id='sandboxTester'>
+    <table id='sandboxTester' class='table'>
       <tr>
         <th>Tester</th>
         <th>User</th>
@@ -57,6 +57,21 @@
       <tr ng-repeat='dataSandbox in sandboxTesterData'>
         <td>{{dataSandbox.name}}</td>
         <td>{{dataSandbox.user.local.username.first}} {{dataSandbox.user.local.username.last}}</td>
+      </tr>
+    </table>
+    </div>
+
+    <div class="" ng-controller='siaCtrl'>
+    <a href="/tools/testers/newSIA" ><button id='sandbox-add'>Create New SIA Tester</button></a>
+    <h3 class='table-header' id="sia-header">SIA Testers</h3>
+    <table id='siaTester' class='table'>
+      <tr>
+        <th>Tester</th>
+        <th>User</th>
+      </tr>
+      <tr ng-repeat='dataSIA in siaTesterData'>
+        <td>{{dataSIA.name}}</td>
+        <td>{{dataSIA.user.local.username.first}} {{dataSIA.user.local.username.last}}</td>
       </tr>
     </table>
     </div>

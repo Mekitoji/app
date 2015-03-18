@@ -29,6 +29,14 @@ angular.module('project')
       permission = false;
       $scope.perm = false;
     }
+  } else if (locationC === 'sia') {
+    if (userG === 'gkSIA' || userG === 'root') {
+      permission = true;
+      $scope.perm = true;
+    } else {
+      permission = false;
+      $scope.perm = false;
+    }
   }
 
   function sortName(a, b) {

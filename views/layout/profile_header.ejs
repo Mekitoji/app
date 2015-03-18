@@ -16,6 +16,7 @@
             <li><a href="/cis/main">CIS</a></li>
             <li><a href="/eu/main">EU</a></li>
             <li><a href="/global/main">Sandbox</a></li>
+            <li><a href="/sia/main">SIA</a></li>
           </ul>
         </li>
         <li><a href="/tools/users">Users</a></li>
@@ -25,6 +26,8 @@
           <ul class='dropdown-menu'>
             <li><a href="/cis/tester">CIS</a></li>
             <li><a href="/eu/tester">EU</a></li>
+            <li><a href="/Sandbox/tester">Sandbox</a></li>
+            <li><a href="/sia/tester">SIA</a></li>
           </ul>
         </li>
   <% }  else if(user.local.group==='gkEU' || user.local.group==='employerEU') { %>
@@ -36,7 +39,10 @@
   <% } else if (user.local.group==='global') { %>
         <li><a href="/global/main">Workspace</a></li>
         <li><a href="/global/tester">KPI</a></li>
-  <% }%>
+  <% } else if (user.local.group === 'gkSIA'|| user.local.group === 'employerSIA') { %>
+        <li><a href="/sia/main">Workspace</a></li>
+        <li><a href="/sia/tester">KPI</a></li>
+  <% } %>
       </ul>
       
       <ul class="nav navbar-nav navbar-right">

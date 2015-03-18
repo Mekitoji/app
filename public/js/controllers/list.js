@@ -33,6 +33,14 @@ angular.module('project')
       permission = false;
       $scope.perm = false;
     }
+  } else if (locationC === 'sia') {
+    if (userG === 'gkSIA' || userG === 'root') {
+      permission = true;
+      $scope.perm = true;
+    } else {
+      permission = false;
+      $scope.perm = false;
+    }
   }
 
   iTester.get()
@@ -42,7 +50,6 @@ angular.module('project')
     $scope.testersArr = data;
     $scope.testersArr.forEach(function (item, i) {
       $scope.tester.push(item.name);
-      console.log(item.name);
     });
 
     $scope.Options = {
@@ -133,7 +140,6 @@ angular.module('project')
       .success(function (calData) {
         $scope.calendarr = calData;
         var result = {};
-        console.log($scope.calendarr.length);
         for (var k = 0; k < $scope.calendarr.length; k++) {
           var dep = {};
           result[$scope.calendarr[k].appId._id] = {};
@@ -142,12 +148,8 @@ angular.module('project')
             dep[$scope.calendarr[k].storage[v].fullDate] = $scope.calendarr[k].storage[v].value;
 
             result[$scope.calendarr[k].appId._id] = dep;
-            console.log(dep);
-            console.log(result);
           }
         }
-        console.log('result');
-        console.log(result);
 
         for (var i = 0; i < $scope.apps.length; i++) {
           for (var j = 0; j < $scope.calendarr.length; j++) {
@@ -155,11 +157,9 @@ angular.module('project')
 
 
               $scope.apps[i].calendar = result[calData[j].appId._id][getCurrentDate()];
-              console.log(result[calData[j].appId._id][getCurrentDate()]);
             }
           }
         }
-        console.log(result);
       });
 
   });
@@ -178,9 +178,7 @@ angular.module('project')
   };
 
   $scope.$on('ngGridEventStartCellEdit', function (elm) {
-    console.log(elm.targetScope);
     // elm.targetScope.col.cellClass = 'blue';
-    console.log(elm.targetScope.col);
 
   });
 
@@ -195,25 +193,17 @@ angular.module('project')
     if (dd < 10) {
       dd = '0' + dd;
     }
-    console.log(dy + '-' + dm + '-' + dd);
     return dy + '-' + dm + '-' + dd;
   };
 
 
   $scope.$on('ngGridEventEndCellEdit', function (evt) {
-    console.log('evt');
-    console.dir(evt);
-    console.dir(evt.targetScope.row);
-    console.dir(evt.targetScope.row.entity.calendar);
     var currentObj = evt.targetScope.row.entity;
     var displayName = evt.targetScope.col.displayName;
-    console.log(currentObj); //debug
     // the underlying data bound to the row
     // Detect changes and send entity to server
-    console.log(currentObj._id); //debug
     // if this a calendar row, update db
     if (displayName === 'Calendar') {
-      console.log($scope.calData);
       for (var i = 0; i < $scope.calData.length; i++) {
         if ($scope.calData[i].appId._id === currentObj._id) {
           Calendar.update($scope.calData[i]._id, {
