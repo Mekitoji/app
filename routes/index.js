@@ -98,10 +98,10 @@ module.exports = function (app, passport) {
   var apiTesterStatSandbox = require('./api/Sandbox/testerStats')(app); //new
 
   //api Sandbox
-  var apiGkSIA = require('./api/sia/gk')(app);
-  var apiCalendarSIA = require('./api/sia/calendar')(app);
-  var apiTesterSIA = require('./api/sia/tester')(app);
-  var apiTesterStatSIA = require('./api/sia/testerStats')(app); //new
+  var apiGkSIA = require('./api/SIA/gk')(app);
+  var apiCalendarSIA = require('./api/SIA/calendar')(app);
+  var apiTesterSIA = require('./api/SIA/tester')(app);
+  var apiTesterStatSIA = require('./api/SIA/testerStats')(app); //new
 
   //errors
   var unauthorized = require('./errors/401')(app);
