@@ -40,11 +40,11 @@ angular.module('project')
   }
 
   function sortName(a, b) {
-    return a.name.localeCompare(b.name);
+    return a.name.toLowerCase().localeCompare(b.name.toLowerCase());
   }
 
   function sortAppStorage(a, b) {
-    return a.app.appName.localeCompare(b.app.appName);
+    return a.app.appName.toLowerCase().localeCompare(b.app.appName.toLowerCase());
   }
 
   iTester.get()
