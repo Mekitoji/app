@@ -14,7 +14,7 @@ module.exports = function (app) {
         if (err) res.send(err);
         TesterStat.populate(testers, {
           path: 'appStorage.app',
-          model: 'Apps'
+          model: 'AppsEU'
         }, function (err, data) {
           if (err) res.send(err);
           // res.send(data);
