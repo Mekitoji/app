@@ -10,7 +10,18 @@ module.exports = function (app) {
 
   // api ---------------------------------------------------------------------
 
-  //get all
+
+  //get all, raw data
+  app.get('/api/cis/gk/all', function (req, res) {
+    Apps.find(function (err, apps) {
+      if (err) {
+        console.error(err);
+      }
+      res.json(apps);
+    })
+  });
+
+  //get all not approved
   app.get('/api/cis/gk', function (req, res) {
 
     // use mongoose to get all gk in the database
