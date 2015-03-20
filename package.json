@@ -1,6 +1,6 @@
 {
   "name": "gkra",
-  "version": "0.6.0",
+  "version": "0.6.1",
   "private": true,
   "scripts": {
     "start": "node bin/www",
@@ -10,7 +10,7 @@
   "homepage": "https://github.com/Mekitoji/gkra",
   "repository": {
     "type": "git",
-    "url": "git@github.com:Mekitoji/gkra.git"
+    "url": "git@github.com:Mekitoji/gkc.git"
   },
   "dependencies": {
     "MD5": "^1.2.1",
