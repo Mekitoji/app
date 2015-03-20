@@ -37,6 +37,16 @@ if (region == 'cis') {
   } else {
     url = '../api/global/calendar/';
   }
+} else if (region == 'sia') {
+  if (subLoc === 'approved') {
+    url = '../api/sia/calendar/approved';
+  } else if (subLoc === 'rejected') {
+    url = '../api/sia/calendar/rejected';
+  } else if (subLoc === 'outdated') {
+    url = '../api/sia/calendar/outdated';
+  } else {
+    url = '../api/sia/calendar/';
+  }
 }
 
 

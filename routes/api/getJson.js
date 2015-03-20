@@ -209,7 +209,7 @@ module.exports = function (app) {
           }
         })
       });
-    } else if (req.body.region === "Global" && req.body.table_caption === "Gate Keeper Review List") {
+    } else if (req.body.region === "all" && req.body.table_caption === "Gate Keeper Review List") {
 
       var objectX = JSON.parse(req.body.data);
 
@@ -382,6 +382,11 @@ module.exports = function (app) {
           }
         })
       });
+    } else {
+      res.json({
+        "result": false,
+        "data": "Can't find this region."
+      })
     }
   });
 }
