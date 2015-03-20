@@ -10,6 +10,11 @@
 <body ng-controller='post'>
     <% include layout/header %>
     <div class="container-fluid row">
+      <div class = "notice-center">
+        <span>
+          <b>Notice: </b>In case you need custom template or mail list for your region please contact <b>vladimir.egorov@lge.com</b>
+        </span>
+      </div>
       <form ng-submit='submit()'>
         <div class='col-md-offset-1 col-md-5' ><textarea name="changeText" id="writeToWin" cols="80" rows="30" ng-model="previewText"></textarea></div>
         <div class='col-md-5'  ng-bind-html="previewText | unsafe"></div>

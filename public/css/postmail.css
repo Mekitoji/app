@@ -33,3 +33,10 @@ label {
   margin-left: 15px;
   margin-top: 15px;
 }
+
+.notice-center {
+  position: relative;
+  display: block;
+  left:30%;
+  margin-bottom: 20px;
+}
