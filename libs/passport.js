@@ -1,12 +1,9 @@
 // load all the things we need
 var LocalStrategy = require('passport-local').Strategy;
-
 // load up the user model
 var User = require('../models/user');
 
-
 module.exports = function (passport) {
-
   // =========================================================================
   // passport session setup ==================================================
   // =========================================================================
@@ -17,15 +14,12 @@ module.exports = function (passport) {
   passport.serializeUser(function (user, done) {
     done(null, user.id);
   });
-
   // used to deserialize the user
   passport.deserializeUser(function (id, done) {
     User.findById(id, function (err, user) {
       done(err, user);
     });
   });
-
-
   // =========================================================================
   // LOGIN ===================================================================
   // =========================================================================
@@ -39,8 +33,6 @@ module.exports = function (passport) {
       if (email) {
         email = email.toLowerCase(); // Use lower-case e-mails to avoid case-sensitive e-mail matching
       }
-
-      // asynchronous
       process.nextTick(function () {
         User.findOne({
           'local.email': email
@@ -49,24 +41,19 @@ module.exports = function (passport) {
           if (err) {
             return done(err);
           }
-
           // if no user is found, return the message
           if (!user) {
             return done(null, false, req.flash('loginMessage', 'User not found.'));
           }
-
           if (!user.validPassword(password)) {
             return done(null, false, req.flash('loginMessage', 'Oops! Wrong password.'));
           }
-
           // all is well, return user
           else
             return done(null, user);
         });
       });
-
     }));
-
   // =========================================================================
   // SIGNUP ==================================================================
   // =========================================================================
@@ -79,8 +66,6 @@ module.exports = function (passport) {
     function (req, email, password, done) {
       if (email)
         email = email.toLowerCase(); // Use lower-case e-mails to avoid case-sensitive e-mail matching
-
-      // asynchronous
       process.nextTick(function () {
         // if the user is not already logged in:
         if (!req.user) {
@@ -90,28 +75,22 @@ module.exports = function (passport) {
             // if there are any errors, return the error
             if (err)
               return done(err);
-
             // check to see if theres already a user with that email
             if (user) {
               return done(null, false, req.flash('signupMessage', 'That email is already taken.'));
             } else {
-
               // create the user
               var newUser = new User();
-
               newUser.local.email = email;
               newUser.local.username.first = req.body.firstName;
               newUser.local.username.last = req.body.lastName;
               newUser.local.password = newUser.generateHash(password);
-
               newUser.save(function (err) {
                 if (err)
                   throw err;
-
                 return done(null, newUser);
               });
             }
-
           });
           // if the user is logged in but has no local account...
         } else if (!req.user.local.email) {
@@ -128,8 +107,6 @@ module.exports = function (passport) {
           // user is logged in and already has a local account. Ignore signup. (You should log out before trying to create a new account, user!)
           return done(null, req.user);
         }
-
       });
-
     }));
 };

@@ -42,8 +42,3 @@ testerStat.findOne({
 
 
 });
-// if (nm.app.toString() === "54c65be6ac730dcb6b1c682f") {
-//   temp2 = nm;
-//   tester.appStorage.splice(key, 1);
-//   console.log("2")
-// }

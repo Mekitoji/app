@@ -8,11 +8,11 @@ var userSchema = mongoose.Schema({
   local: {
     email: {
       type: String,
-      require: true
+      required: true
     },
     password: {
       type: String,
-      require: true
+      required: true
     },
     group: {
       type: String,
@@ -25,15 +25,18 @@ var userSchema = mongoose.Schema({
     username: {
       first: {
         type: String,
-        require: true
+        required: true
       },
       last: {
         type: String,
-        require: true
+        required: true
       }
     }
   },
-
+  resetPassword: {
+    token: String,
+    ExpiredDate: Date
+  }
 });
 
 // generating a hash
