@@ -28,8 +28,8 @@
   <div class="row">
 
     <!-- LOCAL INFORMATION -->
-    <div class="col-sm-10 row">
-      <div class="well col-md-4">
+    <div class="col-sm-12 row">
+      <div class="well col-md-3">
         <h3><span class="fa fa-user"></span> Account information</h3>
           <p>
             <strong>Id</strong>: <%= user._id %><br>
@@ -40,7 +40,7 @@
           </p>
       </div>
       <% if(user.local.group==='root') { %>
-      <div class="well col-md-4 col-md-offset-1">
+      <div class="well col-md-3 col-md-offset-1">
         <h3><span class="fa fa-gavel"></span> Admin tools</h3>
           <p>
           <a href="/tools/users"><button type="button" class="btn btn-primary btn-block admin-panel">Manage users</button></a>
@@ -48,6 +48,10 @@
           </p>
       </div>
       <% } %>
+      <div class="well col-md-3 col-md-offset-1">
+        <h3><span class="fa fa-cogs"> Menu</span></h3>
+        <a href="/profile/changePassword"><button type="button" class="btn btn-primary btn-block admin-panel">Change password</button></a>
+      </div>
     </div>
 
   </div>

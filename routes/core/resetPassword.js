@@ -1,10 +1,10 @@
-var routeFunction = require('../../libs/routesFunction');
+var routesFunction = require('../../libs/routesFunction');
 var User = require('../../models/user');
 var nodemailer = require('nodemailer');
 var async = require('async');
 
 module.exports = function (app) {
-  app.get('/reset/:token', function (req, res) {
+  app.get('/reset/:token', routesFunction.alreadyLoginIn, function (req, res) {
     User.findOne({
       'resetPassword.token': req.params.token,
       'resetPassword.ExpiredDate': {
@@ -70,7 +70,7 @@ module.exports = function (app) {
             'Password to your account: ' + user.local.email + ', has just been changed.\n'
         };
         transport.sendMail(mailOptions, function (err) {
-          req.flash('success', 'Success! Your password has been changed');
+          req.flash('success', 'Success! Your password has been changed!');
           done(err);
         });
       }

@@ -3,6 +3,7 @@ var async = require('async');
 var nodemailer = require('nodemailer');
 var crypto = require('crypto');
 var User = require('../../models/user');
+
 module.exports = function (app, passport) {
   app.get('/forgotPassword', routesFunction.alreadyLoginIn, function (req, res) {
     res.locals.path = req.path;
