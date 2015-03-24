@@ -4,9 +4,15 @@
 <head>
   <title>Gate Keeper Control</title>
   <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.2/css/bootstrap.min.css"> <!-- load bootstrap css -->
-  <link rel="stylesheet" href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.min.css"> <!-- load fontawesome -->
+  <link rel="stylesheet" href="//netdna.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css"> <!-- load fontawesome -->
   <style>
     body    { padding-top:80px; }
+    #password-recovery {
+      text-decoration: none;
+      display: block;
+      color: #000;
+      font-size: 16px;
+    }
   </style>
 </head>
 <body>
@@ -19,7 +25,7 @@
 
     <a href="/login" class="btn btn-default"><span class="fa fa-user"></span> Login</a>
     <a href="/signup" class="btn btn-default"><span class="fa fa-user"></span> Signup</a>
-    <br><span> <a href="/forgotPassword">Forgot password?</a></span>
+    <br> <a href="/forgotPassword" id = "password-recovery"><span class = "fa fa-wrench"> Forgot your password?</span></a>
   </div>
 
 </div>
