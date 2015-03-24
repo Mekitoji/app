@@ -12,6 +12,10 @@ var log = require('../../libs/log');
 
 
 module.exports = function (app) {
+  app.get('/api/getJson', function (res, res) {
+    res.render('getJson');
+  });
+
   app.post('/api/getJson', function (req, res) {
     console.log(req.body.data);
     console.log(req.body.table_caption);
