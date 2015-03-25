@@ -18,7 +18,7 @@ var checkPassword = function () {
     message.innerHTML = "";
   } else {
     pwRpt.style.backgroundColor = fail;
-    message.innerHTML = "Passwords Do Not Match!";
+    message.innerHTML = "Password Do Not Match!";
   }
 };
 

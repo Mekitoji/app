@@ -78,6 +78,16 @@ module.exports = function (passport) {
             // check to see if theres already a user with that email
             if (user) {
               return done(null, false, req.flash('signupMessage', 'That email is already taken.'));
+            } else if (/[^\w\d.@!#$%&'*+-/=?^_`{|}~]+/gi.test(email) || email.length < 4 || email.length > 254) {
+              return done(null, false, req.flash('signupMessage', 'Please enter valid email.'));
+            } else if (password.length < 6) {
+              return done(null, false, req.flash('signupMessage', 'Password must contain more then 5 symbols'));
+            } else if (/[\/\s\\@$%&*+=-]+/gi.test(password)) {
+              return done(null, false, req.flash('signupMessage', 'Please does not use /\\@$%&*+=- symbols and space in password'));
+            } else if (password !== req.body["repeat-password"]) {
+              return done(null, false, req.flash('signupMessage', 'Password do not match'));
+            } else if (/[^\w]+/gi.test(req.body.firstName) || /[^\w]+/gi.test(req.body.lastName)) {
+              return done(null, false, req.flash('signupMessage', 'Please use only latin letters in name'));
             } else {
               // create the user
               var newUser = new User();

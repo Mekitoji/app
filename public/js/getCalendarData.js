@@ -1,7 +1,4 @@
 // $(document).ready($('.inner-table-appName tbody'));
-
-
-
 var data_manual = {};
 var url;
 
@@ -60,12 +57,14 @@ $.ajax({
   var storageOfDate = [];
   var appNameObj = {};
   var calendarId = {};
+  var appIdMap = {};
   // var test = {};
   //Push data in array
   for (var i = 0; i < data.length; i++) {
 
     calendarId[data[i]._id] = data[i].appId._id;
     appNameObj[data[i].appId._id] = data[i].appId.appName;
+    appIdMap[data[i].appId._id] = data[i].appId.applicationId;
     // storageOfDate.push(data[i].storage);
     var innerStorage = data[i].storage;
 
@@ -78,7 +77,6 @@ $.ajax({
       data_manual[innerStorage[j].fullDate][data[i].appId._id] = innerStorage[j].value;
     }
   }
-
 
 
   var keys = [];
@@ -106,7 +104,13 @@ $.ajax({
     var tr = $('<tr>').addClass('appNameRow').css({
       'height': '23px'
     });
-    $('<td>').html(appName).appendTo(tr);
+    var td = $('<td>').html(appName).appendTo(tr);
+    td.attr('data-toggle', 'popover');
+    td.attr('data-placement', 'bottom');
+    td.attr('data-content', 'Application Id: ' + appIdMap[i]);
+    td.popover({
+      trigger: 'hover'
+    });
     $('.inner-table-appName tbody').append(tr);
   });
 
@@ -311,12 +315,13 @@ $('.fc-next-button, .fc-prev-button, .fc-today-button').click(function () {
       var storageOfDate = [];
       var appNameObj = {};
       var calendarId = {};
-
+      var appIdMap = {};
       // var test = {};
       //Push data in array
       for (var i = 0; i < data.length; i++) {
         calendarId[data[i]._id] = data[i].appId._id;
         appNameObj[data[i].appId._id] = data[i].appId.appName;
+        appIdMap[data[i].appId._id] = data[i].appId.applicationId;
         // storageOfDate.push(data[i].storage);
         var innerStorage = data[i].storage;
 
@@ -355,7 +360,13 @@ $('.fc-next-button, .fc-prev-button, .fc-today-button').click(function () {
         var tr = $('<tr>').addClass('appNameRow').css({
           'height': '23px'
         });
-        $('<td>').html(appName).appendTo(tr);
+        var td = $('<td>').html(appName).appendTo(tr);
+        td.attr('data-toggle', 'popover');
+        td.attr('data-placement', 'bottom');
+        td.attr('data-content', 'Application Id: ' + appIdMap[i]);
+        td.popover({
+          trigger: 'hover'
+        });
         $('.inner-table-appName tbody').append(tr);
 
       });

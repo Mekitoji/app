@@ -35,6 +35,16 @@ if (locationC === 'cis') {
   } else {
     permission = false;
   }
+} else if (locationC === 'global') {
+  if (userG === 'gkSIA' || userG === 'root') {
+    if (subLoc === 'approved') {
+      permission = false;
+    } else {
+      permission = true;
+    }
+  } else {
+    permission = false;
+  }
 }
 
 $(document).ready(function () {
@@ -52,7 +62,7 @@ $(document).ready(function () {
           var storageOfDate = [];
           var appNameObj = {};
           var calendarId = {};
-
+          var appIdMap = {};
           // var test = {};
           //Push data in array
           for (var i = 0; i < data.length; i++) {
@@ -60,6 +70,7 @@ $(document).ready(function () {
             appNameObj[data[i].appId._id] = data[i].appId.appName;
             // storageOfDate.push(data[i].storage);
             var innerStorage = data[i].storage;
+            appIdMap[data[i].appId._id] = data[i].appId.applicationId;
 
             for (j = 0; j < innerStorage.length; j++) {
 
@@ -105,7 +116,9 @@ $(document).ready(function () {
           //create tr for each elem in data array
           $.each(sortedAppNameObj, function (i, appName) {
             var tr = $('<tr>').addClass('appNameRow');
-            $('<td>').html(appName).appendTo(tr).css({
+            $('<td>').html(appName).appendTo(tr).attr('data-toggle', 'popover').attr('data-placement', 'bottom').attr('data-content', 'Application Id: ' + appIdMap[i]).popover({
+              trigger: 'hover'
+            }).css({
               'height': '23px'
             });
             $('.inner-table-appName tbody').append(tr);
