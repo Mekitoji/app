@@ -106,7 +106,7 @@ $.ajax({
     });
     var td = $('<td>').html(appName).appendTo(tr);
     td.attr('data-toggle', 'popover');
-    td.attr('data-placement', 'bottom');
+    td.attr('data-placement', 'top');
     td.attr('data-content', 'Application Id: ' + appIdMap[i]);
     td.popover({
       trigger: 'hover'
@@ -362,7 +362,7 @@ $('.fc-next-button, .fc-prev-button, .fc-today-button').click(function () {
         });
         var td = $('<td>').html(appName).appendTo(tr);
         td.attr('data-toggle', 'popover');
-        td.attr('data-placement', 'bottom');
+        td.attr('data-placement', 'top');
         td.attr('data-content', 'Application Id: ' + appIdMap[i]);
         td.popover({
           trigger: 'hover'

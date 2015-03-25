@@ -116,7 +116,7 @@ $(document).ready(function () {
           //create tr for each elem in data array
           $.each(sortedAppNameObj, function (i, appName) {
             var tr = $('<tr>').addClass('appNameRow');
-            $('<td>').html(appName).appendTo(tr).attr('data-toggle', 'popover').attr('data-placement', 'bottom').attr('data-content', 'Application Id: ' + appIdMap[i]).popover({
+            $('<td>').html(appName).appendTo(tr).attr('data-toggle', 'popover').attr('data-placement', 'top').attr('data-content', 'Application Id: ' + appIdMap[i]).popover({
               trigger: 'hover'
             }).css({
               'height': '23px'
