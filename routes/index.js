@@ -110,4 +110,6 @@ module.exports = function (app, passport) {
   var unauthorized = require('./errors/401')(app);
   var permissionDenied = require('./errors/403')(app);
 
+  //history
+  var history = require('./history/history')(app);
 };
