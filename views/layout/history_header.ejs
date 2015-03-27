@@ -32,15 +32,22 @@
           </li>
           <!-- Calendar -->
           <li class="dropdown">
-          <a  class="dropdown-toggle" data-toggle="dropdown">Calendar <b class="caret"></b></a>
-          <ul class="dropdown-menu">
-            <li><a href="/<%=route%>/rejected#/calendar">In work</a></li>
-            <li><a href="/<%=route%>/approved#/calendar">Approved</a></li>
-            <li><a href="/<%=route%>/outdated#/calendar">Outdated</a></li>
+            <a  class="dropdown-toggle" data-toggle="dropdown">Calendar <b class="caret"></b></a>
+            <ul class="dropdown-menu">
+              <li><a href="/<%=route%>/rejected#/calendar">In work</a></li>
+              <li><a href="/<%=route%>/approved#/calendar">Approved</a></li>
+              <li><a href="/<%=route%>/outdated#/calendar">Outdated</a></li>
+            </ul>
+          </li>
+          <!-- Datepicker dropdown -->
+          <!-- KPI -->
+          <li><a href="/<%=route%>/tester">KPI</a></li>
+          <li  ><a  class="popover-datepicker" data-toggle ='popover' data-content="And here's some amazing content. It's very engaging. Right?">Change</a></li>
           </ul>
-        </li>
-        <!-- KPI -->
-        <li><a href="/<%=route%>/tester">KPI</a></li>
+          <ul class="nav navbar-nav navbar-right">
+          <li><a class="navbar-brand" href="/profile" >
+          <%=' '+ user.local.group %><br></a></li>
+          <li class='active'> <a href="/profile"><%= user.local.username.first+ ' '+user.local.username.last %></a></li>
         </ul>
       </div>
     </div>
