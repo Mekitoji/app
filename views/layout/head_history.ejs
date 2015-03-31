@@ -32,14 +32,10 @@
 <script>
 $(function () {
   $('.popover-datepicker').popover({
-    html:true,
+    html: true,
     placement: 'bottom',
     title: 'Change date',
-    content: "<div>
-      <input type="text" name="day" value="">
-      <input type="text" name="month" value="">
-      <input type="text" name="year" value="">
-    </div>"
+    content: '<input type="text" id="datepicker">',
   });
-})
+});
 </script>

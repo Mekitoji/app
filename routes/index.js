@@ -87,6 +87,7 @@ module.exports = function (app, passport) {
   var apiCalendarCIS = require('./api/CIS/calendar')(app);
   var apiTesterCIS = require('./api/CIS/tester')(app);
   var apiTesterStatCIS = require('./api/CIS/testerStats')(app); //new
+  var apiHistoryCIS = require('./api/CIS/history')(app);
 
   //api EU
   var apiGkEU = require('./api/EU/gk')(app);
