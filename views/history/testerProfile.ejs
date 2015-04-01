@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en" >
+<head>
+  <meta charset="UTF-8">
+  <title><%=tester.name%></title>
+  <script src= "../../../vendor/jquery/dist/jquery.min.js"></script>
+  <link rel="stylesheet" href="../../../vendor/bootstrap/dist/css/bootstrap.min.css">
+  <script src= "../../../vendor/bootstrap/dist/js/bootstrap.min.js"></script>
+  <script>
+  $(function () {
+    $('[data-toggle="popover"]').popover({"html":true, trigger:"hover"})
+  });
+  </script>
+  <style>
+    tr>th {
+      border: 0px !important;
+    }
+    .green {
+      background-color: green !important;
+    }
+  </style>
+</head>
+<body>
+    <% include ../layout/history_header%>
+    <div class="container">
+    <% if(tester.user===null) {%>
+      <%tester.user={};%>
+    <%}%>
+
+  <button type="button" class="btn btn-lg" data-toggle="popover" title="<%= tester.user.local.username.first %> <%= tester.user.local.username.last %>" data-content="<b>TesterId:</b><%=tester._id%><br> <b>User Id:</b>  <%=tester.user._id%><br> <b>Mail:</b>  <%=tester.user.local.email   %> <br> <b>Group:</b>  <%=tester.user.local.group%>"> <%=tester.name%></button>
+
+  <table class="table-hover table">
+    <tr>
+      <th>Application name</th>
+      <th>Review Time</th>
+      <th>Test Cycles</th>
+      <th>Info about app</th>
+    </tr>
+ 
+  </table>
+  </div>
+</body>
+</html>

@@ -1,0 +1,1 @@
+angular.module('history-project', ['ngRoute', 'ngGrid', 'ui.bootstrap']);

@@ -4,7 +4,6 @@ var ObjectId = require('mongoose').Types.ObjectId;
 var User = require('../../models/user');
 var Cal = require('../../models/CIS/calendar');
 var Apps = require('../../models/CIS/gkbase');
-var _ = require('lodash');
 
 //take handler for access
 module.exports = function (app) {

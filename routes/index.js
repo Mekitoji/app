@@ -32,6 +32,11 @@ module.exports = function (app, passport) {
   var testerProfile = require('./CIS/testerViewPage')(app);
   var testerList = require('./CIS/testerList')(app);
 
+  //CIS history
+  // var startPageHistory = require('./CIS/history/startpage');
+  var mainHistory = require('./CIS/history/main')(app);
+  var testerListHistory = require('./CIS/history/testerList')(app);
+
   //EU pages
   var mainEU = require('./EU/main')(app);
   var approvedEU = require('./EU/approved')(app);
@@ -86,8 +91,8 @@ module.exports = function (app, passport) {
   var apiGkCIS = require('./api/CIS/gk')(app);
   var apiCalendarCIS = require('./api/CIS/calendar')(app);
   var apiTesterCIS = require('./api/CIS/tester')(app);
-  var apiTesterStatCIS = require('./api/CIS/testerStats')(app); //new
-  var apiHistoryCIS = require('./api/CIS/history')(app);
+  var apiTesterStatCIS = require('./api/CIS/testerStats')(app);
+  var apiHistoryCIS = require('./api/CIS/history')(app); //new
 
   //api EU
   var apiGkEU = require('./api/EU/gk')(app);
