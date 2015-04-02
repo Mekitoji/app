@@ -2,10 +2,7 @@ angular.module('history-project')
 
 .controller('ListCtrl', function ($scope, $http, History) {
 
-  //Ng-options object Select->Option
-  //watch part with  template
-  $scope.loc = 'Main';
-
+  $scope.loc = window.location.pathname.split('/')[3];
   var permission = false;
   $scope.perm = false;
 
@@ -68,15 +65,14 @@ angular.module('history-project')
   };
 
   //get list of apps
-  History.get()
+  History.getByDate($scope.loc)
 
   .success(function (data) {
     console.log(data);
-    $scope.apps = data[0].apps;
+    $scope.apps = data.apps;
   });
   $scope.getRowIndex = function () {
     var index = this.row.rowIndex;
-    // $scope.gridOptions.selectItem(index, false);
     return index + 1;
   };
 

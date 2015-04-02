@@ -4,6 +4,10 @@ angular.module('history-project')
   return {
     get: function () {
       return $http.get('/api/cis/history/');
+    },
+    getByDate: function (date) {
+      //date format: mm-dd-yyyy or mm-dd-yy (03-31-2015)
+      return $http.get('/api/cis/history/' + date);
     }
   };
 });
