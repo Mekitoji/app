@@ -1,0 +1,35 @@
+
+
+<input type='text' id='datepicker'>
+<div id="navigation">
+  
+</div>
+<div class="container">
+      <h2 class='text-center' ng-bind="loc"></h2>
+  <div class='inner-table-appName'>
+
+    <table class='in-row' id='test'>
+      <thead>
+        <th>Application name</th>
+      </thead>
+      <tbody>
+
+      </tbody>
+    </table>
+  </div>
+
+  <div id='calendar'></div>
+</div>
+
+    <link rel="stylesheet" href="../../../css/calendar.css">
+    <script src='../../../js/calendar.js'></script>
+    <script src='../../../js/getCalendarData-history.js'></script>
+    <script src='../../../js/datepicker-history.js'></script>
+    <script>
+    $(function () {
+      $('[data-toggle="popover"]').popover({
+        "html": true,
+        trigger: "hover"
+      })
+    });
+    </script>

@@ -14,7 +14,6 @@ module.exports = function (app) {
       if (err) {
         res.send(err);
       }
-      // console.log(app);
       Cal.populate(app, {
         path: 'appId'
       }, function (err, data) {
@@ -50,7 +49,6 @@ module.exports = function (app) {
         }
       }
       rejectedApp = rejected; // return all users in JSON format
-      // log.info(new Date() + '  - GET /API/CIS/GK/REJECTED');
     });
 
     Cal.find(function (err, app) {
@@ -63,39 +61,22 @@ module.exports = function (app) {
         var result = [];
         var dataMap;
         if (rejectedApp[0] !== undefined) {
-          console.log('here');
           for (var j = 0; j < rejectedApp.length; j++) {
             dataMap = data.map(function (dat) {
               return dat;
             });
-            // console.log(dataMap);
             for (var i = dataMap.length - 1; i >= 0; i--) {
-              // if (dataMap[i].appId === null) {
-              //   Cal.remove({
-              //     _id: dataMap[i]._id
-              //   }, function (err) {
-              //     if (err) throw err
-              //   });
-              // }
               if (dataMap[i].appId._id !== undefined) {
-                // console.log(dataMap[i].appId._id.toString());
-                // console.log(rejectedApp[j]._id.toString());
-                // console.log(dataMap[i].appId._id.toString() !== rejectedApp[j]._id.toString());
                 if (dataMap[i].appId._id.toString() !== rejectedApp[j]._id.toString()) {
                   dataMap.splice(i, 1);
-                  // console.log(i);
                 }
               }
             }
             result = result.concat(dataMap);
-            // console.log(data);
           }
-          // console.log('final data');
-          // console.log(result);
         } else {
           data.splice(0, data.length);
         }
-        // console.log(result);
         res.json(result);
       });
     });
@@ -121,41 +102,28 @@ module.exports = function (app) {
         if (err) {
           res.send(err);
         }
-        // console.log(app);
         Cal.populate(app, {
           path: 'appId'
         }, function (err, data) {
-          // console.log('outdatedApp');
-          // console.log(outdatedApp);
           var result = [];
           var dataMap;
           if (outdatedApp[0] !== undefined) {
-            // console.log('here');
             for (var j = 0; j < outdatedApp.length; j++) {
               dataMap = data.map(function (dat) {
                 return dat;
               });
-              // console.log(dataMap);
               for (var i = dataMap.length - 1; i >= 0; i--) {
                 if (dataMap[i].appId._id !== undefined) {
-                  // console.log(dataMap[i].appId._id.toString());
-                  // console.log(outdatedApp[j]._id.toString());
-                  // console.log(dataMap[i].appId._id.toString() !== outdatedApp[j]._id.toString());
                   if (dataMap[i].appId._id.toString() !== outdatedApp[j]._id.toString()) {
                     dataMap.splice(i, 1);
-                    // console.log(i);
                   }
                 }
               }
               result = result.concat(dataMap);
-              console.log(data);
             }
-            // console.log('final data');
-            // console.log(result);
           } else {
             data.splice(0, data.length);
           }
-          // console.log(result);
           res.json(result);
         });
       });
@@ -208,7 +176,6 @@ module.exports = function (app) {
 
 
       var findTesterAndPush = function (appId, valueObj) {
-        console.log("appId - %s, valueObj - ", appId, valueObj);
         //make request to db, and get obj with current app info 
         Apps.findById(appId, function (err, app) {
           if (err) {
@@ -216,7 +183,6 @@ module.exports = function (app) {
             res.send(500, err);
           } else {
             //else go  work with data(app)
-            console.log("App data  - %o", app);
             //then make request to testerStat collection
             TesterStat.findOne({
               name: app.resp
@@ -227,8 +193,6 @@ module.exports = function (app) {
               } else {
                 //find index of appStorage with lodash
                 var index = _.findIndex(tester.appStorage, function (data) {
-                  console.log(data.app);
-                  console.log(appId);
                   //return value if data.app (id) === to appId of inserting data
                   return data.app.toString() === appId.toString();
                 });
@@ -246,8 +210,6 @@ module.exports = function (app) {
                   if (tester.appStorage[index] && valueObj) {
                     //find if date is match
                     var indexForDate = _.findIndex(tester.appStorage[index].respStorage, function (data) {
-                      console.log(data);
-                      console.log(valueObj);
                       //if date is match return value else return -1
                       return data.fullDate.toString() === valueObj.fullDate.toString();
                     });
@@ -274,7 +236,6 @@ module.exports = function (app) {
 
                     } else {
                       //start handle 1.
-                      console.log("handle 1. %o", tester.appStorage[index].respStorage);
                       tester.appStorage[index].respStorage.push(valueObj);
                       for (var i = 0; i < tester.appStorage[index].respStorage.length; i++) {
                         if (tester.appStorage[index].respStorage[i].value === 'L' || tester.appStorage[index].respStorage[i].value === 'LL') {
@@ -312,8 +273,6 @@ module.exports = function (app) {
                   //init array with objectData we get already pushed
                   var respArray = [];
                   respArray.push(valueObj);
-                  console.log("respArray - ", respArray);
-                  console.log("%o", valueObj);
                   //let push new obj in our appStorage
                   if (valueObj.value === "L" || valueObj.value === "LL") {
                     tester.appStorage.push({
@@ -355,10 +314,7 @@ module.exports = function (app) {
       for (var i = 0; i < cal.storage.length; i++) {
         if (cal.storage[i].fullDate == req.body.fullDate) {
           cal.storage[i].value = req.body.value;
-          // console.log('rewrite');
-          // console.log(cal.appId);
           coutReplyTime(cal.appId, cal.storage);
-          console.log(cal);
           findTesterAndPush(cal.appId, {
             fullDate: req.body.fullDate,
             value: req.body.value
@@ -372,10 +328,7 @@ module.exports = function (app) {
           fullDate: req.body.fullDate,
           value: req.body.value
         });
-        // console.log('push in new app');
-        // console.log(cal.appId);
         coutReplyTime(cal.appId, cal.storage);
-        console.log(cal);
         findTesterAndPush(cal.appId, {
           fullDate: req.body.fullDate,
           value: req.body.value
@@ -384,17 +337,11 @@ module.exports = function (app) {
         return false;
       } else {
         if (cal.storage[cal.storage.length - 1].fullDate !== req.body.fullDate) {
-          // console.log(cal.storage.length);
-          // console.log(cal.storage[cal.storage.length - 1].fullDate);
-          // console.log(req.body.fullDate);
           cal.storage.push({
             fullDate: req.body.fullDate,
             value: req.body.value
           });
-          // console.log('push new');
-          // console.log(cal.appId);
           coutReplyTime(cal.appId, cal.storage);
-          console.log(cal);
           findTesterAndPush(cal.appId, {
             fullDate: req.body.fullDate,
             value: req.body.value

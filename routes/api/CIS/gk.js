@@ -34,10 +34,7 @@ module.exports = function (app) {
       for (var i = 0; i < app.length; i++) {
         if (app[i].tv !== "Approved" && app[i].tv !== "Partial") {
           rejectedAndOutdated.push(app[i]);
-          console.log(app[i].tv);
-        } else {
-          console.log(app[i].appName);
-        }
+        } else {}
       }
       res.json(rejectedAndOutdated); // return all users in JSON format
       log.info(new Date() + '  - GET /API/CIS/GK');
@@ -209,9 +206,7 @@ module.exports = function (app) {
       //for apps
       Apps.findById(id, function (err, data) {
         if (err) res.send(err);
-        console.log("data - %o", data);
         data.applicationId = data.applicationId + "/private/" + Math.random().toString().slice(2);
-        console.log("New app id i %s", data.applicationId);
         if (req.body.tv === 'Approved') {
           data.tv = 'Approved';
           data.currentStatus = 'Approved';
@@ -223,7 +218,6 @@ module.exports = function (app) {
         }
         ApprovedApps.create(data, function (err, apps) {
           if (err) res.send(err);
-          console.log(apps);
           //check if it approved for all device or not
           if (req.body.tv === 'Approved') {
             apps.tv = 'Approved';
@@ -300,7 +294,6 @@ module.exports = function (app) {
       }
 
       //check and change with preload Status
-      // console.log(req.body);
       if (req.body.currentStatus) {
         app.currentStatus = req.body.currentStatus;
         if (req.body.currentStatus === 'Waiting for fix' || req.body.currentStatus === 'Approved') {

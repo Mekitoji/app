@@ -24,7 +24,7 @@ module.exports = function (app) {
       date: date
     });
   });
-  
+
   app.get('/cis/history/:date/rejected', routesFunction.checkPermissionGkCIS, function (req, res) {
     var date = req.params.date;
     //date = mm-dd-yy
@@ -36,7 +36,7 @@ module.exports = function (app) {
       date: date
     });
   });
-  
+
   app.get('/cis/history/:date/outdated', routesFunction.checkPermissionGkCIS, function (req, res) {
     var date = req.params.date;
     //date = mm-dd-yy

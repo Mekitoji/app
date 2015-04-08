@@ -42,7 +42,14 @@
 <% var route = path.split('/')[1]%>
 <% if(route === 'cis') { %>
   <script src='../../../js/factories/CIS/History.js'></script>
-<% } %>
+<% } else if(route ==='eu') { %>
+  <script src='../../../js/factories/EU/History.js'></script>
+<% } else if (route ==='sia'){ %>
+  <script src='../../../js/factories/SIA/History.js'></script>
+<% } else if (route === "global"){ %>
+  <script src='../../../js/factories/Sandbox/History.js'></script>
+<% }%>
+
 
 <style>
   h2.title {
