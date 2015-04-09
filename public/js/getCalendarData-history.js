@@ -2,47 +2,51 @@
 var data_manual = {};
 var url;
 
-var region = document.URL.split('/')[3];
-var subLoc = document.URL.split('/')[4].slice(0, -1);
+var region = document.location.pathname.split('/')[1];
+var subLoc = document.location.pathname.split('/')[4];
+var historyDate = document.URL.split('/')[5];
+console.log(region);
+console.log(subLoc);
+console.log(historyDate);
 if (region == 'cis') {
   if (subLoc === 'approved') {
-    url = '../api/cis/calendar/approved';
+    url = '../../../api/cis/history/' + historyDate;
   } else if (subLoc === 'rejected') {
-    url = '../api/cis/calendar/rejected';
+    url = '../../../api/cis/history/' + historyDate + '/rejected';
   } else if (subLoc === 'outdated') {
-    url = '../api/cis/calendar/outdated';
+    url = '../../../api/cis/history/' + historyDate + '/outdated';
   } else {
-    url = '../api/cis/calendar/';
+    url = '../../../api/cis/history/' + historyDate;
   }
 } else if (region == 'eu') {
   if (subLoc === 'approved') {
-    url = '../api/eu/calendar/approved';
+    url = '../../../api/eu/history/' + historyDate;
   } else if (subLoc === 'rejected') {
-    url = '../api/eu/calendar/rejected';
+    url = '../../../api/eu/history/' + historyDate + '/rejected';
   } else if (subLoc === 'outdated') {
-    url = '../api/eu/calendar/outdated';
+    url = '../../../api/eu/history/' + historyDate + '/outdated';
   } else {
-    url = '../api/eu/calendar/';
+    url = '../../../api/eu/history/' + historyDate;
   }
 } else if (region == 'global') {
   if (subLoc === 'approved') {
-    url = '../api/global/calendar/approved';
+    url = '../../../api/global/history/' + historyDate;
   } else if (subLoc === 'rejected') {
-    url = '../api/global/calendar/rejected';
+    url = '../../../api/global/history/' + historyDate + '/rejected';
   } else if (subLoc === 'outdated') {
-    url = '../api/global/calendar/outdated';
+    url = '../../../api/global/history/' + historyDate + '/outdated';
   } else {
-    url = '../api/global/calendar/';
+    url = '../../../api/global/history/' + historyDate;
   }
 } else if (region == 'sia') {
   if (subLoc === 'approved') {
-    url = '../api/sia/calendar/approved';
+    url = '../../../api/sia/history/' + historyDate;
   } else if (subLoc === 'rejected') {
-    url = '../api/sia/calendar/rejected';
+    url = '../../../api/sia/history/' + historyDate + '/rejected';
   } else if (subLoc === 'outdated') {
-    url = '../api/sia/calendar/outdated';
+    url = '../../../api/sia/history/' + historyDate + '/outdated';
   } else {
-    url = '../api/sia/calendar/';
+    url = '../../../api/sia/history/' + historyDate;
   }
 }
 
@@ -53,7 +57,12 @@ $.ajax({
   method: 'GET',
   url: url
 }).done(function (data) {
-
+  var lo = document.location.pathname.split('/')[4];
+  if (lo === "approved") {
+    data = data.approvedCalendar;
+  } else {
+    data = data.calendar;
+  }
   var storageOfDate = [];
   var appNameObj = {};
   var calendarId = {};
@@ -61,20 +70,21 @@ $.ajax({
   // var test = {};
   //Push data in array
   for (var i = 0; i < data.length; i++) {
+    if (data[i] !== null) {
+      calendarId[data[i]._id] = data[i].appId._id;
+      appNameObj[data[i].appId._id] = data[i].appId.appName;
+      appIdMap[data[i].appId._id] = data[i].appId.applicationId;
+      // storageOfDate.push(data[i].storage);
+      var innerStorage = data[i].storage;
 
-    calendarId[data[i]._id] = data[i].appId._id;
-    appNameObj[data[i].appId._id] = data[i].appId.appName;
-    appIdMap[data[i].appId._id] = data[i].appId.applicationId;
-    // storageOfDate.push(data[i].storage);
-    var innerStorage = data[i].storage;
+      for (j = 0; j < innerStorage.length; j++) {
 
-    for (j = 0; j < innerStorage.length; j++) {
+        if (!data_manual[innerStorage[j].fullDate]) {
+          data_manual[innerStorage[j].fullDate] = {};
+        }
 
-      if (!data_manual[innerStorage[j].fullDate]) {
-        data_manual[innerStorage[j].fullDate] = {};
+        data_manual[innerStorage[j].fullDate][data[i].appId._id] = innerStorage[j].value;
       }
-
-      data_manual[innerStorage[j].fullDate][data[i].appId._id] = innerStorage[j].value;
     }
   }
 
@@ -293,11 +303,6 @@ $.ajax({
       });
     }
     $('.fc-day-grid').off();
-    if (permission) {
-      table.editableTableWidget({
-        editor: $('<select><option value=\'H\' style="background-color:#B19CD9">H</option><option value=\'D\' style="background-color:green">D</option><option value=\'L\' style="background-color:orange">L</option><option value=\'LL\' style="background-color:orange"></option></select>')
-      });
-    }
   });
   $('.fc-content-skeleton').remove();
 });
@@ -312,6 +317,12 @@ $('.fc-next-button, .fc-prev-button, .fc-today-button').click(function () {
     })
 
     .done(function (data) {
+      var lo = document.location.pathname.split('/')[4];
+      if (lo === "approved") {
+        data = data.approvedCalendar;
+      } else {
+        data = data.calendar;
+      }
       var storageOfDate = [];
       var appNameObj = {};
       var calendarId = {};
@@ -319,19 +330,21 @@ $('.fc-next-button, .fc-prev-button, .fc-today-button').click(function () {
       // var test = {};
       //Push data in array
       for (var i = 0; i < data.length; i++) {
-        calendarId[data[i]._id] = data[i].appId._id;
-        appNameObj[data[i].appId._id] = data[i].appId.appName;
-        appIdMap[data[i].appId._id] = data[i].appId.applicationId;
-        // storageOfDate.push(data[i].storage);
-        var innerStorage = data[i].storage;
+        if (data[i] !== null) {
+          calendarId[data[i]._id] = data[i].appId._id;
+          appNameObj[data[i].appId._id] = data[i].appId.appName;
+          appIdMap[data[i].appId._id] = data[i].appId.applicationId;
+          // storageOfDate.push(data[i].storage);
+          var innerStorage = data[i].storage;
 
-        for (j = 0; j < innerStorage.length; j++) {
+          for (j = 0; j < innerStorage.length; j++) {
 
-          if (!data_manual[innerStorage[j].fullDate]) {
-            data_manual[innerStorage[j].fullDate] = {};
+            if (!data_manual[innerStorage[j].fullDate]) {
+              data_manual[innerStorage[j].fullDate] = {};
+            }
+
+            data_manual[innerStorage[j].fullDate][data[i].appId._id] = innerStorage[j].value;
           }
-
-          data_manual[innerStorage[j].fullDate][data[i].appId._id] = innerStorage[j].value;
         }
       }
       var keys = [];
@@ -551,11 +564,6 @@ $('.fc-next-button, .fc-prev-button, .fc-today-button').click(function () {
           });
         }
         $('.fc-day-grid').off();
-        if (permission) {
-          table.editableTableWidget({
-            editor: $('<select><option value=\'H\' style="background-color:#B19CD9">H</option><option value=\'D\' style="background-color:green">D</option><option value=\'L\' style="background-color:orange">L</option><option value=\'LL\' style="background-color:orange"></option></select>')
-          });
-        }
       });
       $('.fc-content-skeleton').remove();
     });

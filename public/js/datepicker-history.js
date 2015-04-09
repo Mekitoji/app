@@ -1,9 +1,5 @@
-var permission;
-// take permission right from server
-var permission;
 var locationC = document.URL.split('/')[3];
 var subLoc = document.URL.split('/')[4].slice(0, -1);
-// take permission right from server
 
 $(document).ready(function () {
   $('#datepicker').datepicker({
@@ -17,6 +13,12 @@ $(document).ready(function () {
           $('.appNameRow').remove();
           // console.log('data:');
           // console.log(data);
+          var lo = document.location.pathname.split('/')[4];
+          if (lo === "approved") {
+            data = data.approvedCalendar;
+          } else {
+            data = data.calendar;
+          }
           var storageOfDate = [];
           var appNameObj = {};
           var calendarId = {};
@@ -24,19 +26,21 @@ $(document).ready(function () {
           // var test = {};
           //Push data in array
           for (var i = 0; i < data.length; i++) {
-            calendarId[data[i]._id] = data[i].appId._id;
-            appNameObj[data[i].appId._id] = data[i].appId.appName;
-            // storageOfDate.push(data[i].storage);
-            var innerStorage = data[i].storage;
-            appIdMap[data[i].appId._id] = data[i].appId.applicationId;
+            if (data[i] !== null) {
+              calendarId[data[i]._id] = data[i].appId._id;
+              appNameObj[data[i].appId._id] = data[i].appId.appName;
+              // storageOfDate.push(data[i].storage);
+              var innerStorage = data[i].storage;
+              appIdMap[data[i].appId._id] = data[i].appId.applicationId;
 
-            for (j = 0; j < innerStorage.length; j++) {
+              for (j = 0; j < innerStorage.length; j++) {
 
-              if (!data_manual[innerStorage[j].fullDate]) {
-                data_manual[innerStorage[j].fullDate] = {};
+                if (!data_manual[innerStorage[j].fullDate]) {
+                  data_manual[innerStorage[j].fullDate] = {};
+                }
+
+                data_manual[innerStorage[j].fullDate][data[i].appId._id] = innerStorage[j].value;
               }
-
-              data_manual[innerStorage[j].fullDate][data[i].appId._id] = innerStorage[j].value;
             }
           }
           var keys = [];
@@ -281,11 +285,6 @@ $(document).ready(function () {
               });
             }
             $('.fc-day-grid').off();
-            if (permission) {
-              table.editableTableWidget({
-                editor: $('<select><option value=\'H\' style="background-color:#B19CD9">H</option><option value=\'D\' style="background-color:green">D</option><option value=\'L\' style="background-color:orange">L</option><option value=\'LL\' style="background-color:orange"></option></select>')
-              });
-            }
           });
           $('.fc-content-skeleton').remove();
         });
