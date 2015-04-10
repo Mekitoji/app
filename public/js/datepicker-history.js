@@ -11,8 +11,6 @@ $(document).ready(function () {
         $.get(url, function (data) {
           $('.column-table').remove();
           $('.appNameRow').remove();
-          // console.log('data:');
-          // console.log(data);
           var lo = document.location.pathname.split('/')[4];
           if (lo === "approved") {
             data = data.approvedCalendar;
@@ -57,20 +55,7 @@ $(document).ready(function () {
             .forEach(function (d) {
               sortedAppNameObj[d[0]] = d[1];
               keys.push(d[0]);
-              console.log('here');
-              console.log(d[1]);
             });
-          console.log(sortedAppNameObj);
-          // console.log('\n\ndata_manual:');
-          // console.log(data_manual);
-
-          // console.log('appNameObj:');
-          // console.log(appNameObj);
-          // console.log('calendarId'); //calendarId
-          // console.log(calendarId); //calendarId
-          // console.log('storageOfDate:');
-          // console.log(storageOfDate);
-
           $('.appNameRow').each(function () {
             $(this).remove();
           });
@@ -99,7 +84,6 @@ $(document).ready(function () {
               $.each(sortedAppNameObj, function (appId, appName) {
                 if (date == dd) {
                   if (valueArr[appId]) {
-                    // console.log(date + ' ' + appName + " = " + valueArr[appId]);
                     var tr = $('<tr>').css({
                       'height': '23px ',
                       'text-align': 'center'
@@ -134,15 +118,7 @@ $(document).ready(function () {
                     td.on('change', function (evt, newValue) {
 
                       var thisElem = $(this);
-                      console.log('thisElem');
-                      console.log(thisElem);
-                      console.log('evt');
-                      console.log(evt);
-                      console.log('newValue');
-                      console.log(newValue);
                       var classArr = thisElem.attr('class').split(' ');
-                      console.log(classArr);
-
                       if (newValue == 'L') {
                         thisElem.css({
                           "background-color": "orange",
@@ -187,14 +163,7 @@ $(document).ready(function () {
                     thisColTable.append(empty);
                     td1.on('change', function (evt, newValue) {
                       var thisElem = $(this);
-                      console.log('thisElem');
-                      console.log(thisElem);
-                      console.log('evt');
-                      console.log(evt);
-                      console.log('newValue');
-                      console.log(newValue);
                       var classArr = thisElem.attr('class').split(' ');
-                      console.log(classArr);
                       if (newValue == 'L') {
                         thisElem.css({
                           "background-color": "orange",
@@ -244,14 +213,7 @@ $(document).ready(function () {
                 thisColTable.append(empty);
                 td.on('change', function (evt, newValue) {
                   var thisElem = $(this);
-                  console.log('thisElem');
-                  console.log(thisElem);
-                  console.log('evt');
-                  console.log(evt);
-                  console.log('newValue');
-                  console.log(newValue);
                   var classArr = thisElem.attr('class').split(' ');
-                  console.log(classArr);
                   if (newValue == 'L') {
                     thisElem.css({
                       "background-color": "orange",

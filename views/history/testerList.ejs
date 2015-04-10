@@ -22,6 +22,51 @@
         <th>Review Time</th>
         <th>Test Cycle</th>
       </tr>
+      <% var total={} %>
+      <% for(var i=0;i<testers.length;i++) { %>
+      <% if(testers[i].user===null) {%>
+        <% testers[i].user={};%>
+      <% } %>
+      <% total={respTime:0,testCycles:0,countResp:0,countCycle:0} %>
+      <% for(var j =0;j<testers[i].appStorage.length;j++) { %>
+        <% if(testers[i].appStorage[j].app===null) {%>
+          <%testers[i].appStorage[j].app={};%>
+        <%}%>
+        <% if(testers[i].appStorage[j].respTime !== 0) { %>
+          <% total.countResp++; %>
+          <%total.respTime+=testers[i].appStorage[j].respTime%>
+        <% } else { %>
+          <% testers[i].appStorage[j].respTime = "N/A"; %>
+        <% } %>
+        <% if(testers[i].appStorage[j].app.tv==='Approved' || testers[i].appStorage[j].app.tv==='Partial') { %>
+          <% total.testCycles+=testers[i].appStorage[j].testCycle %>
+          <% total.countCycle++ %>
+        <% } %>
+      <% } %>
+      <% total.respTime = total.respTime/total.countResp %>
+      <% total.testCycles = total.testCycles/total.countCycle %>
+      <% if(!isNaN(total.respTime)) { %>
+
+      <% } %>
+        <tr>
+          <td><a href="/<%=path.split('/')[1]%>/history/<%=date%>/tester/<%= testers[i]._id%>"><%= testers[i].name %> </a></td>
+          <% if(testers[i].user.local.username.first) { %>
+            <td><%= testers[i].user.local.username.first%> <%= testers[i].user.local.username.last %></td>
+          <%} else {%>
+              <td></td>
+          <% } %>
+          <% if(!isNaN(total.respTime)) { %>
+            <td><%= total.respTime.toFixed(2)%></td>
+          <% } else { %>
+            <td>N/A</td>
+          <% } %>
+          <% if(!isNaN(total.testCycles)) { %>
+            <td><%= total.testCycles.toFixed(2)%></td> 
+          <% } else { %>
+            <td>N/A</td>
+          <% } %>
+        </tr>
+      <% } %>
     </table>
   </div>
 </body>
