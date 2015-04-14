@@ -50,3 +50,8 @@ td.fc-widget-content {
 .fc table {
   border-collapse: separate;
 }
+
+.stop {
+  display: block;
+  width: 1200px;
+}
