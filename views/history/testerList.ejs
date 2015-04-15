@@ -10,33 +10,6 @@
   </style>
   <% include ../layout/head_history %>
 
-<style>
-  h2.title {
-    text-align: center;
-  }
-
-  #ppdatepicker {
-    visibility:hidden; 
-    width:1px;
-    position:absolute;
-    top:5px;
-  }
-</style>
-
-<script>
-  $(document).ready(function () {
-    $("#ppdatepicker").datepicker({
-      onSelect: function(dateText, inst){
-        console.log(dateText);
-        console.log(inst);
-      }
-    });
-    $('#pdatepicker').click(function(){
-      $('#ppdatepicker').datepicker("show");
-    });
-  });
-</script>
-
 </head>
 <body>
   <% include ../layout/history_header %>
@@ -76,7 +49,7 @@
       <% } %>
         <tr>
           <td><a href="/<%=path.split('/')[1]%>/history/<%=date%>/tester/<%= testers[i]._id%>"><%= testers[i].name %> </a></td>
-          <% if(testers[i].user!==null && testers[i].user.local!==null && testers[i].user.local.username.first) { %>
+          <% if(testers[i].user.local!==undefined && testers[i].user.local.username.first) { %>
             <td><%= testers[i].user.local.username.first%> <%= testers[i].user.local.username.last %></td>
           <%} else {%>
               <td></td>

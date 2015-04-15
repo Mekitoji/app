@@ -58,10 +58,8 @@
 <body>
     <% include ../layout/history_header%>
     <div class="container">
-    <% if(tester.user===null) {%>
-      <%tester.user={};%>
-    <%}%>
-  <% if(testers[i].user!==null && testers[i].user.local!==null) { %>
+
+  <% if(testers[i].user===null) { %>
   <button type="button" class="btn btn-lg" data-toggle="popover" title="<%= tester.user.local.username.first %> <%= tester.user.local.username.last %>" data-content="<b>TesterId:</b><%=tester._id%><br> <b>User Id:</b>  <%=tester.user._id%><br> <b>Mail:</b>  <%=tester.user.local.email   %> <br> <b>Group:</b>  <%=tester.user.local.group%>"> <%=tester.name%></button>
   <% }  else  { %>
     <button type="button" class="btn btn-lg">
