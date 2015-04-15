@@ -61,7 +61,7 @@ $.ajax({
   // var test = {};
   //Push data in array
   for (var i = 0; i < data.length; i++) {
-    if (data[i] !== null) {
+    if (data[i] !== null && data[i].appId !== null) {
 
       calendarId[data[i]._id] = data[i].appId._id;
       appNameObj[data[i].appId._id] = data[i].appId.appName;
