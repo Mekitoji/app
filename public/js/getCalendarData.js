@@ -61,20 +61,22 @@ $.ajax({
   // var test = {};
   //Push data in array
   for (var i = 0; i < data.length; i++) {
+    if (data[i] !== null) {
 
-    calendarId[data[i]._id] = data[i].appId._id;
-    appNameObj[data[i].appId._id] = data[i].appId.appName;
-    appIdMap[data[i].appId._id] = data[i].appId.applicationId;
-    // storageOfDate.push(data[i].storage);
-    var innerStorage = data[i].storage;
+      calendarId[data[i]._id] = data[i].appId._id;
+      appNameObj[data[i].appId._id] = data[i].appId.appName;
+      appIdMap[data[i].appId._id] = data[i].appId.applicationId;
+      // storageOfDate.push(data[i].storage);
+      var innerStorage = data[i].storage;
 
-    for (j = 0; j < innerStorage.length; j++) {
+      for (j = 0; j < innerStorage.length; j++) {
 
-      if (!data_manual[innerStorage[j].fullDate]) {
-        data_manual[innerStorage[j].fullDate] = {};
+        if (!data_manual[innerStorage[j].fullDate]) {
+          data_manual[innerStorage[j].fullDate] = {};
+        }
+
+        data_manual[innerStorage[j].fullDate][data[i].appId._id] = innerStorage[j].value;
       }
-
-      data_manual[innerStorage[j].fullDate][data[i].appId._id] = innerStorage[j].value;
     }
   }
 
