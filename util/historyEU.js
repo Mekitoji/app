@@ -1,9 +1,9 @@
-var historyCIS = require('../models/CIS/history');
-var Apps = require('../models/CIS/gkbase');
-var ApprovedApps = require('../models/CIS/gkbaseApproved');
-var Calendar = require('../models/CIS/calendar');
-var ApprovedCalendar = require('../models/CIS/calendarForApprovedApps');
-var testerStat = require('../models/CIS/testerStat');
+var history = require('../models/EU/history');
+var Apps = require('../models/EU/gkbase');
+var ApprovedApps = require('../models/EU/gkbaseApproved');
+var Calendar = require('../models/EU/calendar');
+var ApprovedCalendar = require('../models/EU/calendarForApprovedApps');
+var testerStat = require('../models/EU/testerStat');
 var async = require('async');
 
 var temp = {};
@@ -58,7 +58,7 @@ async.waterfall([
   }
 ], function (err, result) {
   if (err) throw err;
-  historyCIS.create({
+  history.create({
     apps: temp.apps,
     calendar: temp.calendar,
     approvedApps: temp.approvedApps,
