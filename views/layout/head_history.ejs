@@ -55,55 +55,32 @@
   h2.title {
     text-align: center;
   }
-  .box {
-    padding:20px;
-    text-align:center
-  }
-  .calendar-open {
-      margin-left:-130px;
-  }
-  .popover-content {
-      padding:0;
+
+  #ppdatepicker {
+    visibility:hidden; 
+    width:1px;
+    position:absolute;
+    top:5px;
   }
 </style>
 
 <script>
-$(document).ready(function () {
-  var tmp = $.fn.popover.Constructor.prototype.show;
-  $.fn.popover.Constructor.prototype.show = function () {
-      tmp.call(this);
-      if (this.options.callback) {
-          this.options.callback();
+  $(document).ready(function () {
+    $("#ppdatepicker").datepicker({
+      onSelect: function(dateText, inst){
+        var date = new Date(dateText);
+        var day = date.getDate();
+        var month = date.getMonth()+1;
+        var year = date.getFullYear();
+        var xx = month+ "-"+ day + "-" +year;
+        var currentLoc = window.location.pathname;
+        var tempArray= currentLoc.split("/");
+        tempArray[3] = xx;
+        window.location.pathname = tempArray.join("/");
       }
-  }
-  $('.popover-calendar').popover({
-      html: true,
-      placement: 'bottom',
-      fixclass: 'calendar',
-      content: function () {
-          return $($(this).data('contentwrapper')).html();
-      },
-      callback: function () {
-          $("#datepicker").datepicker({
-            onSelect: function(dateText, inst){
-              console.log(date);
-              console.log(inst);
-            }
-          });
-      }
-  }).on("click", function () {
-      $(this).next().addClass('calendar-open');
+    });
+    $('#pdatepicker').click(function(){
+      $('#ppdatepicker').datepicker("show");
+    });
   });
-
-
-  $('body').on('click', function (e) {
-      $('.popover-calendar').each(function () {
-          $('.popover-calendar').datepicker();
-            $('.popover-calendar').mousedown(function() {
-                $(this).datepicker('hide');
-            });
-      });
-  });
-});
-
 </script>

@@ -8,9 +8,35 @@
       border-top: 0px !important;
     }
   </style>
-  <script src= "../../../vendor/jquery/dist/jquery.min.js"></script>
-  <link rel="stylesheet" href="../../../vendor/bootstrap/dist/css/bootstrap.min.css">
-  <script src= "../../../vendor/bootstrap/dist/js/bootstrap.min.js"></script>
+  <% include ../layout/head_history %>
+
+<style>
+  h2.title {
+    text-align: center;
+  }
+
+  #ppdatepicker {
+    visibility:hidden; 
+    width:1px;
+    position:absolute;
+    top:5px;
+  }
+</style>
+
+<script>
+  $(document).ready(function () {
+    $("#ppdatepicker").datepicker({
+      onSelect: function(dateText, inst){
+        console.log(dateText);
+        console.log(inst);
+      }
+    });
+    $('#pdatepicker').click(function(){
+      $('#ppdatepicker').datepicker("show");
+    });
+  });
+</script>
+
 </head>
 <body>
   <% include ../layout/history_header %>
