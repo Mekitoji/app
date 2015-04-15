@@ -76,7 +76,7 @@
       <% } %>
         <tr>
           <td><a href="/<%=path.split('/')[1]%>/history/<%=date%>/tester/<%= testers[i]._id%>"><%= testers[i].name %> </a></td>
-          <% if(testers[i].user.local.username.first) { %>
+          <% if(testers[i].user!==null && testers[i].user.local!==null && testers[i].user.local.username.first) { %>
             <td><%= testers[i].user.local.username.first%> <%= testers[i].user.local.username.last %></td>
           <%} else {%>
               <td></td>
