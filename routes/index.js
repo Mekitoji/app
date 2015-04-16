@@ -33,9 +33,20 @@ module.exports = function (app, passport) {
   var testerList = require('./CIS/testerList')(app);
 
   //CIS history
-  // var startPageHistory = require('./CIS/history/startpage');
-  var mainHistory = require('./CIS/history/main')(app);
-  var testerListHistory = require('./CIS/history/testerList')(app);
+  var mainHistoryCIS = require('./CIS/history/main')(app);
+  var testerListHistoryCIS = require('./CIS/history/testerList')(app)
+
+  //EU history
+  var mainHistoryEU = require('./EU/history/main')(app);
+  var testerListHistoryEU = require('./EU/history/testerList')(app)
+
+  //Sandbox history
+  var mainHistorySandbox = require('./Sandbox/history/main')(app);
+  var testerListHistorySandbox = require('./Sandbox/history/testerList')(app)
+
+  //SIA history
+  var mainHistorySIA = require('./SIA/history/main')(app);
+  var testerListHistorySIA = require('./SIA/history/testerList')(app);
 
   //EU pages
   var mainEU = require('./EU/main')(app);
@@ -98,24 +109,24 @@ module.exports = function (app, passport) {
   var apiGkEU = require('./api/EU/gk')(app);
   var apiCalendarEU = require('./api/EU/calendar')(app);
   var apiTesterEU = require('./api/EU/tester')(app);
-  var apiTesterStatEU = require('./api/EU/testerStats')(app); //new
+  var apiTesterStatEU = require('./api/EU/testerStats')(app);
+  var apiHistoryEU = require('./api/EU/history')(app); //new
 
   //api Sandbox
   var apiGkSandbox = require('./api/Sandbox/gk')(app);
   var apiCalendarSandbox = require('./api/Sandbox/calendar')(app);
   var apiTesterSandbox = require('./api/Sandbox/tester')(app);
-  var apiTesterStatSandbox = require('./api/Sandbox/testerStats')(app); //new
+  var apiTesterStatSandbox = require('./api/Sandbox/testerStats')(app);
+  var apiHistorySandbox = require('./api/Sandbox/history')(app); //new
 
   //api Sandbox
   var apiGkSIA = require('./api/SIA/gk')(app);
   var apiCalendarSIA = require('./api/SIA/calendar')(app);
   var apiTesterSIA = require('./api/SIA/tester')(app);
-  var apiTesterStatSIA = require('./api/SIA/testerStats')(app); //new
+  var apiTesterStatSIA = require('./api/SIA/testerStats')(app);
+  var apiHistorySIA = require('./api/SIA/history')(app); //new
 
   //errors
   var unauthorized = require('./errors/401')(app);
   var permissionDenied = require('./errors/403')(app);
-
-  //history
-  var history = require('./history/history')(app);
 };

@@ -1,5 +1,5 @@
-var history = require('../../../models/CIS/history');
-// var history = require('../../../models/EU/history');
+// var history = require('../../../models/CIS/history');
+var history = require('../../../models/EU/history');
 // var history = require('../../../models/SIA/history');
 // var history = require('../../../models/Sandbox/history');
 var User = require('../../../models/user');
@@ -7,7 +7,7 @@ var _ = require('lodash');
 var async = require('async');
 
 module.exports = function (app) {
-  app.get('/api/cis/history', function (req, res) {
+  app.get('/api/eu/history', function (req, res) {
     history.find()
       .exec(function (err, apps) {
         if (err) throw err;
@@ -15,7 +15,7 @@ module.exports = function (app) {
       });
   });
 
-  app.get('/api/cis/history/:date', function (req, res) {
+  app.get('/api/eu/history/:date', function (req, res) {
     var date = req.params.date;
     var fDate = new Date(date);
     var nextDay = new Date(date);
@@ -71,7 +71,7 @@ module.exports = function (app) {
   });
 
 
-  app.get('/api/cis/history/:date/rejected', function (req, res) {
+  app.get('/api/eu/history/:date/rejected', function (req, res) {
     var date = req.params.date;
     var fDate = new Date(date);
     var nextDay = new Date(date);
@@ -114,7 +114,7 @@ module.exports = function (app) {
     });
   });
 
-  app.get('/api/cis/history/:date/notReviewed', function (req, res) {
+  app.get('/api/eu/history/:date/notReviewed', function (req, res) {
     var date = req.params.date;
     var fDate = new Date(date);
     var nextDay = new Date(date);
@@ -152,7 +152,7 @@ module.exports = function (app) {
     });
   });
 
-  app.get('/api/cis/history/:date/outdated', function (req, res) {
+  app.get('/api/eu/history/:date/outdated', function (req, res) {
     var date = req.params.date;
     var fDate = new Date(date);
     var nextDay = new Date(date);
