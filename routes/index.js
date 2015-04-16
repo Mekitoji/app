@@ -62,7 +62,7 @@ module.exports = function (app, passport) {
   var testerListEU = require('./EU/testerList')(app);
 
   //SIA pages
-  var mainEU = require('./SIA/main')(app);
+  var mainSIA = require('./SIA/main')(app);
   var approvedSIA = require('./SIA/approved')(app);
   var outdatedSIA = require('./SIA/outdated')(app);
   var inworkSIA = require('./SIA/inwork')(app);

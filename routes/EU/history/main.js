@@ -1,7 +1,7 @@
 var routesFunction = require('../../../libs/routesFunction');
 
 module.exports = function (app) {
-  app.get('/cis/history/:date/main', routesFunction.checkPermissionGkEU, function (req, res) {
+  app.get('/eu/history/:date/main', routesFunction.checkPermissionGkEU, function (req, res) {
     var date = req.params.date;
     //date = mm-dd-yy
     var title = "[" + date + "]" + "Gate Keeper Control History";
