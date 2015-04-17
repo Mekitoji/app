@@ -48,6 +48,7 @@ module.exports = function (app) {
           res.render('history/testerList', {
             user: req.user,
             date: date,
+            title: title,
             testers: data.testerStat,
             path: req.path,
             apps: data.apps

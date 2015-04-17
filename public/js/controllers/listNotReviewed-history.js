@@ -68,8 +68,23 @@ angular.module('history-project')
   History.getByDateNotReviewed($scope.loc)
 
   .success(function (data) {
-    console.log(data);
-    $scope.apps = data.apps;
+    // console.log(data);
+    if (data.apps === undefined) {
+      var list = document.getElementById('app-list');
+      var container = document.getElementsByClassName("container")[0];
+      var notice = document.createElement("div");
+      var datepicker = document.createElement("div");
+      datepicker.id = "datepicker-notice";
+      // datepicker.style.position = "absolute";
+      notice.id = "notice-error";
+      notice.innerHTML = "No data for this date. Please try another:";
+      list.parentNode.removeChild(list);
+      container.appendChild(notice);
+      container.appendChild(datepicker);
+
+    } else {
+      $scope.apps = data.apps;
+    }
   });
   $scope.getRowIndex = function () {
     var index = this.row.rowIndex;

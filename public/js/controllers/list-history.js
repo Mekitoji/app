@@ -68,7 +68,7 @@ angular.module('history-project')
   History.getByDate($scope.loc)
 
   .success(function (data) {
-    console.log(data);
+    // console.log(data);
     if (data.apps === undefined) {
       var list = document.getElementById('app-list');
       var container = document.getElementsByClassName("container")[0];
