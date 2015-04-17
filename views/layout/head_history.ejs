@@ -84,3 +84,36 @@
     });
   });
 </script>
+<script>
+  var tryCount = 0;
+ 
+  function checkReady() {
+    if($("#datepicker-notice").is(":visible")) {
+      $("#datepicker-notice").datepicker({
+        onSelect: function(dateText, inst){
+          var date = new Date(dateText);
+          var day = date.getDate();
+          var month = date.getMonth()+1;
+          var year = date.getFullYear();
+          var xx = month+ "-"+ day + "-" +year;
+          var currentLoc = window.location.pathname;
+          var tempArray= currentLoc.split("/");
+          tempArray[3] = xx;
+          window.location.pathname = tempArray.join("/");
+        }
+      });
+    } else if(tryCount>10) {
+      console.log("timeout limit");
+      return;
+    }else {
+      tryCount++;
+      setTimeout(checkReady, 500);
+      console.log("element not found.... Try again...");
+    }
+  }
+
+  $(document).ready(function(){
+    console.log("start");
+    checkReady();
+  });
+</script>

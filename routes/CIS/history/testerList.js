@@ -25,8 +25,9 @@ module.exports = function (app) {
       // res.locals.path = req.path;
       // res.local.apps = data.apps;
       if (data === null) {
-        res.json({
-          "Error": "Data not found. Please try to change date"
+        res.render("dateNotFound", {
+          path: req.path,
+          user: req.user,
         });
       } else {
         data.testerStat = _.forEach(data.testerStat, function (n, key) {

@@ -57,254 +57,271 @@ $.ajax({
   method: 'GET',
   url: url
 }).done(function (data) {
-  var lo = document.location.pathname.split('/')[4];
-  if (lo === "approved") {
-    data = data.approvedCalendar;
+
+  if (data.calendar === undefined) {
+    var container = document.getElementsByClassName("container")[0];
+    var notice = document.createElement("div");
+    var datepicker = document.createElement("div");
+    datepicker.id = "datepicker-notice";
+    // datepicker.style.position = "absolute";
+    notice.id = "notice-error";
+    notice.innerHTML = "No data for this date. Please try another:";
+    while (container.hasChildNodes()) {
+      container.removeChild(container.lastChild);
+    }
+    container.appendChild(notice);
+    container.appendChild(datepicker);
   } else {
-    data = data.calendar;
-  }
-  var storageOfDate = [];
-  var appNameObj = {};
-  var calendarId = {};
-  var appIdMap = {};
-  // var test = {};
-  //Push data in array
-  for (var i = 0; i < data.length; i++) {
-    if (data[i] !== null && data[i].appId !== null) {
-      calendarId[data[i]._id] = data[i].appId._id;
-      appNameObj[data[i].appId._id] = data[i].appId.appName;
-      appIdMap[data[i].appId._id] = data[i].appId.applicationId;
-      // storageOfDate.push(data[i].storage);
-      var innerStorage = data[i].storage;
 
-      for (j = 0; j < innerStorage.length; j++) {
+    var lo = document.location.pathname.split('/')[4];
+    if (lo === "approved") {
+      data = data.approvedCalendar;
+    } else {
+      data = data.calendar;
+    }
+    var storageOfDate = [];
+    var appNameObj = {};
+    var calendarId = {};
+    var appIdMap = {};
+    // var test = {};
+    //Push data in array
+    for (var i = 0; i < data.length; i++) {
+      if (data[i] !== null && data[i].appId !== null) {
+        calendarId[data[i]._id] = data[i].appId._id;
+        appNameObj[data[i].appId._id] = data[i].appId.appName;
+        appIdMap[data[i].appId._id] = data[i].appId.applicationId;
+        // storageOfDate.push(data[i].storage);
+        var innerStorage = data[i].storage;
 
-        if (!data_manual[innerStorage[j].fullDate]) {
-          data_manual[innerStorage[j].fullDate] = {};
+        for (j = 0; j < innerStorage.length; j++) {
+
+          if (!data_manual[innerStorage[j].fullDate]) {
+            data_manual[innerStorage[j].fullDate] = {};
+          }
+
+          data_manual[innerStorage[j].fullDate][data[i].appId._id] = innerStorage[j].value;
         }
-
-        data_manual[innerStorage[j].fullDate][data[i].appId._id] = innerStorage[j].value;
       }
     }
-  }
 
 
-  var keys = [];
-  var appNameObjNew = {};
-  Object.keys(appNameObj)
-    .map(function (k) {
-      return [k, appNameObj[k]];
-    })
-    .sort(function (a, b) {
-      if (a[1].toLowerCase() < b[1].toLowerCase()) return -1;
-      if (a[1].toLowerCase() > b[1].toLowerCase()) return 1;
-      return 0;
-    })
-    .forEach(function (d) {
-      appNameObjNew[d[0]] = d[1];
-      keys.push(d[0]);
+    var keys = [];
+    var appNameObjNew = {};
+    Object.keys(appNameObj)
+      .map(function (k) {
+        return [k, appNameObj[k]];
+      })
+      .sort(function (a, b) {
+        if (a[1].toLowerCase() < b[1].toLowerCase()) return -1;
+        if (a[1].toLowerCase() > b[1].toLowerCase()) return 1;
+        return 0;
+      })
+      .forEach(function (d) {
+        appNameObjNew[d[0]] = d[1];
+        keys.push(d[0]);
+      });
+
+    $('.appNameRow').each(function () {
+      $(this).remove();
     });
 
-  $('.appNameRow').each(function () {
-    $(this).remove();
-  });
-
-  //create tr for each elem in data array
-  $.each(appNameObjNew, function (i, appName) {
-    var tr = $('<tr>').addClass('appNameRow').css({
-      'height': '23px'
+    //create tr for each elem in data array
+    $.each(appNameObjNew, function (i, appName) {
+      var tr = $('<tr>').addClass('appNameRow').css({
+        'height': '23px'
+      });
+      var td = $('<td>').html(appName).appendTo(tr);
+      td.attr('data-toggle', 'popover');
+      td.attr('data-placement', 'top');
+      td.attr('data-content', 'Application Id: ' + appIdMap[i]);
+      td.popover({
+        trigger: 'hover'
+      });
+      $('.inner-table-appName tbody').append(tr);
     });
-    var td = $('<td>').html(appName).appendTo(tr);
-    td.attr('data-toggle', 'popover');
-    td.attr('data-placement', 'top');
-    td.attr('data-content', 'Application Id: ' + appIdMap[i]);
-    td.popover({
-      trigger: 'hover'
-    });
-    $('.inner-table-appName tbody').append(tr);
-  });
 
-  var count = 0;
-  $('td.fc-day').each(function (i, elem) {
-    var thisCol = $(this),
-      table = $('<table>'),
-      dd = thisCol.data('date'),
+    var count = 0;
+    $('td.fc-day').each(function (i, elem) {
+      var thisCol = $(this),
+        table = $('<table>'),
+        dd = thisCol.data('date'),
 
-      thisColTable = table.addClass('column-table').attr('id', 'dataTableColumn' + (++count)).appendTo(thisCol);
+        thisColTable = table.addClass('column-table').attr('id', 'dataTableColumn' + (++count)).appendTo(thisCol);
 
-    $.each(data_manual, function (date, valueArr) {
+      $.each(data_manual, function (date, valueArr) {
 
-      $.each(appNameObjNew, function (appId, appName) {
+        $.each(appNameObjNew, function (appId, appName) {
 
-        if (date == dd) {
-          if (valueArr[appId]) {
-            var tr = $('<tr>').css({
-              'height': '21px ',
-              'text-align': 'center'
-            });
-            var td = $('<td>');
-            $.each(calendarId, function (calId, appId11) {
-              if (appId === appId11)
-                td.html(valueArr[appId]).addClass(date).addClass(calId).appendTo(tr);
-            });
-            thisColTable.append(tr);
-            if (td.html() == 'L') {
-              td.css({
+          if (date == dd) {
+            if (valueArr[appId]) {
+              var tr = $('<tr>').css({
+                'height': '21px ',
+                'text-align': 'center'
+              });
+              var td = $('<td>');
+              $.each(calendarId, function (calId, appId11) {
+                if (appId === appId11)
+                  td.html(valueArr[appId]).addClass(date).addClass(calId).appendTo(tr);
+              });
+              thisColTable.append(tr);
+              if (td.html() == 'L') {
+                td.css({
+                  "background-color": "orange",
+                  "color": "black"
+                });
+              } else if (td.html() == 'H') {
+                td.css({
+                  "background-color": "#B19CD9",
+                  "color": "black"
+                });
+              } else if (td.html() == 'D') {
+                td.css({
+                  "background-color": "green",
+                  "color": "black"
+                });
+              } else if (td.html() == 'LL') {
+                td.css({
+                  "background-color": "orange",
+                  "color": "orange"
+                });
+              }
+              td.on('change', function (evt, newValue) {
+
+                var thisElem = $(this);
+                var classArr = thisElem.attr('class').split(' ');
+                if (newValue == 'L') {
+                  thisElem.css({
+                    "background-color": "orange",
+                    "color": "black"
+                  });
+                } else if (newValue == 'H') {
+                  thisElem.css({
+                    "background-color": "#B19CD9",
+                    "color": "black"
+                  });
+                } else if (newValue == 'D') {
+                  thisElem.css({
+                    "background-color": "green",
+                    "color": "black"
+                  });
+                } else if (newValue == 'LL') {
+                  thisElem.css({
+                    "background-color": "orange",
+                    "color": "orange"
+                  });
+                }
+
+                $.ajax({
+                  type: 'PUT',
+                  url: '../api/' + region + '/calendar/' + classArr[1],
+                  data: {
+                    value: newValue,
+                    fullDate: classArr[0],
+                  }
+                });
+              });
+            } else {
+              var empty = $('<tr>').css({
+                'height': '21px ',
+                'text-align': 'center'
+              });
+              var td1 = $('<td>');
+              $.each(calendarId, function (calId, appId11) {
+                if (appId === appId11)
+                  td1.html('').addClass(date).addClass(calId).appendTo(empty);
+              });
+              thisColTable.append(empty);
+              td1.on('change', function (evt, newValue) {
+                var thisElem = $(this);
+                var classArr = thisElem.attr('class').split(' ');
+                if (newValue == 'L') {
+                  thisElem.css({
+                    "background-color": "orange",
+                    "color": "black"
+                  });
+                } else if (newValue == 'H') {
+                  thisElem.css({
+                    "background-color": "#B19CD9",
+                    "color": "black"
+                  });
+                } else if (newValue == 'D') {
+                  thisElem.css({
+                    "background-color": "green",
+                    "color": "black"
+                  });
+                } else if (newValue == 'LL') {
+                  thisElem.css({
+                    "background-color": "orange",
+                    "color": "orange"
+                  });
+                }
+                $.ajax({
+                  type: 'PUT',
+                  url: '../api/' + region + '/calendar/' + classArr[1],
+                  data: {
+                    value: newValue,
+                    fullDate: classArr[0],
+                  }
+                });
+              });
+            }
+          }
+
+        });
+
+      });
+      if (thisColTable[0].childNodes[0] === undefined) {
+        $.each(appNameObjNew, function (appId, appName) {
+          var empty = $('<tr>').css({
+            'height': '21px ',
+            'text-align': 'center'
+          });
+          var td = $('<td>');
+          $.each(calendarId, function (calId, appId11) {
+            if (appId === appId11)
+              td.html('').addClass(dd).addClass(calId).appendTo(empty);
+          });
+          thisColTable.append(empty);
+          td.on('change', function (evt, newValue) {
+            var thisElem = $(this);
+            var classArr = thisElem.attr('class').split(' ');
+            if (newValue == 'L') {
+              thisElem.css({
                 "background-color": "orange",
                 "color": "black"
               });
-            } else if (td.html() == 'H') {
-              td.css({
+            } else if (newValue == 'H') {
+              thisElem.css({
                 "background-color": "#B19CD9",
                 "color": "black"
               });
-            } else if (td.html() == 'D') {
-              td.css({
+            } else if (newValue == 'D') {
+              thisElem.css({
                 "background-color": "green",
                 "color": "black"
               });
-            } else if (td.html() == 'LL') {
-              td.css({
+            } else if (newValue == 'LL') {
+              thisElem.css({
                 "background-color": "orange",
                 "color": "orange"
               });
             }
-            td.on('change', function (evt, newValue) {
-
-              var thisElem = $(this);
-              var classArr = thisElem.attr('class').split(' ');
-              if (newValue == 'L') {
-                thisElem.css({
-                  "background-color": "orange",
-                  "color": "black"
-                });
-              } else if (newValue == 'H') {
-                thisElem.css({
-                  "background-color": "#B19CD9",
-                  "color": "black"
-                });
-              } else if (newValue == 'D') {
-                thisElem.css({
-                  "background-color": "green",
-                  "color": "black"
-                });
-              } else if (newValue == 'LL') {
-                thisElem.css({
-                  "background-color": "orange",
-                  "color": "orange"
-                });
+            $.ajax({
+              type: 'PUT',
+              url: '../api/' + region + '/calendar/' + classArr[1],
+              data: {
+                value: newValue,
+                fullDate: classArr[0],
               }
-
-              $.ajax({
-                type: 'PUT',
-                url: '../api/' + region + '/calendar/' + classArr[1],
-                data: {
-                  value: newValue,
-                  fullDate: classArr[0],
-                }
-              });
             });
-          } else {
-            var empty = $('<tr>').css({
-              'height': '21px ',
-              'text-align': 'center'
-            });
-            var td1 = $('<td>');
-            $.each(calendarId, function (calId, appId11) {
-              if (appId === appId11)
-                td1.html('').addClass(date).addClass(calId).appendTo(empty);
-            });
-            thisColTable.append(empty);
-            td1.on('change', function (evt, newValue) {
-              var thisElem = $(this);
-              var classArr = thisElem.attr('class').split(' ');
-              if (newValue == 'L') {
-                thisElem.css({
-                  "background-color": "orange",
-                  "color": "black"
-                });
-              } else if (newValue == 'H') {
-                thisElem.css({
-                  "background-color": "#B19CD9",
-                  "color": "black"
-                });
-              } else if (newValue == 'D') {
-                thisElem.css({
-                  "background-color": "green",
-                  "color": "black"
-                });
-              } else if (newValue == 'LL') {
-                thisElem.css({
-                  "background-color": "orange",
-                  "color": "orange"
-                });
-              }
-              $.ajax({
-                type: 'PUT',
-                url: '../api/' + region + '/calendar/' + classArr[1],
-                data: {
-                  value: newValue,
-                  fullDate: classArr[0],
-                }
-              });
-            });
-          }
-        }
-
-      });
-
-    });
-    if (thisColTable[0].childNodes[0] === undefined) {
-      $.each(appNameObjNew, function (appId, appName) {
-        var empty = $('<tr>').css({
-          'height': '21px ',
-          'text-align': 'center'
-        });
-        var td = $('<td>');
-        $.each(calendarId, function (calId, appId11) {
-          if (appId === appId11)
-            td.html('').addClass(dd).addClass(calId).appendTo(empty);
-        });
-        thisColTable.append(empty);
-        td.on('change', function (evt, newValue) {
-          var thisElem = $(this);
-          var classArr = thisElem.attr('class').split(' ');
-          if (newValue == 'L') {
-            thisElem.css({
-              "background-color": "orange",
-              "color": "black"
-            });
-          } else if (newValue == 'H') {
-            thisElem.css({
-              "background-color": "#B19CD9",
-              "color": "black"
-            });
-          } else if (newValue == 'D') {
-            thisElem.css({
-              "background-color": "green",
-              "color": "black"
-            });
-          } else if (newValue == 'LL') {
-            thisElem.css({
-              "background-color": "orange",
-              "color": "orange"
-            });
-          }
-          $.ajax({
-            type: 'PUT',
-            url: '../api/' + region + '/calendar/' + classArr[1],
-            data: {
-              value: newValue,
-              fullDate: classArr[0],
-            }
           });
-        });
 
-      });
-    }
-    $('.fc-day-grid').off();
-  });
-  $('.fc-content-skeleton').remove();
+        });
+      }
+      $('.fc-day-grid').off();
+    });
+    $('.fc-content-skeleton').remove();
+  }
 });
 
 

@@ -132,3 +132,8 @@ div.ngCellText.ng-binding {
 .ng-scope.ngRow:hover {
   background-color: #ccc;
 }
+
+#notice-error {
+  display: block;
+  text-align: left;
+}
