@@ -127,6 +127,7 @@ $.ajax({
 
     //create tr for each elem in data array
     $.each(appNameObjNew, function (i, appName) {
+      appIdMap[i] = appIdMap[i].split("/")[0];
       var tr = $('<tr>').addClass('appNameRow').css({
         'height': '23px'
       });

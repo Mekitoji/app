@@ -15,5 +15,6 @@ $(document).ready(function () {
     editable: true,
     firstDay: 1,
     weekends: false,
+    height: "auto"
   });
 });
