@@ -11,8 +11,9 @@ angular.module('project')
           appName: apps[i].appName,
           applicationId: apps[i].applicationId,
         });
-        $scope.temps = _.sortBy($scope.temps, "appName");
-        console.log($scope.temps);
+        $scope.temps = _.sortBy($scope.temps, function (i) {
+          return i.appName.toLowerCase();
+        });
       }
     });
 
@@ -33,8 +34,6 @@ angular.module('project')
       appNameTest: $scope.appNameTest,
       date: $scope.date
     };
-    console.log($scope.testCycle);
-    console.log($scope.testCycle.tester._id);
     iTester.update($scope.testCycle.tester._id, $scope.testCycle)
       .success(function (data) {
         $scope.testerDatas = data;

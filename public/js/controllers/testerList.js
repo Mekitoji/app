@@ -44,7 +44,11 @@ angular.module('project')
   }
 
   function sortAppStorage(a, b) {
-    return a.app.appName.toLowerCase().localeCompare(b.app.appName.toLowerCase());
+    console.log(a);
+    console.log(b);
+    if (a.app.appName.toLowerCase() < b.app.appName.toLowerCase()) return -1;
+    if (a.app.appName.toLowerCase() > b.app.appName.toLowerCase()) return 1;
+    return 0;
   }
 
   iTester.get()
