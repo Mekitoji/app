@@ -233,113 +233,103 @@ angular.module('project')
   $scope.gridOptions = {
     data: 'apps',
     columnDefs: [{
-        displayName: 'No',
-        cellTemplate: '<div ><div >{{getRowIndex()}}</div></div>',
-        width: 30
-      }, {
-        field: 'applicationId',
-        displayName: 'Application Id',
-        enableCellEdit: false
-      }, {
-        field: 'country',
-        displayName: 'Country',
-        enableCellEdit: permission,
-        editableCellTemplate: $scope.cellSelectEditableTemplateCountry,
-        width: 70
-      }, {
-        field: 'appName',
-        displayName: 'Application name',
-        enableCellEdit: permission,
-      }, {
-        field: 'category',
-        displayName: 'Category',
-        enableCellEdit: permission,
-        editableCellTemplate: $scope.cellSelectEditableTemplateCategory,
-        width: 100
-      }, {
-        field: 'sdpStatus',
-        displayName: 'SDP Status',
-        enableCellEdit: permission,
-        editableCellTemplate: $scope.cellSelectEditableTemplateSdpStatus
-      }, {
-        field: 'updateTime',
-        displayName: 'Update date',
-        //604800000 ms = 7day
-        cellTemplate: '<div ng-class="{pink: currenDate-dateParse(row.getProperty(col.field))>604800000}"><div class="ngCellText">{{row.getProperty(col.field)|date:\'YYYY-MM-DD\'-1}}</div></div>',
-        enableCellEdit: permission,
-        editableCellTemplate: $scope.cellSelectEditableTemplateUpdateTime,
-        cellFilter: 'date:\'MM/dd/yyyy\'',
-        width: 100
-      }, {
-        field: 'seller',
-        displayName: 'Seller',
-        enableCellEdit: permission
-      }, {
-        field: 'tv',
-        displayName: 'TV',
-        enableCellEdit: permission,
-        editableCellTemplate: $scope.cellSelectEditableTemplateTv,
-        width: 80
-      }, {
-        field: 'currentStatus',
-        displayName: 'Current status',
-        cellTemplate: '<div class={{row.entity.color}} ><div ng-class="{\'purple\': row.entity.currentStatus == \'Waiting for QA\',\'orange\': row.entity.currentStatus== \'Waiting for review\',\'grey\': row.entity.currentStatus== \'Not Reviewed\',\'green\':row.entity.currentStatus==\'Waiting for fix\'}" style="color:black" class="ngCellText">{{row.getProperty(col.field)}}</div></div>',
-        enableCellEdit: permission,
-        editableCellTemplate: $scope.cellSelectEditableTemplateCurrentStatus,
-        width: 125
-      }, {
-        field: 'color',
-        displayName: '#',
-        enableCellEdit: permission,
-        cellTemplate: '<div class={{row.entity.color}} "><div  class="ngCellText"></div></div>',
-        editableCellTemplate: $scope.cellSelectEditableTemplateColor,
-        width: '20px',
-      }, {
-        field: 'testCycles',
-        displayName: 'Test Cycles',
-        enableCellEdit: false,
-        width: 90
-      }, {
-        field: 'replyTime.toFixed(2)',
-        displayName: 'Review Time',
-        enableCellEdit: false,
-        width: 85
-      }, {
-        field: 'resp',
-        displayName: 'Resp',
-        cellTemplate: '<div ng-class="{\'green\': row.entity.resp == \'VE\',\'red\': row.entity.resp == \'AS\',\'yellow\': row.entity.resp == \'YK\',\'blue\': row.entity.resp == \'DP\' }" " ><div class="ngCellText">{{row.getProperty(col.field)}}</div></div>',
-        enableCellEdit: permission,
-        editableCellTemplate: $scope.cellSelectEditableTemplateResp,
-        width: 50
-      }, {
-        field: 'outdated',
-        displayName: 'Outdated',
-        enableCellEdit: permission,
-        editableCellTemplate: $scope.cellSelectEditableTemplateOutdated,
-        width: 75
-      }, {
-        field: 'calendar',
-        displayName: 'Calendar',
-        cellClass: 'calendar',
-        cellTemplate: '<div ng-class="{\'greenCalendar\': row.entity.calendar == \'D\',\'orange\': row.entity.calendar == \'L\',\'calendarll\': row.entity.calendar == \'LL\',\'purple\': row.entity.calendar == \'H\' }" " ><div class="ngCellText">{{row.getProperty(col.field)}}</div></div>',
-        editableCellTemplate: $scope.cellSelectEditableTemplateCalendar,
-        visible: permission,
-        enableCellEdit: permission,
-        width: 75,
-      },
-      // {
-      //   cellTemplate: '<div name={{row.entity._id}}  class=\'calendar-cell \' popover="<div  id=\'calendar\'></div><script src=\'js/calendar.js\'></script><script src=\'js/getCalendarDataForOneApp.js\'></script>"  popover-placement="left" popover-append-to-body="true">Click</div>',
-      //   cellClass: 'calendar-btn',
-      //   displayName: 'Calendar',
-      //   enableCellEdit: false,
-      //   visible: permission,
-      //   width: 75
-      // },
-      {
-        field: '_id',
-        visible: false,
-      }
-    ],
+      displayName: 'No',
+      cellTemplate: '<div ><div >{{getRowIndex()}}</div></div>',
+      width: 30
+    }, {
+      field: 'applicationId',
+      displayName: 'Application Id',
+      enableCellEdit: false
+    }, {
+      field: 'country',
+      displayName: 'Country',
+      enableCellEdit: permission,
+      editableCellTemplate: $scope.cellSelectEditableTemplateCountry,
+      width: 70
+    }, {
+      field: 'appName',
+      displayName: 'Application name',
+      enableCellEdit: permission,
+    }, {
+      field: 'category',
+      displayName: 'Category',
+      enableCellEdit: permission,
+      editableCellTemplate: $scope.cellSelectEditableTemplateCategory,
+      width: 100
+    }, {
+      field: 'sdpStatus',
+      displayName: 'SDP Status',
+      enableCellEdit: permission,
+      editableCellTemplate: $scope.cellSelectEditableTemplateSdpStatus
+    }, {
+      field: 'updateTime',
+      displayName: 'Update date',
+      //604800000 ms = 7day
+      cellTemplate: '<div ng-class="{pink: currenDate-dateParse(row.getProperty(col.field))>604800000}"><div class="ngCellText">{{row.getProperty(col.field)|date:\'YYYY-MM-DD\'-1}}</div></div>',
+      enableCellEdit: permission,
+      editableCellTemplate: $scope.cellSelectEditableTemplateUpdateTime,
+      cellFilter: 'date:\'MM/dd/yyyy\'',
+      width: 100
+    }, {
+      field: 'seller',
+      displayName: 'Seller',
+      enableCellEdit: permission
+    }, {
+      field: 'tv',
+      displayName: 'TV',
+      enableCellEdit: permission,
+      editableCellTemplate: $scope.cellSelectEditableTemplateTv,
+      width: 80
+    }, {
+      field: 'currentStatus',
+      displayName: 'Current status',
+      cellTemplate: '<div class={{row.entity.color}} ><div ng-class="{\'purple\': row.entity.currentStatus == \'Waiting for QA\',\'orange\': row.entity.currentStatus== \'Waiting for review\',\'grey\': row.entity.currentStatus== \'Not Reviewed\',\'green\':row.entity.currentStatus==\'Waiting for fix\'}" style="color:black" class="ngCellText">{{row.getProperty(col.field)}}</div></div>',
+      enableCellEdit: permission,
+      editableCellTemplate: $scope.cellSelectEditableTemplateCurrentStatus,
+      width: 125
+    }, {
+      field: 'color',
+      displayName: '#',
+      enableCellEdit: permission,
+      cellTemplate: '<div class={{row.entity.color}} "><div  class="ngCellText"></div></div>',
+      editableCellTemplate: $scope.cellSelectEditableTemplateColor,
+      width: '20px',
+    }, {
+      field: 'testCycles',
+      displayName: 'Test Cycles',
+      enableCellEdit: false,
+      width: 90
+    }, {
+      field: 'replyTime.toFixed(2)',
+      displayName: 'Review Time',
+      enableCellEdit: false,
+      width: 85
+    }, {
+      field: 'resp',
+      displayName: 'Resp',
+      cellTemplate: '<div ng-class="{\'green\': row.entity.resp == \'VE\',\'red\': row.entity.resp == \'AS\',\'yellow\': row.entity.resp == \'YK\',\'blue\': row.entity.resp == \'DP\' }" " ><div class="ngCellText">{{row.getProperty(col.field)}}</div></div>',
+      enableCellEdit: permission,
+      editableCellTemplate: $scope.cellSelectEditableTemplateResp,
+      width: 50
+    }, {
+      field: 'outdated',
+      displayName: 'Outdated',
+      enableCellEdit: permission,
+      editableCellTemplate: $scope.cellSelectEditableTemplateOutdated,
+      width: 75
+    }, {
+      field: 'calendar',
+      displayName: 'Calendar',
+      cellClass: 'calendar',
+      cellTemplate: '<div ng-class="{\'greenCalendar\': row.entity.calendar == \'D\',\'orange\': row.entity.calendar == \'L\',\'calendarll\': row.entity.calendar == \'LL\',\'purple\': row.entity.calendar == \'H\' }" " ><div class="ngCellText">{{row.getProperty(col.field)}}</div></div>',
+      editableCellTemplate: $scope.cellSelectEditableTemplateCalendar,
+      visible: permission,
+      enableCellEdit: permission,
+      width: 75,
+    }, {
+      field: '_id',
+      visible: false,
+    }],
     showGroupPanel: true,
     enableColumnResize: true,
     showFilter: true,

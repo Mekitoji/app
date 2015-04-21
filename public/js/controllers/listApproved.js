@@ -226,7 +226,10 @@ angular.module('project')
       enableCellEdit: false,
       editableCellTemplate: $scope.cellSelectEditableTemplateResp,
       width: 50
-    }, ],
+    }, {
+      field: '_id',
+      visible: false,
+    }],
     showGroupPanel: true,
     enableColumnResize: true,
     showFilter: true,

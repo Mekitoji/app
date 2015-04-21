@@ -1,43 +1,46 @@
 angular.module('project')
 
-.directive('watchElem', [
+.directive('watchElem', ["Apps",
 
-  function () {
+  function (Apps) {
     return {
       restrict: 'A',
       link: function (scope, element, attrs, controller) {
 
+        element.on("change", function (event) {
 
-        scope.$watch(function () {
-          return element.val();
-        }, function (newValue) {
-          console.log(element.val());
-          console.log(newValue);
-          var conf;
-          if (newValue === '0') {
-            conf = confirm('Are you sure you want to approve the App?');
+          var current = scope.row.entity;
+          if (element.val() === '0') {
+            conf = confirm("Are you sure want to approve this app?");
             if (conf) {
-              $('#clickHere').trigger('focus');
-              location.reload();
+              var projectUrl = current._id;
+
+              Apps.update(projectUrl, current)
+
+              .success(function (data) {
+                scope.formData = data;
+                scope.removeRow(event, current)
+                element.blur();
+              });
             } else {
               element.val(1);
-              newValue = 1;
-              location.reload();
             }
-          }
-
-          if (newValue === '2') {
-            conf = confirm('Are you sure you want to partially approve the App?');
+          } else if (element.val() === "2") {
+            conf = confirm("Are you sure want to partially approve this app?")
             if (conf) {
-              $('#clickHere').trigger('focus');
-              location.reload();
+              var projectUrl = current._id;
+
+              Apps.update(projectUrl, current)
+
+              .success(function (data) {
+                scope.formData = data;
+                scope.removeRow(event, current)
+                element.blur();
+              });
             } else {
               element.val(1);
-              newValue = 1;
-              location.reload();
             }
           }
-
         });
       }
     };
