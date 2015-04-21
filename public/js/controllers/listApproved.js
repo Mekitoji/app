@@ -123,18 +123,12 @@ angular.module('project')
   };
 
   $scope.$on('ngGridEventEndCellEdit', function (evt) {
-    var currentObj = evt.targetScope.row.entity;
-    console.log(currentObj); //debug
-    // the underlying data bound to the row
-    // Detect changes and send entity to server
-    console.log(currentObj._id); //debug
-
-    //update database value
     var projectUrl = currentObj._id;
     Apps.update(projectUrl, currentObj)
-      .success(function (data) {
-        $scope.formData = data;
-      });
+
+    .success(function (data) {
+      $scope.formData = data;
+    });
   });
 
   $scope.dateParse = function (data) {

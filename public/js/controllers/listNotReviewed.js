@@ -109,6 +109,10 @@ angular.module('project')
     };
   });
 
+  $scope.removeRow = function ($event, entity) {
+    $event.stopPropagation();
+    $scope.apps.splice($scope.apps.indexOf(entity), 1);
+  };
 
   $scope.cellSelectEditableTemplateCountry = '<select ng-class="\'colt\' + col.index" ng-input="COL_FIELD" ng-model="COL_FIELD" ng-options=" v for v in Options.countryProp.values" ng-blur="updateEntity(row)" />';
   $scope.cellSelectEditableTemplateCategory = '<select ng-class="\'colt\' + col.index" ng-input="COL_FIELD" ng-model="COL_FIELD" ng-options=" v for v in Options.categoryProp.values" ng-blur="updateEntity(row)" />';
@@ -138,15 +142,16 @@ angular.module('project')
 
   $scope.$on('ngGridEventEndCellEdit', function (evt) {
     var currentObj = evt.targetScope.row.entity;
-    // the underlying data bound to the row
-    // Detect changes and send entity to server
-
+    var displayName = evt.targetScope.col.displayName;
     //update database value
     var projectUrl = currentObj._id;
-    Apps.update(projectUrl, currentObj)
+    if (displayName !== "TV") {
+      Apps.update(projectUrl, currentObj)
+
       .success(function (data) {
         $scope.formData = data;
       });
+    }
   });
 
   $scope.dateParse = function (data) {
@@ -201,7 +206,7 @@ angular.module('project')
       enableCellEdit: permission
     }, {
       field: 'tv',
-      displayName: 'Tv',
+      displayName: 'TV',
       enableCellEdit: permission,
       editableCellTemplate: $scope.cellSelectEditableTemplateTv,
       width: 80

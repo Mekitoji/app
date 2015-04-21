@@ -112,8 +112,11 @@ angular.module('project')
     };
   });
 
-  //let get template for our editable part
-  //mb in diff file
+  $scope.removeRow = function ($event, entity) {
+    $event.stopPropagation();
+    $scope.apps.splice($scope.apps.indexOf(entity), 1);
+  };
+
   $scope.cellSelectEditableTemplateCountry = '<select ng-class="\'colt\' + col.index" ng-input="COL_FIELD" ng-model="COL_FIELD" ng-options=" v for v in Options.countryProp.values" />';
   $scope.cellSelectEditableTemplateCategory = '<select ng-class="\'colt\' + col.index" ng-input="COL_FIELD" ng-model="COL_FIELD" ng-options=" v for v in Options.categoryProp.values" />';
   $scope.cellSelectEditableTemplateSdpStatus = '<select ng-class="\'colt\' + col.index" ng-input="COL_FIELD" ng-model="COL_FIELD" ng-options=" v for v in Options.sdpStatusProp.values" />';
@@ -125,9 +128,6 @@ angular.module('project')
   $scope.cellSelectEditableTemplateColor = '<select ng-class="\'colt\' + col.index" ng-input="COL_FIELD" ng-model="COL_FIELD" ng-options=" v for v in Options.color.values" />';
   $scope.cellSelectEditableTemplateUpdateTime = '<input ng-class="\'colt\' + col.index" ng-input="COL_FIELD" ng-model="COL_FIELD"  type="date" />';
 
-  $scope.edit = false; //old value - delete?
-
-  //get list of apps
   Apps.get()
 
   .success(function (data) {
@@ -161,7 +161,6 @@ angular.module('project')
           }
         }
       });
-
   });
 
   Calendar.get()
@@ -200,9 +199,7 @@ angular.module('project')
   $scope.$on('ngGridEventEndCellEdit', function (evt) {
     var currentObj = evt.targetScope.row.entity;
     var displayName = evt.targetScope.col.displayName;
-    // the underlying data bound to the row
-    // Detect changes and send entity to server
-    // if this a calendar row, update db
+
     if (displayName === 'Calendar') {
       for (var i = 0; i < $scope.calData.length; i++) {
         if ($scope.calData[i].appId._id === currentObj._id) {
@@ -212,7 +209,7 @@ angular.module('project')
           });
         }
       }
-    } else {
+    } else if (displayName !== 'TV') {
       //update database value
       var projectUrl = currentObj._id;
       Apps.update(projectUrl, currentObj)
