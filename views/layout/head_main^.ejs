@@ -1,0 +1,77 @@
+<link rel="stylesheet" href="../../vendor/bootstrap/dist/css/bootstrap.min.css">
+<link rel='stylesheet' href='../../vendor/ng-grid/ng-grid.min.css'></script>
+<link rel='stylesheet' href='../../css/main.css'></script>
+
+<!-- Jquery -->
+<script src= "../../vendor/jquery/dist/jquery.min.js"></script>
+<script src= "../../vendor/jquery/jquery-ui-1.11.1/jquery-ui.min.js"></script>
+<link rel="stylesheet" href="../../vendor/jquery/jquery-ui-1.11.1/jquery-ui.min.css">
+<!-- plugin -->
+<script src='../../js/mindmup-editabletable.js'></script>
+<!-- Bootstrap -->
+<script src= "../../vendor/bootstrap/dist/js/bootstrap.min.js"></script>
+
+<!-- FullCalendar -->
+<script src='../../vendor/fullcalendar-2.1.1/lib/moment.min.js'></script>
+<link rel="stylesheet" href="../../vendor/fullcalendar-2.1.1/fullcalendar.min.css">
+<script src='../../vendor/fullcalendar-2.1.1/fullcalendar.min.js'></script>
+
+
+<!-- Underscore -->
+<script src= "../../vendor/underscore/underscore.min.js"></script>
+
+<!-- Angular -->
+<script src= "../../vendor/angular/angular.min.js"></script>
+<script src= "../../vendor/angular-resource/angular-resource.min.js"></script>
+<script src= "../../vendor/angular-route/angular-route.min.js"></script>
+<script src= "../../vendor/angular-bootstrap/ui-bootstrap.min.js"></script>
+<script src= "../../vendor/angular-bootstrap/ui-bootstrap-tpls.min.js"></script>
+<script src= '../../vendor/ng-grid/ng-grid-2.0.12.min.js'></script>
+<script src= '../../vendor/ui-bootstrap-custom-tpls-0.10.0.min.js'></script>
+<!-- My app -->
+<script src= '../../js/new-core.js'></script>
+<!-- configs -->
+<script src= '../../js/configs/routes^.js'></script>
+<!-- ctrl -->
+<script src= '../../js/controllers/createNewApp.js'></script>
+<script src= '../../js/controllers/editApp.js'></script>
+<script src= '../../js/controllers/list.js'></script>
+<script src= '../../js/controllers/listApproved.js'></script>
+<script src= '../../js/controllers/listInWork.js'></script>
+<script src= '../../js/controllers/listOutdated.js'></script>
+<script src= '../../js/controllers/listNotReviewed.js'></script>
+<script src= '../../js/controllers/mainCtrl.js'></script>
+<script src= '../../js/controllers/newTester.js'></script>
+<script src= '../../js/controllers/tester.js'></script>
+<script src= '../../js/controllers/newTest.js'></script>
+<script src= '../../js/controllers/testerList.js'></script>
+<!-- directives -->
+<script src= '../../js/directives/watchElem.js'></script>
+<script src= '../../js/directives/autoComplete.js'></script>
+<!-- filters -->
+<script src= '../../js/filters/unsafe.js'></script>
+<script src= '../../js/filters/hidePrivate.js'></script>
+<!-- factories -->
+<% var route = path.split('/')[1]%>
+<% if(route === 'cis') { %>
+<script src='../../js/factories/CIS/Apps.js'></script>
+<script src='../../js/factories/CIS/Testers.js'></script>
+<script src='../../js/factories/CIS/Calendar.js'></script>
+<script src='../../js/factories/CIS/Tester.js'></script>
+<% } else if(route === 'eu') {%>
+<script src='../../js/factories/EU/Apps.js'></script>
+<script src='../../js/factories/EU/Testers.js'></script>
+<script src='../../js/factories/EU/Calendar.js'></script>
+<script src='../../js/factories/EU/Tester.js'></script>
+<% } else if(route === 'global') { %>
+<script src='../../js/factories/Sandbox/Apps.js'></script>
+<script src='../../js/factories/Sandbox/Testers.js'></script>
+<script src='../../js/factories/Sandbox/Calendar.js'></script>
+<script src='../../js/factories/Sandbox/Tester.js'></script>
+<% } else if(route === 'sia') { %>
+  <script src='../../js/factories/SIA/Apps.js'></script>
+<script src='../../js/factories/SIA/Testers.js'></script>
+<script src='../../js/factories/SIA/Calendar.js'></script>
+<script src='../../js/factories/SIA/Tester.js'></script>
+<% } %>
+<!-- templates -->

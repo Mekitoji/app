@@ -2,10 +2,11 @@
 <html ng-app='project'>
 <head>
   <title>Gate Keeper Control</title>
-  <% include layout/head_main %>
+  <% include layout/head_main^ %>
 </head>
 <body >
   <% include layout/header %>
+
   <div class="container" ng-view></div>
   <script>
   var userG= <%- JSON.stringify(user.local.group) %>

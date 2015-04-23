@@ -5,10 +5,10 @@ angular.module('project')
   //Ng-options object Select->Option
   //watch part with  template
   $scope.loc = 'Main';
+  $scope.year = document.location.pathname.split('/')[2];
 
   var permission;
   var locationC = document.URL.split('/')[3];
-  // take permission right from server
   if (locationC === 'cis') {
     if (userG === 'gkCIS' || userG === 'root') {
       permission = true;
@@ -131,7 +131,10 @@ angular.module('project')
   Apps.get()
 
   .success(function (data) {
-    $scope.apps = data;
+    $scope.apps = _.filter(data, function (d) {
+      return d.year == $scope.year;
+    });
+
     $scope.$watch('apps', function (newVal, old) {
       old = newVal;
     });
@@ -144,9 +147,7 @@ angular.module('project')
           var dep = {};
           result[$scope.calendarr[k].appId._id] = {};
           for (var v = 0; v < $scope.calendarr[k].storage.length; v++) {
-
             dep[$scope.calendarr[k].storage[v].fullDate] = $scope.calendarr[k].storage[v].value;
-
             result[$scope.calendarr[k].appId._id] = dep;
           }
         }
@@ -154,8 +155,6 @@ angular.module('project')
         for (var i = 0; i < $scope.apps.length; i++) {
           for (var j = 0; j < $scope.calendarr.length; j++) {
             if ($scope.apps[i]._id === calData[j].appId._id) {
-
-
               $scope.apps[i].calendar = result[calData[j].appId._id][getCurrentDate()];
             }
           }

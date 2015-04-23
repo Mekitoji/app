@@ -4,6 +4,7 @@ angular.module('project')
   $scope.loc = 'In work';
   var permission;
   var locationC = document.URL.split('/')[3];
+  $scope.year = document.location.pathname.split('/')[2];
   // take permission right from server
   if (locationC === 'cis') {
     if (userG === 'gkCIS' || userG === 'root') {
@@ -127,12 +128,15 @@ angular.module('project')
   $scope.cellSelectEditableTemplateColor = '<select ng-class="\'colt\' + col.index" ng-input="COL_FIELD" ng-model="COL_FIELD" ng-options=" v for v in Options.color.values" />';
   $scope.cellSelectEditableTemplateOutdated = '<select ng-class="\'colt\' + col.index" ng-input="COL_FIELD" ng-model="COL_FIELD" ng-options=" v for v in Options.outdated.values" />';
   $scope.cellSelectEditableTemplateUpdateTime = '<input ng-class="\'colt\' + col.index" ng-input="COL_FIELD" ng-model="COL_FIELD"  type="date" />';
-  $scope.cellSelectEditableTemplateCalendar = '<select  ng-class="\'colt\' + col.index" ng-input="COL_FIELD" ng-model="COL_FIELD"><option ng-repeat="v in Options.calendar.values" ng-class="{\'greenCalendar\': v == \'D\',\'orange\': v == \'L\',\'calendarll\': v == \'LL\',\'purple\': v == \'H\' }">{{v}}</option></select>';
+  $scope.cellSelectEditableTemplateCalendar = '<select  ng-class="\'colt\' + col.index" ng-input="COL_FIELD" ng-model="COL_FIELD"><option ng-repeat="v in Options.calendar.values" ng-class="{\'greenCalendar\': v == \'D\',\'orange\': v == \'L\',\'calendarll\': v == \'LL\',\'purple\': v == \'H\'}">{{v}}</option></select>';
 
   Apps.getRejected()
 
   .success(function (data) {
-    $scope.apps = data;
+    $scope.apps = _.filter(data, function (d) {
+      return d.year == $scope.year;
+    });
+
     $scope.$watch('apps', function (newVal, old) {
       old = newVal;
     });
@@ -146,23 +150,18 @@ angular.module('project')
         var dep = {};
         result[$scope.calendarr[k].appId._id] = {};
         for (var v = 0; v < $scope.calendarr[k].storage.length; v++) {
-
           dep[$scope.calendarr[k].storage[v].fullDate] = $scope.calendarr[k].storage[v].value;
-
           result[$scope.calendarr[k].appId._id] = dep;
         }
       }
       for (var i = 0; i < $scope.apps.length; i++) {
         for (var j = 0; j < $scope.calendarr.length; j++) {
           if ($scope.apps[i]._id === calData[j].appId._id) {
-
-
             $scope.apps[i].calendar = result[calData[j].appId._id][getCurrentDate()];
           }
         }
       }
     });
-
   });
 
   Calendar.get()

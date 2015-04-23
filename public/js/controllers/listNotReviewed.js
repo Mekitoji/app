@@ -6,7 +6,7 @@ angular.module('project')
   $scope.loc = 'Not Reviewed';
   var permission;
   var locationC = document.URL.split('/')[3];
-  // take permission right from server
+  $scope.year = document.location.pathname.split('/')[2];
   if (locationC === 'cis') {
     if (userG === 'gkCIS' || userG === 'root') {
       permission = true;
@@ -131,7 +131,9 @@ angular.module('project')
   Apps.getNotReviewed()
 
   .success(function (data) {
-    $scope.apps = data;
+    $scope.apps = _.filter(data, function (d) {
+      return d.year == $scope.year;
+    });
   });
 
   $scope.getRowIndex = function () {
