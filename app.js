@@ -68,7 +68,6 @@ require('./libs/passport')(passport);
 //   name: 'connect.testServer.sid'
 // }));
 
-
 app.use(session(config.get('session')))
 app.use(passport.initialize());
 app.use(passport.session());
@@ -88,8 +87,6 @@ app.use(function (req, res, next) {
     res.end('Page not found');
   }
 });
-
-// error handlers
 
 // development error handler
 // will print stacktrace
