@@ -1,9 +1,9 @@
 angular.module('project')
 
 .controller('approvedListCtrl', function ($scope, $http, Apps, Tester) {
+
   $scope.loc = 'Approved';
   var permission;
-  // take permission right from server
   var locationC = document.URL.split('/')[3];
   $scope.year = document.location.pathname.split('/')[2];
 

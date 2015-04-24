@@ -1,4 +1,5 @@
 <% var route = path.split('/')[1]%>
+<% var yearFilter = path.split('/')[2]%>
 <header>
 <nav class="navbar navbar-default" role="navigation">
   <div class="container-fluid">
@@ -9,34 +10,34 @@
         <li class= 'dropdown'>
           <a href="dropdown-toogle" data-toggle="dropdown">Region   <b class='caret'></b></a>
           <ul class='dropdown-menu'>
-            <li><a href="/cis/main">CIS</a></li>
-            <li><a href="/eu/main">EU</a></li>
-            <li><a href="/global/main">Sandbox</a></li>
-            <li><a href="/sia/main">SIA</a></li>
+            <li><a href="/cis/<%=yearFilter%>/main">CIS</a></li>
+            <li><a href="/eu/<%=yearFilter%>/main">EU</a></li>
+            <li><a href="/global/<%=yearFilter%>/main">Sandbox</a></li>
+            <li><a href="/sia/<%=yearFilter%>/main">SIA</a></li>
           </ul>
         </li>
         <% } %>
         <li class="dropdown">
           <a  class="dropdown-toggle" data-toggle="dropdown">Applications <b class="caret"></b></a>
           <ul class="dropdown-menu">
-            <li><a href="/<%=route%>/<%=year%>/main">Main</a></li>
-            <li><a href="/<%=route%>/<%=year%>/rejected#/inwork">In work</a></li>
-            <li><a href="/<%=route%>/<%=year%>/approved#/approved">Approved</a></li>
-            <li><a href="/<%=route%>/<%=year%>/outdated#/outdated">Outdated</a></li>
-            <li><a href="/<%=route%>/<%=year%>/notReviewed#/notReviewed">Not Reviewed</a></li>
+            <li><a href="/<%=route%>/<%=yearFilter%>/main">Main</a></li>
+            <li><a href="/<%=route%>/<%=yearFilter%>/rejected#/inwork">In work</a></li>
+            <li><a href="/<%=route%>/<%=yearFilter%>/approved#/approved">Approved</a></li>
+            <li><a href="/<%=route%>/<%=yearFilter%>/outdated#/outdated">Outdated</a></li>
+            <li><a href="/<%=route%>/<%=yearFilter%>/notReviewed#/notReviewed">Not Reviewed</a></li>
           </ul>
         </li>
         <li class="dropdown">
           <a  class="dropdown-toggle" data-toggle="dropdown">Calendar <b class="caret"></b></a>
           <ul class="dropdown-menu">
-            <li><a href="/<%=route%>/rejected#/calendar">In work</a></li>
-            <li><a href="/<%=route%>/approved#/calendar">Approved</a></li>
-            <li><a href="/<%=route%>/outdated#/calendar">Outdated</a></li>
+            <li><a href="/<%=route%>/<%=yearFilter%>/rejected#/calendar">In work</a></li>
+            <li><a href="/<%=route%>/<%=yearFilter%>/approved#/calendar">Approved</a></li>
+            <li><a href="/<%=route%>/<%=yearFilter%>/outdated#/calendar">Outdated</a></li>
           </ul>
         </li>
-        <li><a href="/<%=route%>/tester">KPI</a></li>
-        <li><a href="/<%=route%>/main#/testList">Test Cycle</a></li>
-        <li><a href="/<%=route%>/postmail">Post Mail</a></li>
+        <li><a href="/<%=route%>/<%=yearFilter%>/tester">KPI</a></li>
+        <li><a href="/<%=route%>/<%=yearFilter%>/main#/testList">Test Cycle</a></li>
+        <li><a href="/<%=route%>/<%=yearFilter%>/postmail">Post Mail</a></li>
         <% if(user.local.group==='root') { %>
         <li class= 'dropdown'>
           <a href="dropdown-toogle" data-toggle="dropdown">Tools   <b class='caret'></b></a>

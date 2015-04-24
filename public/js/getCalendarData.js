@@ -2,47 +2,48 @@
 var data_manual = {};
 var url;
 
-var region = document.URL.split('/')[3];
-var subLoc = document.URL.split('/')[4].slice(0, -1);
+var region = document.URL.split('/')[3]; //??
+var subLoc = document.URL.split('/')[4].slice(0, -1); //??
+var yearFilter = document.location.pathname.split('/')[2];
 if (region == 'cis') {
   if (subLoc === 'approved') {
-    url = '../api/cis/calendar/approved';
+    url = '../../api/cis/calendar/approved';
   } else if (subLoc === 'rejected') {
-    url = '../api/cis/calendar/rejected';
+    url = '../../api/cis/calendar/rejected';
   } else if (subLoc === 'outdated') {
-    url = '../api/cis/calendar/outdated';
+    url = '../../api/cis/calendar/outdated';
   } else {
-    url = '../api/cis/calendar/';
+    url = '../../api/cis/calendar/';
   }
 } else if (region == 'eu') {
   if (subLoc === 'approved') {
-    url = '../api/eu/calendar/approved';
+    url = '../../api/eu/calendar/approved';
   } else if (subLoc === 'rejected') {
-    url = '../api/eu/calendar/rejected';
+    url = '../../api/eu/calendar/rejected';
   } else if (subLoc === 'outdated') {
-    url = '../api/eu/calendar/outdated';
+    url = '../../api/eu/calendar/outdated';
   } else {
-    url = '../api/eu/calendar/';
+    url = '../../api/eu/calendar/';
   }
 } else if (region == 'global') {
   if (subLoc === 'approved') {
-    url = '../api/global/calendar/approved';
+    url = '../../api/global/calendar/approved';
   } else if (subLoc === 'rejected') {
-    url = '../api/global/calendar/rejected';
+    url = '../../api/global/calendar/rejected';
   } else if (subLoc === 'outdated') {
-    url = '../api/global/calendar/outdated';
+    url = '../../api/global/calendar/outdated';
   } else {
-    url = '../api/global/calendar/';
+    url = '../../api/global/calendar/';
   }
 } else if (region == 'sia') {
   if (subLoc === 'approved') {
-    url = '../api/sia/calendar/approved';
+    url = '../../api/sia/calendar/approved';
   } else if (subLoc === 'rejected') {
-    url = '../api/sia/calendar/rejected';
+    url = '../../api/sia/calendar/rejected';
   } else if (subLoc === 'outdated') {
-    url = '../api/sia/calendar/outdated';
+    url = '../../api/sia/calendar/outdated';
   } else {
-    url = '../api/sia/calendar/';
+    url = '../../api/sia/calendar/';
   }
 }
 
@@ -53,7 +54,9 @@ $.ajax({
   method: 'GET',
   url: url
 }).done(function (data) {
-
+  data = _.filter(data, function (d) {
+    return d.appId.year == yearFilter;
+  });
   var storageOfDate = [];
   var appNameObj = {};
   var calendarId = {};
@@ -314,6 +317,9 @@ $('.fc-next-button, .fc-prev-button, .fc-today-button').click(function () {
     })
 
     .done(function (data) {
+      data = _.filter(data, function (d) {
+        return d.appId.year == yearFilter;
+      });
       var storageOfDate = [];
       var appNameObj = {};
       var calendarId = {};

@@ -7,7 +7,8 @@ var Apps = require('../../models/CIS/gkbase');
 var _ = require('lodash');
 
 module.exports = function (app) {
-  app.get('/cis/tester', routesFunction.checkPermissionCIS, function (req, res) {
+  app.get('/cis/:year/tester', routesFunction.checkPermissionCIS, function (req, res) {
+    req.locals.path = req.params.year;
     TesterStat.find({})
       .populate('user')
       .exec(function (err, testers) {
@@ -25,6 +26,5 @@ module.exports = function (app) {
           });
         });
       });
-
   });
 }

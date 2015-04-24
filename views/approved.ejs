@@ -2,22 +2,14 @@
 <html ng-app='project'>
 <head>
   <title>Approved apps</title>
-
-
   <% include layout/head_main^ %>
-
   <link rel="stylesheet" href="css/main.css">
-
 </head>
-
 <body >
-
   <% include layout/header %>
- 
-<div class="container" ng-view></div>
-
-<script>
-var userG= <%- JSON.stringify(user.local.group) %>
-</script>
+  <div class="container" ng-view></div>
+  <script>
+    var userG= <%- JSON.stringify(user.local.group) %>
+  </script>
 </body>
 </html>

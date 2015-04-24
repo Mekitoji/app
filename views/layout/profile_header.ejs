@@ -1,47 +1,46 @@
 <header>
 <nav class="navbar navbar-default" role="navigation">
   <div class="container-fluid">
-    <!-- Brand and toggle get grouped for better mobile display -->
 
-
-    <!-- Collect the nav links, forms, and other content for toggling -->
+  <% var date = new Date();
+     var currentYear = date.getFullYear() %>
     <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
       
-      <ul class="nav navbar-nav">
+    <ul class="nav navbar-nav">
 
   <% if(user.local.group==='root') { %>
         <li class= 'dropdown'>
           <a href="dropdown-toogle" data-toggle="dropdown">Region<b class='caret'></b></a>
           <ul class='dropdown-menu'>
-            <li><a href="/cis/main">CIS</a></li>
-            <li><a href="/eu/main">EU</a></li>
-            <li><a href="/global/main">Sandbox</a></li>
-            <li><a href="/sia/main">SIA</a></li>
+            <li><a href="/cis/<%=currentYear%>/main">CIS</a></li>
+            <li><a href="/eu/<%=currentYear%>/main">EU</a></li>
+            <li><a href="/global/<%=currentYear%>/main">Sandbox</a></li>
+            <li><a href="/sia/<%=currentYear%>/main">SIA</a></li>
           </ul>
         </li>
-        <li><a href="/tools/users">Users</a></li>
-        <li><a href="/tools/testers">Testers</a></li>
+        <li><a href="/tools/<%=currentYear%>/users">Users</a></li>
+        <li><a href="/tools/<%=currentYear%>/testers">Testers</a></li>
         <li class="dropdown">
           <a href="dropdown-toogle" data-toggle="dropdown">KPI<b class='caret'></b></a>
           <ul class='dropdown-menu'>
-            <li><a href="/cis/tester">CIS</a></li>
-            <li><a href="/eu/tester">EU</a></li>
-            <li><a href="/global/tester">Sandbox</a></li>
-            <li><a href="/sia/tester">SIA</a></li>
+            <li><a href="/cis/<%=currentYear%>/tester">CIS</a></li>
+            <li><a href="/eu/<%=currentYear%>/tester">EU</a></li>
+            <li><a href="/global/<%=currentYear%>/tester">Sandbox</a></li>
+            <li><a href="/sia/<%=currentYear%>/tester">SIA</a></li>
           </ul>
         </li>
   <% }  else if(user.local.group==='gkEU' || user.local.group==='employerEU') { %>
-        <li><a href="/eu/main">Workspace</a></li>
-        <li><a href="/eu/tester">KPI</a></li>
+        <li><a href="/eu/<%=currentYear%>/main">Workspace</a></li>
+        <li><a href="/eu/<%=currentYear%>/tester">KPI</a></li>
   <% } else if(user.local.group==='gkCIS' || user.local.group==='employerCIS') { %>
-        <li><a href="/cis/main">Workspace</a></li>
-        <li><a href="/cis/tester">KPI</a></li>
+        <li><a href="/cis/<%=currentYear%>/main">Workspace</a></li>
+        <li><a href="/cis/<%=currentYear%>/tester">KPI</a></li>
   <% } else if (user.local.group==='global') { %>
-        <li><a href="/global/main">Workspace</a></li>
-        <li><a href="/global/tester">KPI</a></li>
+        <li><a href="/global/<%=currentYear%>/main">Workspace</a></li>
+        <li><a href="/global/<%=currentYear%>/tester">KPI</a></li>
   <% } else if (user.local.group === 'gkSIA'|| user.local.group === 'employerSIA') { %>
-        <li><a href="/sia/main">Workspace</a></li>
-        <li><a href="/sia/tester">KPI</a></li>
+        <li><a href="/sia/<%=currentYear%>/main">Workspace</a></li>
+        <li><a href="/sia/<%=currentYear%>/tester">KPI</a></li>
   <% } %>
       </ul>
       
