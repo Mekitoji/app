@@ -8,7 +8,8 @@ var _ = require('lodash');
 
 module.exports = function (app) {
   app.get('/cis/:year/tester', routesFunction.checkPermissionCIS, function (req, res) {
-    req.locals.path = req.params.year;
+    res.locals.path = req.path;
+    res.locals.year = req.params.year;
     TesterStat.find({})
       .populate('user')
       .exec(function (err, testers) {

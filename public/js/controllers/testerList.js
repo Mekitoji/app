@@ -4,7 +4,8 @@ angular.module('project')
 
   var permission;
   var locationC = document.URL.split('/')[3];
-  // take permission right from server
+  $scope.year = document.location.pathname.split('/')[2];
+
   if (locationC === 'cis') {
     if (userG === 'gkCIS' || userG === 'root') {
       permission = true;
@@ -57,6 +58,9 @@ angular.module('project')
     $scope.testers = testers.sort(sortName);
     _.forEach($scope.testers, function (n, key) {
       console.log(n);
+      n.appStorage = _.filter(n.appStorage, function(d){
+        return d.year == $scope.year;
+      });
       n.appStorage = n.appStorage.sort(sortAppStorage);
     });
   });

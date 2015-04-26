@@ -3,9 +3,9 @@
 <head>
   <meta charset="UTF-8">
   <title><%=tester.name%></title>
-  <script src= "../../vendor/jquery/dist/jquery.min.js"></script>
-  <link rel="stylesheet" href="../../vendor/bootstrap/dist/css/bootstrap.min.css">
-  <script src= "../../vendor/bootstrap/dist/js/bootstrap.min.js"></script>
+  <script src= "../../../vendor/jquery/dist/jquery.min.js"></script>
+  <link rel="stylesheet" href="../../../vendor/bootstrap/dist/css/bootstrap.min.css">
+  <script src= "../../../vendor/bootstrap/dist/js/bootstrap.min.js"></script>
   <script>
   $(function () {
     $('[data-toggle="popover"]').popover({"html":true, trigger:"hover"})
@@ -42,7 +42,8 @@
   });%>
   <% for(var i =0;i<tester.appStorage.length;i++) { %>
   <tr>
-  <% var color=""; %>
+  <%  if(tester.appStorage[i].year == year) {
+  var color=""; %>
 
     <% if(tester.appStorage[i].app===null) {
       tester.appStorage[i].app={};
@@ -72,7 +73,7 @@
     <td> <button type="button" class="btn <%= color%>" data-toggle="popover" title="<%= tester.appStorage[i].app.appName%>" data-content="<b>App Id:</b> <%=tester.appStorage[i].app.applicationId.split("/")[0]%> <br> <b>Seller:</b> <%=tester.appStorage[i].app.seller%> <br> <b>SDP status:</b> <%=tester.appStorage[i].app.sdpStatus%> <br> <b>TV:</b> <%=tester.appStorage[i].app.tv%> <br> <b>Current status:</b> <%=tester.appStorage[i].app.currentStatus%> <br> <b>Update Date:</b> <%=tester.appStorage[i].app.updateTime.toLocaleDateString()%> <br> <b>Review Time: </b><%=tester.appStorage[i].app.replyTime.toFixed(2) %> <br> <b>Test Cycles:</b> <%=tester.appStorage[i].app.testCycles%> <br> <b>Last Resp:</b> <%=tester.appStorage[i].app.resp%> <br><b> Outdated Status: </b><%=tester.appStorage[i].app.outdated%> <br> ">More Info</button> </td>
   </tr>
 
-    <% } %>
+    <% }} %>
     <%total.respTime=total.respTime/total.countResp%>
     <%total.testCycles=total.testCycles/total.countCycle%>
   <tr>

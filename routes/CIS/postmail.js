@@ -1,8 +1,9 @@
 var nodemailer = require('nodemailer');
 var routesFunction = require('../../libs/routesFunction');
 module.exports = function (app) {
-  app.get('/cis/postmail', routesFunction.checkPermissionGkCIS, function (req, res, next) {
+  app.get('/cis/:year/postmail', routesFunction.checkPermissionGkCIS, function (req, res, next) {
     res.locals.path = req.path;
+    res.locals.year = req.params.year;
     if (req.user) {
       res.render('postmail.ejs', {
         user: req.user // get the user out of session and pass to template
@@ -12,7 +13,6 @@ module.exports = function (app) {
   });
 
   app.post('/cis/postmail', routesFunction.checkPermissionGkCIS, function (req, res) {
-    console.log(req.body.text);
     var transport = nodemailer.createTransport();
 
     var monthArray = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
