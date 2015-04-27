@@ -7,7 +7,7 @@ var Apps = require('../../models/EU/gkbase');
 var _ = require('lodash');
 
 module.exports = function (app) {
-  app.get('/eu/tester/:tester_id', routesFunction.checkPermissionEU, function (req, res) {
+  app.get('/eu/:year/tester/:tester_id', routesFunction.checkPermissionEU, function (req, res) {
     TesterStat.findById(req.params.tester_id)
       .populate('user')
       .exec(function (err, tester) {
@@ -22,6 +22,7 @@ module.exports = function (app) {
             // res.send(data);
             res.locals.path = req.path;
             res.locals.tester = data;
+            res.locals.year = req.params.year;
             res.render('testerProfile.ejs', {
               user: req.user, // get the user out of session and pass to template
             });

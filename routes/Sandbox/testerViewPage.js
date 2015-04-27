@@ -8,7 +8,7 @@ var _ = require('lodash');
 
 //take handler for access
 module.exports = function (app) {
-  app.get('/global/tester/:tester_id', routesFunction.checkPermissionSandbox, function (req, res) {
+  app.get('/global/:year/tester/:tester_id', routesFunction.checkPermissionSandbox, function (req, res) {
     TesterStat.findById(req.params.tester_id)
       .populate('user')
       .exec(function (err, tester) {
@@ -23,6 +23,7 @@ module.exports = function (app) {
             // res.send(data);
             res.locals.path = req.path;
             res.locals.tester = data;
+            res.locals.year = req.params.year;
             res.render('testerProfile.ejs', {
               user: req.user, // get the user out of session and pass to template
             });

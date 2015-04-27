@@ -1,8 +1,9 @@
 var nodemailer = require('nodemailer');
 var routesFunction = require('../../libs/routesFunction');
 module.exports = function (app) {
-  app.get('/global/postmail', routesFunction.checkPermissionSandbox, function (req, res, next) {
+  app.get('/global/:year/postmail', routesFunction.checkPermissionSandbox, function (req, res, next) {
     res.locals.path = req.path;
+    res.locals.year = req.params.year;
     if (req.user) {
       res.render('postmail.ejs', {
         user: req.user // get the user out of session and pass to template

@@ -1,5 +1,7 @@
 <% var route = path.split('/')[1]
    var date = path.split('/')[3]
+   var nDate = new Date();
+   var yearFilter = nDate.getFullYear();
 %>
 
 
@@ -9,7 +11,7 @@
       <div class="collapse navbar-collapse">
         <ul class="nav navbar-nav">
           <!-- Back -->
-          <li><a href="/<%=route%>/main">Back to workspace</a></li>
+          <li><a href="/<%=route%>/<%=yearFilter%>/main">Back to workspace</a></li>
           <%# 'Workspace menu show up only for root user' %>
           <% if (user.local.group === 'root') { %>
             <li class= 'dropdown'>

@@ -2,8 +2,9 @@ var routesFunction = require('../../libs/routesFunction');
 
 
 module.exports = function (app) {
-  app.get('/sia/outdated', routesFunction.checkPermissionSIA, function (req, res) {
+  app.get('/sia/:year/outdated', routesFunction.checkPermissionSIA, function (req, res) {
     res.locals.path = req.path;
+    res.locals.year = req.params.year;
     if (req.user) {
       res.render('outdated.ejs', {
         user: req.user // get the user out of session and pass to template

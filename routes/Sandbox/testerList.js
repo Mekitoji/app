@@ -7,7 +7,7 @@ var Apps = require('../../models/Sandbox/gkbase');
 var _ = require('lodash');
 
 module.exports = function (app) {
-  app.get('/global/tester', routesFunction.checkPermissionSandbox, function (req, res) {
+  app.get('/global/:year/tester', routesFunction.checkPermissionSandbox, function (req, res) {
     TesterStat.find({})
       .populate('user')
       .exec(function (err, testers) {
@@ -20,6 +20,7 @@ module.exports = function (app) {
           // res.send(data);
           res.locals.testers = data;
           res.locals.path = req.path;
+          res.locals.year = req.params.year;
           res.render('testerList.ejs', {
             user: req.user
           });

@@ -56,16 +56,16 @@ angular.module('postmail', [])
 .factory('AppsSandbox', function ($http) {
   return {
     get: function () {
-      return $http.get('/api/sandbox/gk/');
+      return $http.get('/api/global/gk/');
     },
     getApproved: function () {
-      return $http.get('/api/sandbox/gk/approved');
+      return $http.get('/api/global/gk/approved');
     },
     getRejected: function () {
-      return $http.get('/api/sandbox/gk/rejected');
+      return $http.get('/api/global/gk/rejected');
     },
     getOutdated: function () {
-      return $http.get('/api/sandbox/gk/outdated');
+      return $http.get('/api/global/gk/outdated');
     },
   };
 })
@@ -95,8 +95,8 @@ angular.module('postmail', [])
   if (route === 'cis') {
     Apps = AppsCIS;
   } else if (route === 'eu') {
-    Apps = AppsEu;
-  } else if (route === 'sandbox') {
+    Apps = AppsEU;
+  } else if (route === 'global') {
     Apps = AppsSandbox
   } else if (route === 'sia') {
     Apps = AppsSIA;

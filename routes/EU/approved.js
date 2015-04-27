@@ -1,7 +1,8 @@
 var routesFunction = require('../../libs/routesFunction');
 
 module.exports = function (app) {
-  app.get('/eu/approved', routesFunction.checkPermissionEU, function (req, res) {
+  app.get('/eu/:year/approved', routesFunction.checkPermissionEU, function (req, res) {
+    res.locals.year = req.params.year;
     res.locals.path = req.path;
     if (req.user) {
       res.render('approved.ejs', {
