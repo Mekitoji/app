@@ -1,10 +1,7 @@
-var User = require('../../models/user');
-var md5 = require('MD5');
-
 module.exports = function (app, passport) {
 
   app.post('/api/auth', function (req, res, next) {
-    passport.authenticate('local-login', function (err, user, info) {
+    passport.authenticate('local-login', function (err, user) {
       if (err) {
         res.json({
           "result": false

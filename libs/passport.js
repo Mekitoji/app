@@ -84,7 +84,7 @@ module.exports = function (passport) {
               return done(null, false, req.flash('signupMessage', 'Password must contain more then 5 symbols'));
             } else if (/[\/\s\\@$%&*+=-]+/gi.test(password)) {
               return done(null, false, req.flash('signupMessage', 'Please does not use /\\@$%&*+=- symbols and space in password'));
-            } else if (password !== req.body["repeat-password"]) {
+            } else if (password !== req.body['repeat-password']) {
               return done(null, false, req.flash('signupMessage', 'Password do not match'));
             } else if (/[^\w]+/gi.test(req.body.firstName) || /[^\w]+/gi.test(req.body.lastName)) {
               return done(null, false, req.flash('signupMessage', 'Please use only latin letters in name'));

@@ -33,7 +33,7 @@ module.exports = function (app, passport) {
 
   //CIS history
   require('./CIS/history/main')(app);
-  require('./CIS/history/testerList')(app)
+  require('./CIS/history/testerList')(app);
 
 
 
@@ -54,7 +54,7 @@ module.exports = function (app, passport) {
 
   //EU history
   require('./EU/history/main')(app);
-  require('./EU/history/testerList')(app)
+  require('./EU/history/testerList')(app);
 
   //SIA pages
   require('./SIA/main')(app);
@@ -88,7 +88,7 @@ module.exports = function (app, passport) {
 
   //Sandbox history
   require('./Sandbox/history/main')(app);
-  require('./Sandbox/history/testerList')(app)
+  require('./Sandbox/history/testerList')(app);
 
   //admin tools
   require('./tools/users')(app);

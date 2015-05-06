@@ -8,17 +8,17 @@ var Unauthorized = function Unauthorized(response) {
     message: err.message,
     error: err
   });
-}
+};
 
 //handle 403 error
 var Forbidden = function Forbidden(response) {
-  err = new Error('Forbidden: You don\'t have permission to access this page');
+  var err = new Error('Forbidden: You don\'t have permission to access this page');
   err.status = 403;
   response.render('403.ejs', {
     message: err.message,
     error: err
   });
-}
+};
 
 //check perm for page
 var checkPermFor = function checkPermFor(req, res, next) {
@@ -39,7 +39,7 @@ var checkPermFor = function checkPermFor(req, res, next) {
   }
   // 401 error
   Unauthorized(res);
-}
+};
 
 //check passport auth
 function unAuth(req, res, next) {

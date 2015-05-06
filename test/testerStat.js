@@ -12,7 +12,7 @@ describe("Should respone 200", function () {
     agent
       .get('/api/cis/testerStat')
       .expect(200)
-      .end(function (err, res) {
+      .end(function (err) {
         if (err) return done(err);
         done();
       });
@@ -25,7 +25,7 @@ describe("Should respone 200", function () {
         name: 'Tester1',
       })
       .expect(200)
-      .end(function (err, res) {
+      .end(function (err) {
         if (err) return done(err);
         _id = res.body._id;
         done();
@@ -40,7 +40,7 @@ describe("Should respone 200", function () {
         _id: "5493d516bb01031c3fbdab3b",
       })
       .expect(200)
-      .end(function (err, res) {
+      .end(function (err) {
         if (err) return done(err);
         done();
       });
@@ -56,7 +56,7 @@ describe("Should respone 200", function () {
         reason: "String!"
       })
       .expect(200)
-      .end(function (err, res) {
+      .end(function (err) {
         if (err) return done(err);
         done();
       });
@@ -67,7 +67,7 @@ describe("Should respone 200", function () {
     agent
       .del('/api/cis/testerStat/' + _id)
       .expect(200)
-      .end(function (err, res) {
+      .end(function (err) {
         if (err) return done(err);
         done();
       });
