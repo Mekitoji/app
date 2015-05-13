@@ -1,7 +1,7 @@
 require('mocha');
 var request = require('supertest');
-var server = require('../bin/www');
-var should = require('should');
+var server  = require('../bin/www');
+var should  = require('should');
 // var ObjectId = require('mongoose').Types.ObjectId;
 var _id;
 

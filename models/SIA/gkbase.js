@@ -48,6 +48,9 @@ var Apps = new Schema({
     type: Boolean,
     default: false
     // true - outdated, false in progress
+  },
+  year: {
+    type: Number
   }
 });
 

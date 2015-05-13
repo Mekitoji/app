@@ -48,6 +48,9 @@ var approvedApps = new Schema({
     type: Boolean,
     default: false
     // true - outdated, false in progress
+  },
+  year: {
+    default: Number
   }
 });
 

@@ -1,33 +1,33 @@
 //app.js
 //set up
-var express = require('express');
-var path = require('path');
-var favicon = require('static-favicon');
-var logger = require('morgan');
-var cookieParser = require('cookie-parser');
-var bodyParser = require('body-parser');
-var url = require('url');
+var express       = require('express');
+var path          = require('path');
+var favicon       = require('static-favicon');
+var logger        = require('morgan');
+var cookieParser  = require('cookie-parser');
+var bodyParser    = require('body-parser');
+var url           = require('url');
 
 //logs
-var log = require('./libs/log');
+var log           = require('./libs/log');
 
 //require local config file
-var config = require('./config');
+var config        = require('./config');
 
 //passport
-var passport = require('passport');
+var passport      = require('passport');
 var LocalStrategy = require('passport-local').Strategy;
 
 //mongoose
-var mongoose = require('./libs/mongoose');
+var mongoose      = require('./libs/mongoose');
 // var MongoStore = require('connect-mongo')(session);
-var flash = require('connect-flash');
+var flash         = require('connect-flash');
 
 //session
-var session = require('express-session');
+var session       = require('express-session');
 
 //init express
-var app = express();
+var app           = express();
 
 
 var allowCrossDomain = function (req, res, next) {

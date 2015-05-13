@@ -1,24 +1,24 @@
-var _ = require("lodash");
-var Apps = require("../../models/CIS/gkbase");
-var AppsEU = require("../../models/EU/gkbase");
-var AppsSandbox = require("../../models/Sandbox/gkbase");
-var AppsSIA = require("../../models/SIA/gkbase");
-var Cal = require("../../models/CIS/calendar");
-var CalEU = require("../../models/EU/calendar");
-var CalSandbox = require("../../models/Sandbox/calendar");
-var CalSIA = require("../../models/SIA/calendar");
-
-var getCurrentYear = function () {
-  var date = new Date();
-  return date.getFullYear();
-};
+var _ = require('lodash');
+var Apps = require('../../models/CIS/gkbase');
+var AppsEU = require('../../models/EU/gkbase');
+var AppsSandbox = require('../../models/Sandbox/gkbase');
+var AppsSIA = require('../../models/SIA/gkbase');
+var approvedApps = require('../../models/CIS/gkbaseApproved');
+var approvedAppsEU = require('../../models/EU/gkbaseApproved');
+var approvedAppsSandbox = require('../../models/Sandbox/gkbaseApproved');
+var approvedAppsSIA = require('../../models/SIA/gkbaseApproved');
+var Cal = require('../../models/CIS/calendar');
+var CalEU = require('../../models/EU/calendar');
+var CalSandbox = require('../../models/Sandbox/calendar');
+var CalSIA = require('../../models/SIA/calendar');
+var log = require('../../libs/log');
 
 // need to refactoring
 // TODO: check region first, inherit
 // object methods and then do something
 module.exports = function (app) {
-  app.post("/api/getJson", function (req, res) {
-    var headerArr = ["empty", "appId", "region", "gk", "appName", "seller", "updateDate", "appStatus", "gkReview"];
+  app.post('/api/getJson', function (req, res) {
+    var headerArr = ['empty', 'appId', 'region', 'gk', 'appName', 'seller', 'updateDate', 'appStatus', 'gkReview'];
     var tempArr = [];
 
     if (req.body.region === "CS" && req.body.table_caption === "Gate Keeper Review List") {
@@ -27,7 +27,7 @@ module.exports = function (app) {
       _.forEach(objectX, function (arr) {
         tempArr.push(_.zipObject(headerArr, arr));
       });
-      _.forEach(tempArr, function (n) {
+      _.forEach(tempArr, function (n, key) {
         Apps.findOne({
           applicationId: n.appId
         })
@@ -38,9 +38,9 @@ module.exports = function (app) {
               "result": false,
               "data": err
             });
-          }
+          };
 
-          if (app === null && n.appStatus !== "App QA approved" || app.year != getCurrentYear() && n.appStatus !== "App QA approved") { //check
+          if (app === null && n.appStatus !== "App QA approved") {
             var gk = {
               "POLITAEVDMITRY": "DP",
               "SayantsAndrey": "AS",
@@ -54,13 +54,12 @@ module.exports = function (app) {
               appName: n.appName,
               seller: n.seller,
               sdpStatus: n.appStatus,
-              tv: "In Progress",
+              tv: 'In Progress',
               testCycles: 1,
               updateTime: n.updateDate,
               replyTime: 0,
               resp: resp,
-              applicationId: n.appId,
-              year: getCurrentYear()
+              applicationId: n.appId
             }, function (err, resultA) {
               if (err) {
                 res.json({
@@ -83,7 +82,7 @@ module.exports = function (app) {
                 });
               });
             });
-          } else if (app !== null && app.year == n.year) {
+          } else if (app !== null) {
             Apps.findOne({
               applicationId: n.appId
             })
@@ -93,7 +92,7 @@ module.exports = function (app) {
                 res.json({
                   "result": false,
                   data: err
-                });
+                })
               }
               var gk = {
                 "POLITAEVDMITRY": "DP",
@@ -123,17 +122,17 @@ module.exports = function (app) {
               });
             });
           }
-        });
+        })
       });
 
     } else if (req.body.region === "EU" && req.body.table_caption === "Gate Keeper Review List") {
 
-      var objEU = JSON.parse(req.body.data);
+      var objectX = JSON.parse(req.body.data);
 
-      _.forEach(objEU, function (arr) {
+      _.forEach(objectX, function (arr) {
         tempArr.push(_.zipObject(headerArr, arr));
       });
-      _.forEach(tempArr, function (n) {
+      _.forEach(tempArr, function (n, key) {
         AppsEU.findOne({
           applicationId: n.appId
         })
@@ -144,14 +143,14 @@ module.exports = function (app) {
               "result": false,
               "data": err
             });
-          }
+          };
 
-          if (app === null && n.appStatus !== "App QA approved" || app.year != getCurrentYear() && n.appStatus !== "App QA approved") {
+          if (app === null && n.appStatus !== "App QA approved") {
             AppsEU.create({
               appName: n.appName,
               seller: n.seller,
               sdpStatus: n.appStatus,
-              tv: "In Progress",
+              tv: 'In Progress',
               testCycles: 1,
               updateTime: n.updateDate,
               replyTime: 0,
@@ -178,7 +177,7 @@ module.exports = function (app) {
                 });
               });
             });
-          } else if (app !== null && app.year == n.year) {
+          } else if (app !== null) {
             AppsEU.findOne({
               applicationId: n.appId
             })
@@ -188,7 +187,7 @@ module.exports = function (app) {
                 res.json({
                   "result": false,
                   data: err
-                });
+                })
               }
 
               n.updateDate = new Date(n.updateDate);
@@ -208,16 +207,16 @@ module.exports = function (app) {
               });
             });
           }
-        });
+        })
       });
     } else if (req.body.region === "all" && req.body.table_caption === "Gate Keeper Review List") {
 
-      var objAll = JSON.parse(req.body.data);
+      var objectX = JSON.parse(req.body.data);
 
-      _.forEach(objAll, function (arr) {
+      _.forEach(objectX, function (arr) {
         tempArr.push(_.zipObject(headerArr, arr));
       });
-      _.forEach(tempArr, function (n) {
+      _.forEach(tempArr, function (n, key) {
         AppsSandbox.findOne({
           applicationId: n.appId
         })
@@ -228,14 +227,14 @@ module.exports = function (app) {
               "result": false,
               "data": err
             });
-          }
+          };
 
-          if (app === null && n.appStatus !== "App QA approved" || app.year != getCurrentYear() && n.appStatus !== "App QA approved") {
+          if (app === null && n.appStatus !== "App QA approved") {
             AppsSandbox.create({
               appName: n.appName,
               seller: n.seller,
               sdpStatus: n.appStatus,
-              tv: "In Progress",
+              tv: 'In Progress',
               testCycles: 1,
               updateTime: n.updateDate,
               replyTime: 0,
@@ -262,7 +261,7 @@ module.exports = function (app) {
                 });
               });
             });
-          } else if (app !== null && app.year == n.year) {
+          } else if (app !== null) {
             AppsSandbox.findOne({
               applicationId: n.appId
             })
@@ -272,7 +271,7 @@ module.exports = function (app) {
                 res.json({
                   "result": false,
                   data: err
-                });
+                })
               }
 
               n.updateDate = new Date(n.updateDate);
@@ -292,7 +291,7 @@ module.exports = function (app) {
               });
             });
           }
-        });
+        })
       });
     } else if ((req.body.region === "AA" ||
         req.body.region === "HK" ||
@@ -301,12 +300,12 @@ module.exports = function (app) {
         req.body.region === "TW") &&
       req.body.table_caption === "Gate Keeper Review List") {
 
-      var objSIA = JSON.parse(req.body.data);
+      var objectX = JSON.parse(req.body.data);
 
-      _.forEach(objSIA, function (arr) {
+      _.forEach(objectX, function (arr) {
         tempArr.push(_.zipObject(headerArr, arr));
       });
-      _.forEach(tempArr, function (n) {
+      _.forEach(tempArr, function (n, key) {
         AppsSandbox.findOne({
           applicationId: n.appId
         })
@@ -317,14 +316,14 @@ module.exports = function (app) {
               "result": false,
               "data": err
             });
-          }
+          };
 
-          if (app === null && n.appStatus !== "App QA approved" || app.year != getCurrentYear() && n.appStatus !== "App QA approved") {
+          if (app === null && n.appStatus !== "App QA approved") {
             AppsSIA.create({
               appName: n.appName,
               seller: n.seller,
               sdpStatus: n.appStatus,
-              tv: "In Progress",
+              tv: 'In Progress',
               testCycles: 1,
               updateTime: n.updateDate,
               replyTime: 0,
@@ -351,7 +350,7 @@ module.exports = function (app) {
                 });
               });
             });
-          } else if (app !== null && app.year == n.year) {
+          } else if (app !== null) {
             AppsSIA.findOne({
               applicationId: n.appId
             })
@@ -361,7 +360,7 @@ module.exports = function (app) {
                 res.json({
                   "result": false,
                   data: err
-                });
+                })
               }
 
               n.updateDate = new Date(n.updateDate);
@@ -381,13 +380,13 @@ module.exports = function (app) {
               });
             });
           }
-        });
+        })
       });
     } else {
       res.json({
         "result": false,
         "data": "Can't find this region."
-      });
+      })
     }
   });
-};
+}

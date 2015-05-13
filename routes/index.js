@@ -35,10 +35,6 @@ module.exports = function (app, passport) {
   require('./CIS/history/main')(app);
   require('./CIS/history/testerList')(app);
 
-
-
-
-
   //EU pages
   require('./EU/main')(app);
   require('./EU/approved')(app);
@@ -97,7 +93,7 @@ module.exports = function (app, passport) {
 
   //api CORE
   require('./api/user')(app);
-  require('./api/getJson')(app);
+  require('./api/sdpParser')(app);
   require('./api/auth')(app, passport);
 
   //api CIS
