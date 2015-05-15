@@ -25,7 +25,7 @@ describe("Should respone 200", function () {
         name: 'Tester1',
       })
       .expect(200)
-      .end(function (err) {
+      .end(function (err, res) {
         if (err) return done(err);
         _id = res.body._id;
         done();
