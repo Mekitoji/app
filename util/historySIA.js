@@ -67,5 +67,5 @@ async.waterfall([
   });
   setTimeout(function () {
     process.exit()
-  }, 0);
+  }, 3000);
 });

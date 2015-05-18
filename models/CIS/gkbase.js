@@ -1,12 +1,6 @@
 var mongoose = require('../../libs/mongoose');
 var Schema = mongoose.Schema;
 
-
-function getCurrentYear() {
-  var date = new Date();
-  return date.getFullYear();
-}
-
 // create the model for users and expose it to our app
 var Apps = new Schema({
 
@@ -56,8 +50,7 @@ var Apps = new Schema({
     // true - outdated, false in progress
   },
   year: {
-    type: Number,
-    default: getCurrentYear()
+    type: Number
   }
 });
 
