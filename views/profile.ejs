@@ -18,6 +18,12 @@
 </head>
 <body>
 <% include layout/profile_header %>
+<%
+    var d           = new Date();
+    var currentYear = d.getFullYear();
+    var startYear   = 2015; //const
+    //todo :: add region var
+%>
 <div class="container">
 <div>
   <div class="page-header text-center">
@@ -51,11 +57,14 @@
       <div class="well col-md-3 col-md-offset-1">
         <h3><span class="fa fa-cogs"> Menu</span></h3>
         <a href="/profile/changePassword"><button type="button" class="btn btn-primary btn-block admin-panel">Change password</button></a>
+        <% if(currentYear > startYear) {
+            for(startYear; currentYear >= startYear; startYear++) { %>
+            <a href="/<%=region%>/<%=startYear%>/main"><button type="button" class="btn btn-primary btn-block admin-panel"><%=startYear%></button></a>
+          <%  }
+          } %>
       </div>
     </div>
-
   </div>
-
 </div>
 </body>
 </html>

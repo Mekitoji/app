@@ -42,4 +42,5 @@ angular.module('project')
       });
   };
 
+  $scope.yearLocation = document.location.pathname.split("/")[2];
 });
