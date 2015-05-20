@@ -22,7 +22,19 @@
     var d           = new Date();
     var currentYear = d.getFullYear();
     var startYear   = 2015; //const
-    //todo :: add region var
+    var region;
+    var regions = ["cis", "eu", "sia","global"];
+  if(user.local.group === "root") {
+    region = "root";
+  } else if(user.local.group === "gkCIS" || user.local.group === "employerCIS") {
+    region = "CIS";
+  } else if(user.local.group === "gkEU" || user.local.group === "employerEU") {
+    region = "EU";
+  } else if(user.local.group === "gkSIA" || user.local.group === "employerSIA") {
+    region = "SIA";
+  } else if(user.local.group === "global") {
+    region = "Sandbox";
+  }
 %>
 <div class="container">
 <div>
@@ -45,7 +57,7 @@
             <strong>Name</strong>: <%= user.local.username.first %> <%= user.local.username.last %><br>
           </p>
       </div>
-      <% if(user.local.group==='root') { %>
+      <% if(user.local.group === 'root') { %>
       <div class="well col-md-3 col-md-offset-1">
         <h3><span class="fa fa-gavel"></span> Admin tools</h3>
           <p>
@@ -57,13 +69,30 @@
       <div class="well col-md-3 col-md-offset-1">
         <h3><span class="fa fa-cogs"> Menu</span></h3>
         <a href="/profile/changePassword"><button type="button" class="btn btn-primary btn-block admin-panel">Change password</button></a>
-        <% if(currentYear > startYear) {
+        <% if(currentYear > startYear && region !== "root" && region !== undefined) {
             for(startYear; currentYear >= startYear; startYear++) { %>
-            <a href="/<%=region%>/<%=startYear%>/main"><button type="button" class="btn btn-primary btn-block admin-panel"><%=startYear%></button></a>
+                        <%=region%>
+            <a href="/<%= region%>/<%=startYear%>/main"><button type="button" class="btn btn-primary btn-block admin-panel"><%=startYear%></button></a>
           <%  }
           } %>
       </div>
-    </div>
+        </div>
+      <div class="row col-sm-12 ">
+
+        <% if(region === "root" && currentYear > startYear) {
+          for(var i = 0; i<regions.length;i++ ){ %>
+
+            <div class="well col-md-3 col-md-offset-1">
+            <h3><span class="fa fa-cogs"></span> <%=regions[i]%> Years</h3>
+             <% for(var j = startYear; currentYear >= j; j++) { %>
+                            <%=regions[j]%>
+                <a href="/<%= regions[i]%>/<%=j%>/main"><button type="button" class="btn btn-primary btn-block admin-panel"><%=j%></button></a>
+              <% }%>
+            </div>
+        <% }
+      } %>
+      </div>
+
   </div>
 </div>
 </body>
