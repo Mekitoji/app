@@ -54,7 +54,9 @@ $.ajax({
   url: url
 }).done(function (data) {
   data = _.filter(data, function (d) {
-    return d.appId.year == yearFilter;
+    if(d.appId !== null) {
+      return d.appId.year == yearFilter;
+    }
   });
   var storageOfDate = [];
   var appNameObj = {};
