@@ -3,7 +3,7 @@ var data_manual = {};
 var url;
 
 var region = document.URL.split('/')[3]; //??
-var subLoc = document.URL.split('/')[4].slice(0, -1); //??
+var subLoc = document.URL.split('/')[5].slice(0, -1); //??
 var yearFilter = document.location.pathname.split('/')[2];
 if (region == 'cis') {
   if (subLoc === 'approved') {
@@ -47,8 +47,7 @@ if (region == 'cis') {
   }
 }
 
-
-
+console.log(region, url, subLoc);
 
 $.ajax({
   method: 'GET',
