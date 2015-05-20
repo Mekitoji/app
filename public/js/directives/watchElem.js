@@ -10,10 +10,10 @@ angular.module('project')
         element.on("change", function (event) {
 
           var current = scope.row.entity;
+          var projectUrl = current._id;
           if (element.val() === '0') {
             conf = confirm("Are you sure want to approve this app?");
             if (conf) {
-              var projectUrl = current._id;
 
               Apps.update(projectUrl, current)
 
@@ -28,7 +28,6 @@ angular.module('project')
           } else if (element.val() === "2") {
             conf = confirm("Are you sure want to partially approve this app?")
             if (conf) {
-              var projectUrl = current._id;
 
               Apps.update(projectUrl, current)
 
@@ -40,6 +39,11 @@ angular.module('project')
             } else {
               element.val(1);
             }
+          } else if (element.val() === "1" || element.val() === "3"){
+            Apps.update(projectUrl, current)
+            .success(function(data) {
+              scope.formData = data;
+            });
           }
         });
       }
