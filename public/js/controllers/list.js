@@ -317,7 +317,7 @@ angular.module('project')
       field: 'calendar',
       displayName: 'Calendar',
       cellClass: 'calendar',
-      cellTemplate: '<div ng-class="{\'greenCalendar\': row.entity.calendar == \'D\',\'orange\': row.entity.calendar == \'L\',\'calendarll\': row.entity.calendar == \'LL\',\'purple\': row.entity.calendar == \'H\' }" " ><div class="ngCellText">{{row.getProperty(col.field)}}</div></div>',
+      cellTemplate: '<div check-empty ng-class="{\'greenCalendar\': row.entity.calendar == \'D\',\'orange\': row.entity.calendar == \'L\',\'calendarll\': row.entity.calendar == \'LL\',\'purple\': row.entity.calendar == \'H\' }" " ><div class="ngCellText">{{row.getProperty(col.field)}}</div></div>',
       editableCellTemplate: $scope.cellSelectEditableTemplateCalendar,
       visible: permission,
       enableCellEdit: permission,

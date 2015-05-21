@@ -19,8 +19,9 @@
 <body>
 
 <% var region  = path.split('/')[1] %>
+<% var year  = path.split('/')[2] %>
 
-  <h2 class='center-text '>Your message was sent successfully! <p class='small-text'>Go to <a href="/<%= region%>/main">main</a></p></h2>
+  <h2 class='center-text '>Your message was sent successfully! <p class='small-text'>Go to <a href="/<%= region%>/<%= year%>/main">main</a></p></h2>
 
 </body>
 </html>

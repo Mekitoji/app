@@ -165,17 +165,24 @@ angular.module('postmail', [])
         }
       });
     });
-    $scope.previewText += "\n</table><br />\n\nIn case of any questions please don’t hesitate to ask. <br /><br />\n\n" +
+    $scope.region = document.URL.split('/')[3];
+
+    $scope.previewText += "\n</table><br />\n\n" +
+      "To access GK Control system with detailed statistics please click on the screenshot below." +
+      "<a href=\"http://89.108.113.194:1337/"+$scope.region+"/rejected#/inwork\"><br><br><img src=\"..\\images\\thumb\\324234.png\"></a><br><br>\n\n" +
+      "In case you don't have access, reply to this email and request authority.<br><br>"+
       "Best wishes. <br />\n\n\n</div>";
 
     $scope.submit = function () {
       console.log($scope.previewText);
+      var d = new Date();
+      var year = d.getFullYear();
       var region = document.URL.split('/')[3];
       mail.post({
         "text": $scope.previewText
       })
 
-      .success(window.location = "/" + region + "/mailSuccess");
+      .success(window.location = "/" + region + "/" + year+ "/mailSuccess");
 
     };
   });
