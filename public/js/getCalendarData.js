@@ -113,7 +113,7 @@ $.ajax({
     var td = $('<td>').html(appName).appendTo(tr);
     td.attr('data-toggle', 'popover');
     td.attr('data-placement', 'top');
-    td.attr('data-content', 'Application Id: ' + appIdMap[i]);
+    td.attr('data-content', 'Application Id: ' + appIdMap[i].split("/")[0]);
     td.popover({
       trigger: 'hover'
     });
@@ -319,7 +319,9 @@ $('.fc-next-button, .fc-prev-button, .fc-today-button').click(function () {
 
     .done(function (data) {
       data = _.filter(data, function (d) {
-        return d.appId.year == yearFilter;
+        if(d.appId !== null) {
+          return d.appId.year == yearFilter;
+        }
       });
       var storageOfDate = [];
       var appNameObj = {};
@@ -372,7 +374,7 @@ $('.fc-next-button, .fc-prev-button, .fc-today-button').click(function () {
         var td = $('<td>').html(appName).appendTo(tr);
         td.attr('data-toggle', 'popover');
         td.attr('data-placement', 'top');
-        td.attr('data-content', 'Application Id: ' + appIdMap[i]);
+        td.attr('data-content', 'Application Id: ' + appIdMap[i].split("/")[0]);
         td.popover({
           trigger: 'hover'
         });
