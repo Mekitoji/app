@@ -146,7 +146,7 @@ module.exports = function (app) {
       .exec(function(err, app) {
         if (err) utils.responseToClient(res, false, "Server error", err);
 
-        if (app === null && n.appStatus || app !== null && app.year !== utils.getCurrentYear()) {
+        if (app === null && n.appStatus !== "App QA approved" || app !== null && app.year !== utils.getCurrentYear()) {
           var c = config.workspace[config.currentWorkspace];
           var resp = c.gk[n.gk] ? c.gk[n.gk] : "";
 
@@ -171,7 +171,7 @@ module.exports = function (app) {
               utils.responseToClient(res, true, "Data is succesfully parsed");
             });
           });
-        } else if(app !== null) {
+        } else if(app !== null && n.appStatus !== "App QA approved") {
           Apps.findOne({
             applicationId: n.appId
           })
