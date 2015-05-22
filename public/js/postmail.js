@@ -88,6 +88,9 @@ angular.module('postmail', [])
 })
 
 .controller('post', function ($scope, $http, mail, AppsCIS, AppsEU, AppsSIA, AppsSandbox) {
+  $scope.url = document.location.origin;
+  $scope.year = (new Date()).getFullYear();
+
   $scope.tag = [];
   //get all app in work
   var Apps;
@@ -107,7 +110,7 @@ angular.module('postmail', [])
 
   .success(function (data) {
     $scope.apps = data;
-    $scope.previewText = '<style type="text/css">.red{background-color:#F00;} table, table th, table td{border:1px solid black;padding:10px;border-collapse:collapse;padding:1px 5px 1px 6px;font:10pt Arial;} .mail-page {font:10pt Arial;} </style>\n\n\n<div class="mail-page">\n\n\nDear Ted,<br />\nHere I summarize those apps that are on App QA team.\n\n' +
+    $scope.previewText = '<style type="text/css">.red{background-color:#F00;} table, table th, table td{border:1px solid black;padding:10px;border-collapse:collapse;padding:1px 5px 1px 6px;font:10pt Arial;} .mail-page {font:10pt Arial;} </style>\n\n\n<div class="mail-page">\n\n\nDear Alice,<br />\nHere I summarize those apps that are on App QA team.\n\n' +
       '<br /> <br /> \n\n<table border=\'1\'  cellspacing=\'0\' cellpadding=\'0\'>\n\t<tr>\n\t\t<th><b>Country</b>\n\t\t<th><b>Application Id</b></th>\n\t\t<th><b>Application name</b></th>\n\t\t<th><b>SDP Status</b></th>\n\t\t<th><b>Update Date</b></th>\n\t\t<th><b>Seller</b></th>\n\t\t<th><b>Current Status</b></th>\n\t\t<th><b>Resp</b></th>\n\t</tr>\n';
     _.each($scope.apps, function (num) {
       _.each(num, function (data, key) {
@@ -169,7 +172,7 @@ angular.module('postmail', [])
 
     $scope.previewText += "\n</table><br />\n\n" +
       "To access GK Control system with detailed statistics please click on the screenshot below." +
-      "<a href=\"http://89.108.113.194:1337/"+$scope.region+"/rejected#/inwork\"><br><br><img width=240 src=\"/images/thumb/sample.png\"></a><br>" +
+      "<a href='"+ $scope.url + "/" + $scope.region + "/" + $scope.year + "/rejected#/inwork'><br><br><img width=240 src='"+ $scope.url +"/images/thumb/sample2.png'></a><br>" +
       "In case you don't have access, reply to this email and request authority.<br><br>"+
       "Best wishes. <br />\n\n\n</div>";
 
