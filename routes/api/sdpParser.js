@@ -172,6 +172,7 @@ module.exports = function (app) {
             });
           });
         } else if(app !== null && n.appStatus !== "App QA approved") {
+          var resp = c.gk[n.gk] ? c.gk[n.gk] : "";
           Apps.findOne({
             applicationId: n.appId
           })
