@@ -110,7 +110,7 @@ angular.module('postmail', [])
 
   .success(function (data) {
     $scope.apps = data;
-    $scope.previewText = '<style type="text/css">.red{background-color:#F00;} table, table th, table td{border:1px solid black;padding:10px;border-collapse:collapse;padding:1px 5px 1px 6px;font:10pt Arial;} .mail-page {font:10pt Arial;} </style>\n\n\n<div class="mail-page">\n\n\nDear colleagues,<br><br>Please check the latest STE report.<br><br>\n<b>Priority apps waiting for QA in Korea.</b>\n\n' +
+    $scope.previewText = '<style type="text/css">.red{background-color:#F00;} table, table th, table td{border:1px solid black;padding:10px;border-collapse:collapse;padding:1px 5px 1px 6px;font:10pt Arial;} .mail-page {font:10pt Arial;} </style>\n\n\n<div class="mail-page">\n\n\nDear colleagues,<br><br>Please check the latest STE report.<br><br>\n<b>Priority apps waiting for QA in Korea</b>\n\n' +
       '<br /> <br /> \n\n<table border=\'1\'  cellspacing=\'0\' cellpadding=\'0\'>\n\t<tr>\n\t\t<th><b>Country</b>\n\t\t<th><b>Application Id</b></th>\n\t\t<th><b>Application name</b></th>\n\t\t<th><b>SDP Status</b></th>\n\t\t<th><b>Update Date</b></th>\n\t\t<th><b>Seller</b></th>\n\t\t<th><b>Current Status</b></th>\n\t\t<th><b>Resp</b></th>\n\t</tr>\n';
     _.each($scope.apps, function (num) {
       _.each(num, function (data, key) {
@@ -171,7 +171,7 @@ angular.module('postmail', [])
     $scope.region = document.URL.split('/')[3];
 
     $scope.previewText += "\n</table><br />\n\n" +
-      "To access <b>GK Control system</b> with detailed statistics please click on the screenshot below. In case you don't have access, reply to this email and request authority.<br><br>" +
+      "To access <b>GK Control system</b> with detailed statistics please click on the screenshot below. In case you don't have access, reply to this email and request authority.<br>" +
       "<a href='"+ $scope.url + "/" + $scope.region + "/" + $scope.year + "/rejected#/inwork'><br><br><img width=480 src='"+ $scope.url +"/images/thumb/sample2.png'></a><br><br>" +
       "Best wishes. <br />\n\n\n</div>";
 

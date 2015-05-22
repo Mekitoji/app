@@ -22,7 +22,7 @@ module.exports = function (app) {
     var temp_year = temp.getFullYear();
 
 
-    var subject = "[Share][GK Progress] " + temp_date + " " + monthArray[temp_month] + " " + temp_year;
+    var subject = "[Share][STE Report] " + temp_date + " " + monthArray[temp_month] + " " + temp_year;
 
     var mailOptions = {
       from: 'GKProgress < GKProgress@lgerp.com>', // sender address
