@@ -1,5 +1,6 @@
 var nodemailer = require('nodemailer');
 var routesFunction = require('../../libs/routesFunction');
+
 module.exports = function (app) {
   app.get('/cis/:year/postmail', routesFunction.checkPermissionGkCIS, function (req, res, next) {
     res.locals.path = req.path;
@@ -9,7 +10,6 @@ module.exports = function (app) {
         user: req.user // get the user out of session and pass to template
       });
     }
-
   });
 
   app.post('/cis/postmail', routesFunction.checkPermissionGkCIS, function (req, res) {

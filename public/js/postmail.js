@@ -169,7 +169,7 @@ angular.module('postmail', [])
 
     $scope.previewText += "\n</table><br />\n\n" +
       "To access GK Control system with detailed statistics please click on the screenshot below." +
-      "<a href=\"http://89.108.113.194:1337/"+$scope.region+"/rejected#/inwork\"><br><br><img src=\"..\\images\\thumb\\324234.png\"></a><br><br>\n\n" +
+      "<a href=\"http://89.108.113.194:1337/"+$scope.region+"/rejected#/inwork\"><br><br><img width=240 src=\"/images/thumb/sample.png\"></a><br>" +
       "In case you don't have access, reply to this email and request authority.<br><br>"+
       "Best wishes. <br />\n\n\n</div>";
 

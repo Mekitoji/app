@@ -20,6 +20,3 @@ config/config.json
 
 #todo
 *.todo
-
-#public
-public/images/thumb
