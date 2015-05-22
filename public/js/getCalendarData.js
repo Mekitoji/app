@@ -193,7 +193,7 @@ $.ajax({
 
               $.ajax({
                 type: 'PUT',
-                url: '../api/' + region + '/calendar/' + classArr[1],
+                url: '../../api/' + region + '/calendar/' + classArr[1],
                 data: {
                   value: newValue,
                   fullDate: classArr[0],
@@ -237,7 +237,7 @@ $.ajax({
               }
               $.ajax({
                 type: 'PUT',
-                url: '../api/' + region + '/calendar/' + classArr[1],
+                url: '../../api/' + region + '/calendar/' + classArr[1],
                 data: {
                   value: newValue,
                   fullDate: classArr[0],
@@ -288,7 +288,7 @@ $.ajax({
           }
           $.ajax({
             type: 'PUT',
-            url: '../api/' + region + '/calendar/' + classArr[1],
+            url: '../../api/' + region + '/calendar/' + classArr[1],
             data: {
               value: newValue,
               fullDate: classArr[0],
@@ -456,7 +456,7 @@ $('.fc-next-button, .fc-prev-button, .fc-today-button').click(function () {
 
                   $.ajax({
                     type: 'PUT',
-                    url: '../api/' + region + '/calendar/' + classArr[1],
+                    url: '../../api/' + region + '/calendar/' + classArr[1],
                     data: {
                       value: newValue,
                       fullDate: classArr[0],
@@ -500,7 +500,7 @@ $('.fc-next-button, .fc-prev-button, .fc-today-button').click(function () {
                   }
                   $.ajax({
                     type: 'PUT',
-                    url: '../api/' + region + '/calendar/' + classArr[1],
+                    url: '../../api/' + region + '/calendar/' + classArr[1],
                     data: {
                       value: newValue,
                       fullDate: classArr[0],
@@ -551,7 +551,7 @@ $('.fc-next-button, .fc-prev-button, .fc-today-button').click(function () {
               }
               $.ajax({
                 type: 'PUT',
-                url: '../api/' + region + '/calendar/' + classArr[1],
+                url: '../../api/' + region + '/calendar/' + classArr[1],
                 data: {
                   value: newValue,
                   fullDate: classArr[0],
