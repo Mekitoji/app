@@ -12,6 +12,7 @@ angular.module('project')
           applicationId: apps[i].applicationId,
           year: apps[i].year,
         });
+        console.log($scope.temps);
         $scope.temps = _.sortBy($scope.temps, function (i) {
           return i.appName.toLowerCase();
         });
