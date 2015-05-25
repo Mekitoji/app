@@ -26,8 +26,8 @@ module.exports = function (app) {
 
     var mailOptions = {
       from: 'GKProgress < GKProgress@lgerp.com>', // sender address
-      to: 'vladimir.egorov@lge.com', // list of receivers
-      cc: ['andrey.sayants@lge.com'],
+      to: ['yoonra.choi@lgepartner.com','hyeonah.park@lgepartner.com'], // list of receivers
+      cc: ["rana.gong@lgepartner.com","ju.yeo@lge.com","stanislav.rastaturin@lge.com","ellen81.cho@lge.com","seulki.lee@lge.com","dmitry.politaev@lge.com","vitaliy.svistunov@lge.com","konstantin.safonov@lge.com","nursultan.daurenov@lge.com","kevinsj.park@lge.com","hyekseong.kweon@lge.com","yoonra.choi@lgepartner.com","edward.lee@lge.com","alla.chudzhaeva@lge.com","irina.vorobyova@lge.com","yury.kirillov@lge.com","jay.bae@lge.com","jhk79.kim@lge.com","jaeh8.kim@lge.com","vladimir.egorov@lge.com"],
       subject: subject, // Subject line
       replyTo: 'andrey.sayants@lge.com',
       text: req.body.text, // plaintext body
