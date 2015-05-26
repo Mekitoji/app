@@ -25,7 +25,7 @@ module.exports = function (app) {
     var subject = "[Share][STE Report] " + temp_date + " " + monthArray[temp_month] + " " + temp_year;
 
     var mailOptions = {
-      from: 'GKProgress < GKProgress@lgerp.com>', // sender address
+      from: 'CIS STE <noreply@lge.com>', // sender address
       to: 'vladimir.egorov@lge.com', // list of receivers
       cc: ['andrey.sayants@lge.com'],
       subject: subject, // Subject line

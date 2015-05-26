@@ -25,5 +25,9 @@ angular.module('history-project')
     })
     .when('/calendar', {
     templateUrl: '../../../calendar-history.html'
+    })
+    .when('/testList', {
+      controller: 'testerListCtrl',
+      template: '../../../testList-history.html',
     });
 });

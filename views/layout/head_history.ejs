@@ -38,6 +38,7 @@
 <script src="../../../js/controllers/listInWork-history.js"></script>
 <script src="../../../js/controllers/listNotReviewed-history.js"></script>
 <script src="../../../js/controllers/listOutdated-history.js"></script>
+<script src="../../../js/controllers/testeList-history.js"></script>
 
 <% var route = path.split('/')[1]%>
 <% if(route === 'cis') { %>
@@ -57,7 +58,7 @@
   }
 
   #ppdatepicker {
-    visibility:hidden; 
+    visibility:hidden;
     width:1px;
     position:absolute;
     top:5px;
@@ -86,7 +87,7 @@
 </script>
 <script>
   var tryCount = 0;
- 
+
   function checkReady() {
     if($("#datepicker-notice").is(":visible")) {
       $("#datepicker-notice").datepicker({
