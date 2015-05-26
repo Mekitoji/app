@@ -50,7 +50,7 @@ var Apps = new Schema({
     // true - outdated, false in progress
   },
   year: {
-    default: Number
+    type: Number
   }
 });
 

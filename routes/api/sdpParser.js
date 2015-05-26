@@ -63,7 +63,7 @@ utils.checkData = function(region, caption, response) {
       } else return false;
     });
   });
-
+  console.log("Current config", config);
   if(!utils.isNullOrUndefined(config.currentWorkspace)) {
     return config.currentWorkspace;
   } else {
@@ -104,7 +104,7 @@ utils.inferface = function(workspace) {
     Apps = require('../../models/EU/gkbase');
     ApprovedApps = require('../../models/EU/gkbaseApproved');
     Cal = require('../../models/EU/calendar');
-  } else if(workspace === "All") {
+  } else if(workspace === "ALL") {
     Apps = require('../../models/Sandbox/gkbase');
     ApprovedApps = require('../../models/Sandbox/gkbaseApproved');
     Cal = require('../../models/Sandbox/calendar');
@@ -112,6 +112,10 @@ utils.inferface = function(workspace) {
     Apps = require('../../models/SIA/gkbase');
     ApprovedApps = require('../../models/SIA/gkbaseApproved');
     Cal = require('../../models/SIA/calendar');
+  } else {
+    Apps = null;
+    ApprovedApps = null;
+    Cal = null;
   }
 };
 
@@ -128,12 +132,17 @@ module.exports = function (app) {
   app.post('/api/getJson', function(req, res) {
     var region    = req.body.region;
     var caption   = req.body.table_caption;
-    var rawData      = req.body.data;
+    var rawData   = req.body.data;
     var workspace = utils.checkData(region, caption, res);
     var data      = JSON.parse(rawData);
-    var p = [];
+    var p         = [];
 
     utils.inferface(workspace);
+    console.log(workspace)
+
+    if(Apps === null || ApprovedApps === null || Cal === null) {
+      utils.responseToClient(res, false, "Server error; Workspace is null;", null)
+    }
 
     _.forEach(data, function(arr) {
       p.push(_.zipObject(config.headerArr, arr));
