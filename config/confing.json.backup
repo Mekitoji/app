@@ -12,9 +12,6 @@
   },
   "session": {
     "secret": "MKTJparty",
-    "resave": false,
-    "saveUninitialized": true,
-    "name": "connect.prodServer.sid",
     "cookie": {
       "path": "/",
       "httpOnly": true,
