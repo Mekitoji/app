@@ -1,5 +1,5 @@
 {
-  "port": 1337,
+  "port": 3000,
   "mongoose": {
     "uri": "mongodb://localhost/prodGk",
     "options": {
@@ -14,7 +14,7 @@
     "secret": "MKTJparty",
     "resave": false,
     "saveUninitialized": true,
-    "name": "connect.prodServer.sid",
+    "name": "connect.Server.sid",
     "cookie": {
       "path": "/",
       "httpOnly": true,
