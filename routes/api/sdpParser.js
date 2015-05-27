@@ -181,7 +181,7 @@ module.exports = function (app) {
               utils.responseToClient(res, true, "Data is succesfully parsed");
             });
           });
-        } else if(app !== null && n.appStatus !== "App QA approved") {
+        } else if(app !== null) {
           var c = config.workspace[config.currentWorkspace];
           var resp = c.gk[n.gk] ? c.gk[n.gk] : "";
           Apps.findOne({
