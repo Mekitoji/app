@@ -52,23 +52,26 @@ utils.isNullOrUndefined = function(val) {
 /**
  * Show what region data we currently parse, and write it to config
  * @param  {string} Region to parse
- * @return {string|false} Workspace
+ * @return {string|null} Workspace
  */
 utils.checkData = function(region, caption, response) {
+  //get config clean
+  config.currentWorkspace = null;
+
   _.forEach(config.workspace, function(n, key) {
     _.forEach(n.region, function(r) {
       if(r === region) {
         config.currentWorkspace = key;
         return true;
-      } else return false;
+      }
     });
   });
-  console.log("Current config", config);
+
   if(!utils.isNullOrUndefined(config.currentWorkspace)) {
     return config.currentWorkspace;
   } else {
     this.responseToClient(response, false, "Can't find this region.");
-    return false;
+    return null;
   }
 };
 
@@ -95,7 +98,7 @@ utils.responseToClient = function(res, result, msg, e) {
  * @param  {String} workspace Current workspace
  * @return void
  */
-utils.inferface = function(workspace) {
+utils.interface = function(workspace) {
   if (workspace === "CIS") {
     Apps = require('../../models/CIS/gkbase');
     ApprovedApps = require('../../models/CIS/gkbaseApproved');
@@ -137,10 +140,9 @@ module.exports = function (app) {
     var data      = JSON.parse(rawData);
     var p         = [];
 
-    utils.inferface(workspace);
-    console.log(workspace)
+    utils.interface(workspace);
 
-    if(Apps === null || ApprovedApps === null || Cal === null) {
+    if(utils.isNullOrUndefined(Apps) || utils.isNullOrUndefined(ApprovedApps) || utils.isNullOrUndefined(Cal) || utils.isNullOrUndefined(workspace)) {
       utils.responseToClient(res, false, "Server error; Workspace is null;", null)
     }
 
@@ -171,7 +173,6 @@ module.exports = function (app) {
             applicationId: n.appId,
             year: utils.getCurrentYear()
           }, function(err, result){
-            console.log(result);
             if (err) utils.responseToClient(res, false, "Create app failed. ", err);
             Cal.create({
               appId: result._id
@@ -199,7 +200,7 @@ module.exports = function (app) {
             });
           });
         } else {
-          utils.responseToClient(res, false, "Something go wrong.");
+          utils.responseToClient(res, true, "QA approved app detected; skip it", null);
         }
       });
     });
