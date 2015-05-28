@@ -82,9 +82,22 @@
     color: black;
 }
 
+.orange-calendar {
+    background-color: orange;
+    color: black;
+    text-align: center;
+}
+
 .pink {
     background-color: pink;
     color: white;
+}
+
+
+.purple-calendar {
+    background-color: rgb(209, 143, 209);
+    color: black;
+    text-align:center;
 }
 
 .calendarll {

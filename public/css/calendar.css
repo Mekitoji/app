@@ -55,3 +55,7 @@ td.fc-widget-content {
   display: block;
   width: 1200px;
 }
+
+.fc-widget-content {
+  border: 0px !important;
+}
