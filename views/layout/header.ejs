@@ -37,7 +37,13 @@
         </li>
         <li><a href="/<%=route%>/<%=yearFilter%>/tester">KPI</a></li>
         <li><a href="/<%=route%>/<%=yearFilter%>/main#/testList">Test Cycle</a></li>
+       <% if (user.local.group === 'root' ||
+          user.local.group === 'gkCIS' ||
+          user.local.group === 'gkEU'  ||
+          user.local.group === 'gkSIA' ||
+          user.local.group === 'sandbox') { %>
         <li><a href="/<%=route%>/<%=yearFilter%>/postmail">Post Mail</a></li>
+      <% } %>
         <% if(user.local.group==='root') { %>
         <li class= 'dropdown'>
           <a href="dropdown-toogle" data-toggle="dropdown">Tools   <b class='caret'></b></a>
@@ -53,7 +59,9 @@
         var year = date.getFullYear();
         var DateX = month+ "-"+ day + "-" +year;
          %>
+
         <li><a href="/<%=route%>/history/<%= DateX%>/main#/">History</a></li>
+
       </ul>
 
       <ul class="nav navbar-nav navbar-right">

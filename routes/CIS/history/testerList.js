@@ -5,7 +5,7 @@ var History = require('../../../models/CIS/history');
 var _ = require('lodash');
 
 module.exports = function (app) {
-  app.get('/cis/history/:date/tester', routesFunction.checkPermissionGkCIS, function (req, res) {
+  app.get('/cis/history/:date/tester', routesFunction.checkPermissionCIS, function (req, res) {
     var date = req.params.date;
     var title = "[" + date + "]" + "Gate Keeper Control History";
     var fDate = new Date(date);
@@ -58,7 +58,7 @@ module.exports = function (app) {
     });
   });
 
-  app.get('/cis/history/:date/tester/:tester_id', routesFunction.checkPermissionGkCIS, function (req, res) {
+  app.get('/cis/history/:date/tester/:tester_id', routesFunction.checkPermissionCIS, function (req, res) {
     var date = req.params.date;
     var testerId = req.params.tester_id;
     var title = "[" + date + "]" + "Gate Keeper Control History";

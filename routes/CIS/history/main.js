@@ -1,7 +1,7 @@
 var routesFunction = require('../../../libs/routesFunction');
 
 module.exports = function (app) {
-  app.get('/cis/history/:date/main', routesFunction.checkPermissionGkCIS, function (req, res) {
+  app.get('/cis/history/:date/main', routesFunction.checkPermissionCIS, function (req, res) {
     var date = req.params.date;
     //date = mm-dd-yy
     var title = "[" + date + "]" + "Gate Keeper Control History";
@@ -13,7 +13,7 @@ module.exports = function (app) {
     });
   });
 
-  app.get('/cis/history/:date/approved', routesFunction.checkPermissionGkCIS, function (req, res) {
+  app.get('/cis/history/:date/approved', routesFunction.checkPermissionCIS, function (req, res) {
     var date = req.params.date;
     //date = mm-dd-yy
     var title = "[" + date + "]" + "Gate Keeper Control History - Approved";
@@ -25,7 +25,7 @@ module.exports = function (app) {
     });
   });
 
-  app.get('/cis/history/:date/rejected', routesFunction.checkPermissionGkCIS, function (req, res) {
+  app.get('/cis/history/:date/rejected', routesFunction.checkPermissionCIS, function (req, res) {
     var date = req.params.date;
     //date = mm-dd-yy
     var title = "[" + date + "]" + "Gate Keeper Control History - In Progress";
@@ -37,7 +37,7 @@ module.exports = function (app) {
     });
   });
 
-  app.get('/cis/history/:date/outdated', routesFunction.checkPermissionGkCIS, function (req, res) {
+  app.get('/cis/history/:date/outdated', routesFunction.checkPermissionCIS, function (req, res) {
     var date = req.params.date;
     //date = mm-dd-yy
     var title = "[" + date + "]" + "Gate Keeper Control History - Outdated";
@@ -49,7 +49,7 @@ module.exports = function (app) {
     });
   });
 
-  app.get('/cis/history/:date/notReviewed', routesFunction.checkPermissionGkCIS, function (req, res) {
+  app.get('/cis/history/:date/notReviewed', routesFunction.checkPermissionCIS, function (req, res) {
     var date = req.params.date;
     //date = mm-dd-yy
     var title = "[" + date + "]" + "Gate Keeper Control History - Not Reviewed";
