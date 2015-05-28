@@ -28,6 +28,6 @@ angular.module('history-project')
     })
     .when('/testList', {
       controller: 'testerListCtrl',
-      template: '../../../testList-history.html',
+      templateUrl: '../../../testList-history.html',
     });
 });

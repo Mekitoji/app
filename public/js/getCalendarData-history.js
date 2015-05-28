@@ -5,9 +5,7 @@ var url;
 var region = document.location.pathname.split('/')[1];
 var subLoc = document.location.pathname.split('/')[4];
 var historyDate = document.URL.split('/')[5];
-console.log(region);
-console.log(subLoc);
-console.log(historyDate);
+
 if (region == 'cis') {
   if (subLoc === 'approved') {
     url = '../../../api/cis/history/' + historyDate;

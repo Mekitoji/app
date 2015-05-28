@@ -4,63 +4,37 @@ angular.module('history-project')
   var permission;
   var locationC = document.URL.split('/')[3];
   $scope.year = document.location.pathname.split('/')[2];
-
-  if (locationC === 'cis') {
-    if (userG === 'gkCIS' || userG === 'root') {
-      permission = true;
-      $scope.perm = true;
-    } else {
-      permission = false;
-      $scope.perm = false;
-    }
-  } else if (locationC === 'eu') {
-    if (userG === 'gkEU' || userG === 'root') {
-      permission = true;
-      $scope.perm = true;
-    } else {
-      permission = false;
-      $scope.perm = false;
-    }
-  } else if (locationC === 'global') {
-    if (userG === 'global' || userG === 'root') {
-      permission = true;
-      $scope.perm = true;
-    } else {
-      permission = false;
-      $scope.perm = false;
-    }
-  } else if (locationC === 'sia') {
-    if (userG === 'gkSIA' || userG === 'root') {
-      permission = true;
-      $scope.perm = true;
-    } else {
-      permission = false;
-      $scope.perm = false;
-    }
-  }
+  $scope.loc = window.location.pathname.split('/')[3];
 
   function sortName(a, b) {
     return a.name.toLowerCase().localeCompare(b.name.toLowerCase());
   }
 
   function sortAppStorage(a, b) {
-    console.log(a);
-    console.log(b);
     if (a.app.appName.toLowerCase() < b.app.appName.toLowerCase()) return -1;
     if (a.app.appName.toLowerCase() > b.app.appName.toLowerCase()) return 1;
     return 0;
   }
 
-  History.get()
+  History.getByDate($scope.loc)
 
-  .success(function (testers) {
-    $scope.testers = testers.sort(sortName);
-    _.forEach($scope.testers, function (n, key) {
-      console.log(n);
-      n.appStorage = _.filter(n.appStorage, function(d){
-        return d.year == $scope.year;
+  .success(function (data) {
+    $scope.testers = data.testerStat;
+    if (data.apps === undefined) {
+      var container = document.getElementsByClassName("container")[0];
+      var notice = document.createElement("div");
+      var datepicker = document.createElement("div");
+      datepicker.id = "datepicker-notice";
+      // datepicker.style.position = "absolute";
+      notice.id = "notice-error";
+      notice.innerHTML = "No data for this date. Please try another:";
+      container.appendChild(notice);
+      container.appendChild(datepicker);
+    } else {
+      $scope.testers = $scope.testers.sort(sortName);
+      _.forEach($scope.testers, function (n, key) {
+        n.appStorage = n.appStorage.sort(sortAppStorage);
       });
-      n.appStorage = n.appStorage.sort(sortAppStorage);
-    });
+    }
   });
 });
