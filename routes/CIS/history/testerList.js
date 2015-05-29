@@ -53,7 +53,7 @@ module.exports = function (app) {
             path: req.path,
             apps: data.apps
           });
-        }, 500);
+        }, 1000);
       }
     });
   });

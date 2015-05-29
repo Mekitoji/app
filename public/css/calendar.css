@@ -4,7 +4,7 @@ body {
   font-family: "Lucida Grande",Helvetica,Arial,Verdana,sans-serif;
 }
 th{
-text-align: right;
+  text-align: right;
 }
 td {
   height: 21px;
@@ -17,17 +17,20 @@ td.appNameRow {
 #calendar {
   width: 900px;
   margin: 0 auto;
+  float: left;
 }
 .container {
   margin-top:10px;
   width:90%;
 }
 .container>div {
-    float:left;
+  float:left;
+  position: relative;
 }
 .inner-table-appName{
   margin-top:55px;
-  margin-right: 10px;
+  margin-right: 20px;
+  float: right;
 }
 .fc-bg table{
   height: auto;
@@ -38,9 +41,9 @@ td.fc-widget-content {
 }
 
 #datepicker {
-  position: absolute;
-  left:1107px;
-  top:105px;
+  position: relative;
+  float: right;
+  margin-top: -132px;
 }
 
 .column-table>tr>td{
@@ -53,7 +56,8 @@ td.fc-widget-content {
 
 .stop {
   display: block;
-  width: 1200px;
+  width: auto;
+  min-width: 1300px;
 }
 
 .fc-widget-content {

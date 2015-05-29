@@ -23,13 +23,9 @@ angular.module('history-project')
     if (data.apps === undefined) {
       var container = document.getElementsByClassName("container")[0];
       var notice = document.createElement("div");
-      var datepicker = document.createElement("div");
-      datepicker.id = "datepicker-notice";
-      // datepicker.style.position = "absolute";
       notice.id = "notice-error";
-      notice.innerHTML = "No data for this date. Please try another:";
+      notice.innerHTML = "No data for this date. Please try another.";
       container.appendChild(notice);
-      container.appendChild(datepicker);
     } else {
       $scope.testers = $scope.testers.sort(sortName);
       _.forEach($scope.testers, function (n, key) {

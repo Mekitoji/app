@@ -73,14 +73,11 @@ angular.module('history-project')
       var list = document.getElementById('app-list');
       var container = document.getElementsByClassName("container")[0];
       var notice = document.createElement("div");
-      var datepicker = document.createElement("div");
-      datepicker.id = "datepicker-notice";
       // datepicker.style.position = "absolute";
       notice.id = "notice-error";
-      notice.innerHTML = "No data for this date. Please try another:";
+      notice.innerHTML = "No data for this date. Please try another.";
       list.parentNode.removeChild(list);
       container.appendChild(notice);
-      container.appendChild(datepicker);
 
     } else {
       $scope.apps = data.apps;

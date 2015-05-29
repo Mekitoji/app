@@ -59,16 +59,12 @@ $.ajax({
   if (data.calendar === undefined) {
     var container = document.getElementsByClassName("container")[0];
     var notice = document.createElement("div");
-    var datepicker = document.createElement("div");
-    datepicker.id = "datepicker-notice";
-    // datepicker.style.position = "absolute";
     notice.id = "notice-error";
-    notice.innerHTML = "No data for this date. Please try another:";
+    notice.innerHTML = "No data for this date. Please try another.";
     while (container.hasChildNodes()) {
       container.removeChild(container.lastChild);
     }
     container.appendChild(notice);
-    container.appendChild(datepicker);
   } else {
 
     var lo = document.location.pathname.split('/')[4];
