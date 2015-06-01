@@ -47,8 +47,6 @@ if (region == 'cis') {
   }
 }
 
-console.log(region, url, subLoc);
-
 $.ajax({
   method: 'GET',
   url: url
@@ -62,7 +60,7 @@ $.ajax({
   var appNameObj = {};
   var calendarId = {};
   var appIdMap = {};
-  // var test = {};
+  var respPersonMap = {};
   //Push data in array
   for (var i = 0; i < data.length; i++) {
     if (data[i] !== null && data[i].appId !== null) {
@@ -70,9 +68,10 @@ $.ajax({
       calendarId[data[i]._id] = data[i].appId._id;
       appNameObj[data[i].appId._id] = data[i].appId.appName;
       appIdMap[data[i].appId._id] = data[i].appId.applicationId;
+      respPersonMap[data[i].appId._id] = data[i].appId.resp;
+
       // storageOfDate.push(data[i].storage);
       var innerStorage = data[i].storage;
-
       for (j = 0; j < innerStorage.length; j++) {
 
         if (!data_manual[innerStorage[j].fullDate]) {
@@ -84,6 +83,7 @@ $.ajax({
     }
   }
 
+  console.log(respPersonMap);
 
   var keys = [];
   var appNameObjNew = {};
@@ -125,13 +125,11 @@ $.ajax({
     var thisCol = $(this),
       table = $('<table>'),
       dd = thisCol.data('date'),
-
       thisColTable = table.addClass('column-table').attr('id', 'dataTableColumn' + (++count)).appendTo(thisCol);
 
     $.each(data_manual, function (date, valueArr) {
 
       $.each(appNameObjNew, function (appId, appName) {
-
         if (date == dd) {
           if (valueArr[appId]) {
             var tr = $('<tr>').css({
@@ -165,6 +163,9 @@ $.ajax({
                 "color": "orange"
               });
             }
+            //start
+            preventUndefinded(tr, respPersonMap, appId);
+            //end
             td.on('change', function (evt, newValue) {
 
               var thisElem = $(this);
@@ -211,6 +212,9 @@ $.ajax({
                 td1.html('').addClass(date).addClass(calId).appendTo(empty);
             });
             thisColTable.append(empty);
+            //start
+            preventUndefinded(empty, respPersonMap, appId);
+            //end
             td1.on('change', function (evt, newValue) {
               var thisElem = $(this);
               var classArr = thisElem.attr('class').split(' ');
@@ -262,6 +266,9 @@ $.ajax({
             td.html('').addClass(dd).addClass(calId).appendTo(empty);
         });
         thisColTable.append(empty);
+         //start
+         preventUndefinded(empty, respPersonMap, appId);
+         //end
         td.on('change', function (evt, newValue) {
           var thisElem = $(this);
           var classArr = thisElem.attr('class').split(' ');
@@ -310,7 +317,8 @@ $.ajax({
 
 
 //fc-toolbar click event listener
-$('.fc-next-button, .fc-prev-button, .fc-today-button').click(function () {
+$('.fc-next-button, .fc-prev-button, .fc-today-button').click(function (e) {
+  $('td.fc-day').unbind();
   $('td.fc-day').ready(function () {
     $.ajax({
       method: 'GET',
@@ -327,12 +335,14 @@ $('.fc-next-button, .fc-prev-button, .fc-today-button').click(function () {
       var appNameObj = {};
       var calendarId = {};
       var appIdMap = {};
+      var respPersonMap = {};
       // var test = {};
       //Push data in array
       for (var i = 0; i < data.length; i++) {
         calendarId[data[i]._id] = data[i].appId._id;
         appNameObj[data[i].appId._id] = data[i].appId.appName;
         appIdMap[data[i].appId._id] = data[i].appId.applicationId;
+        respPersonMap[data[i].appId._id] = data[i].appId.resp;
         // storageOfDate.push(data[i].storage);
         var innerStorage = data[i].storage;
 
@@ -379,17 +389,15 @@ $('.fc-next-button, .fc-prev-button, .fc-today-button').click(function () {
           trigger: 'hover'
         });
         $('.inner-table-appName tbody').append(tr);
-
       });
 
       var count = 0;
+      $('td.fc-day').empty();
       $('td.fc-day').each(function (i, elem) {
         var thisCol = $(this),
           table = $('<table>'),
           dd = thisCol.data('date'),
-
           thisColTable = table.addClass('column-table').attr('id', 'dataTableColumn' + (++count)).appendTo(thisCol);
-
         $.each(data_manual, function (date, valueArr) {
 
           $.each(appNameObjNew, function (appId, appName) {
@@ -427,6 +435,7 @@ $('.fc-next-button, .fc-prev-button, .fc-today-button').click(function () {
                     "color": "orange"
                   });
                 }
+                preventUndefinded(tr, respPersonMap, appId);
                 td.on('change', function (evt, newValue) {
 
                   var thisElem = $(this);
@@ -474,6 +483,7 @@ $('.fc-next-button, .fc-prev-button, .fc-today-button').click(function () {
                     td1.html('').addClass(date).addClass(calId).appendTo(empty);
                 });
                 thisColTable.append(empty);
+                preventUndefinded(empty, respPersonMap, appId);
                 td1.on('change', function (evt, newValue) {
                   var thisElem = $(this);
                   var classArr = thisElem.attr('class').split(' ');
@@ -525,6 +535,9 @@ $('.fc-next-button, .fc-prev-button, .fc-today-button').click(function () {
                 td.html('').addClass(dd).addClass(calId).appendTo(empty);
             });
             thisColTable.append(empty);
+
+            preventUndefinded(empty, respPersonMap, appId);
+
             td.on('change', function (evt, newValue) {
               var thisElem = $(this);
               var classArr = thisElem.attr('class').split(' ');
@@ -572,3 +585,17 @@ $('.fc-next-button, .fc-prev-button, .fc-today-button').click(function () {
     });
   });
 });
+
+
+function preventUndefinded(tr, map, appId) {
+  tr.on('click', function(evt) {
+    if(map[appId] == undefined || map[appId] == "") {
+      alert("Please choose the responsible person for this application");
+      return false;
+    } else {
+      console.log("ok");
+      console.log(map[appId]);
+      return true;
+    }
+  });
+}

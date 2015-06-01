@@ -94,9 +94,16 @@ angular.module('postmail', [])
   $scope.tag = [];
   //get all app in work
   var Apps;
+  var gk={};
   var route = window.location.pathname.split('/')[1];
   if (route === 'cis') {
     Apps = AppsCIS;
+    gk = {
+      "DP": "Politaev Dmitry",
+      "AS": "Sayants Andrey",
+      "VE": "Egorov Vladimir",
+      "YK": "Kirillov Yury",
+    }
   } else if (route === 'eu') {
     Apps = AppsEU;
   } else if (route === 'global') {
@@ -139,7 +146,8 @@ angular.module('postmail', [])
               bgcolor = 'bgcolor="red"';
             }
             num.updateTime = temp_year + "-" + temp_month + "-" + temp_date;
-            $scope.previewText += "\t<tr>\n\t\t<td>" + num.country + "</td>\n\t\t<td>" + num.applicationId + "</td>\n\t\t<td>" + num.appName + "</td>\n\t\t<td>" + num.sdpStatus + "</td>\n\t\t<td class='" + classx + "' " + bgcolor + ">" + num.updateTime + "</td>\n\t\t<td>" + num.seller + "</td>\n\t\t<td>" + num.currentStatus + "</td>\n\t\t<td>" + num.resp + "</td>\n\t</tr>";
+            var resp = gk[num.resp]?gk[num.resp]:num.resp;
+            $scope.previewText += "\t<tr>\n\t\t<td>" + num.country + "</td>\n\t\t<td>" + num.applicationId + "</td>\n\t\t<td>" + num.appName + "</td>\n\t\t<td>" + num.sdpStatus + "</td>\n\t\t<td class='" + classx + "' " + bgcolor + ">" + num.updateTime + "</td>\n\t\t<td>" + num.seller + "</td>\n\t\t<td>" + num.currentStatus + "</td>\n\t\t<td>" + resp + "</td>\n\t</tr>";
           }
         }
       });
@@ -186,7 +194,6 @@ angular.module('postmail', [])
       })
 
       .success(window.location = "/" + region + "/" + year+ "/mailSuccess");
-
     };
   });
 });

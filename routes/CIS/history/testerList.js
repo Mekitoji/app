@@ -28,6 +28,7 @@ module.exports = function (app) {
         res.render("dateNotFound", {
           path: req.path,
           user: req.user,
+          title: title,
         });
       } else {
         data.testerStat = _.forEach(data.testerStat, function (n, key) {

@@ -397,6 +397,7 @@ $('.fc-next-button, .fc-prev-button, .fc-today-button').click(function () {
       });
 
       var count = 0;
+      $('td.fc-day').empty();
       $('td.fc-day').each(function (i, elem) {
         var thisCol = $(this),
           table = $('<table>'),
