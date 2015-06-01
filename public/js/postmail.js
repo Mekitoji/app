@@ -171,7 +171,8 @@ angular.module('postmail', [])
               temp_month = '0' + temp_month;
             }
             num.updateTime = temp_year + "-" + temp_month + "-" + temp_date;
-            $scope.previewText += "\n\t<tr>\n\t\t<td>" + num.country + "</td>\n\t\t<td>" + num.applicationId + '</td>\n\t\t<td>' + num.appName + "</td>\n\t\t<td>" + num.sdpStatus + "</td>\n\t\t<td>" + num.updateTime + "</td>\n\t\t<td>" + num.seller + "</td>\n\t\t<td>" + num.currentStatus + "</td>\n\t\t<td>" + num.resp + "</td>\n\t\t</tr>";
+            var resp = gk[num.resp]?gk[num.resp]:num.resp;
+            $scope.previewText += "\n\t<tr>\n\t\t<td>" + num.country + "</td>\n\t\t<td>" + num.applicationId + '</td>\n\t\t<td>' + num.appName + "</td>\n\t\t<td>" + num.sdpStatus + "</td>\n\t\t<td>" + num.updateTime + "</td>\n\t\t<td>" + num.seller + "</td>\n\t\t<td>" + num.currentStatus + "</td>\n\t\t<td>" + resp + "</td>\n\t\t</tr>";
           }
         }
       });
