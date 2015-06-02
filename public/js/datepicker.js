@@ -3,6 +3,11 @@ var locationC = document.URL.split('/')[3];
 var subLoc = document.URL.split('/')[4].slice(0, -1);
 var yearFilter = document.location.pathname.split('/')[2];
 
+
+var region = document.URL.split('/')[3]; //??
+var subLoc = document.URL.split('/')[5].slice(0, -1); //??
+var yearFilter = document.location.pathname.split('/')[2];
+
 if (locationC === 'cis') {
   if (userG === 'gkCIS' || userG === 'root') {
     if (subLoc === 'approved') {
@@ -53,6 +58,7 @@ $(document).ready(function () {
       var d = new Date(dateText);
       $('#calendar').fullCalendar('gotoDate', d);
       $('td.fc-day').ready(function () {
+        $('.loading-icon').show();
         $.get(url, function (data) {
           $('.column-table').remove();
           $('.appNameRow').remove();
@@ -65,6 +71,7 @@ $(document).ready(function () {
           var appNameObj = {};
           var calendarId = {};
           var appIdMap = {};
+          var respPersonMap = {};
           // var test = {};
           //Push data in array
           for (var i = 0; i < data.length; i++) {
@@ -73,6 +80,8 @@ $(document).ready(function () {
             // storageOfDate.push(data[i].storage);
             var innerStorage = data[i].storage;
             appIdMap[data[i].appId._id] = data[i].appId.applicationId;
+            respPersonMap[data[i].appId._id] = data[i].appId.resp;
+
 
             for (j = 0; j < innerStorage.length; j++) {
 
@@ -158,6 +167,9 @@ $(document).ready(function () {
                         "color": "orange"
                       });
                     }
+
+                    preventUndefinded(tr, respPersonMap, appId);
+
                     td.on('change', function (evt, newValue) {
 
                       var thisElem = $(this);
@@ -188,7 +200,7 @@ $(document).ready(function () {
 
                       $.ajax({
                         type: 'PUT',
-                        url: url + classArr[1],
+                        url: '../../api/' + region + '/calendar/' + classArr[1],
                         data: {
                           value: newValue,
                           fullDate: classArr[0],
@@ -206,6 +218,7 @@ $(document).ready(function () {
                         td1.html('').addClass(date).addClass(calId).appendTo(empty);
                     });
                     thisColTable.append(empty);
+                    preventUndefinded(empty, respPersonMap, appId);
                     td1.on('change', function (evt, newValue) {
                       var thisElem = $(this);
 
@@ -233,7 +246,7 @@ $(document).ready(function () {
                       }
                       $.ajax({
                         type: 'PUT',
-                        url: url + classArr[1],
+                        url: '../../api/' + region + '/calendar/' + classArr[1],
                         data: {
                           value: newValue,
                           fullDate: classArr[0],
@@ -257,6 +270,9 @@ $(document).ready(function () {
                     td.html('').addClass(dd).addClass(calId).appendTo(empty);
                 });
                 thisColTable.append(empty);
+
+                preventUndefinded(empty, respPersonMap, appId);
+
                 td.on('change', function (evt, newValue) {
                   var thisElem = $(this);
                   var classArr = thisElem.attr('class').split(' ');
@@ -281,9 +297,11 @@ $(document).ready(function () {
                       "color": "orange"
                     });
                   }
+
+
                   $.ajax({
                     type: 'PUT',
-                    url: url + classArr[1],
+                    url: '../../api/' + region + '/calendar/' + classArr[1],
                     data: {
                       value: newValue,
                       fullDate: classArr[0],
@@ -300,6 +318,7 @@ $(document).ready(function () {
             }
           });
           $('.fc-content-skeleton').remove();
+          $('.loading-icon').hide();
         });
       });
     }

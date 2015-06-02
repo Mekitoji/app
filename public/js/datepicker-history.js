@@ -8,6 +8,7 @@ $(document).ready(function () {
       var d = new Date(dateText);
       $('#calendar').fullCalendar('gotoDate', d);
       $('td.fc-day').ready(function () {
+          $('.loading-icon').show();
         $.get(url, function (data) {
           $('.column-table').remove();
           $('.appNameRow').remove();
@@ -249,6 +250,7 @@ $(document).ready(function () {
             $('.fc-day-grid').off();
           });
           $('.fc-content-skeleton').remove();
+          $('.loading-icon').hide();
         });
       });
     }

@@ -83,8 +83,6 @@ $.ajax({
     }
   }
 
-  console.log(respPersonMap);
-
   var keys = [];
   var appNameObjNew = {};
   Object.keys(appNameObj)
@@ -313,12 +311,14 @@ $.ajax({
     }
   });
   $('.fc-content-skeleton').remove();
+  $('.loading-icon').hide();
 });
 
 
 //fc-toolbar click event listener
 $('.fc-next-button, .fc-prev-button, .fc-today-button').click(function (e) {
   $('td.fc-day').unbind();
+  $('.loading-icon').show();
   $('td.fc-day').ready(function () {
     $.ajax({
       method: 'GET',
@@ -582,6 +582,7 @@ $('.fc-next-button, .fc-prev-button, .fc-today-button').click(function (e) {
         }
       });
       $('.fc-content-skeleton').remove();
+      $('.loading-icon').hide();
     });
   });
 });

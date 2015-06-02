@@ -40,6 +40,8 @@ angular.module('project')
       $scope.perm = false;
     }
   }
+  $scope.loading = true;
+  $scope.dataLoad = false;
 
   iTester.get()
 
@@ -134,6 +136,10 @@ angular.module('project')
     $scope.apps = _.filter(data, function (d) {
       return d.year == $scope.year;
     });
+  })
+  .finally(function(){
+    $scope.loading = false;
+    $scope.dataLoad = true;
   });
 
   $scope.getRowIndex = function () {

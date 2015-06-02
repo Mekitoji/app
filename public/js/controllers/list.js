@@ -43,6 +43,9 @@ angular.module('project')
     }
   }
 
+  $scope.loading = true;
+  $scope.dataLoad = false;
+
   iTester.get()
 
   .success(function (data) {
@@ -160,7 +163,13 @@ angular.module('project')
           }
         }
       });
-  });
+  })
+.finally(function(){
+  $scope.loading = false;
+  $scope.dataLoad = true;
+});
+
+
 
   Calendar.get()
 

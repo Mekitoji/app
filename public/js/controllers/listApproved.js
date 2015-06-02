@@ -41,6 +41,9 @@ angular.module('project')
     }
   }
 
+  $scope.loading = true;
+  $scope.dataLoad = false;
+
   Tester.get()
 
   .success(function (data) {
@@ -117,6 +120,10 @@ angular.module('project')
       $scope.apps = _.filter(data, function (d) {
         return d.year == $scope.year;
       });
+    })
+    .finally(function(){
+      $scope.loading = false;
+      $scope.dataLoad = true;
     });
 
   $scope.getRowIndex = function () {

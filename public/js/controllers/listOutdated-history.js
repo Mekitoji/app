@@ -63,7 +63,8 @@ angular.module('history-project')
     },
 
   };
-
+  $scope.loading = true;
+  $scope.dataLoad = false;
   //get list of apps
   History.getByDateOutdated($scope.loc)
 
@@ -82,7 +83,12 @@ angular.module('history-project')
     } else {
       $scope.apps = data.apps;
     }
+  })
+  .finally(function() {
+    $scope.loading = false;
+    $scope.dataLoad = true;
   });
+
   $scope.getRowIndex = function () {
     var index = this.row.rowIndex;
     return index + 1;

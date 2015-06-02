@@ -316,12 +316,14 @@ $.ajax({
       $('.fc-day-grid').off();
     });
     $('.fc-content-skeleton').remove();
+    $('.loading-icon').hide();
   }
 });
 
 
 //fc-toolbar click event listener
 $('.fc-next-button, .fc-prev-button, .fc-today-button').click(function () {
+  $('.loading-icon').show();
   $('td.fc-day').ready(function () {
     $.ajax({
       method: 'GET',
@@ -579,6 +581,7 @@ $('.fc-next-button, .fc-prev-button, .fc-today-button').click(function () {
         $('.fc-day-grid').off();
       });
       $('.fc-content-skeleton').remove();
+      $('.loading-icon').hide();
     });
   });
 });
