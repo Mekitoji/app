@@ -142,6 +142,8 @@ angular.module('project')
       old = newVal;
     });
 
+    var cdate = formatDate(new Date());
+
     Calendar.get()
       .success(function (calData) {
         $scope.calendarr = calData;
@@ -156,6 +158,14 @@ angular.module('project')
         }
 
         for (var i = 0; i < $scope.apps.length; i++) {
+          var mapC = createMap($scope.apps[i], $scope.calendarr);
+          var cc   = checkAppDate(cdate, mapC)
+          console.log(cc)
+          if(cc) {
+            $scope.apps[i].out = true;
+          } else {
+            $scope.apps[i].out = false;
+          }
           for (var j = 0; j < $scope.calendarr.length; j++) {
             if ($scope.apps[i]._id === calData[j].appId._id) {
               $scope.apps[i].calendar = result[calData[j].appId._id][getCurrentDate()];
@@ -167,6 +177,7 @@ angular.module('project')
 .finally(function(){
   $scope.loading = false;
   $scope.dataLoad = true;
+  console.log($scope.apps);
 });
 
 
@@ -270,7 +281,7 @@ angular.module('project')
       field: 'updateTime',
       displayName: 'Update date',
       //604800000 ms = 7day
-      cellTemplate: '<div ng-class="{pink: currenDate-dateParse(row.getProperty(col.field))>604800000}"><div class="ngCellText">{{row.getProperty(col.field)|date:\'YYYY-MM-DD\'-1}}</div></div>',
+      cellTemplate: '<div ng-class="{ red: row.entity.out===true, pink: currenDate-dateParse(row.getProperty(col.field))>604800000}"><div class="ngCellText">{{row.getProperty(col.field)|date:\'YYYY-MM-DD\'-1}}</div></div>',
       enableCellEdit: permission,
       editableCellTemplate: $scope.cellSelectEditableTemplateUpdateTime,
       cellFilter: 'date:\'MM/dd/yyyy\'',
@@ -350,3 +361,74 @@ angular.module('project')
     }
   };
 });
+
+
+function createMap(app, c) {
+  var storageMap = [];
+  _.each(c, function (ca) {
+    if (ca.appId._id === app._id) {
+      _.each(ca.storage, function (cd) {
+        storageMap[cd.fullDate] = cd.value;
+      });
+    }
+  });
+  return storageMap;
+}
+
+function checkAppDate(cdate, map) {
+  var LIMIT = 14;
+  var DAY_COUNT = 2;
+  var prevDate = new Date();
+  prevDate.setDate(prevDate.getDate() - 1);
+  var fDate = formatDate(prevDate);
+  switch (map[cdate]) {
+  case "L":
+  case "H":
+  case "D":
+    return false;
+    break;
+  default:
+
+    var count = 0;
+    for (var i = 0; i <= LIMIT; i++) {
+      switch (map[fDate]) {
+      case "H":
+      case "D":
+      case "L":
+        return false;
+        break;
+      case "LL":
+        count++;
+        if (count >= DAY_COUNT) {
+          return true;
+        }
+        break;
+      default:
+        // console.log(map[fDate], fDate);
+        // console.log(map)
+        break;
+      }
+      prevDate.setDate(prevDate.getDate() - 1);
+      fDate = formatDate(prevDate);
+    }
+    return false;
+    break
+  }
+}
+
+function formatDate(dx) {
+  var dd = dx.getDate();
+  var dm = dx.getMonth() + 1;
+  var dy = dx.getFullYear();
+
+  if (dd.toString().length === 1) {
+    dd = '0' + dd;
+  }
+
+  if (dm.toString().length === 1) {
+    dm = '0' + dm;
+  }
+
+  var d = dy + "-" + dm + "-" + dd
+  return d;
+}

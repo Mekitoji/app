@@ -106,7 +106,7 @@ angular.module('postmail', [])
   $scope.tag = [];
   //get all app in work
   var Apps;
-  var gk={};
+  var gk = {};
   var route = window.location.pathname.split('/')[1];
   if (route === 'cis') {
     Apps = AppsCIS;
@@ -130,6 +130,8 @@ angular.module('postmail', [])
   .success(function (data) {
 
     $scope.apps = data;
+    var cdate = formatDate(new Date());
+
     $scope.previewText = '<style type="text/css">.red{background-color:#F00;} table, table th, table td{border:1px solid black;padding:10px;border-collapse:collapse;padding:1px 5px 1px 6px;font:10pt Arial;} .mail-page {font:10pt Arial;} </style>\n\n\n<div class="mail-page">\n\n\nDear colleagues,<br><br>Please check the latest STE report.<br><br>\n<b>Priority apps waiting for QA in Korea</b>\n\n' +
       '<br /> <br /> \n\n<table border=\'1\'  cellspacing=\'0\' cellpadding=\'0\'>\n\t<tr>\n\t\t<th><b>Country</b>\n\t\t<th><b>Application Id</b></th>\n\t\t<th><b>Application name</b></th>\n\t\t<th><b>SDP Status</b></th>\n\t\t<th><b>Update Date</b></th>\n\t\t<th><b>Seller</b></th>\n\t\t<th><b>Current Status</b></th>\n\t\t<th><b>Resp</b></th>\n\t</tr>\n';
     _.each($scope.apps, function (num) {
@@ -157,7 +159,7 @@ angular.module('postmail', [])
               bgcolor = 'bgcolor="red"';
             }
             num.updateTime = temp_year + "-" + temp_month + "-" + temp_date;
-            var resp = gk[num.resp]?gk[num.resp]:num.resp;
+            var resp = gk[num.resp] ? gk[num.resp] : num.resp;
             $scope.previewText += "\t<tr>\n\t\t<td>" + num.country + "</td>\n\t\t<td>" + num.applicationId + "</td>\n\t\t<td>" + num.appName + "</td>\n\t\t<td>" + num.sdpStatus + "</td>\n\t\t<td class='" + classx + "' " + bgcolor + ">" + num.updateTime + "</td>\n\t\t<td>" + num.seller + "</td>\n\t\t<td>" + num.currentStatus + "</td>\n\t\t<td>" + resp + "</td>\n\t</tr>";
           }
         }
@@ -166,45 +168,127 @@ angular.module('postmail', [])
 
     $scope.previewText += "\n</table><br />\n\n<b>Priority apps waiting for STE review</b><br /><br />\n\n <table border='1' cellspacing=\'0\' cellpadding=\'0\'>\n\t<tr>\n\t\t<th><b>Country</b></th>\n\t\t<th><b>Application Id</b></th>\n\t\t<th><b>Application name</b></th>\n\t\t<th><b>SDP Status</b></th>\n\t\t<th><b>Update Date</b></th>\n\t\t<th><b>Seller</b></th>\n\t\t<th><b>Current status</b></th>\n\t\t<th><b>Resp</b></th>\n\t</tr>";
 
-    _.each($scope.apps, function (num) {
-      _.each(num, function (data, key) {
+    Apps.getCalendar()
+      .success(function (c) {
 
-        if (key == 'color' && data == 'red' || data == 'orange') {
-          if (num.tv === "In Progress" && num.outdated === false) {
-            var temp = new Date(num.updateTime);
-            var temp_date = temp.getDate();
-            var temp_month = temp.getMonth() + 1;
-            var temp_year = temp.getFullYear();
-            if (temp_date.toString().length === 1) {
-              temp_date = '0' + temp_date;
+        _.each($scope.apps, function (num) {
+          _.each(num, function (data, key) {
+            if (key == 'color' && data == 'red' || data == 'orange') {
+              if (num.tv === "In Progress" && num.outdated === false) {
+                // console.log(num);
+                var bg_color = "";
+                var mapC = createMap(num, c);
+                var cc = checkAppDate(cdate, mapC);
+                console.log(cc);
+                if(cc) {
+                  bg_color = 'bgcolor="red"';
+                }
+                var temp = new Date(num.updateTime);
+                var temp_date = temp.getDate();
+                var temp_month = temp.getMonth() + 1;
+                var temp_year = temp.getFullYear();
+                if (temp_date.toString().length === 1) {
+                  temp_date = '0' + temp_date;
+                }
+                if (temp_month.toString().length === 1) {
+                  temp_month = '0' + temp_month;
+                }
+                num.updateTime = temp_year + "-" + temp_month + "-" + temp_date;
+                var resp = gk[num.resp] ? gk[num.resp] : num.resp;
+                $scope.previewText += "\n\t<tr>\n\t\t<td>" + num.country + "</td>\n\t\t<td>" + num.applicationId + '</td>\n\t\t<td>' + num.appName + "</td>\n\t\t<td>" + num.sdpStatus + "</td>\n\t\t<td " + bg_color + ">" + num.updateTime + "</td>\n\t\t<td>" + num.seller + "</td>\n\t\t<td>" + num.currentStatus + "</td>\n\t\t<td>" + resp + "</td>\n\t\t</tr>";
+              }
             }
-            if (temp_month.toString().length === 1) {
-              temp_month = '0' + temp_month;
-            }
-            num.updateTime = temp_year + "-" + temp_month + "-" + temp_date;
-            var resp = gk[num.resp]?gk[num.resp]:num.resp;
-            $scope.previewText += "\n\t<tr>\n\t\t<td>" + num.country + "</td>\n\t\t<td>" + num.applicationId + '</td>\n\t\t<td>' + num.appName + "</td>\n\t\t<td>" + num.sdpStatus + "</td>\n\t\t<td>" + num.updateTime + "</td>\n\t\t<td>" + num.seller + "</td>\n\t\t<td>" + num.currentStatus + "</td>\n\t\t<td>" + resp + "</td>\n\t\t</tr>";
-          }
-        }
+          });
+        });
+
+        $scope.region = document.URL.split('/')[3];
+
+        $scope.previewText += "\n</table><br />\n\n" +
+          "To access <b>GK Control system</b> with detailed statistics please click on the screenshot below. In case you don't have access, reply to this email and request authority.<br><br>" +
+          "<a href='" + $scope.url + "/" + $scope.region + "/" + $scope.year + "/rejected#/inwork'><img width='480' src='" + $scope.url + "/images/thumb/sample2.png'></a><br><br>" +
+          "Best wishes, <br />\n\n\n CIS STE Team<br><br>" +
+          "<small>This message is automatically generated by GK Control. If you don’t have access – please send a request to andrey.sayants@lge.com.<br>For more information on GK Control, see: http://collab.lge.com/main/display/GKSPRTCOMM/Gate+Keeper+Control+User+Manual</small></div>";
+
+        $scope.submit = function () {
+          var d = new Date();
+          var year = d.getFullYear();
+          var region = document.URL.split('/')[3];
+          mail.post({
+            "text": $scope.previewText
+          })
+
+          .success(window.location = "/" + region + "/" + year + "/mailSuccess");
+        };
       });
-    });
-    $scope.region = document.URL.split('/')[3];
-
-    $scope.previewText += "\n</table><br />\n\n" +
-      "To access <b>GK Control system</b> with detailed statistics please click on the screenshot below. In case you don't have access, reply to this email and request authority.<br><br>" +
-      "<a href='"+ $scope.url + "/" + $scope.region + "/" + $scope.year + "/rejected#/inwork'><img width='480' src='"+ $scope.url +"/images/thumb/sample2.png'></a><br><br>" +
-      "Best wishes, <br />\n\n\n CIS STE Team<br><br>"+
-      "<small>This message is automatically generated by GK Control. If you don’t have access – please send a request to andrey.sayants@lge.com.<br>For more information on GK Control, see: http://collab.lge.com/main/display/GKSPRTCOMM/Gate+Keeper+Control+User+Manual</small></div>";
-
-    $scope.submit = function () {
-      var d = new Date();
-      var year = d.getFullYear();
-      var region = document.URL.split('/')[3];
-      mail.post({
-        "text": $scope.previewText
-      })
-
-      .success(window.location = "/" + region + "/" + year+ "/mailSuccess");
-    };
   });
 });
+
+function createMap(app, c) {
+  var storageMap = [];
+  _.each(c, function (ca) {
+    if (ca.appId._id === app._id) {
+      _.each(ca.storage, function (cd) {
+        storageMap[cd.fullDate] = cd.value;
+      });
+    }
+  });
+  return storageMap;
+}
+
+function checkAppDate(cdate, map) {
+  var LIMIT = 14;
+  var DAY_COUNT = 2;
+  var prevDate = new Date();
+  prevDate.setDate(prevDate.getDate() - 1);
+  var fDate = formatDate(prevDate);
+  switch (map[cdate]) {
+  case "L":
+  case "H":
+  case "D":
+    return false;
+    break;
+  default:
+
+    var count = 0;
+    for (var i = 0; i <= LIMIT; i++) {
+      switch (map[fDate]) {
+      case "H":
+      case "D":
+      case "L":
+        return false;
+        break;
+      case "LL":
+        count++;
+        if (count >= DAY_COUNT) {
+          return true;
+        }
+        break;
+      default:
+        // console.log(map[fDate], fDate);
+        // console.log(map)
+        break;
+      }
+      prevDate.setDate(prevDate.getDate() - 1);
+      fDate = formatDate(prevDate);
+    }
+    return false;
+    break
+  }
+}
+
+function formatDate(dx) {
+  var dd = dx.getDate();
+  var dm = dx.getMonth() + 1;
+  var dy = dx.getFullYear();
+
+  if (dd.toString().length === 1) {
+    dd = '0' + dd;
+  }
+
+  if (dm.toString().length === 1) {
+    dm = '0' + dm;
+  }
+
+  var d = dy + "-" + dm + "-" + dd
+  return d;
+}
