@@ -58,14 +58,16 @@ $(document).ready(function () {
       var d = new Date(dateText);
       $('#calendar').fullCalendar('gotoDate', d);
       $('td.fc-day').ready(function () {
-        $('.loading-icon').show();
+      $('.loading-icon').show();
         $.get(url, function (data) {
           $('.column-table').remove();
           $('.appNameRow').remove();
 
-          data = _.filter(data, function (d) {
-            return d.appId.year = yearFilter;
-          });
+         data = _.filter(data, function (d) {
+           if(d.appId !== null) {
+             return d.appId.year == yearFilter;
+           }
+         });
 
           var storageOfDate = [];
           var appNameObj = {};
