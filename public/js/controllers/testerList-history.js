@@ -16,6 +16,9 @@ angular.module('history-project')
     return 0;
   }
 
+  $scope.loading = true;
+  $scope.dataLoad = false;
+
   History.getByDate($scope.loc)
 
   .success(function (data) {
@@ -32,5 +35,9 @@ angular.module('history-project')
         n.appStorage = n.appStorage.sort(sortAppStorage);
       });
     }
+  })
+  .finally(function() {
+    $scope.loading = false;
+    $scope.dataLoad = true;
   });
 });

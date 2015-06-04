@@ -1,5 +1,6 @@
 <div class="container">
-  <div class='testCycles' ng-repeat="tester in testers">
+  <img class="loading-icon" ng-show="loading" src="../../../images/ajax-loader.gif" height="66" width="66" />
+  <div class='testCycles' ng-if="dataLoad" ng-repeat="tester in testers">
     <div class="testerId">{{tester.name}}</div>
     <table class="table table-borderes table-hover table-responsive">
       <tr>

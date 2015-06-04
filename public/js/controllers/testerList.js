@@ -40,6 +40,9 @@ angular.module('project')
     }
   }
 
+  $scope.loading = true;
+  $scope.dataLoad = false;
+
   function sortName(a, b) {
     return a.name.toLowerCase().localeCompare(b.name.toLowerCase());
   }
@@ -63,5 +66,9 @@ angular.module('project')
       });
       n.appStorage = n.appStorage.sort(sortAppStorage);
     });
+  })
+  .finally(function() {
+    $scope.loading = false;
+    $scope.dataLoad = true;
   });
 });
