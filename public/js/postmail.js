@@ -108,13 +108,14 @@ angular.module('postmail', [])
   var Apps;
   var gk = {};
   var route = window.location.pathname.split('/')[1];
+  //TODO:Go to db instead of memory
   if (route === 'cis') {
     Apps = AppsCIS;
     gk = {
-      "DP": "Politaev Dmitry",
-      "AS": "Sayants Andrey",
-      "VE": "Egorov Vladimir",
-      "YK": "Kirillov Yury",
+      "DP": "Dmitry Politaev",
+      "AS": "Andrey Sayants",
+      "VE": "Vladimir Egorov",
+      "YK": "Yury Kirillov",
     }
   } else if (route === 'eu') {
     Apps = AppsEU;
