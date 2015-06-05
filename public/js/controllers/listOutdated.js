@@ -6,8 +6,10 @@ angular.module('project')
   $scope.loc = 'Outdated';
   var permission;
   var locationC = document.URL.split('/')[3];
+  var gridOpt = {};
   $scope.year = document.location.pathname.split('/')[2];
   if (locationC === 'cis') {
+    gridOpt.country = ["Russia", "Ukraine", "Belarus", "Latvia", "Kazakhstan", "Lithuania", "Estonia", "Uzbekistan", "Kyrgyzstan", "Tajikistan"];
     if (userG === 'gkCIS' || userG === 'root') {
       permission = true;
       $scope.perm = true;
@@ -16,6 +18,7 @@ angular.module('project')
       $scope.perm = false;
     }
   } else if (locationC === 'eu') {
+    gridOpt.country = ["Andora","Albania","Armenia","Austria","Azerbaijan","Bosnia and Herzegovina","Belgium","Bulgaria","Switzerland","Christmas Island","Czech Republic","Germany","Denmark","Estonia","Spain","Finland","Faeroe Islands","France","United Kingdom","Georgia","Gibraltar","Greenland","Greece","Croatia","Hungary","Ireland","Iceland","Italy","Lithuania","Luxembourg","Latvia","Monaco","Republic of Moldova","Montenegro","Republic of Macedonia","Netherlands","Norway","Poland","Portugal","Romania","Serbia","Sweden","Slovenia","Slovakia","Wallis and Futuna Islands"];
     if (userG === 'gkEU' || userG === 'root') {
       permission = true;
       $scope.perm = true;
@@ -40,6 +43,9 @@ angular.module('project')
       $scope.perm = false;
     }
   }
+
+  gridOpt.country ? gridOpt : [];
+
   $scope.loading = true;
   $scope.dataLoad = false;
 
@@ -57,7 +63,7 @@ angular.module('project')
         "type": "select",
         "name": "Country",
         "value": "COL_FIELD",
-        "values": ["Russia", "Ukraine", "Belarus", "Latvia", "Kazakhstan", "Lithuania", "Estonia", "Uzbekistan", "Kyrgyzstan", "Tajikistan"]
+        "values": gridOpt.country,
       },
       categoryProp: {
         "type": "select",

@@ -6,63 +6,6 @@ angular.module('history-project')
   var permission = false;
   $scope.perm = false;
 
-  $scope.Options = {
-    countryProp: {
-      "type": "select",
-      "name": "Country",
-      "value": "COL_FIELD",
-      "values": ["Russia", "Ukraine", "Belarus", "Latvia", "Kazakhstan", "Lithuania", "Estonia", "Uzbekistan", "Kyrgyzstan", "Tajikistan"]
-    },
-    categoryProp: {
-      "type": "select",
-      "name": "Category",
-      "value": "COL_FIELD",
-      "values": ["OTT", "Pay TV", "Broadcast", "OTT + Pay TV", "Game", "Others"]
-    },
-    sdpStatusProp: {
-      "type": "select",
-      "name": "Category",
-      "value": "COL_FIELD",
-      "values": ["Gate Keeper Review Request", "Gate Keeper Review", "Gate Keeper Review Reject", "Verification Request", "Pretest", "Function Testing", "Ad Testing", "Content Testing", "Final review", "App QA approved", "App QA rejected", "Delete", "Revise", "Save as draft", "Request for Deletion", "Item Review", "App Packaging Request", "Re-Verification Request"]
-    },
-    tvProp: {
-      "type": "select",
-      "name": "Tv",
-      "value": "COL_FIELD",
-      "values": ["Approved", "In Progress", "Partial", "Not Reviewed"]
-    },
-    respProp: {
-      "type": "select",
-      "name": "Resp",
-      "value": "COL_FIELD",
-    },
-    currentStatusProp: {
-      "type": "select",
-      "name": "currentStatus",
-      "value": "COL_FIELD",
-      "values": ["Waiting for fix", "Waiting for review", "Waiting for QA", "Approved", "Not Reviewed"]
-    },
-    outdated: {
-      "type": "select",
-      "name": "outdated",
-      "value": "COL_FIELD",
-      "values": [true, false]
-    },
-    color: {
-      "type": "select",
-      "name": "color",
-      "value": "COL_FIELD",
-      "values": ['red', 'green', 'purple', 'orange']
-    },
-    calendar: {
-      "type": "select",
-      "name": "color",
-      "value": "COL_FIELD",
-      "values": ['H', 'D', 'L', 'LL'],
-      "color": ['#B19CD9', 'green', 'orange', 'orange']
-    },
-
-  };
   $scope.loading = true;
   $scope.dataLoad = false;
 
