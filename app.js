@@ -20,11 +20,11 @@ var LocalStrategy = require('passport-local').Strategy;
 
 //mongoose
 var mongoose      = require('./libs/mongoose');
-// var MongoStore = require('connect-mongo')(session);
 var flash         = require('connect-flash');
 
 //session
 var session       = require('express-session');
+var MongoStore    = require('connect-mongo')(session);
 
 //init express
 var app           = express();
@@ -68,7 +68,11 @@ require('./libs/passport')(passport);
 //   name: 'connect.testServer.sid'
 // }));
 
-app.use(session(config.get('session')))
+var mgsOptions = {
+  url: config.get('mongoose').uri,
+};
+
+app.use(session(Object.defineProperty(config.get("session"), "store", {value: new MongoStore(mgsOptions)})));
 app.use(passport.initialize());
 app.use(passport.session());
 app.use(flash());
