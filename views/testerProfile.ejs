@@ -4,6 +4,8 @@
   <meta charset="UTF-8">
   <title><%=tester.name%></title>
   <script src= "../../../vendor/jquery/dist/jquery.min.js"></script>
+  <script src= "../../../vendor/jquery/jquery-ui-1.11.1/jquery-ui.min.js"></script>
+  <link rel="stylesheet" href="../../../vendor/jquery/jquery-ui-1.11.1/jquery-ui.min.css">
   <link rel="stylesheet" href="../../../vendor/bootstrap/dist/css/bootstrap.min.css">
   <script src= "../../../vendor/bootstrap/dist/js/bootstrap.min.js"></script>
   <script>
@@ -19,6 +21,42 @@
       background-color: green !important;
     }
   </style>
+
+<style>
+  h2.title {
+    text-align: center;
+  }
+
+  #ppdatepicker {
+    visibility:hidden;
+    width:1px;
+    position:absolute;
+    top:5px;
+  }
+</style>
+
+<script>
+  $(document).ready(function () {
+    $("#ppdatepicker").datepicker({
+      onSelect: function(dateText, inst){
+        var date = new Date(dateText);
+        var day = date.getDate();
+        var month = date.getMonth()+1;
+        var year = date.getFullYear();
+        var xx = month+ "-"+ day + "-" +year;
+        var currentLoc = window.location.pathname;
+        var tempArray= currentLoc.split("/");
+        tempArray[2] = "history";
+        tempArray.splice(3, 0, xx);
+        tempArray.splice(5, 1);
+        window.location.pathname = tempArray.join("/");
+      }
+    });
+    $('#pdatepicker').click(function(){
+      $('#ppdatepicker').datepicker("show");
+    });
+  });
+</script>
 </head>
 <body>
     <% include layout/header%>
