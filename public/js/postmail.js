@@ -108,7 +108,10 @@ angular.module('postmail', [])
   var Apps;
   var gk = {};
   var route = window.location.pathname.split('/')[1];
+
   //TODO:Go to db instead of memory
+  //create enviroment for all region workspace
+
   if (route === 'cis') {
     Apps = AppsCIS;
     gk = {
@@ -119,12 +122,20 @@ angular.module('postmail', [])
     }
   } else if (route === 'eu') {
     Apps = AppsEU;
+    gk = {
+      "SR": "Rastaturin Stanislav",
+      "NT": "Treschalov Nikita",
+      "EK": "Kipovskiy Evgeniy",
+      "AB": "Belousov Alexey",
+      "MF": "Filimonov Maxim",
+      "GS": "Skakun Grigory",
+    }
   } else if (route === 'global') {
     Apps = AppsSandbox
   } else if (route === 'sia') {
     Apps = AppsSIA;
   }
-  //TODO: make different message for all region
+  //TODO: make different message preset for all region
 
   Apps.get()
 
@@ -265,8 +276,6 @@ function checkAppDate(cdate, map) {
         }
         break;
       default:
-        // console.log(map[fDate], fDate);
-        // console.log(map)
         break;
       }
       prevDate.setDate(prevDate.getDate() - 1);

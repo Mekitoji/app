@@ -6,8 +6,15 @@ angular.module('project')
   var permission;
   var locationC = document.URL.split('/')[3];
   $scope.year = document.location.pathname.split('/')[2];
+  var gridOpt = {};
 
   if (locationC === 'cis') {
+    gridOpt.respColor = {
+      "AS": "red",
+      "YK": "yellow",
+      "VE": "green",
+      "DP": "blue",
+    }
     if (userG === 'gkCIS' || userG === 'root') {
       permission = true;
       $scope.perm = true;
@@ -16,6 +23,14 @@ angular.module('project')
       $scope.perm = false;
     }
   } else if (locationC === 'eu') {
+    gridOpt.respColor = {
+      "SR": "red",
+      "NT": "yellow",
+      "EK": "green",
+      "AB": "blue",
+      "MF": "pink",
+      "GS": "purple",
+    }
     if (userG === 'gkEU' || userG === 'root') {
       permission = true;
       $scope.perm = true;
@@ -40,6 +55,7 @@ angular.module('project')
       $scope.perm = false;
     }
   }
+  gridOpt.respColor ? gridOpt.respColor : {};
 
   $scope.loading = true;
   $scope.dataLoad = false;
@@ -145,6 +161,10 @@ angular.module('project')
     return Date.parse(data);
   };
 
+  $scope.checkResp= function(val){
+    return gridOpt.respColor[val];
+  }
+
   $scope.currenDate = Date.now();
 
   $scope.gridOptions = {
@@ -226,7 +246,7 @@ angular.module('project')
     }, {
       field: 'resp',
       displayName: 'Resp',
-      cellTemplate: '<div ng-class="{\'green\': row.entity.resp == \'VE\',\'red\': row.entity.resp == \'AS\',\'yellow\': row.entity.resp == \'YK\',\'blue\': row.entity.resp == \'DP\' }" " ><div class="ngCellText">{{row.getProperty(col.field)}}</div></div>',
+      cellTemplate: '<div ng-class="checkResp(row.entity.resp)" ><div class="ngCellText">{{row.getProperty(col.field)}}</div></div>',
       enableCellEdit: false,
       editableCellTemplate: $scope.cellSelectEditableTemplateResp,
       width: 50

@@ -12,6 +12,12 @@ angular.module('project')
   var locationC = document.URL.split('/')[3];
   if (locationC === 'cis') {
     gridOpt.country = ["Russia", "Ukraine", "Belarus", "Latvia", "Kazakhstan", "Lithuania", "Estonia", "Uzbekistan", "Kyrgyzstan", "Tajikistan"];
+    gridOpt.respColor = {
+      "AS": "red",
+      "YK": "yellow",
+      "VE": "green",
+      "DP": "blue",
+    }
     if (userG === 'gkCIS' || userG === 'root') {
       permission = true;
       $scope.perm = true;
@@ -21,6 +27,14 @@ angular.module('project')
     }
   } else if (locationC === 'eu') {
     gridOpt.country = ["Andora","Albania","Armenia","Austria","Azerbaijan","Bosnia and Herzegovina","Belgium","Bulgaria","Switzerland","Christmas Island","Czech Republic","Germany","Denmark","Estonia","Spain","Finland","Faeroe Islands","France","United Kingdom","Georgia","Gibraltar","Greenland","Greece","Croatia","Hungary","Ireland","Iceland","Italy","Lithuania","Luxembourg","Latvia","Monaco","Republic of Moldova","Montenegro","Republic of Macedonia","Netherlands","Norway","Poland","Portugal","Romania","Serbia","Sweden","Slovenia","Slovakia","Wallis and Futuna Islands"];
+    gridOpt.respColor = {
+      "SR": "red",
+      "NT": "yellow",
+      "EK": "green",
+      "AB": "blue",
+      "MF": "pink",
+      "GS": "purple",
+    }
     if (userG === 'gkEU' || userG === 'root') {
       permission = true;
       $scope.perm = true;
@@ -46,7 +60,7 @@ angular.module('project')
     }
   }
 
-  gridOpt.country ? gridOpt : [];
+  gridOpt.country ? gridOpt.country : [];
 
   $scope.loading = true;
   $scope.dataLoad = false;
@@ -165,7 +179,6 @@ angular.module('project')
         for (var i = 0; i < $scope.apps.length; i++) {
           var mapC = createMap($scope.apps[i], $scope.calendarr);
           var cc   = checkAppDate(cdate, mapC)
-          console.log(cc)
           if(cc) {
             $scope.apps[i].out = true;
           } else {
@@ -182,7 +195,6 @@ angular.module('project')
 .finally(function(){
   $scope.loading = false;
   $scope.dataLoad = true;
-  console.log($scope.apps);
 });
 
 
@@ -247,6 +259,10 @@ angular.module('project')
   $scope.dateParse = function (data) {
     return Date.parse(data);
   };
+
+  $scope.checkResp= function(val){
+    return gridOpt.respColor[val];
+  }
 
   $scope.currenDate = Date.now();
 
@@ -328,7 +344,7 @@ angular.module('project')
     }, {
       field: 'resp',
       displayName: 'Resp',
-      cellTemplate: '<div ng-class="{\'green\': row.entity.resp == \'VE\',\'red\': row.entity.resp == \'AS\',\'yellow\': row.entity.resp == \'YK\',\'blue\': row.entity.resp == \'DP\' }" " ><div class="ngCellText">{{row.getProperty(col.field)}}</div></div>',
+      cellTemplate: '<div ng-class="checkResp(row.entity.resp)"><div class="ngCellText">{{row.getProperty(col.field)}}</div></div>',
       enableCellEdit: permission,
       editableCellTemplate: $scope.cellSelectEditableTemplateResp,
       width: 50

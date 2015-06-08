@@ -5,7 +5,19 @@ angular.module('history-project')
   $scope.loc = window.location.pathname.split('/')[3];
   var permission = false;
   $scope.perm = false;
-
+  var gridOpt = {};
+  gridOpt.respColor = {
+    "AS": "red",
+    "YK": "yellow",
+    "VE": "green",
+    "DP": "blue",
+    "SR": "red",
+    "NT": "yellow",
+    "EK": "green",
+    "AB": "blue",
+    "MF": "pink",
+    "GS": "purple",
+  }
   $scope.loading = true;
   $scope.dataLoad = false;
   //get list of apps
@@ -31,6 +43,10 @@ angular.module('history-project')
     $scope.loading = false;
     $scope.dataLoad = true;
   });
+
+  $scope.checkResp= function(val){
+    return gridOpt.respColor[val];
+  }
 
   $scope.getRowIndex = function () {
     var index = this.row.rowIndex;
@@ -110,7 +126,7 @@ angular.module('history-project')
     }, {
       field: 'resp',
       displayName: 'Resp',
-      cellTemplate: '<div ng-class="{\'green\': row.entity.resp == \'VE\',\'red\': row.entity.resp == \'AS\',\'yellow\': row.entity.resp == \'YK\',\'blue\': row.entity.resp == \'DP\' }" " ><div class="ngCellText">{{row.getProperty(col.field)}}</div></div>',
+      cellTemplate: '<div ng-class="checkResp(row.entity.resp)"><div class="ngCellText">{{row.getProperty(col.field)}}</div></div>',
       enableCellEdit: false,
       width: 50
     }, {

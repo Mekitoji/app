@@ -6,6 +6,19 @@ angular.module('history-project')
   var permission = false;
   $scope.perm = false;
 
+  var gridOpt = {};
+  gridOpt.respColor = {
+    "AS": "red",
+    "YK": "yellow",
+    "VE": "green",
+    "DP": "blue",
+    "SR": "red",
+    "NT": "yellow",
+    "EK": "green",
+    "AB": "blue",
+    "MF": "pink",
+    "GS": "purple",
+  }
 
   $scope.loading = true;
   $scope.dataLoad = false;
@@ -38,6 +51,10 @@ angular.module('history-project')
     var index = this.row.rowIndex;
     return index + 1;
   };
+
+  $scope.checkResp= function(val){
+    return gridOpt.respColor[val];
+  }
 
   $scope.currenDate = Date.now();
 
@@ -112,7 +129,7 @@ angular.module('history-project')
     }, {
       field: 'resp',
       displayName: 'Resp',
-      cellTemplate: '<div ng-class="{\'green\': row.entity.resp == \'VE\',\'red\': row.entity.resp == \'AS\',\'yellow\': row.entity.resp == \'YK\',\'blue\': row.entity.resp == \'DP\' }" " ><div class="ngCellText">{{row.getProperty(col.field)}}</div></div>',
+      cellTemplate: '<div ng-class="checkResp(row.entity.resp)" ><div class="ngCellText">{{row.getProperty(col.field)}}</div></div>',
       enableCellEdit: false,
       width: 50
     }, {
