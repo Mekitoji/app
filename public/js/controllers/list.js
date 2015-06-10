@@ -146,16 +146,17 @@ angular.module('project')
   $scope.cellSelectEditableTemplateResp = '<select ng-class="\'colt\' + col.index" ng-input="COL_FIELD" ng-model="COL_FIELD" ng-options="v for v in Options.respProp.values" />';
   $scope.cellSelectEditableTemplateCurrentStatus = '<input auto-complete ng-class="\'colt\' + col.index" ng-input="COL_FIELD" ng-model="COL_FIELD" type="text" />';
   $scope.cellSelectEditableTemplateOutdated = '<select  ng-class="\'colt\' + col.index" ng-input="COL_FIELD" ng-model="COL_FIELD" ng-options=" v for v in Options.outdated.values" />';
-  $scope.cellSelectEditableTemplateCalendar = '<select  ng-class="\'colt\' + col.index" ng-input="COL_FIELD" ng-model="COL_FIELD"><option ng-repeat="v in Options.calendar.values" ng-class="{\'greenCalendar\': v == \'D\',\'orange\': v == \'L\',\'calendarll\': v == \'LL\',\'purple-calendar\': v == \'H\' }">{{v}}</option></select>';
+  $scope.cellSelectEditableTemplateCalendar = '<select  ng-class="\'colt\' + col.index" ng-input="COL_FIELD" ng-model="COL_FIELD"><option ng-repeat="v in Options.calendar.values" ng-class="{"greenCalendar": v == "D","orange": v == "L","calendarll": v == "LL","purple-calendar": v == "H" }">{{v}}</option></select>';
   $scope.cellSelectEditableTemplateColor = '<select ng-class="\'colt\' + col.index" ng-input="COL_FIELD" ng-model="COL_FIELD" ng-options=" v for v in Options.color.values" />';
   $scope.cellSelectEditableTemplateUpdateTime = '<input ng-class="\'colt\' + col.index" ng-input="COL_FIELD" ng-model="COL_FIELD"  type="date" />';
 
   Apps.get()
 
   .success(function (data) {
-    $scope.apps = _.filter(data, function (d) {
-      return d.year == $scope.year;
-    });
+    // $scope.apps = _.filter(data, function (d) {
+    //   return d.year == $scope.year;
+    // });
+    $scope.apps = data;
 
     $scope.$watch('apps', function (newVal, old) {
       old = newVal;
@@ -192,12 +193,14 @@ angular.module('project')
         }
       });
   })
-.finally(function(){
-  $scope.loading = false;
-  $scope.dataLoad = true;
-});
+  .finally(function(){
+    $scope.loading = false;
+    $scope.dataLoad = true;
+  });
 
-
+  $scope.filterOptions = {
+    filterText: "year:" + $scope.year
+  };
 
   Calendar.get()
 
@@ -354,6 +357,10 @@ angular.module('project')
       enableCellEdit: permission,
       editableCellTemplate: $scope.cellSelectEditableTemplateOutdated,
       width: 75
+    },  {
+      field: 'year',
+      displayName: "year",
+      visible: false
     }, {
       field: 'calendar',
       displayName: 'Calendar',
@@ -376,10 +383,7 @@ angular.module('project')
       fields: ['appName'],
       directions: ['asc']
     },
-    filterOptions: {
-      filterText: "",
-      useExternalFilter: false
-    }
+    filterOptions: $scope.filterOptions,
   };
 });
 

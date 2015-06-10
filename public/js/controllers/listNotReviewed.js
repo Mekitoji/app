@@ -1,6 +1,5 @@
 angular.module('project')
 
-
 .controller('notReviewedListCtrl', function ($scope, $http, Apps, iTester) {
 
   $scope.loc = 'Not Reviewed';
@@ -155,9 +154,10 @@ angular.module('project')
   Apps.getNotReviewed()
 
   .success(function (data) {
-    $scope.apps = _.filter(data, function (d) {
-      return d.year == $scope.year;
-    });
+    // $scope.apps = _.filter(data, function (d) {
+    //   return d.year == $scope.year;
+    // });
+    $scope.apps = data;
   })
   .finally(function(){
     $scope.loading = false;
@@ -183,6 +183,10 @@ angular.module('project')
       });
     }
   });
+
+  $scope.filterOptions = {
+    filterText: "year:" + $scope.year
+  }
 
   $scope.dateParse = function (data) {
     return Date.parse(data);
@@ -253,6 +257,10 @@ angular.module('project')
       editableCellTemplate: $scope.cellSelectEditableTemplateCurrentStatus,
       width: 125
     }, {
+      field: 'year',
+      displayName: "year",
+      visible: false
+    }, {
       field: 'color',
       displayName: '#',
       enableCellEdit: permission,
@@ -291,10 +299,7 @@ angular.module('project')
     showFilter: true,
     showFooter: true,
     enableRowSelection: false,
-    filterOptions: {
-      filterText: "",
-      useExternalFilter: false
-    },
+    filterOptions: $scope.filterOptions,
     sortInfo: {
       fields: ['appName'],
       directions: ['asc']

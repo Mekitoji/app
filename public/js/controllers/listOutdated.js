@@ -154,9 +154,10 @@ angular.module('project')
   Apps.getOutdated()
 
   .success(function (data) {
-    $scope.apps = _.filter(data, function (d) {
-      return d.year == $scope.year;
-    });
+    // $scope.apps = _.filter(data, function (d) {
+    //   return d.year == $scope.year;
+    // });
+    $scope.apps = data;
   })
   .finally(function(){
     $scope.loading = false;
@@ -167,6 +168,10 @@ angular.module('project')
     var index = this.row.rowIndex;
     return index + 1;
   };
+
+  $scope.filterOptions = {
+    filterText: "year:" + $scope.year
+  }
 
   $scope.$on('ngGridEventEndCellEdit', function (evt) {
     var currentObj = evt.targetScope.row.entity;
@@ -268,6 +273,10 @@ angular.module('project')
       enableCellEdit: false,
       width: 85
     }, {
+      field: 'year',
+      displayName: "year",
+      visible: false
+    }, {
       field: 'resp',
       displayName: 'Resp',
       cellTemplate: '<div ng-class="checkResp(row.entity.resp)" ><div class="ngCellText">{{row.getProperty(col.field)}}</div></div>',
@@ -289,10 +298,7 @@ angular.module('project')
     showFilter: true,
     showFooter: true,
     enableRowSelection: false,
-    filterOptions: {
-      filterText: "",
-      useExternalFilter: false
-    },
+    filterOptions: $scope.filterOptions,
     sortInfo: {
       fields: ['appName'],
       directions: ['asc']

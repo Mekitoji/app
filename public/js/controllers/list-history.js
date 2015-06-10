@@ -48,6 +48,10 @@ angular.module('history-project')
     return gridOpt.respColor[val];
   }
 
+  $scope.filterOptions = {
+    filterText: ""
+  }
+
   $scope.getRowIndex = function () {
     var index = this.row.rowIndex;
     return index + 1;
@@ -130,6 +134,11 @@ angular.module('history-project')
       enableCellEdit: false,
       width: 50
     }, {
+      field: 'year',
+      displayName: "year",
+      visible: false,
+      cellFilter: "undefinedData"
+    }, {
       field: 'outdated',
       displayName: 'Outdated',
       enableCellEdit: false,
@@ -147,9 +156,6 @@ angular.module('history-project')
       fields: ['appName'],
       directions: ['asc']
     },
-    filterOptions: {
-      filterText: "",
-      useExternalFilter: false
-    },
+    filterOptions: $scope.filterOptions,
   };
 });

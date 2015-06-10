@@ -54,6 +54,10 @@ angular.module('history-project')
     return index + 1;
   };
 
+  $scope.filterOptions = {
+    fitlerText: ""
+  }
+
   $scope.currenDate = Date.now();
 
   //ng-grid setting
@@ -131,6 +135,10 @@ angular.module('history-project')
       enableCellEdit: false,
       width: 50
     }, {
+      field: 'year',
+      displayName: "year",
+      visible: false
+    }, {
       field: 'outdated',
       displayName: 'Outdated',
       enableCellEdit: false,
@@ -148,9 +156,6 @@ angular.module('history-project')
       fields: ['appName'],
       directions: ['asc']
     },
-    filterOptions: {
-      filterText: "",
-      useExternalFilter: false
-    },
+    filterOptions: $scope.filterOptions,
   };
 });

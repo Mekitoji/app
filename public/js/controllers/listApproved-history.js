@@ -46,6 +46,9 @@ angular.module('history-project')
     $scope.dataLoad = true;
   });
 
+  $scope.filterOptions = {
+    filterText: ""
+  }
 
   $scope.getRowIndex = function () {
     var index = this.row.rowIndex;
@@ -95,6 +98,11 @@ angular.module('history-project')
       enableCellEdit: false,
       cellFilter: 'date:\'MM/dd/yyyy\'',
       width: 100
+    }, {
+      field: 'year',
+      displayName: "year",
+      visible: false,
+      cellFilter: "undefinedData"
     }, {
       field: 'seller',
       displayName: 'Seller',
@@ -150,9 +158,6 @@ angular.module('history-project')
       fields: ['appName'],
       directions: ['asc']
     },
-    filterOptions: {
-      filterText: "",
-      useExternalFilter: false
-    },
+    filterOptions: $scope.filterOptions,
   };
 });

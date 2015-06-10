@@ -121,6 +121,10 @@ angular.module('project')
     };
   });
 
+  $scope.filterOptions = {
+    filterText: "year:" + $scope.year
+  }
+
   $scope.cellSelectEditableTemplateCountry = '<select ng-class="\'colt\' + col.index" ng-input="COL_FIELD" ng-model="COL_FIELD" ng-options=" v for v in Options.countryProp.values" ng-blur="updateEntity(row)" />';
   $scope.cellSelectEditableTemplateCategory = '<select ng-class="\'colt\' + col.index" ng-input="COL_FIELD" ng-model="COL_FIELD" ng-options=" v for v in Options.categoryProp.values" ng-blur="updateEntity(row)" />';
   $scope.cellSelectEditableTemplateSdpStatus = '<select ng-class="\'colt\' + col.index" ng-input="COL_FIELD" ng-model="COL_FIELD" ng-options=" v for v in Options.sdpStatusProp.values" ng-blur="updateEntity(row)" />';
@@ -133,9 +137,10 @@ angular.module('project')
 
   Apps.getApproved()
     .success(function (data) {
-      $scope.apps = _.filter(data, function (d) {
-        return d.year == $scope.year;
-      });
+      // $scope.apps = _.filter(data, function (d) {
+      //   return d.year == $scope.year;
+      // });
+      $scope.apps = data;
     })
     .finally(function(){
       $scope.loading = false;
@@ -227,6 +232,10 @@ angular.module('project')
       editableCellTemplate: $scope.cellSelectEditableTemplateCurrentStatus,
       width: 125
     }, {
+      field: 'year',
+      displayName: "year",
+      visible: false
+    }, {
       field: 'color',
       displayName: '#',
       enableCellEdit: false,
@@ -259,10 +268,7 @@ angular.module('project')
     showFilter: true,
     showFooter: true,
     enableRowSelection: false,
-    filterOptions: {
-      filterText: "",
-      useExternalFilter: false
-    },
+    filterOptions: $scope.filterOptions,
     sortInfo: {
       fields: ['appName'],
       directions: ['asc']
