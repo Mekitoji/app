@@ -1,6 +1,12 @@
 <div class="container">
   <img class="loading-icon" ng-show="loading" src="../../images/ajax-loader.gif" height="66" width="66" />
   <a href="#/newTest"><input type="button" ng-if="dataLoad" value='Add' name='add' ng-show='{{perm}}' class='add-button btn btn-primary btn-lg'></input></a>
+  <select class ="year-filter"  ng-model="filter.year">
+    <option value="">all</option>
+    <option value="2015">2015</option>
+    <option value="2016">2016</option>
+    <option value="2017">2017</option>
+  </select>
   <div class='testCycles' ng-if="dataLoad" ng-repeat="tester in testers">
     <div class="testerId">{{tester.name}}</div>
     <table class="table table-borderes table-hover table-responsive">
@@ -9,7 +15,7 @@
         <th>Date</th>
         <th>Reason</th>
       </tr>
-      <tbody ng-repeat="storage in tester.appStorage">
+      <tbody ng-repeat="storage in tester.appStorage | filter: filter.year">
         <tr class='test-cycle' ng-repeat="zz in storage.testCycleStorage">
           <td>{{storage.app.appName}}</td>
           <td>{{zz.date | date:"dd/MM/yyyy"}}</td>

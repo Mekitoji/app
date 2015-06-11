@@ -38,7 +38,11 @@ angular.module('history-project')
       container.appendChild(notice);
 
     } else {
-      $scope.apps = data.approvedApps;
+     $scope.apps = _.forEach(data.approvedApps, function(v){
+        if(v.year == null) {
+          v.year = 2015;
+        }
+      });
     }
   })
   .finally(function(){
@@ -102,7 +106,6 @@ angular.module('history-project')
       field: 'year',
       displayName: "year",
       visible: false,
-      cellFilter: "undefinedData"
     }, {
       field: 'seller',
       displayName: 'Seller',

@@ -36,8 +36,11 @@ angular.module('history-project')
       container.appendChild(notice);
 
     } else {
-      $scope.apps = data.apps;
-    }
+      $scope.apps = _.forEach(data.apps, function(v, k){
+        if(v.year == null) {
+          v.year = 2015;
+        }
+      });    }
   })
   .finally(function() {
     $scope.loading = false;
@@ -137,7 +140,6 @@ angular.module('history-project')
       field: 'year',
       displayName: "year",
       visible: false,
-      cellFilter: "undefinedData",
     }, {
       field: 'outdated',
       displayName: 'Outdated',
