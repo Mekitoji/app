@@ -161,7 +161,7 @@
         <th>Test Cycle</th>
       </tr>
       <tr ng-repeat="tester in kpi |filter: filter.year">
-        <td>{{tester.id}}</td>
+        <td><a href ="{{tester.url}}">{{tester.id}}</a></td>
         <td>{{tester.username}}</td>
         <td>{{tester.respTime}}</td>
         <td>{{tester.testCycles}}</td>

@@ -1,24 +1,35 @@
-angular.module('project')
+angular.module('history-project')
 
-.controller('kpi-list', function ($scope, iTester) {
+.controller('kpi-list', function ($scope, History, $http) {
+  $scope.filter          = {}
+  $scope.currentRegion   = document.location.pathname.split('/')[1];
+  $scope.currentLocation = document.location.pathname.split('/')[3]
+  $scope.currentYear     = $scope.currentLocation.split("-")[2];
+  $scope.filter.year     = $scope.currentYear;
+  $scope.users           = {};
 
-  $scope.currentYear = document.location.pathname.split('/')[2];
-  $scope.currentRegion = document.location.pathname.split('/')[1];
-
-  $scope.filter = {}
-  $scope.filter.year= $scope.currentYear;
+  $http.get("/api/users")
+  .success(function(user) {
+    _.each(user, function(v) {
+      var local = v.local;
+      $scope.users[v._id] = local;
+    });
+  });
 
   $scope.year = [2015, 2016, 2017, 2018, "all"];
-  iTester.get()
+  History.getByDate($scope.currentLocation)
     .success(function (testers) {
-      $scope.testers = testers;
+      $scope.testers = testers.testerStat;
+      // console.log($scope.testers)
       $scope.kpi = [];
       _.each($scope.year, function (year) {
         _.each($scope.testers, function (v) {
+          console.log(v);
+
           var url = "tester/" + v._id;
           var total = {
             id: v.name,
-            username: v.user.local.username.first + " " + v.user.local.username.last,
+            username: $scope.users[v.user].username.first + " " + $scope.users[v.user].username.last,
             year: year,
             respTime: 0,
             testCycles: 0,
@@ -45,9 +56,9 @@ angular.module('project')
           }
           });
           // console.log(total)
-          total.respTime = total.respTime / total.countResp;
+          total.respTime   = total.respTime / total.countResp;
           total.testCycles = total.testCycles / total.countCycle;
-          total.respTime = total.respTime.toFixed(2)
+          total.respTime   = total.respTime.toFixed(2)
           total.testCycles = total.testCycles.toFixed(2)
           if(isNaN(total.respTime)) {
             total.respTime = "N/A";

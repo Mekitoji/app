@@ -1,16 +1,19 @@
 angular.module('project')
 
-.controller('kpi-list', function ($scope, iTester) {
+.controller('kpi-profile', function ($scope, iTester) {
 
-  $scope.currentYear = document.location.pathname.split('/')[2];
-  $scope.currentRegion = document.location.pathname.split('/')[1];
+  var path = document.location.pathname.split('/');
+  $scope.currentYear = path[2];
+  $scope.currentRegion = path[1];
+  $scope.currentTester = path[4]
 
   $scope.filter = {}
   $scope.filter.year= $scope.currentYear;
 
   $scope.year = [2015, 2016, 2017, 2018, "all"];
   iTester.get()
-    .success(function (testers) {
+
+  .success(function (testers) {
       $scope.testers = testers;
       $scope.kpi = [];
       _.each($scope.year, function (year) {
