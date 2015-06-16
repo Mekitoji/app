@@ -49,7 +49,7 @@
 
   <script>
   $(function () {
-    $('[data-toggle="popover"]').popover({"html":true, trigger:"hover"})
+    $('[data-toggle="popover"]').popover({"html":true, trigger:"hover"});
   });
   </script>
   <style>
@@ -119,10 +119,25 @@
       <th>Test Cycles</th>
       <th>Info about app</th>
     </tr>
-    <tr>
-
+    <tr ng-repeat="app in kpi | filter: filter.year">
+      <td>{{app.data.appName}} {{app.year}}</td>
+      <td>{{app.reviewTime.toFixed(2)}}</td>
+      <td>{{app.testCycle}}</td>
+      <!-- <td><button popover type="button" data-trigger="hover" class="btn {{app.color}}" title="{{app.data.appName}}" data-content="<b>App Id:<b> {{app.data._id}} <br> <b>Seller:</b> {{app.seller}} <br> <b>SDP status:</b> {{app.data.sdpStatus}} <br> <b>TV:</b> {{app.data.tv}}<br> <b>Current status:</b> {{app.data.currentStatus}}<br> <b>Update Date:</b> {{app.data.updateTime}}.toLocaleDateString()%> <br> <b>Review Time: </b>{{app.data.respTime}}.toFixed(2) <br> <b>Test Cycles:</b> {{app.data.testCycle}} <br> <b>Last Resp:</b> {{app.data.resp}} <br><b> Outdated Status: </b> {{app.data.outdated}}<br> ">More Info</button> </td> -->
+      <td><button type="button" class="btn {{app.color}}" popover data-trigger="hover" data-html="true" data-selector="" data-original-title="{{app.data.appName}}" data-content="<b>App Id:</b> {{app.data._id}} <br> <b>Seller:</b> {{app.data.seller}} <br> <b>SDP status:</b> {{app.data.sdpStatus}} <br> <b>TV:</b> {{app.data.tv}}<br> <b>Current status:</b> {{app.data.currentStatus}}<br> <b>Update Date:</b> {{app.data.updateTime | toLocale}}%> <br> <b>Review Time: </b>{{app.data.replyTime.toFixed(2)}} <br> <b>Test Cycles:</b> {{app.data.testCycles}} <br> <b>Last Resp:</b> {{app.data.resp}} <br><b> Outdated Status: </b> {{app.data.outdated}}<br>">More info</button></td>
+    </tr>
+    <tr ng-repeat="t in total | filter:filter.year">
+      <td><b>Total:</b></td>
+      <td><b>{{t.respTime}}</b></td>
+      <td><b>{{t.testCycles}}</b></td>
     </tr>
   </table>
+
+
+
+
+
+
 
   <table class="table-hover table">
     <tr>
