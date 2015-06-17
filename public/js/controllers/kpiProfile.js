@@ -24,7 +24,7 @@ angular.module('project')
   $scope.filter.year   = $scope.currentYear;
   $scope.tester        = {};
   $scope.total         = [];
-
+  $scope.loading       = true;
 
   $scope.year = [2015, 2016, 2017, 2018, "all"];
   iTester.get()
@@ -33,6 +33,7 @@ angular.module('project')
     _.each($scope.year, function(year) {
         var total = {respTime: 0, testCycles: 0, countResp: 0, countCycle: 0, year: year};
       _.each($scope.tester.appStorage, function(v) {
+
         if(v.year === year || year ==="all") {
           var app = {
             reviewTime: v.respTime,
@@ -41,6 +42,7 @@ angular.module('project')
             year: year,
             color: "",
           }
+
           $scope.kpi.push(app);
 
           if (v.respTime !== 0) {
@@ -72,7 +74,11 @@ angular.module('project')
     $scope.kpi.sort(function(a, b) {
       if(a.data.appName<b.data.appName) return -1;
       if(a.data.appName>b.data.appName) return 1;
-     return 0;
+      return 0;
     });
+  })
+
+  .finally(function() {
+    $scope.loading = false;
   });
 });

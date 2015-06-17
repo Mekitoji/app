@@ -2,6 +2,7 @@ angular.module('project')
 
 .controller('kpi-list', function ($scope, iTester) {
 
+  $scope.loading = true;
   $scope.currentYear = document.location.pathname.split('/')[2];
   $scope.currentRegion = document.location.pathname.split('/')[1];
 
@@ -59,5 +60,8 @@ angular.module('project')
           $scope.kpi.push(total);
         });
       });
+    })
+    .finally(function(){
+      $scope.loading = false;
     });
 });

@@ -7,6 +7,7 @@ angular.module('history-project')
   $scope.currentYear     = $scope.currentLocation.split("-")[2];
   $scope.filter.year     = $scope.currentYear;
   $scope.users           = {};
+  $scope.loading         = true;
 
   $http.get("/api/users")
   .success(function(user) {
@@ -20,8 +21,8 @@ angular.module('history-project')
   History.getByDate($scope.currentLocation)
     .success(function (testers) {
       $scope.testers = testers.testerStat;
-      // console.log($scope.testers)
-      $scope.kpi = [];
+      $scope.kpi     = [];
+
       _.each($scope.year, function (year) {
         _.each($scope.testers, function (v) {
           console.log(v);
@@ -70,5 +71,9 @@ angular.module('history-project')
           $scope.kpi.push(total);
         });
       });
+    })
+
+    .finally(function() {
+      $scope.loading = false;
     });
 });
