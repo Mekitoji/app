@@ -34,11 +34,7 @@
    <script src='../../../../js/factories/SIA/History.js'></script>
   <% } %>
 
-  <script>
-  $(function () {
-    $('[data-toggle="popover"]').popover({"html":true, trigger:"hover"})
-  });
-  </script>
+
   <style>
   h2.title {
     text-align: center;
@@ -90,10 +86,9 @@
 <body ng-controller ="kpi-profile">
   <% include ../layout/history_header%>
   <div>
-    <img class="loading-icon" ng-show="loading" src="../../../../images/ajax-loader.gif" height="66" width="66" />
+    <img class="loading-icon" ng-show="loading" src="../../../images/ajax-loader.gif" height="66" width="66" />
   </div>
   <div class="container" ng-if="!loading">
-
   <% if(tester.user!==null) { %>
   <button type="button" class="btn btn-lg" data-toggle="popover" title="<%= tester.user.local.username.first %> <%= tester.user.local.username.last %>" data-content="<b>TesterId:</b><%=tester._id%><br> <b>User Id:</b>  <%=tester.user._id%><br> <b>Mail:</b>  <%=tester.user.local.email   %> <br> <b>Group:</b>  <%=tester.user.local.group%>"> <%=tester.name%></button>
   <% }  else  { %>
@@ -130,5 +125,10 @@
     </tr>
   </table>
   </div>
+   <script>
+  $(function () {
+    $('[data-toggle="popover"]').popover({"html":true, trigger:"hover"})
+  });
+  </script>
 </body>
 </html>

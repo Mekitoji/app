@@ -69,8 +69,6 @@ angular.module('project')
       }
       $scope.total.push(total);
     });
-    console.log($scope.total);
-    console.log($scope.kpi);
     $scope.kpi.sort(function(a, b) {
       if(a.data.appName<b.data.appName) return -1;
       if(a.data.appName>b.data.appName) return 1;

@@ -25,9 +25,10 @@ angular.module('history-project')
 
       _.each($scope.year, function (year) {
         _.each($scope.testers, function (v) {
-          console.log(v);
-
           var url = "tester/" + v._id;
+          if(v.user == null) {
+            v.user = {local:{username:{first:"",last:""}}};
+          }
           var total = {
             id: v.name,
             username: $scope.users[v.user].username.first + " " + $scope.users[v.user].username.last,
@@ -56,7 +57,6 @@ angular.module('history-project')
             }
           }
           });
-          // console.log(total)
           total.respTime   = total.respTime / total.countResp;
           total.testCycles = total.testCycles / total.countCycle;
           total.respTime   = total.respTime.toFixed(2)
@@ -67,7 +67,6 @@ angular.module('history-project')
           if(isNaN(total.testCycles)) {
             total.testCycles = "N/A";
           }
-          // console.log(total);
           $scope.kpi.push(total);
         });
       });
