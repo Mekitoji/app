@@ -11,7 +11,12 @@ module.exports = function (app) {
       // if there is an error retrieving, send the error. nothing after res.send(err) will execute
       if (err)
         res.send(err);
+      var len = users.length;
 
+      var users = JSON.parse(JSON.stringify(users));
+      for(var i = 0;i < len; i ++) {
+        delete users[i].local.password;
+      }
       res.json(users); // return all users in JSON format
     });
   });
@@ -49,6 +54,14 @@ module.exports = function (app) {
       User.find(function (err, users) {
         if (err)
           res.send(err);
+
+        var len = users.length;
+
+        var users = JSON.parse(JSON.stringify(users));
+        for(var i = 0;i < len; i ++) {
+          delete users[i].local.password;
+        }
+
         res.json(users);
       });
     });
@@ -71,6 +84,8 @@ module.exports = function (app) {
         if (err)
           res.send(err);
 
+        user = JSON.parse(JSON.stringify(user));
+        delete user.local.password;
         res.json(user);
       });
 
