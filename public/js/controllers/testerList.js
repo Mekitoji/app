@@ -43,6 +43,9 @@ angular.module('project')
   $scope.loading = true;
   $scope.dataLoad = false;
 
+  $scope.filter ={};
+  $scope.filter.year = $scope.year;
+
   function sortName(a, b) {
     return a.name.toLowerCase().localeCompare(b.name.toLowerCase());
   }
