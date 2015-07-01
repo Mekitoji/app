@@ -157,3 +157,9 @@ div.ngCellText.ng-binding {
   margin-right: auto;
   margin-top: 50px;
 }
+
+#year-sel{
+  position: absolute;
+  top: 17px;
+  right: 20%;
+}

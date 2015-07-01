@@ -110,7 +110,7 @@
   <div class="container" ng-if="!loading">
 
   <button type="button" class="btn btn-lg" data-toggle="popover" title="<%= tester.user.local.username.first %> <%= tester.user.local.username.last %>" data-content="<b>TesterId:</b><%=tester._id%><br> <b>User Id:</b>  <%=tester.user._id%><br> <b>Mail:</b>  <%=tester.user.local.email   %> <br> <b>Group:</b>  <%=tester.user.local.group%>"> <%=tester.name%></button>
-  <select class ="year-filter"  ng-model="filter.year">
+  <select id="year-sel" class ="year-filter"  ng-model="filter.year">
     <option value="all">all</option>
     <option value="2015">2015</option>
     <option value="2016">2016</option>

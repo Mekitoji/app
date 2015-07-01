@@ -9,6 +9,7 @@
     }
   </style>
 
+  <link rel="stylesheet" type="text/css" href="../../../../css/main.css">
   <script src= "../../../vendor/jquery/dist/jquery.min.js"></script>
   <link rel="stylesheet" href="../../../vendor/bootstrap/dist/css/bootstrap.min.css">
   <script src= "../../../vendor/bootstrap/dist/js/bootstrap.min.js"></script>
@@ -89,7 +90,7 @@
     <img class="loading-icon" ng-show="loading" src="../../../../images/ajax-loader.gif" height="66" width="66" />
   </div>
   <div class="container" ng-if="!loading">
-    <select class ="year-filter"  ng-model="filter.year">
+    <select id="year-sel" class ="year-filter"  ng-model="filter.year">
       <option value="all">all</option>
       <option value="2015">2015</option>
       <option value="2016">2016</option>
