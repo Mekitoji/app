@@ -185,7 +185,7 @@ angular.module('project')
   });
 
   $scope.filterOptions = {
-    filterText: "year:" + $scope.year
+    filterText: "year:" + $scope.year + ";"
   }
 
   $scope.dateParse = function (data) {

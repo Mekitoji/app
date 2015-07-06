@@ -1,17 +1,20 @@
 module.exports = function (app, passport) {
-
+//temp
+  function response(res, result, data, err) {
+    res.json({
+      result: result,
+      data: data,
+      err: err,
+    });
+  }
   app.post('/api/auth', function (req, res, next) {
     passport.authenticate('local-login', function (err, user) {
       if (err) {
-        res.json({
-          "result": false
-        });
+        response(res, false, null, "Server error.")
         next();
       }
       if (!user) {
-        res.json({
-          "result": false
-        });
+        response(res, false, null, "User not find!")
       }
       req.logIn(user, function (err) {
         if (err) {
@@ -21,20 +24,17 @@ module.exports = function (app, passport) {
           next();
         }
         res.json({
-          "result": true
+          "result": true,
+          "data": {
+            email: user.local.email,
+            group: user.local.group,
+            username: {
+              first: user.local.username.first,
+              last: user.local.username.last
+            }
+          },
+          "error": null
         });
       });
     })(req, res, next);
   });
-
-  // app.post('/api/auth',
-  //   passport.authenticate('local-login'),
-  //   function (req, res) {sttsuhydytsdduj
-  //     // If this function gets called, authentication was successful.
-  //     // `req.user` contains the authenticated user.
-  //     console.log(req.user);
-  //     res.json({
-  //       "result": true
-  //     });
-  //   });
-};

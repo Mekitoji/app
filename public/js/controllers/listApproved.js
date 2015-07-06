@@ -122,7 +122,7 @@ angular.module('project')
   });
 
   $scope.filterOptions = {
-    filterText: "year:" + $scope.year
+    filterText: "year:" + $scope.year  + ";"
   }
 
   $scope.cellSelectEditableTemplateCountry = '<select ng-class="\'colt\' + col.index" ng-input="COL_FIELD" ng-model="COL_FIELD" ng-options=" v for v in Options.countryProp.values" ng-blur="updateEntity(row)" />';
