@@ -20,7 +20,14 @@ var config = {
     },
     "EU": {
       region: ["EU"],
-      gk: {}
+      gk: {
+        "RASTATURINSTANISLAV": "SR",
+        "TRESCHALOVNIKITA": "NT",
+        "KipovskiyEvgeniy": "EK",
+        "BelousovAlexey": "AB",
+        "FilimonovMaxim":"MF",
+        "SKAKUNGRIGORY": "GS"
+      }
     },
     "ALL": {
       region: ["all"],
