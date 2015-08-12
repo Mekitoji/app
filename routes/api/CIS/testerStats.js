@@ -19,11 +19,11 @@ module.exports = function (app) {
             model: 'Apps'
           }, function (err, data) {
             if (err) {
-              res.send(err)
+              res.send(err);
             } else {
               res.send(data);
             }
-          })
+          });
         }
       });
   });
@@ -84,7 +84,7 @@ module.exports = function (app) {
               tester.markModified('appStorage');
               tester.save(function (err, data) {
                 if (err) {
-                  res.send(err)
+                  res.send(err);
                 } else {
                   res.send(data);
                 }
@@ -114,7 +114,7 @@ module.exports = function (app) {
             });
             tester.save(function (err, data) {
               if (err) {
-                res.send(err)
+                res.send(err);
               } else {
                 res.send(data);
               }
@@ -146,7 +146,7 @@ module.exports = function (app) {
           //save or new data
           tester.save(function (err, data) {
             if (err) {
-              res.send(err)
+              res.send(err);
             } else {
               res.send(data);
             }
@@ -163,7 +163,7 @@ module.exports = function (app) {
               });
               tester.save(function (err, data) {
                 if (err) res.send(500, err);
-                res.send(data)
+                res.send(data);
               });
             } else {
               res.send(500);

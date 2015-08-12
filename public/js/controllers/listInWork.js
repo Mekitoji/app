@@ -152,7 +152,7 @@ angular.module('project')
   $scope.cellSelectEditableTemplateColor = '<select ng-class="\'colt\' + col.index" ng-input="COL_FIELD" ng-model="COL_FIELD" ng-options=" v for v in Options.color.values" />';
   $scope.cellSelectEditableTemplateOutdated = '<select ng-class="\'colt\' + col.index" ng-input="COL_FIELD" ng-model="COL_FIELD" ng-options=" v for v in Options.outdated.values" />';
   $scope.cellSelectEditableTemplateUpdateTime = '<input ng-class="\'colt\' + col.index" ng-input="COL_FIELD" ng-model="COL_FIELD"  type="date" />';
-  $scope.cellSelectEditableTemplateCalendar = '<select ng-class="\'colt\' + col.index" ng-input="COL_FIELD" ng-model="COL_FIELD"><option ng-repeat="v in Options.calendar.values" ng-class="{"greenCalendar": v == "D","orange-calendar": v == "L","calendarll": v == "LL","purple-calendar": v == "H"}">{{v}}</option></select>';
+  $scope.cellSelectEditableTemplateCalendar = '<select ng-class="\'colt\' + col.index" ng-input="COL_FIELD" ng-model="COL_FIELD"><option ng-repeat="v in Options.calendar.values" ng-class="{\'greenCalendar\': v == \'D\',\'orange-calendar\': v == \'L\',\'calendarll\': v == \'LL\',\'purple-calendar\': v == \'H\'}">{{v}}</option></select>';
 
   Apps.getRejected()
 
@@ -456,6 +456,6 @@ function formatDate(dx) {
     dm = '0' + dm;
   }
 
-  var d = dy + "-" + dm + "-" + dd
+  var d = dy + "-" + dm + "-" + dd;
   return d;
 }

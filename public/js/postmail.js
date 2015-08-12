@@ -299,6 +299,6 @@ function formatDate(dx) {
     dm = '0' + dm;
   }
 
-  var d = dy + "-" + dm + "-" + dd
+  var d = dy + "-" + dm + "-" + dd;
   return d;
 }

@@ -18,7 +18,7 @@ module.exports = function (app) {
         console.error(err);
       }
       res.json(apps);
-    })
+    });
   });
 
   //get all not approved
@@ -284,9 +284,9 @@ module.exports = function (app) {
       if (req.body.outdated === 'true' || req.body.outdated === true) {
         app.outdated = true;
       } else if (req.body.outdated === 'false' || req.body.outdated === false) {
-        app.outdated = false
+        app.outdated = false;
       } else {
-        app.outdated = false
+        app.outdated = false;
       }
       if (req.body.tv === "Not Reviewed") {
         app.currentStatus = "Not Reviewed";
