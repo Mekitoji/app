@@ -1,9 +1,7 @@
 var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 
-var rateSchema = new Schema({
-  region: String,
-  months: [{
+var monthSchema = new Schema({
   year: Number,
   monthNumber: Number,
   total: {
@@ -18,44 +16,47 @@ var rateSchema = new Schema({
     default: 0,
     type: Number
   }
-}]
 });
 
-/*rateSchema.virtual('months.rate').get(function() {
+monthSchema.virtual('rate').get(function() {
   return (this.total/this.pass) * 100;
 });
 
-rateSchema.virtual('months.month').get(function() {
+monthSchema.virtual('month').get(function() {
   var months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
-  return months[this.monthNumber];
+  return months[this.monthNumber] ;
 });
 
-rateSchema.method('addPass', function() {
+monthSchema.method('addPass', function() {
   this.total++;
   this.pass++;
-  // is this save global schema?
-  this.save(function(err) {
-    if(err) return err;
-  });
+  return;
 });
 
-rateSchema.method('addFail', function() {
+monthSchema.method('addFail', function() {
   this.total++;
   this.fail++;
-  this.save(function(err) {
-    if(err) return err;
-  });
-});*/
+  return;
+});
+
+var rateSchema = new Schema({
+  region: String,
+  months: [monthSchema]
+});
 
 rateSchema.methods.findMonth = function(month, year, cb) {
+  var exist = false;
   this.months.forEach(function(val) {
-    if(val.year === year && val.monthNumber === month) return cb(val);
-    else return cb(null);
+    if(val.year === year && val.monthNumber === month) {
+      exist = true;
+      return cb(val);
+    }
   });
+  if(!exist) return cb(null);
 };
 
 rateSchema.methods.addMonth = function(month, year, cb) {
-  var m = {year: year, monthNumber: month};
+  var m = new Month({year: year, monthNumber: month});
   this.months.push(m);
   this.save(cb);
 };
@@ -75,7 +76,7 @@ rateSchema.statics.addRegion = function(region, cb) {
 
 rateSchema.statics.getRegion = function(region, cb) {
   this.findOne({region:region}, function(err, data) {
-    if(err) cb(err);
+    if(err) return cb(err);
     if(!data) {
       var e =  new Error("This region not exist.");
       cb(e);
@@ -83,8 +84,7 @@ rateSchema.statics.getRegion = function(region, cb) {
   });
 };
 
-
-
+var Month = mongoose.model('Month', monthSchema);
 var Rate = mongoose.model('Rate', rateSchema);
 
 module.exports = Rate;
