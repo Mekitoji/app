@@ -250,6 +250,7 @@ module.exports = function (app) {
             if (err) utils.responseToClient(res, false, "Server error", err);
 
             n.updateDate   = new Date(n.updateDate);
+            app.appName = n.appName;
             app.sdpStatus  = n.appStatus;
             app.updateTime = n.updateDate;
             app.resp = resp;

@@ -55,6 +55,16 @@ rateSchema.methods.findMonth = function(month, year, cb) {
   if(!exist) return cb(null);
 };
 
+rateSchema.methods.findYear = function(year, cb) {
+  var result = [];
+  this.months.forEach(function(val) {
+    if(val.year === year) {
+      result.push(val);
+    }
+  });
+  return cb(result);
+};
+
 rateSchema.methods.addMonth = function(month, year, cb) {
   var m = new Month({year: year, monthNumber: month});
   this.months.push(m);
@@ -80,7 +90,7 @@ rateSchema.statics.getRegion = function(region, cb) {
     if(!data) {
       var e =  new Error("This region not exist.");
       cb(e);
-    } else cb(err, data);
+    } else cb(null, data);
   });
 };
 

@@ -44,6 +44,17 @@ describe('Rate', function () {
     });
   });
 
+  it('rate#findYear', function(done) {
+    rate.getRegion('Test', function(err, data) {
+      if(err) throw err;
+      data.findYear(2015, function(res) {
+        should.exist(res);
+        res.length.should.be.equal(1);
+        done();
+      });
+    });
+  });
+
   describe('monthSchema\n', function () {
     before(function (done) {
       rate.getRegion('Test', function (err, data) {
@@ -56,7 +67,7 @@ describe('Rate', function () {
       });
     });
 
-    it('Virtual variables monthSchema#get', function (done) {
+    it('Virtual variables (rate & month) monthSchema#get', function (done) {
       rate.getRegion('Test', function (err, data) {
         if (err) throw err;
         data.findMonth(0, 2015, function (result) {

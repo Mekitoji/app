@@ -1,10 +1,11 @@
 var routesFunction = require('../../libs/routesFunction');
 var TesterStat = require('../../models/CIS/testerStat');
-var ObjectId = require('mongoose').Types.ObjectId;
-var User = require('../../models/user');
-var Cal = require('../../models/CIS/calendar');
-var Apps = require('../../models/CIS/gkbase');
-var _ = require('lodash');
+var Rate = require('../../models/rate');
+// var ObjectId = require('mongoose').Types.ObjectId;
+// var User = require('../../models/user');
+// var Cal = require('../../models/CIS/calendar');
+// var Apps = require('../../models/CIS/gkbase');
+// var _ = require('lodash');
 
 module.exports = function (app) {
   app.get('/cis/:year/tester', routesFunction.checkPermissionCIS, function (req, res) {
@@ -27,5 +28,7 @@ module.exports = function (app) {
           });
         });
       });
+      // Rate
+
   });
-}
+};
