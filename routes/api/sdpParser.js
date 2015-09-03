@@ -22,7 +22,7 @@ var config = {
         "KirillovYury": "YK"
       },
       mail: {
-        to: '',
+        to: "",
         from: "CIS STE<noreply@lge.com>",
         cc: [],
         replyTo: ''
@@ -82,6 +82,12 @@ utils.isNullOrUndefined = function (val) {
   } else {
     return false;
   }
+};
+
+utils.parseId = function(id) {
+  id = id.split('[')[1];
+  id = id.split(']')[0];
+  return id;
 };
 
 /**
@@ -299,7 +305,9 @@ module.exports = function (app) {
         var temp_year = temp.getFullYear();
         var body = "<style>div{font:10pt Arial;}</style>";
 
-        var subject = "[Notification][SDP] " + temp_date + " " + monthArray[temp_month] + " " + temp_year;
+        app.id = utils.parseId(app.id);
+
+        var subject = "[" + app.name + "] (" + app.id + ") " + temp_date + " " + monthArray[temp_month] + " " + temp_year;
         // **email body
         body += "<div><b> New apps arrive:</b><br /><br />";
 
@@ -325,7 +333,6 @@ module.exports = function (app) {
           }
         });
       });
-
     }, 2000);
   });
 };
