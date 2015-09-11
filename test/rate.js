@@ -10,21 +10,21 @@ describe('Rate', function () {
     mongoose.connect(config.get('mongoose:uri'), config.get('mongoose: option'));
   });
 
-  it('Rate#createRegion', function (done) {
+  it('Rate#createRegion should create new region', function (done) {
     rate.addRegion('Test', function (err) {
       if (err) throw err;
       done();
     });
   });
 
-  it('Rate#getRegion', function (done) {
+  it('Rate#getRegion should get region data', function (done) {
     rate.getRegion('Test', function (err) {
       if (err) throw err;
       done();
     });
   });
 
-  it('rate#addMonth', function (done) {
+  it('rate#addMonth should add month to the region', function (done) {
     rate.getRegion('Test', function (err, data) {
       if (err) throw err;
       data.addMonth(0, 2015, function (err) {
@@ -34,7 +34,7 @@ describe('Rate', function () {
     });
   });
 
-  it('rate#findMonth', function (done) {
+  it('rate#findMonth should find month if existed in region', function (done) {
     rate.getRegion('Test', function (err, data) {
       if (err) throw err;
       data.findMonth(0, 2015, function (result) {
@@ -44,12 +44,13 @@ describe('Rate', function () {
     });
   });
 
-  it('rate#findYear', function(done) {
+  it('rate#findYear should find all month in specified year, and ouput it as Array', function(done) {
     rate.getRegion('Test', function(err, data) {
       if(err) throw err;
       data.findYear(2015, function(res) {
         should.exist(res);
         res.length.should.be.equal(1);
+        res.should.be.an.Array();
         done();
       });
     });
@@ -81,7 +82,7 @@ describe('Rate', function () {
       });
     });
 
-    it('monthSchema#addPass', function (done) {
+    it('monthSchema.addPass() should increment this.total and this.pass and save it', function (done) {
       rate.getRegion('Test', function (err, data) {
         if (err) throw err;
         should.exist(data);
@@ -101,7 +102,7 @@ describe('Rate', function () {
         });
       });
     });
-    it('monthSchema#addFail', function (done) {
+    it('monthSchema#addFail should increment this.total and this.fail and save it', function (done) {
       rate.getRegion('Test', function (err, data) {
         if (err) throw err;
         should.exist(data);

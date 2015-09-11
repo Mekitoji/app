@@ -89,12 +89,14 @@ module.exports = function (app, passport) {
   //admin tools
   require('./tools/users')(app);
   require('./tools/testers')(app);
+  require('./tools/rate')(app);
 
 
   //api CORE
   require('./api/user')(app);
   require('./api/sdpParser')(app);
   require('./api/auth')(app, passport);
+  require('./api/rate')(app);
 
   //api CIS
   require('./api/CIS/gk')(app);

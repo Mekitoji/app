@@ -2,6 +2,7 @@ var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 
 var monthSchema = new Schema({
+  region: String,
   year: Number,
   monthNumber: Number,
   total: {
@@ -31,6 +32,11 @@ monthSchema.method('addPass', function() {
   this.total++;
   this.pass++;
   return;
+});
+
+monthSchema.method('setRegion', function(region) {
+  this.region = region;
+  return region;
 });
 
 monthSchema.method('addFail', function() {
