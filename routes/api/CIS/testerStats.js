@@ -4,6 +4,7 @@ var Apps = require('../../../models/CIS/gkbase');
 var log = require('../../../libs/log');
 var User = require('../../../models/user');
 var ObjectId = require('mongoose').Types.ObjectId;
+var Rate = require('../../../models/rate');
 var _ = require('lodash');
 
 module.exports = function (app) {
@@ -31,7 +32,6 @@ module.exports = function (app) {
 
 
   app.post('/api/cis/testerStat', function (req, res) {
-    console.log(req.body);
     var user = new ObjectId(req.body.user);
     TesterStat.create({
       name: req.body.name,
@@ -56,17 +56,11 @@ module.exports = function (app) {
         throw err;
       } else {
         if (req.body.appNameTest) {
-          console.log('gate1');
           var index = _.findIndex(tester.appStorage, function (data) {
-            console.log(data.app);
-            console.log(req.body.appNameTest);
             return data.app.toString() === req.body.appNameTest.toString();
           });
-          console.log('index = %s', index);
           if (index !== -1) {
-            console.log('gate2');
             if (tester.appStorage[index] && req.body.date && req.body.reason) {
-              console.log('gate4');
               tester.appStorage[index].testCycleStorage.push({
                 date: req.body.date,
                 reason: req.body.reason
@@ -79,9 +73,48 @@ module.exports = function (app) {
                   if (err) res.send(err);
                 });
               });
-              console.log(tester);
-              console.log(tester.appStorage[index]);
               tester.markModified('appStorage');
+
+
+     //  ********************** Pass Rate
+        Rate.getRegion('CIS', function(err, data) {
+          if(err) console.error(err);
+          if(!data) {
+            Rate.addRegion('CIS', function(err, data) {
+              if(err) return console.error(err);
+              doShit(data);
+            });
+          } else {
+            doShit(data);
+          }
+        });
+
+        function doShit(region) {
+          var date = new Date();
+          var month = date.getMonth();
+          var year = date.getFullYear();
+          region.findMonth(month, year, function(err, month) {
+            if(err) return console.error(err);
+            console.log(month);
+            month.addFail(req.body.appNameTest);
+            region.markModified('months');
+            console.log("save...");
+            region.save(function(err) {
+              if(err) return console.error(err);
+            });
+          });
+        };
+
+        // *************
+
+
+
+
+
+
+
+
+
               tester.save(function (err, data) {
                 if (err) {
                   res.send(err);
@@ -93,7 +126,6 @@ module.exports = function (app) {
               res.send(500);
             }
           } else {
-            console.log('gate3');
             var date = new Date();
             tester.appStorage.push({ //app obj
               app: new ObjectId(req.body.appNameTest), // get _id of mongo
@@ -112,6 +144,48 @@ module.exports = function (app) {
                 if (err) res.send(err);
               });
             });
+
+
+
+     //  ********************** Pass Rate
+        Rate.getRegion('CIS', function(err, data) {
+          if(err) console.error(err);
+          if(!data) {
+            Rate.addRegion('CIS', function(err, data) {
+              if(err) return console.error(err);
+              doShit(data);
+            });
+          } else {
+            doShit(data);
+          }
+        });
+
+        function doShit(region) {
+          var date = new Date();
+          var month = date.getMonth();
+          var year = date.getFullYear();
+          region.findMonth(month, year, function(err, month) {
+            if(err) return console.error(err);
+            console.log(month);
+            month.addFail(req.body.appNameTest);
+            region.markModified('months');
+            console.log("save...");
+            region.save(function(err) {
+              if(err) return console.error(err);
+            });
+          });
+        }
+
+        // *************
+
+
+
+
+
+
+
+
+
             tester.save(function (err, data) {
               if (err) {
                 res.send(err);

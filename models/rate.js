@@ -1,8 +1,8 @@
 var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
+//TODO: REWRITE for  new version
 
 var monthSchema = new Schema({
-  region: String,
   year: Number,
   monthNumber: Number,
   total: {
@@ -16,7 +16,8 @@ var monthSchema = new Schema({
   fail: {
     default: 0,
     type: Number
-  }
+  },
+  apps: Array
 });
 
 monthSchema.virtual('rate').get(function() {
@@ -28,18 +29,29 @@ monthSchema.virtual('month').get(function() {
   return months[this.monthNumber] ;
 });
 
-monthSchema.method('addPass', function() {
+monthSchema.method('getList', function() {
+  return this.apps;
+});
+
+monthSchema.method('addPass', function(id) {
+  if(id) {
+    this.apps.push({
+      app: id,
+      status: 'Approved'
+    });
+  }
   this.total++;
   this.pass++;
   return;
 });
 
-monthSchema.method('setRegion', function(region) {
-  this.region = region;
-  return region;
-});
-
-monthSchema.method('addFail', function() {
+monthSchema.method('addFail', function(id) {
+  if(id) {
+    this.apps.push({
+      app: id,
+      status: 'Rejected'
+    });
+  }
   this.total++;
   this.fail++;
   return;
@@ -51,14 +63,26 @@ var rateSchema = new Schema({
 });
 
 rateSchema.methods.findMonth = function(month, year, cb) {
+  var self = this;
   var exist = false;
   this.months.forEach(function(val) {
     if(val.year === year && val.monthNumber === month) {
       exist = true;
-      return cb(val);
+      return cb(null, val);
     }
   });
-  if(!exist) return cb(null);
+  if(!exist)  {
+    var nm = new Month({
+      year: year,
+      monthNumber: month
+    });
+    this.months.push(nm);
+    this.save(function(err, res) {
+      if(err) return cb(err);
+      console.log(res);
+      return self.findMonth(month, year, cb);
+    });
+  }
 };
 
 rateSchema.methods.findYear = function(year, cb) {

@@ -4,6 +4,7 @@ var Cal = require('../../../models/CIS/calendar');
 var ApprovedCal = require('../../../models/CIS/calendarForApprovedApps');
 var ObjectId = require('mongoose').Types.ObjectId;
 var log = require('../../../libs/log');
+var Rate = require('../../../models/rate');
 
 module.exports = function (app) {
 
@@ -240,6 +241,38 @@ module.exports = function (app) {
         // });
         data.save(function (err, appz) {
           if (err) throw err;
+
+
+        //  ********************** Pass Rate
+        Rate.getRegion('CIS', function(err, data) {
+          if(err) console.error(err);
+          if(!data) {
+            Rate.addRegion('CIS', function(err, data) {
+              if(err) return console.error(err);
+              doShit(data);
+            });
+          } else {
+            doShit(data);
+          }
+        });
+
+        function doShit(region) {
+          var date = new Date();
+          var month = date.getMonth();
+          var year = date.getFullYear();
+          region.findMonth(month, year, function(err, month) {
+            if(err) return console.error(err);
+            console.log(month);
+            month.addPass(id);
+            region.markModified('months');
+            region.save(function(err) {
+              if(err) return console.error(err);
+            });
+          });
+        }
+
+        // *************
+
         });
       });
 
@@ -312,10 +345,9 @@ module.exports = function (app) {
         }
       }
 
-      app.save(function (err, data) {
+      app.save(function (err, response) {
         if (err) res.send(err);
-
-        res.json(data);
+        res.json(response);
       });
 
       if (req.body.tv === 'Approved' || req.body.tv === 'Partial') {

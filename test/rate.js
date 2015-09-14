@@ -37,7 +37,8 @@ describe('Rate', function () {
   it('rate#findMonth should find month if existed in region', function (done) {
     rate.getRegion('Test', function (err, data) {
       if (err) throw err;
-      data.findMonth(0, 2015, function (result) {
+      data.findMonth(0, 2015, function (err, result) {
+        should.not.exist(err);
         should.exist(result);
         done();
       });
@@ -69,24 +70,18 @@ describe('Rate', function () {
     });
 
     it('Virtual variables (rate & month) monthSchema#get', function (done) {
-      rate.getRegion('Test', function (err, data) {
-        if (err) throw err;
-        data.findMonth(0, 2015, function (result) {
-          should.exist(result);
-          should.exist(result.rate);
-          result.rate.should.be.NaN();
-          should.exist(result.month);
-          result.month.should.be.equal('January');
-          done();
-        });
-      });
-    });
+    rate.getRegion('Test', function (err, data) { if (err) throw err;
+    data.findMonth(0, 2015, function (err, result) {   should.not.exist(err);
+    should.exist(result);   should.exist(result.rate);
+    result.rate.should.be.NaN();   should.exist(result.month);
+    result.month.should.be.equal('January');   done(); });   }); });
 
     it('monthSchema.addPass() should increment this.total and this.pass and save it', function (done) {
       rate.getRegion('Test', function (err, data) {
         if (err) throw err;
         should.exist(data);
-        data.findMonth(1, 2015, function (res) {
+        data.findMonth(1, 2015, function (err, res) {
+          should.not.exist(err);
           should.exist(res);
           res.pass.should.be.equal(0);
           res.total.should.be.equal(0);
@@ -102,11 +97,12 @@ describe('Rate', function () {
         });
       });
     });
-    it('monthSchema#addFail should increment this.total and this.fail and save it', function (done) {
+    it('monthSchema.addFail() should increment this.total and this.fail and save it', function (done) {
       rate.getRegion('Test', function (err, data) {
         if (err) throw err;
         should.exist(data);
-        data.findMonth(1, 2015, function (res) {
+        data.findMonth(1, 2015, function (err, res) {
+          should.not.exist(err);
           should.exist(res);
           res.pass.should.be.equal(1);
           res.total.should.be.equal(1);
