@@ -19,4 +19,16 @@ angular.module('rate', [])
       $scope.data = data;
       console.log(data);
     });
+})
+
+.directive('rateChart', function($parse) {
+  var directiveDefinitionObject = {
+    restrict: 'E',
+    replace: false,
+    scope:{data:'=chartData'},
+    link: function(scope, element, attrs) {
+      //do magic here
+    }
+  }
+  return directiveDefinitionObject;
 });

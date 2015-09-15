@@ -76,36 +76,36 @@ module.exports = function (app) {
               tester.markModified('appStorage');
 
 
-     //  ********************** Pass Rate
-        Rate.getRegion('CIS', function(err, data) {
-          if(err) console.error(err);
-          if(!data) {
-            Rate.addRegion('CIS', function(err, data) {
-              if(err) return console.error(err);
-              doShit(data);
-            });
-          } else {
-            doShit(data);
-          }
-        });
+           //  ********************** Pass Rate
+              Rate.getRegion('CIS', function(err, data) {
+                if(err) console.error(err);
+                if(!data) {
+                  Rate.addRegion('CIS', function(err, data) {
+                    if(err) return console.error(err);
+                    addFailToMonth(data);
+                  });
+                } else {
+                  addFailToMonth(data);
+                }
+              });
 
-        function doShit(region) {
-          var date = new Date();
-          var month = date.getMonth();
-          var year = date.getFullYear();
-          region.findMonth(month, year, function(err, month) {
-            if(err) return console.error(err);
-            console.log(month);
-            month.addFail(req.body.appNameTest);
-            region.markModified('months');
-            console.log("save...");
-            region.save(function(err) {
-              if(err) return console.error(err);
-            });
-          });
-        };
+              function addFailToMonth(region) {
+                var date = new Date();
+                var month = date.getMonth();
+                var year = date.getFullYear();
+                region.findMonth(month, year, function(err, month) {
+                  if(err) return console.error(err);
+                  console.log(month);
+                  month.addFail(req.body.appNameTest);
+                  region.markModified('months');
+                  console.log("save...");
+                  region.save(function(err) {
+                    if(err) return console.error(err);
+                  });
+                });
+              }
 
-        // *************
+              // *************
 
 
 

@@ -72,16 +72,7 @@ rateSchema.methods.findMonth = function(month, year, cb) {
     }
   });
   if(!exist)  {
-    var nm = new Month({
-      year: year,
-      monthNumber: month
-    });
-    this.months.push(nm);
-    this.save(function(err, res) {
-      if(err) return cb(err);
-      console.log(res);
-      return self.findMonth(month, year, cb);
-    });
+    self.addMonth(month, year, cb);
   }
 };
 
@@ -96,9 +87,13 @@ rateSchema.methods.findYear = function(year, cb) {
 };
 
 rateSchema.methods.addMonth = function(month, year, cb) {
+  var self = this;
   var m = new Month({year: year, monthNumber: month});
   this.months.push(m);
-  this.save(cb);
+  this.save(function(err) {
+      if(err) return cb(err);
+      return self.findMonth(month, year, cb);
+  });
 };
 
 rateSchema.statics.addRegion = function(region, cb) {

@@ -249,14 +249,14 @@ module.exports = function (app) {
           if(!data) {
             Rate.addRegion('CIS', function(err, data) {
               if(err) return console.error(err);
-              doShit(data);
+              addPassToMonth(data);
             });
           } else {
-            doShit(data);
+            addPassToMonth(data);
           }
         });
 
-        function doShit(region) {
+        function addPassToMonth(region) {
           var date = new Date();
           var month = date.getMonth();
           var year = date.getFullYear();
