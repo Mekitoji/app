@@ -50,6 +50,24 @@ module.exports = function (app) {
 
 
   app.put('/api/cis/testerStat/insertCycle/:tester_id', function (req, res) {
+
+    function addFailToMonth(region) {
+      var date = new Date(req.body.date);
+      var month = date.getMonth();
+      var year = date.getFullYear();
+      console.log(req.body.date, month, year);
+      region.findMonth(month, year, function(err, month) {
+        if(err) return console.error(err);
+        console.log(month);
+        month.addFail(req.body.appNameTest);
+        region.markModified('months');
+        console.log("save...");
+        region.save(function(err) {
+          if(err) return console.error(err);
+        });
+      });
+    }
+
     console.log(req.body);
     TesterStat.findById(req.params.tester_id, function (err, tester) {
       if (err) {
@@ -89,21 +107,7 @@ module.exports = function (app) {
                 }
               });
 
-              function addFailToMonth(region) {
-                var date = new Date();
-                var month = date.getMonth();
-                var year = date.getFullYear();
-                region.findMonth(month, year, function(err, month) {
-                  if(err) return console.error(err);
-                  console.log(month);
-                  month.addFail(req.body.appNameTest);
-                  region.markModified('months');
-                  console.log("save...");
-                  region.save(function(err) {
-                    if(err) return console.error(err);
-                  });
-                });
-              }
+
 
               // *************
 
@@ -153,28 +157,12 @@ module.exports = function (app) {
           if(!data) {
             Rate.addRegion('CIS', function(err, data) {
               if(err) return console.error(err);
-              doShit(data);
+              addFailToMonth(data);
             });
           } else {
-            doShit(data);
+            addFailToMonth(data);
           }
         });
-
-        function doShit(region) {
-          var date = new Date();
-          var month = date.getMonth();
-          var year = date.getFullYear();
-          region.findMonth(month, year, function(err, month) {
-            if(err) return console.error(err);
-            console.log(month);
-            month.addFail(req.body.appNameTest);
-            region.markModified('months');
-            console.log("save...");
-            region.save(function(err) {
-              if(err) return console.error(err);
-            });
-          });
-        }
 
         // *************
 
