@@ -49,7 +49,7 @@ angular.module('rate', [])
         return result;
       }
 
-      var margin = {top: 10, right: 10, bottom: 20, left: 25};
+      var margin = {top: 80, right: 80, bottom: 80, left: 80};
       var width = 960 - margin.left - margin.right;
       var height = 500 - margin.top - margin.bottom;
 
@@ -67,16 +67,16 @@ angular.module('rate', [])
             .domain([0, 100])
             .range([height, 0]);
 
-        // var xAxis = d3.svg.axis()
-        //     .scale(xLabels)
-        //     .orient("bottom")
-        //     .ticks(d3.time.months)
-        //     .tickSize(16, 0)
-        //     .tickFormat(d3.time.format("%B"));
+        var xAxis = d3.svg.axis()
+        .scale(xLabels)
+        .ticks(d3.time.months)
+        .tickFormat(d3.time.format("%B"))
+        .tickSize(-height)
+        .tickSubdivide(true);
 
         var yAxis = d3.svg.axis()
             .scale(y)
-            .ticks(10)
+            .ticks(20)
             .orient('left');
 
         var line = d3.svg.line()
@@ -88,8 +88,6 @@ angular.module('rate', [])
       console.log('Plotting Y value for data point: ' + d + ' to be at: ' + y(d) + " using our yScale.");
       return y(d.rate);
     });
-
-        var xAxis = d3.svg.axis().scale(xLabels).ticks(d3.time.months).tickFormat(d3.time.format("%B")).tickSize(-height).tickSubdivide(true);
 
         var svg = d3.select(elem[0]).append("svg")
             .attr("width", width + margin.left + margin.right)

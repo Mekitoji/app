@@ -9,8 +9,9 @@
 
   <style>
 
-  body {
+  .axis text {
     font: 10px sans-serif;
+    fill: rgba(88, 89, 93, .5);
   }
 
   .axis path,
@@ -24,10 +25,16 @@
     display: none;
   }
 
-  .line {
+  .axis line {
     fill: none;
-    stroke: steelblue;
-    stroke-width: 1.5px;
+    stroke: rgba(88, 89, 93, .3);
+    shape-rendering: crispEdges;
+  }
+
+  .line {
+    stroke: rgb(247, 150, 29);
+    stroke-width: 2;
+    fill: none;
   }
   </style>
 
