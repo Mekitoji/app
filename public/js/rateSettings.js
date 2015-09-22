@@ -23,6 +23,7 @@ angular.module('rate', [])
 .controller('rateSettings', function($scope, Rate) {
 
   $scope.data = {};
+  // var region = document.location.split('/')[1];
   Rate.getRegion('CIS')
     .success(function(data) {
       $scope.data = data;
