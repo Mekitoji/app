@@ -42,6 +42,24 @@
 <body ng-app='rate'>
   <% include layout/profile_header %>
   <div class="container" ng-controller="rateSettings">
+
+      <table class="table table-striped table-borderes table-hover table-responsive">
+        <tr>
+          <th></th>
+          <th>Total</th>
+          <th>Pass</th>
+          <th>Fail</th>
+          <th>Pass Rate</th>
+        </tr>
+        <tr ng-repeat=" month in data.months">
+          <td>{{month.monthNumber | month}}</td>
+          <td>{{month.total}}</td>
+          <td>{{month.pass}}</td>
+          <td>{{month.fail}}</td>
+          <td>{{((month.pass/month.total) *100).toFixed(2)}}</td>
+        </tr>
+      </table>
+
     <div rate-chart chart-data='data'></div>
   </div>
 </body>

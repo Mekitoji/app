@@ -12,13 +12,23 @@ angular.module('rate', [])
   };
 })
 
+.filter('month', function(){
+  return function(input) {
+    var date = new Date(2015, input, 1);
+    var month = date.toLocaleString('en-us', { month: "long" });
+    return month;
+  }
+})
+
 .controller('rateSettings', function($scope, Rate) {
 
   $scope.data = {};
   Rate.getRegion('CIS')
     .success(function(data) {
       $scope.data = data;
+      console.log($scope.data);
     });
+
 })
 
 .directive('rateChart', function($parse, $window) {
@@ -30,7 +40,6 @@ angular.module('rate', [])
       var lineData = [];
       scope.$watch('data', function(newVal){
             lineData = parseData(newVal, 2015);
-            console.log(lineData);
             if(lineData.length !== 0 ) {
              drawData();
             }
@@ -81,11 +90,9 @@ angular.module('rate', [])
 
         var line = d3.svg.line()
     .x(function(d,i) {
-      console.log('Plotting X value for data point: ' + d + ' using index: ' + i + ' to be at: ' + x(i) + ' using our xScale.');
       return x(i);
     })
     .y(function(d) {
-      console.log('Plotting Y value for data point: ' + d + ' to be at: ' + y(d) + " using our yScale.");
       return y(d.rate);
     });
 
