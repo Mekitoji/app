@@ -1,4 +1,5 @@
 var mongoose = require('mongoose');
+var async = require('async');
 var Schema = mongoose.Schema;
 //TODO: REWRITE for  new version
 
@@ -64,16 +65,32 @@ var rateSchema = new Schema({
 
 rateSchema.methods.findMonth = function(month, year, cb) {
   var self = this;
+
+  // this.months.forEach(function(val) {
+  //   if(val.year === year && val.monthNumber === month) {
+  //     exist = true;
+  //     return cb(null, val);
+  //   }
+  // });
+  // if(!exist)  {
+  //   self.addMonth(month, year, cb);
+  // }
+
   var exist = false;
-  this.months.forEach(function(val) {
+  async.each(this.months, function(val, callback) {
     if(val.year === year && val.monthNumber === month) {
       exist = true;
-      return cb(null, val);
+      cb(null, val);
+      return callback();
+    } else {
+      callback();
+    }
+  }, function(err) {
+    if(err) console.error(err);
+    if(!exist) {
+      self.addMonth(month, year, cb);
     }
   });
-  if(!exist)  {
-    self.addMonth(month, year, cb);
-  }
 };
 
 rateSchema.methods.findYear = function(year, cb) {

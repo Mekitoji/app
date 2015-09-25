@@ -257,7 +257,7 @@ module.exports = function (app) {
         });
 
         function addPassToMonth(region) {
-          var date = new Date();
+          var date = new Date(data.updateTime);
           var month = date.getMonth();
           var year = date.getFullYear();
           region.findMonth(month, year, function(err, month) {
