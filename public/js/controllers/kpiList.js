@@ -109,12 +109,19 @@ angular.module('project')
 
       var lineData = [];
       var year = Number(scope.year);
-      scope.$watch('data', function(newVal){
-
-        lineData = parseData(newVal, year);
-        if(lineData.length !== 0 ) {
-         drawData();
-        }
+          scope.$watch('data', function(newVal){
+            lineData = parseData(newVal, 2015);
+            lineData.sort(function(a, b) {
+              if(a.month > b.month) {
+                return 1;
+              } else if(a.month < b.month) {
+                return -1;
+              }
+              return 0;
+            });
+            if(lineData.length !== 0 ) {
+             drawData();
+            }
       });
 
       function parseData(val, year) {
