@@ -6,7 +6,7 @@ angular.module('project')
   $scope.currentYear = document.location.pathname.split('/')[2];
   $scope.currentRegion = document.location.pathname.split('/')[1];
 
-  $scope.filter = {}
+  $scope.filter = {};
   $scope.filter.year= $scope.currentYear;
 
   $scope.year = [2015, 2016, 2017, 2018, "all"];
@@ -34,7 +34,7 @@ angular.module('project')
           if (year === z.year || year ==="all") {
             z.year = "all";
             if (z.app === null) {
-              z.app = {}
+              z.app = {};
             }
 
             if (z.respTime !== 0) {
@@ -50,8 +50,8 @@ angular.module('project')
           });
           total.respTime = total.respTime / total.countResp;
           total.testCycles = total.testCycles / total.countCycle;
-          total.respTime = total.respTime.toFixed(2)
-          total.testCycles = total.testCycles.toFixed(2)
+          total.respTime = total.respTime.toFixed(2);
+          total.testCycles = total.testCycles.toFixed(2);
           if(isNaN(total.respTime)) {
             total.respTime = "N/A";
           }
@@ -83,7 +83,7 @@ angular.module('project')
     var date = new Date(2015, input, 1);
     var month = date.toLocaleString('en-us', { month: "long" });
     return month;
-  }
+  };
 })
 
 .controller('rateSettings', function($scope, Rate) {
@@ -104,25 +104,62 @@ angular.module('project')
 .directive('rateChart', function($parse, $window) {
   return {
     restrict: 'A',
-    scope: {data:"=chartData", year: "=year"},
+    scope: {data:"=chartData", year: "@year"},
     link: function(scope, elem) {
 
       var lineData = [];
-      var year = Number(scope.year);
-          scope.$watch('data', function(newVal){
-            lineData = parseData(newVal, 2015);
-            lineData.sort(function(a, b) {
-              if(a.month > b.month) {
-                return 1;
-              } else if(a.month < b.month) {
-                return -1;
-              }
-              return 0;
-            });
-            if(lineData.length !== 0 ) {
-             drawData();
-            }
+      var year;
+
+      var margin = {top: 80, right: 80, bottom: 80, left: 80};
+      var width = 960 - margin.left - margin.right;
+      var height = 500 - margin.top - margin.bottom;
+
+
+      var svg = d3.select(elem[0]).append("svg")
+            .attr("width", width + margin.left + margin.right)
+            .attr("height", height + margin.top + margin.bottom)
+          .append("g")
+            .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+
+
+      scope.$watch('data', function(newVal){
+        svg.selectAll('*').remove();
+        if(year === undefined) {
+          year = 2015;
+        }
+        lineData = parseData(newVal, year);
+        lineData.sort(function(a, b) {
+          if(a.month > b.month) {
+            return 1;
+          } else if(a.month < b.month) {
+            return -1;
+          }
+          return 0;
+        });
+        console.log(year, lineData);
+        // if(lineData.length !== 0 ) {
+         drawData();
+        // }
       });
+
+      scope.$watch('year', function(newVal) {
+        svg.selectAll('*').remove();
+        year = Number(newVal);
+        lineData = parseData(scope.data, year);
+        lineData.sort(function(a, b) {
+          if(a.month > b.month) {
+            return 1;
+          } else if(a.month < b.month) {
+            return -1;
+          }
+          return 0;
+        });
+        console.log(newVal, lineData);
+         // if(lineData.length !== 0 ) {
+          drawData();
+        // }
+      });
+
 
       function parseData(val, year) {
         var result = [];
@@ -137,11 +174,9 @@ angular.module('project')
         return result;
       }
 
-      var margin = {top: 80, right: 80, bottom: 80, left: 80};
-      var width = 960 - margin.left - margin.right;
-      var height = 500 - margin.top - margin.bottom;
 
       function drawData() {
+
 
         var xLabels = d3.time.scale()
             .domain([ new Date(2012, d3.min(lineData, function(d) { return d.month; }), 1), new Date(2012, d3.max(lineData,function(d) { return d.month; }), 31)])
@@ -156,11 +191,11 @@ angular.module('project')
             .range([height, 0]);
 
         var xAxis = d3.svg.axis()
-        .scale(xLabels)
-        .ticks(d3.time.months)
-        .tickFormat(d3.time.format("%B"))
-        .tickSize(-height)
-        .tickSubdivide(true);
+            .scale(xLabels)
+            .ticks(d3.time.months)
+            .tickFormat(d3.time.format("%B"))
+            .tickSize(-height)
+            .tickSubdivide(true);
 
         var yAxis = d3.svg.axis()
             .scale(y)
@@ -168,18 +203,13 @@ angular.module('project')
             .orient('left');
 
         var line = d3.svg.line()
-    .x(function(d,i) {
-      return x(i);
-    })
-    .y(function(d) {
-      return y(d.rate);
-    });
+            .x(function(d,i) {
+              return x(i);
+            })
+            .y(function(d) {
+              return y(d.rate);
+            });
 
-        var svg = d3.select(elem[0]).append("svg")
-            .attr("width", width + margin.left + margin.right)
-            .attr("height", height + margin.top + margin.bottom)
-          .append("g")
-            .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
         svg.append("g")
             .attr("class", "x axis")
