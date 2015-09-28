@@ -38,9 +38,11 @@ angular.module('rate', [])
     scope: {data:'=chartData'},
     link: function(scope, elem) {
 
+      scope.currentYear = Number(document.location.pathname.split('/')[1]);
+
       var lineData = [];
       scope.$watch('data', function(newVal){
-            lineData = parseData(newVal, 2015);
+            lineData = parseData(newVal, scope.currentYear);
             lineData.sort(function(a, b) {
               if(a.month > b.month) {
                 return 1;
