@@ -125,11 +125,34 @@ angular.module('project')
         else
           return true;
       });
+
       $scope.data = data;
-      console.log($scope.data);
+      $scope.data.months = months;
+      $scope.average.total = countTotal(data, 'total');
+      $scope.average.pass = countTotal(data, 'pass');
+      $scope.average.fail = countTotal(data, 'fail');
+      $scope.average.passRate = countAveragePassRate(data);
+      console.log($scope.data, $scope.average);
     });
   });
-
+  function countTotal(obj, param) {
+      var count = 0;
+      obj.months.forEach(function(v, k) {
+        count += v[param];
+      });
+      return count;
+  }
+  function countAveragePassRate(obj) {
+    var count = 0;
+    var rate = 0;
+    var result;
+    obj.months.forEach(function(v) {
+      count++;
+      rate += (v.pass/v.total) * 100;
+    });
+    result = (rate/count).toFixed(2);
+    return result;
+  }
   Rate.getRegion(region)
     .success(function(data) {
       var months = data.months.filter(function(v, k) {
@@ -139,30 +162,13 @@ angular.module('project')
           return true;
       });
 
-      function countTotal(obj, param) {
-          var count = 0;
-          obj.months.forEach(function(v, k) {
-            count += v[param];
-          });
-          return count;
-      }
-      function countAveragePassRate(obj) {
-        var count = 0;
-        var rate = 0;
-        var result;
-        obj.months.forEach(function(v) {
-          count++;
-          rate += (v.pass/v.total) * 100;
-        });
-        result = (rate/count).toFixed(2);
-        return result;
-      }
+
       $scope.data = data;
+      $scope.data.months = months;
       $scope.average.total = countTotal(data, 'total');
       $scope.average.pass = countTotal(data, 'pass');
       $scope.average.fail = countTotal(data, 'fail');
       $scope.average.passRate = countAveragePassRate(data);
-      // var rate = ((d.pass/d.total) * 100).toFixed(2);
       console.log($scope.data, $scope.average);
     });
 })
