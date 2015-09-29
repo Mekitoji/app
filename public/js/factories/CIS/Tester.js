@@ -5,11 +5,8 @@ angular.module('project')
     get: function () {
       return $http.get('/api/cis/testerStat');
     },
-    // post: function() {
-    //   return $http.post('/api/tester');
-    // },
     update: function (id, testerData) {
       return $http.put('/api/cis/testerStat/insertCycle/' + id, testerData);
-    },
+    }
   };
 });

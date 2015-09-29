@@ -23,3 +23,6 @@ config/config.json
 
 #atom
 .tern-project
+
+#images/charts
+public/images/charts/*

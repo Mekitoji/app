@@ -17,7 +17,7 @@ angular.module('project')
       _.each($scope.year, function (year) {
         _.each($scope.testers, function (v) {
           var url = "tester/" + v._id;
-          if(v.user == null) {
+          if(v.user === null) {
             v.user = {local:{username:{first:"",last:""}}};
           }
           var total = {
@@ -74,6 +74,9 @@ angular.module('project')
     },
     getRegion: function(region) {
       return $http.get('/api/rate/' + region);
+    },
+    sendMail: function(region, year) {
+      return $http.post('/' + region + '/' + year +'/tester');
     }
   };
 })
@@ -91,8 +94,16 @@ angular.module('project')
   var region = document.location.pathname.split('/')[1].toUpperCase();
 
   $scope.data = {};
-
+  
   $scope.currentYear = $scope.currentYear;
+  $scope.region = region.toLowerCase();
+
+  $scope.sendMail = function(region, year) {
+    Rate.sendMail(region, year)
+    .success(function(d) {
+      console.log('Success ' + d);
+    });
+  };
 
   Rate.getRegion(region)
     .success(function(data) {
