@@ -94,21 +94,76 @@ angular.module('project')
   var region = document.location.pathname.split('/')[1].toUpperCase();
 
   $scope.data = {};
-  
+
   $scope.currentYear = $scope.currentYear;
   $scope.region = region.toLowerCase();
 
+  // status of sent email
+  // true - already sent;
+  // false - not yet;
+  $scope.successStatus = false;
+
+  // count total data;
+  $scope.average = {};
+
   $scope.sendMail = function(region, year) {
     Rate.sendMail(region, year)
-    .success(function(d) {
-      console.log('Success ' + d);
+    .success(function() {
+      // get message visible
+      $scope.successStatus = true;
     });
   };
 
-  Rate.getRegion(region)
+  $scope.$watch('filter.year', function(newVal) {
+    $scope.currentYear = newVal;
+    Rate.getRegion(region)
     .success(function(data) {
+      // get only data adjuct to current year
+      var months = data.months.filter(function(v, k) {
+        if(v.year != $scope.currentYear)
+          return false;
+        else
+          return true;
+      });
       $scope.data = data;
       console.log($scope.data);
+    });
+  });
+
+  Rate.getRegion(region)
+    .success(function(data) {
+      var months = data.months.filter(function(v, k) {
+      if(v.year != $scope.currentYear)
+          return false;
+        else
+          return true;
+      });
+
+      function countTotal(obj, param) {
+          var count = 0;
+          obj.months.forEach(function(v, k) {
+            count += v[param];
+          });
+          return count;
+      }
+      function countAveragePassRate(obj) {
+        var count = 0;
+        var rate = 0;
+        var result;
+        obj.months.forEach(function(v) {
+          count++;
+          rate += (v.pass/v.total) * 100;
+        });
+        result = (rate/count).toFixed(2);
+        return result;
+      }
+      $scope.data = data;
+      $scope.average.total = countTotal(data, 'total');
+      $scope.average.pass = countTotal(data, 'pass');
+      $scope.average.fail = countTotal(data, 'fail');
+      $scope.average.passRate = countAveragePassRate(data);
+      // var rate = ((d.pass/d.total) * 100).toFixed(2);
+      console.log($scope.data, $scope.average);
     });
 })
 

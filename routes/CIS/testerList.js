@@ -32,7 +32,7 @@ module.exports = function (app) {
       });
       // Rate
   });
-  app.post('/cis/:year/tester', function(req, res) {
+  app.post('/cis/:year/tester', routesFunction.checkPermissionGkCIS, function(req, res) {
     var transport = nodemailer.createTransport();
 
     var monthArray = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
@@ -80,7 +80,7 @@ module.exports = function (app) {
         console.error(err);
       else
         console.log(info);
-      res.end();
+      res.send(200);
     });
   });
 };
