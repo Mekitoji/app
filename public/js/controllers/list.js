@@ -179,7 +179,7 @@ angular.module('project')
 
         for (var i = 0; i < $scope.apps.length; i++) {
           var mapC = createMap($scope.apps[i], $scope.calendarr);
-          var cc   = checkAppDate(cdate, mapC)
+          var cc   = checkAppDate(cdate, mapC);
           if(cc) {
             $scope.apps[i].out = true;
           } else {
@@ -454,6 +454,6 @@ function formatDate(dx) {
     dm = '0' + dm;
   }
 
-  var d = dy + "-" + dm + "-" + dd
+  var d = dy + "-" + dm + "-" + dd;
   return d;
 }
