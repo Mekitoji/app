@@ -18,7 +18,7 @@ angular.module('history-project')
     "AB": "blue",
     "MF": "pink",
     "GS": "purple",
-  }
+  };
 
   $scope.loading = true;
   $scope.dataLoad = false;
@@ -75,7 +75,8 @@ angular.module('history-project')
     }, {
       field: 'applicationId',
       displayName: 'Application Id',
-      enableCellEdit: false
+      enableCellEdit: false,
+      cellFilter: 'idBeautifier'
     }, {
       field: 'country',
       displayName: 'Country',

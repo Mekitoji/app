@@ -14,7 +14,7 @@ angular.module('project')
       "YK": "yellow",
       "VE": "green",
       "DP": "blue",
-    }
+    };
     if (userG === 'gkCIS' || userG === 'root') {
       permission = true;
       $scope.perm = true;
@@ -30,7 +30,7 @@ angular.module('project')
       "AB": "blue",
       "MF": "pink",
       "GS": "purple",
-    }
+    };
     if (userG === 'gkEU' || userG === 'root') {
       permission = true;
       $scope.perm = true;

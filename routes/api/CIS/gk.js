@@ -210,11 +210,9 @@ module.exports = function (app) {
         data.applicationId = data.applicationId + "/private/" + Math.random().toString().slice(2);
         if (req.body.tv === 'Approved') {
           data.tv = 'Approved';
-          data.currentStatus = 'Approved';
           data.outdated = false;
         } else if (req.body.tv === 'Partial') {
           data.tv = 'Partial';
-          data.currentStatus = 'Approved on partial devices';
           data.outdated = false;
         }
         ApprovedApps.create(data, function (err, apps) {
@@ -222,11 +220,9 @@ module.exports = function (app) {
           //check if it approved for all device or not
           if (req.body.tv === 'Approved') {
             apps.tv = 'Approved';
-            apps.currentStatus = 'Approved';
             apps.outdated = false;
           } else if (req.body.tv === 'Partial') {
             apps.tv = 'Partial';
-            apps.currentStatus = 'Approved on partial devices';
             apps.outdated = false;
           }
           //save
@@ -335,7 +331,6 @@ module.exports = function (app) {
         } else if (req.body.currentStatus === 'Waiting for review') {
           app.color = 'orange';
           req.body.color = 'orange';
-
         } else if (req.body.currentStatus === 'Waiting for QA') {
           app.color = 'purple';
           req.body.color = 'purple';

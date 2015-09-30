@@ -9,7 +9,7 @@ angular.module('project')
   var gridOpt = {};
 
   if (locationC === 'cis') {
-    gridOpt.country = ["Russia", "Ukraine", "Belarus", "Latvia", "Kazakhstan", "Lithuania", "Estonia", "Uzbekistan", "Kyrgyzstan", "Tajikistan"];
+    gridOpt.country = ["Russian Federation", "Ukraine", "Belarus", "Kazakhstan", "Uzbekistan", "Kyrgyzstan", "Tajikistan"];
     gridOpt.respColor = {
       "AS": "red",
       "YK": "yellow",
@@ -207,7 +207,8 @@ angular.module('project')
     }, {
       field: 'applicationId',
       displayName: 'Application Id',
-      enableCellEdit: false
+      enableCellEdit: false,
+      cellFilter: 'idBeautifier'
     }, {
       field: 'country',
       displayName: 'Country',

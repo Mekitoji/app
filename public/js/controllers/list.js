@@ -11,13 +11,13 @@ angular.module('project')
   var permission;
   var locationC = document.URL.split('/')[3];
   if (locationC === 'cis') {
-    gridOpt.country = ["Russia", "Ukraine", "Belarus", "Latvia", "Kazakhstan", "Lithuania", "Estonia", "Uzbekistan", "Kyrgyzstan", "Tajikistan"];
+    gridOpt.country = ["Russian Federation", "Ukraine", "Belarus", "Kazakhstan", "Uzbekistan", "Kyrgyzstan", "Tajikistan"];
     gridOpt.respColor = {
       "AS": "red",
       "YK": "yellow",
       "VE": "green",
       "DP": "blue",
-    }
+    };
     if (userG === 'gkCIS' || userG === 'root') {
       permission = true;
       $scope.perm = true;
@@ -34,7 +34,7 @@ angular.module('project')
       "AB": "blue",
       "MF": "pink",
       "GS": "purple",
-    }
+    };
     if (userG === 'gkEU' || userG === 'root') {
       permission = true;
       $scope.perm = true;
@@ -152,6 +152,7 @@ angular.module('project')
 
   Apps.get()
 
+
   .success(function (data) {
     // $scope.apps = _.filter(data, function (d) {
     //   return d.year == $scope.year;
@@ -179,7 +180,7 @@ angular.module('project')
 
         for (var i = 0; i < $scope.apps.length; i++) {
           var mapC = createMap($scope.apps[i], $scope.calendarr);
-          var cc   = checkAppDate(cdate, mapC);
+          var cc   = checkAppDate(cdate, mapC)
           if(cc) {
             $scope.apps[i].out = true;
           } else {
@@ -265,7 +266,7 @@ angular.module('project')
 
   $scope.checkResp= function(val){
     return gridOpt.respColor[val];
-  }
+  };
 
   $scope.currenDate = Date.now();
 
@@ -279,7 +280,8 @@ angular.module('project')
     }, {
       field: 'applicationId',
       displayName: 'Application Id',
-      enableCellEdit: false
+      enableCellEdit: false,
+      cellFilter: 'idBeautifier'
     }, {
       field: 'country',
       displayName: 'Country',
@@ -454,6 +456,6 @@ function formatDate(dx) {
     dm = '0' + dm;
   }
 
-  var d = dy + "-" + dm + "-" + dd;
+  var d = dy + "-" + dm + "-" + dd
   return d;
 }
