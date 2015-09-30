@@ -62,7 +62,7 @@ module.exports = function (app) {
         res.send(err);
       }
       for (var i = 0; i < app.length; i++) {
-        if (app[i].tv === 'In Progress' && app[i].outdated === false) {
+        if (app[i].tv === 'In Progress' && app[i].outdated === false && app[i].sdpStatus !== 'Revise') {
           rejected.push(app[i]);
         }
       }

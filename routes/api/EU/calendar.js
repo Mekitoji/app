@@ -45,7 +45,7 @@ module.exports = function (app) {
         res.send(err);
       }
       for (var i = 0; i < app.length; i++) {
-        if (app[i].tv === 'In Progress' && app[i].outdated === false) {
+        if (app[i].tv === 'In Progress' && app[i].outdated === false && app[i].sdpStatus !== 'Revise') {
           rejected.push(app[i]);
         }
       }
@@ -209,7 +209,7 @@ module.exports = function (app) {
 
       var findTesterAndPush = function (appId, valueObj) {
         console.log("appId - %s, valueObj - ", appId, valueObj);
-        //make request to db, and get obj with current app info 
+        //make request to db, and get obj with current app info
         Apps.findById(appId, function (err, app) {
           if (err) {
             //if db throw err, send it to the server
@@ -232,14 +232,14 @@ module.exports = function (app) {
                   //return value if data.app (id) === to appId of inserting data
                   return data.app.toString() === appId.toString();
                 });
-                //check index value 
-                //if we got -1 it mean that the appStorage with the current app 
+                //check index value
+                //if we got -1 it mean that the appStorage with the current app
                 //didn't find in current tester obj
 
-                //if index is not -1 let just update our appStorage with new Value 
+                //if index is not -1 let just update our appStorage with new Value
                 if (index !== -1) {
                   //let handle  situation 1. when appStorage alredy got value for insert data
-                  //2. when data/value didn't exist, so we need just push exist data to the respStorage 
+                  //2. when data/value didn't exist, so we need just push exist data to the respStorage
                   //and count responseTime with method
 
                   //check if exist all needed data
@@ -300,11 +300,11 @@ module.exports = function (app) {
                       }
                     });
                   } else {
-                    // throw error if needed data not exist 
+                    // throw error if needed data not exist
                     res.send(500, "We got a problem ");
                   }
                 } else {
-                  //else we  didn't have this app in tester appStorage, 
+                  //else we  didn't have this app in tester appStorage,
                   //let init new obj in it with standart app obj data
 
                   //get date, it will be used for init obj of app
