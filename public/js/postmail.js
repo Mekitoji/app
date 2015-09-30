@@ -146,11 +146,14 @@ angular.module('postmail', [])
 
     $scope.previewText = '<style type="text/css">.red{background-color:#F00;} table, table th, table td{border:1px solid black;padding:10px;border-collapse:collapse;padding:1px 5px 1px 6px;font:10pt Arial;} .mail-page {font:10pt Arial;} </style>\n\n\n<div class="mail-page">\n\n\nDear colleagues,<br><br>Please check the latest STE report.<br><br>\n<b>Priority apps waiting for QA in Korea</b>\n\n' +
       '<br /> <br /> \n\n<table border=\'1\'  cellspacing=\'0\' cellpadding=\'0\'>\n\t<tr>\n\t\t<th><b>Country</b>\n\t\t<th><b>Application Id</b></th>\n\t\t<th><b>Application name</b></th>\n\t\t<th><b>SDP Status</b></th>\n\t\t<th><b>Update Date</b></th>\n\t\t<th><b>Seller</b></th>\n\t\t<th><b>Current Status</b></th>\n\t\t<th><b>Resp</b></th>\n\t</tr>\n';
+
+      var emptyQA = true;
     _.each($scope.apps, function (num) {
       _.each(num, function (data, key) {
 
         if (key == 'color' && data == 'purple') {
           if (num.tv === 'In Progress' && num.outdated === false) {
+            emptyQA = false;
             var temp = new Date(num.updateTime);
             var temp_date = temp.getDate();
             var temp_month = temp.getMonth() + 1;
@@ -177,17 +180,21 @@ angular.module('postmail', [])
         }
       });
     });
+    if(emptyQA) {
+      $scope.previewText += "<td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td>";
+    }
 
     $scope.previewText += "\n</table><br />\n\n<b>Priority apps waiting for STE review</b><br /><br />\n\n <table border='1' cellspacing=\'0\' cellpadding=\'0\'>\n\t<tr>\n\t\t<th><b>Country</b></th>\n\t\t<th><b>Application Id</b></th>\n\t\t<th><b>Application name</b></th>\n\t\t<th><b>SDP Status</b></th>\n\t\t<th><b>Update Date</b></th>\n\t\t<th><b>Seller</b></th>\n\t\t<th><b>Current status</b></th>\n\t\t<th><b>Resp</b></th>\n\t</tr>";
 
+    var emptySTE = true;
     Apps.getCalendar()
       .success(function (c) {
-
         _.each($scope.apps, function (num) {
           _.each(num, function (data, key) {
             if (key == 'color' && data == 'red' || data == 'orange') {
               if (num.tv === "In Progress" && num.outdated === false) {
                 // console.log(num);
+                emptySTE = false;
                 var bg_color = "";
                 var mapC = createMap(num, c);
                 var cc = checkAppDate(cdate, mapC);
@@ -212,6 +219,9 @@ angular.module('postmail', [])
             }
           });
         });
+        if(emptySTE) {
+          $scope.previewText += "<td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td>";
+        }
 
         $scope.region = document.URL.split('/')[3];
 
