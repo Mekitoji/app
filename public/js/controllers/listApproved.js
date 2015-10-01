@@ -141,11 +141,34 @@ angular.module('project')
       //   return d.year == $scope.year;
       // });
       $scope.apps = data;
+
+  //filter data by updateTime prop and filterOptions.filterText dropdown
+  $scope.$watch('filterOptions.filterText', function(newVal) {
+    if(newVal !== '') {
+      var year = Number(newVal.split(':')[1].split(';')[0]);
+      console.log(year);
+      var result = _.filter(data, function(v) {
+        var appLastYear = new Date(v.updateTime).getFullYear();
+        if(appLastYear === year) {
+          return true;
+        } else {
+          return false;
+        }
+      });
+      console.log(result);
+      $scope.apps = result;
+      console.log($scope.apps);
+    } else {
+      $scope.apps = data;
+    }
+  });
     })
     .finally(function(){
       $scope.loading = false;
       $scope.dataLoad = true;
     });
+
+
 
   $scope.getRowIndex = function () {
     var index = this.row.rowIndex;

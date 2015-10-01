@@ -163,6 +163,27 @@ angular.module('project')
       old = newVal;
     });
 
+  //filter data by updateTime prop and filterOptions.filterText dropdown
+  $scope.$watch('filterOptions.filterText', function(newVal) {
+    if(newVal !== '') {
+      var year = Number(newVal.split(':')[1].split(';')[0]);
+      console.log(year);
+      var result = _.filter(data, function(v) {
+        var appLastYear = new Date(v.updateTime).getFullYear();
+        if(appLastYear === year) {
+          return true;
+        } else {
+          return false;
+        }
+      });
+      console.log(result);
+      $scope.apps = result;
+      console.log($scope.apps);
+    } else {
+      $scope.apps = data;
+    }
+  });
+
     var cdate = formatDate(new Date());
 
     Calendar.get()
@@ -180,7 +201,7 @@ angular.module('project')
 
         for (var i = 0; i < $scope.apps.length; i++) {
           var mapC = createMap($scope.apps[i], $scope.calendarr);
-          var cc   = checkAppDate(cdate, mapC)
+          var cc   = checkAppDate(cdate, mapC);
           if(cc) {
             $scope.apps[i].out = true;
           } else {
@@ -202,6 +223,7 @@ angular.module('project')
   $scope.filterOptions = {
     filterText: "year:" + $scope.year + ";",
   };
+
 
   Calendar.get()
 
