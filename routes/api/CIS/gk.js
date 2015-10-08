@@ -235,23 +235,6 @@ module.exports = function (app) {
         // Apps.findByIdAndRemove(id, function (err, data) {
         //   if (err) res.send(err);
         // });
-        data.save(function (err, appz) {
-          if (err) throw err;
-
-
-        //  ********************** Pass Rate
-        Rate.getRegion('CIS', function(err, data) {
-          if(err) console.error(err);
-          if(!data) {
-            Rate.addRegion('CIS', function(err, data) {
-              if(err) return console.error(err);
-              addPassToMonth(data);
-            });
-          } else {
-            addPassToMonth(data);
-          }
-        });
-
         function addPassToMonth(region) {
           var date = new Date(data.updateTime);
           var month = date.getMonth();
@@ -266,8 +249,30 @@ module.exports = function (app) {
             });
           });
         }
+        // Pass Rate
+        Cal.findOne({
+          'appId': id
+        })
+        .exec(function(err, cal) {
+          if(err) return console.error(err);
+          if(cal.storage.length !== 1) {
+            console.log(cal.storage);
+            Rate.getRegion('CIS', function(err, data) {
+              if(err) console.error(err);
+              if(!data) {
+                Rate.addRegion('CIS', function(err, data) {
+                  if(err) return console.error(err);
+                  addPassToMonth(data);
+                });
+              } else {
+                addPassToMonth(data);
+              }
+            });
+          }
+        });
 
-        // *************
+        data.save(function (err, appz) {
+          if (err) throw err;
 
         });
       });
