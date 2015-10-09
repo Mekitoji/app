@@ -51,8 +51,6 @@ angular.module('project')
   }
 
   function sortAppStorage(a, b) {
-    console.log(a);
-    console.log(b);
     if (a.app.appName.toLowerCase() < b.app.appName.toLowerCase()) return -1;
     if (a.app.appName.toLowerCase() > b.app.appName.toLowerCase()) return 1;
     return 0;
@@ -66,6 +64,15 @@ angular.module('project')
       console.log(n);
       n.appStorage = _.filter(n.appStorage, function(d){
         return d.year == $scope.year;
+      });
+      _.forEach(n.appStorage, function(v) {
+        v.testCycleStorage = _.filter(v.testCycleStorage, function(d) {
+          var tmpYear = new Date(d.date).getFullYear();
+          if(tmpYear == $scope.year)
+            return true;
+          else
+            return false;
+        });
       });
       n.appStorage = n.appStorage.sort(sortAppStorage);
     });
