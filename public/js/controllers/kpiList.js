@@ -195,6 +195,14 @@ angular.module('project')
 
 
       scope.$watch('data', function(newVal){
+        scope.data.months = scope.data.months.sort(function(a, b) {
+          if(a.monthNumber > b.monthNumber)
+            return 1;
+          else if(a.monthNumber < b.monthNumber)
+            return -1;
+          else
+            return 0;
+        });
         svg.selectAll('*').remove();
         if(year === undefined) {
           year = 2015;
@@ -209,9 +217,7 @@ angular.module('project')
           return 0;
         });
         console.log(year, lineData);
-        // if(lineData.length !== 0 ) {
          drawData();
-        // }
       });
 
       scope.$watch('year', function(newVal) {
