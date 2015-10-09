@@ -161,15 +161,9 @@
   </div>
 
   <div class="container" ng-controller="rateSettings">
-  <%if (user.local.group === "root" || user === "gkCIS" || user === 'gkEU' || user === 'gkSIA') { %>
-      <button type="button" class="btn btn-primary btn-lg" ng-click="sendMail(currentRegion, currentYear)">Send report</button>
-  <% } %>
-  <div class="" ng-show='successStatus'>
-    <br>
-    Message sent!
-  </div>
-  <h2>Pass rate</h2>
-      <table class="table table-striped table-borderes table-hover table-responsive">
+
+  <h3>Pass rate</h3>
+      <table class="table table-borderes table-hover table-responsive">
         <tr>
           <th></th>
           <th>Total</th>
@@ -204,6 +198,13 @@
       </table>
 
     <div rate-chart chart-data='data' year={{filter.year}}></div>
+    <%if (user.local.group === "root" || user === "gkCIS" || user === 'gkEU' || user === 'gkSIA') { %>
+      <button type="button" class="btn btn-primary btn-lg" ng-click="sendMail(currentRegion, currentYear)">Send report</button>
+  <% } %>
+  <div class="" ng-show='successStatus'>
+    <br>
+    Message sent!
+  </div>
   </div>
 </body>
 </html>
