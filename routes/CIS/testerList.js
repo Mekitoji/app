@@ -63,7 +63,7 @@ module.exports = function (app) {
       });
     });
 
-    var text = '<-Text here <br> Screenshot: <br> <img src="http://localhost:3000/images/charts/' + name + '" alt="" /> <br> BR';
+    var text = '<-Text here <br> Screenshot: <br> <img src="' + host + '/images/charts/' + name + '" alt="" /> <br> BR';
 
     var mailOptions = {
       from: 'CIS STE <noreply@lge.com>', // sender address
