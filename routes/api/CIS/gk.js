@@ -255,7 +255,7 @@ module.exports = function (app) {
         })
         .exec(function(err, cal) {
           if(err) return console.error(err);
-          if(cal.storage.length !== 1) {
+          if(cal.storage.length !== 0) {
             console.log(cal.storage);
             Rate.getRegion('CIS', function(err, data) {
               if(err) console.error(err);
