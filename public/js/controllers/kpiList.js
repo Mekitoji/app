@@ -98,19 +98,24 @@ angular.module('project')
   $scope.currentYear = $scope.currentYear;
   $scope.region = region.toLowerCase();
 
-  // status of sent email
-  // true - already sent;
-  // false - not yet;
-  $scope.successStatus = false;
-
   // count total data;
   $scope.average = {};
 
+  function spawnNotification(theBody,theIcon,theTitle) {
+    var options = {
+        body: theBody,
+        icon: theIcon
+    };
+    var n = new Notification(theTitle,options);
+  }
+
+
+  Notification.requestPermission();
   $scope.sendMail = function(region, year) {
     Rate.sendMail(region, year)
     .success(function() {
-      // get message visible
-      $scope.successStatus = true;
+      Notification.requestPermission();
+      spawnNotification('Mail send successfully!', 'http://simpleicon.com/wp-content/uploads/mail-1.png', 'Mail status');
     });
   };
 
