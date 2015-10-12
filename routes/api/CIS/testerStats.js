@@ -55,27 +55,24 @@ module.exports = function (app) {
       var date = new Date(req.body.date);
       var month = date.getMonth();
       var year = date.getFullYear();
-      console.log(req.body.date, month, year);
       region.findMonth(month, year, function(err, month) {
         if(err) return console.error(err);
-        console.log(month);
         month.addFail(req.body.appNameTest);
         region.markModified('months');
-        console.log("save...");
         region.save(function(err) {
           if(err) return console.error(err);
         });
       });
     }
 
-    console.log(req.body);
     TesterStat.findById(req.params.tester_id, function (err, tester) {
       if (err) {
         throw err;
       } else {
         if (req.body.appNameTest) {
+          var year = (new Date(req.body.date)).getFullYear();
           var index = _.findIndex(tester.appStorage, function (data) {
-            return data.app.toString() === req.body.appNameTest.toString();
+            return data.app.toString() === req.body.appNameTest.toString() && year === data.year;
           });
           if (index !== -1) {
             if (tester.appStorage[index] && req.body.date && req.body.reason) {
@@ -122,7 +119,7 @@ module.exports = function (app) {
               res.send(500);
             }
           } else {
-            var date = new Date();
+            var date = new Date(req.body.date);
             tester.appStorage.push({ //app obj
               app: new ObjectId(req.body.appNameTest), // get _id of mongo
               year: date.getFullYear(),

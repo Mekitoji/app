@@ -51,7 +51,6 @@ module.exports = function (app) {
     }
 
     var host = req.get('host');
-    console.log(host, req.hostname, req.ip);
     var subject = '[Share][Report] ' + temp_date + ' ' + monthArray[temp_month] + ' ' + temp_year;
     var name = generateChartName();
     phantom.create(function (ph) {

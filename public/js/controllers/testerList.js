@@ -61,23 +61,22 @@ angular.module('project')
   .success(function (testers) {
     $scope.testers = testers.sort(sortName);
     _.forEach($scope.testers, function (n, key) {
-      n.appStorage = _.filter(n.appStorage, function(d){
-        return d.year == $scope.filter.year;
-      });
-      _.forEach(n.appStorage, function(v) {
-        v.testCycleStorage = _.filter(v.testCycleStorage, function(d) {
-          var tmpYear = new Date(d.date).getFullYear();
-          if(tmpYear == $scope.year)
-            return true;
-          else
-            return false;
-        });
-      });
+
+      // _.forEach(n.appStorage, function(v) {
+      //   v.testCycleStorage = _.filter(v.testCycleStorage, function(d) {
+      //     var tmpYear = new Date(d.date).getFullYear();
+      //     if(tmpYear == $scope.year)
+      //       return true;
+      //     else
+      //       return false;
+      //   });
+      // });
       n.appStorage = n.appStorage.sort(sortAppStorage);
     });
   })
   .finally(function() {
     $scope.loading = false;
     $scope.dataLoad = true;
+    console.log($scope.testers);
   });
 });

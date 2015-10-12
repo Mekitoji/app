@@ -15,7 +15,7 @@
         <th>Date</th>
         <th>Reason</th>
       </tr>
-      <tbody ng-repeat="storage in tester.appStorage | filter: filter.year">
+      <tbody ng-repeat="storage in tester.appStorage | filter: {year: filter.year}">
         <tr class='test-cycle' ng-repeat="zz in storage.testCycleStorage">
           <td>{{storage.app.appName}}</td>
           <td>{{zz.date | date:"dd/MM/yyyy"}}</td>
@@ -26,4 +26,3 @@
   </div>
 </div>
 <link rel="stylesheet" href="../../css/testlist.css">
-
