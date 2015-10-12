@@ -61,9 +61,8 @@ angular.module('project')
   .success(function (testers) {
     $scope.testers = testers.sort(sortName);
     _.forEach($scope.testers, function (n, key) {
-      console.log(n);
       n.appStorage = _.filter(n.appStorage, function(d){
-        return d.year == $scope.year;
+        return d.year == $scope.filter.year;
       });
       _.forEach(n.appStorage, function(v) {
         v.testCycleStorage = _.filter(v.testCycleStorage, function(d) {

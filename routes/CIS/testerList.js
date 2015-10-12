@@ -51,6 +51,7 @@ module.exports = function (app) {
     }
 
     var host = req.get('host');
+    console.log(host, req.hostname, req.ip);
     var subject = '[Share][Report] ' + temp_date + ' ' + monthArray[temp_month] + ' ' + temp_year;
     var name = generateChartName();
     phantom.create(function (ph) {
@@ -63,7 +64,7 @@ module.exports = function (app) {
       });
     });
 
-    var text = '<-Text here <br> Screenshot: <br> <img src="' + host + '/images/charts/' + name + '" alt="" /> <br> BR';
+    var text = '<-Text here <br> Screenshot: <br> <img src="http://' + host + '/images/charts/' + name + '" /> <br> BR';
 
     var mailOptions = {
       from: 'CIS STE <noreply@lge.com>', // sender address
