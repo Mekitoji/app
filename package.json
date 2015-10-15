@@ -42,7 +42,7 @@
     "winston": "^0.7.3"
   },
   "devDependencies": {
-    "mocha": "^2.1.0",
+    "mocha": "^2.3.3",
     "should": "~7.0.0",
     "supertest": "^0.15.0"
   }

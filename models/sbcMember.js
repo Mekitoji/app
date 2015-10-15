@@ -1,4 +1,4 @@
-var mongooose = require('mongoose');
+var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 
 var member = new Schema({
@@ -17,7 +17,7 @@ member.statics.add = function(name, mail, cb) {
     this.create({
     name: name,
     mail: mail
-  });
+  }, cb);
 };
 
 member.statics.removeByName = function(name, cb) {

@@ -309,8 +309,10 @@ module.exports = function (app) {
 
         app.id = utils.parseId(app.id);
 
-        var subject = "[" + app.name + "] (" + app.id + ") " + temp_date + " " + monthArray[temp_month] + " " + temp_year;
+        var subject = "[" + app.name + "] (" + app.id + ") <" + app.status + "> "  + temp_date + " " + monthArray[temp_month] + " " + temp_year;
+
         // **email body
+
         body += "<div><b> New apps arrive:</b><br /><br />";
 
         body += "<b>" + app.name + "[" + app.id + "]</b> with status - <b>" + app.status + "</b><br />";

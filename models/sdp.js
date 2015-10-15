@@ -18,7 +18,7 @@ SdpStats.static.add = function(id, status) {
 };
 
 SdpStats.methods.subscribe = function(sub, cb) {
-  this.subcribers.push(sub);
+  this.subcribers.push(new Schema.ObjectId(sub));
   this.save(cb);
 };
 
