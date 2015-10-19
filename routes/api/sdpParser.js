@@ -22,7 +22,7 @@ var config = {
         "KirillovYury": "YK"
       },
       mail: {
-        to: "",
+        to: '',
         from: "CIS STE<noreply@lge.com>",
         cc: [],
         replyTo: ''
@@ -122,6 +122,7 @@ utils.checkData = function (region, caption, response) {
  * @param  {Boolen} result Result of parse
  * @param  {String} msg    Message to client
  * @param  {String} e      Error message
+ * @return void
  */
 utils.responseToClient = function (res, result, msg, e) {
   var err;
@@ -177,9 +178,6 @@ module.exports = function (app) {
     var caption = req.body.table_caption;
     var rawData = req.body.data;
     var workspace = utils.checkData(region, caption, res);
-    //tmp solution ?!
-    config.currentWorkspace = null;
-    var currentWorkspace = config.currentWorkspace;
     var data = JSON.parse(rawData);
     var p = [];
     var requested = [];
@@ -244,7 +242,7 @@ module.exports = function (app) {
             }
           });
 
-          var c = config.workspace[workspace];
+          var c = config.workspace[config.currentWorkspace];
           var resp = c.gk[n.gk] ? c.gk[n.gk] : "";
           if (app === null && n.appStatus !== "App QA approved" || app !== null && app.year !== utils.getCurrentYear()) {
             var prs = n.seller.split('(');
@@ -297,7 +295,7 @@ module.exports = function (app) {
     });
     setTimeout(function () {
       console.log(requested);
-      var wspace = config.workspace[currentWorkspace];
+      var wspace = config.workspace[config.currentWorkspace];
       requested.forEach(function (app) {
         var transport = nodemailer.createTransport();
         var monthArray = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
@@ -310,14 +308,12 @@ module.exports = function (app) {
         app.id = utils.parseId(app.id);
 
         var subject = "[" + app.name + "] (" + app.id + ") <" + app.status + "> "  + temp_date + " " + monthArray[temp_month] + " " + temp_year;
-
         // **email body
-
         body += "<div><b> New apps arrive:</b><br /><br />";
 
         body += "<b>" + app.name + "[" + app.id + "]</b> with status - <b>" + app.status + "</b><br />";
 
-        body += "<br /><br />Go to <a href='http://localhost:3000/" + currentWorkspace + "/2015/rejected#/inwork'>GK Control</a> for more.</div>";
+        body += "<br /><br />Go to <a href='http://89.108.113.194:1337/" + config.currentWorkspace + "/2015/rejected#/inwork'>GK Control</a> for more.</div>";
         // **end of email body
         var mailOptions = {
           from: wspace.mail.from,
