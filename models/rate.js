@@ -113,6 +113,7 @@ rateSchema.methods.addMonth = function(month, year, cb) {
   });
 };
 
+
 rateSchema.statics.addRegion = function(region, cb) {
   var self = this;
   self.findOne({region: region}, function(err, data) {

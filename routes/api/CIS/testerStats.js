@@ -30,7 +30,7 @@ module.exports = function (app) {
   });
 
 
-  
+
   app.post('/api/cis/testerStat', function (req, res) {
     var user = new ObjectId(req.body.user);
     TesterStat.create({
@@ -48,6 +48,54 @@ module.exports = function (app) {
     });
   });
 
+
+  app.put('/api/cis/testerStat/insertSecondCycle/:tester_id', function(req, res) {
+    TesterStat.findById(req.params.tester_id, function(err, tester) {
+      if(err)
+        throw err;
+      else {
+        var year = (new Date(req.body.date)).getFullYear();
+        var index = _.findIndex(tester.appStorage, function(data) {
+          return data.app.toString() === req.body.appNameTest.toString() && year === data.year;
+        });
+
+        if(index !== -1) {
+          if(tester.appStorage[index] && req.body.date && req.body.reason) {
+            tester.appStorage[index].testCycle.push({
+              date:req.body.date,
+              reason: req.body.reason
+            });
+            tester.appStorage[index].testCycle = tester.appStorage[index].testCycleStorage.length + 1;
+            tester.markModified('appStorage');
+            tester.save(function (err, data) {
+              if(err)
+                res.send(err);
+              else
+                res.send(data);
+            });
+          }
+        } else {
+          var date = new Date(req.body.date);
+          tester.appStorage.push({ //app obj
+            app: new ObjectId(req.body.appNameTest), // get _id of mongo
+            year: date.getFullYear(),
+            testCycle: 2, //init testCycle 2 here
+            respTime: 0, //init with respTime 0
+            testCycleStorage: [{
+              date: req.body.date,
+              reason: req.body.reason
+            }], // init testCycle array for insert obj = {date: Date(), reason: String}
+          });
+          tester.save(function (err, data) {
+            if (err)
+              res.send(err);
+            else
+              res.send(data);
+          });
+        }
+      }
+    });
+  });
 
   app.put('/api/cis/testerStat/insertCycle/:tester_id', function (req, res) {
 

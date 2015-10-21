@@ -53,4 +53,8 @@ module.exports = function (app) {
       });
     });
   });
+
+  // app.put('/api/cis/tester/second/:tester_id', function(req, res) {
+  //   Tester.findById(req.params.tester_id)
+  // });
 };

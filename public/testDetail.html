@@ -20,8 +20,15 @@
       </div>
 
       <div class='form-row'>
-      <label>Current Tester</label>
+      <label>Primary Tester</label>
       <select ng-required='true' ng-model='tester' ng-options='tester.name for tester in testers' id="">
+        <option value="">==choose tester==</option>
+      </select>
+      </div>
+
+      <div class='form-row'>
+      <label>Secondary Tester</label>
+      <select ng-required='true' ng-model='secondTester' ng-options='tester.name for tester in testers' id="">
         <option value="">==choose tester==</option>
       </select>
       </div>

@@ -16,7 +16,7 @@ angular.module("project")
         } else if(color === undefined ||
                   color === null ||
                   color === '') {
-          alert('Calendar value cannot be changed for app with empty status(color should be choosed too)');
+          alert('Calendar value cannot be changed for app with empty Current Status(color should be choosed too)');
         } else {
           return void 0;
         }
