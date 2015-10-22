@@ -9,7 +9,7 @@ angular.module('project')
       return $http.put('/api/cis/testerStat/insertCycle/' + id, testerData);
     },
     secondUpdate: function(id, testerData) {
-      return $http.put('/api/cis/testerStat/insertCycle/' + id, testerData);
+      return $http.put('/api/cis/testerStat/insertSecondCycle/' + id, testerData);
     }
   };
 });

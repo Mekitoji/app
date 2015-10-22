@@ -10,9 +10,8 @@ angular.module('project')
           _id: apps[i]._id,
           appName: apps[i].appName,
           applicationId: apps[i].applicationId,
-          year: apps[i].year,
+          year: apps[i].year
         });
-        console.log($scope.temps);
         $scope.temps = _.sortBy($scope.temps, function (i) {
           return i.appName.toLowerCase();
         });
@@ -34,14 +33,22 @@ angular.module('project')
       tester: $scope.tester,
       reason: $scope.reason,
       appNameTest: $scope.appNameTest,
-      date: $scope.date
+      date: $scope.date,
+      secondTester: $scope.secondTester
     };
     iTester.update($scope.testCycle.tester._id, $scope.testCycle)
       .success(function (data) {
         $scope.testerDatas = data;
         $scope.testCycle = {};
       });
+    if($scope.secondTester && $scope.secondTester !== '') {
+      console.log(true);
+      iTester.secondUpdate($scope.testCycle.secondTester._id, $scope.testCycle)
+      .success(function(data) {
+        $scope.testCycle = {};
+      });
+    }
   };
 
-  $scope.yearLocation = document.location.pathname.split("/")[2];
+  $scope.yearLocation = document.location.pathname.split('/')[2];
 });
