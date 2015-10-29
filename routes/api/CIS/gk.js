@@ -207,6 +207,8 @@ module.exports = function (app) {
       //for apps
       Apps.findById(id, function (err, data) {
         if (err) res.send(err);
+        var tvStatus = data.tv;
+        var appOutdated = data.outdated;
         data.applicationId = data.applicationId + "/private/" + Math.random().toString().slice(2);
         if (req.body.tv === 'Approved') {
           data.tv = 'Approved';
@@ -255,25 +257,36 @@ module.exports = function (app) {
         })
         .exec(function(err, cal) {
           if(err) return console.error(err);
-          if(cal.storage.length !== 0) {
-            console.log(cal.storage);
-            Rate.getRegion('CIS', function(err, data) {
-              if(err) console.error(err);
-              if(!data) {
-                Rate.addRegion('CIS', function(err, data) {
-                  if(err) return console.error(err);
-                  addPassToMonth(data);
-                });
-              } else {
-                addPassToMonth(data);
-              }
+
+          console.log(appOutdated, tvStatus);
+          if(cal && cal.storage.length !== 0 && !appOutdated && tvStatus !== 'Not Reviewed') {
+
+            // here check if storage have any data and have at list one "L"
+            var lCalc = cal.storage.some(function(d) {
+              return d.value === 'L';
             });
+            // lCalc must be true to continue count it in passrate
+            if(lCalc) {
+              console.log(cal.storage);
+              Rate.getRegion('CIS', function(err, data) {
+                if(err) console.error(err);
+                if(!data) {
+                  Rate.addRegion('CIS', function(err, data) {
+                    if(err) return console.error(err);
+                    addPassToMonth(data);
+                  });
+                } else {
+                  addPassToMonth(data);
+                }
+              });
+            } else {
+              console.log('There is no "L" elements!!');
+            }
           }
         });
 
         data.save(function (err, appz) {
           if (err) throw err;
-
         });
       });
 
