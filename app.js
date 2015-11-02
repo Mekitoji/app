@@ -60,14 +60,6 @@ if (process.env.NODE_ENV !== 'production') {
 //pass passport fot configutation
 require('./libs/passport')(passport);
 
-// required for passport
-// app.use(session({
-//   secret: 'igotasecret',
-//   resave: false,
-//   saveUninitialized: true,
-//   name: 'connect.testServer.sid'
-// }));
-
 var mgsOptions = {
   url: config.get('mongoose').uri,
 };
