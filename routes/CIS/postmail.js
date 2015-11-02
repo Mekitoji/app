@@ -30,6 +30,12 @@ module.exports = function (app) {
           function(cb) {
             phantom.create(function (ph) {
               ph.createPage(function (page) {
+                page.set('clipRect', {
+                   top:    80,
+                   left:   100,
+                   width:  900,
+                   height: 420
+                });
                 page.open('http://' + host + '/' + dy + '/rate', function () {
                   var chartPath = './public/images/charts/';
                   page.render(chartPath + name);

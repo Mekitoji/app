@@ -119,7 +119,7 @@ angular.module('rate', [])
         .call(xAxis)
       .selectAll(".tick text")
         .style("text-anchor", "start")
-        .attr("x", 6)
+        .attr("x", -10)
         .attr("y", 8);
 
      svg.append("g")
@@ -139,6 +139,16 @@ angular.module('rate', [])
       .datum(lineData)
       .attr('d', line)
       .attr('class', 'line');
+
+      svg.append("text")
+          .attr("x", (width / 2))
+          .attr("y", height + (margin.top / 2))
+          .attr("text-anchor", "middle")
+          .attr("font-weight", "bold")
+          .style("font-size", "16px")
+          .text(scope.currentYear + " Pass Rate");
+
+
       }
     }
   };
