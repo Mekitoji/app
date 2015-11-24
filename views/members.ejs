@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Sbc Member</title>
+
+    <link rel="stylesheet" href="../vendor/bootstrap/dist/css/bootstrap.min.css">
+    <!-- Jquery -->
+    <script src= "../vendor/jquery/dist/jquery.min.js"></script>
+    <script src= "../vendor/jquery/jquery-ui-1.11.1/jquery-ui.min.js"></script>
+    <link rel="stylesheet" href="../vendor/jquery/jquery-ui-1.11.1/jquery-ui.min.css">
+    <script src='../js/mindmup-editabletable.js'></script>
+    <!-- Bootstrap -->
+    <script src= "../vendor/bootstrap/dist/js/bootstrap.min.js"></script>
+
+    <script src= "../vendor/angular/angular.min.js"></script>
+    <script src="../js/sbcmember.js"></script>
+
+  </head>
+  <body>
+    <% include layout/profile_header %>
+    <div class="container">
+    <input type="button" class="btn btn-default" data-toggle="modal" data-target="#addMember" value="Add new member">
+      <table class="table-hover table">
+        <tr>
+          <th>Name</th>
+          <th>Mail</th>
+        </tr>
+        <tr></tr>
+      </table>
+      <div class="modal fade" role="dialog" id="addMember">
+        <div class="modal-dialog modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal">&times;</button>
+            <h4 class="modal-title">Add new member</h4>
+          </div>
+          <form class="modal-body">
+            <div class="form-group">
+              <input class="form-control" id="mail" type="text" placeholder="Mail">
+            </div>
+            <div class="form-group">
+              <input class="form-control" id="name" type="text" placeholder="Name">
+            </div>
+            <div class="modal-footer">
+              <input type="submit" class='btn btn-default'>
+              <input type="button" class="btn btn-default" data-dismiss="modal" value="Close">
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>

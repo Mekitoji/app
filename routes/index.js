@@ -90,7 +90,8 @@ module.exports = function (app, passport) {
   require('./tools/users')(app);
   require('./tools/testers')(app);
   require('./tools/rate')(app);
-
+  require('./tools/sbcMember')(app);
+  require('./tools/subscribeMember')(app);
 
   //api CORE
   require('./api/user')(app);
