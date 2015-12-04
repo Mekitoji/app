@@ -5,6 +5,8 @@ var SdpStats = new Schema({
   id: String,
   status: String,
   region: String,
+  name: String,
+  watch: Boolean,
   subscribers: [{
     type:Schema.ObjectId,
     ref: 'sbcMember'
@@ -18,7 +20,7 @@ var SdpStats = new Schema({
  * @param  {string} status current application status
  * @param  {string} region application region(e.g. CIS<EU<SIA)
  */
-SdpStats.static.add = function(id, status, region) {
+SdpStats.statics.add = function(id, status, region) {
   this.create({
     id: id,
     status: status,
@@ -49,7 +51,7 @@ SdpStats.methods.subscribe = function(sub, cb) {
  */
 SdpStats.methods.unsubscribe = function(sub, cb) {
   var subId = new Schema.ObjectId(sub);
-  var index =this.subsribers.indexOf(subId);
+  var index = this.subsribers.indexOf(subId);
   if (index >= 0) {
     this.slice(index, 1);
     this.save(cb);
@@ -58,5 +60,9 @@ SdpStats.methods.unsubscribe = function(sub, cb) {
   }
 };
 
+SdpStats.statics.all = function(cb) {
+  this.find({})
+  .exec(cb);
+}
 
 module.exports = mongoose.model('Sdp', SdpStats);

@@ -1,6 +1,6 @@
 var _          = require("lodash");
 var nodemailer = require('nodemailer');
-var sdp        = require('../../models/sdp');
+var sdp        = require('../../models/sdpSubscribe');
 
 var Apps, ApprovedApps, Cal;
 

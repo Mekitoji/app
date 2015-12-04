@@ -32,6 +32,11 @@ member.statics.removeByMail = function(mail, cb) {
   }, cb);
 };
 
+member.statics.all = function(cb) {
+  this.find({})
+  .exec(cb);
+}
+
 var sbcMember = mongoose.model('sbcMember', member);
 
 module.exports = sbcMember;
