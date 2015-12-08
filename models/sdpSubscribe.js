@@ -6,7 +6,10 @@ var SdpStats = new Schema({
   status: String,
   region: String,
   name: String,
-  watch: Boolean,
+  watch: {
+    type: Boolean,
+    default: false
+  },
   subscribers: [{
     type:Schema.ObjectId,
     ref: 'sbcMember'
@@ -20,11 +23,12 @@ var SdpStats = new Schema({
  * @param  {string} status current application status
  * @param  {string} region application region(e.g. CIS<EU<SIA)
  */
-SdpStats.statics.add = function(id, status, region) {
+SdpStats.statics.add = function(id, status, region, name) {
   this.create({
     id: id,
     status: status,
-    region: region
+    region: region,
+    name: name
   });
 };
 
@@ -34,13 +38,16 @@ SdpStats.statics.add = function(id, status, region) {
  * @param  {string}   sub sbc member id
  * @param  {Function} cb  callback
  */
-SdpStats.methods.subscribe = function(sub, cb) {
-  var subId = new Schema.ObjectId(sub);
-  if(this.subscribers.some(subId)) {
+SdpStats.methods.subscribe = function(sub) {
+  // var subId = new Schema.ObjectId(sub);
+  if(this.subscribers.indexOf(sub) > 0) {
     return new Error('Member already subscribed.');
   }
-  this.subcribers.push(subId);
-  this.save(cb);
+  if(!this.watch) {
+    this.watch = true;
+  }
+  this.subscribers.push(sub);
+  // this.save(cb);
 };
 
 /**
@@ -54,6 +61,9 @@ SdpStats.methods.unsubscribe = function(sub, cb) {
   var index = this.subsribers.indexOf(subId);
   if (index >= 0) {
     this.slice(index, 1);
+    if(this.subscribers.length === 0) {
+      this.watch = false;
+    }
     this.save(cb);
   } else {
     return new Error('Member don\'t subscribed to the notification');

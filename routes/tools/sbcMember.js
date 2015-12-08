@@ -17,14 +17,13 @@ module.exports = function(app) {
   app.post('/tools/sbcmember', function(req, res) {
     var name = req.body.name;
     var mail = req.body.mail;
-    console.log(name, mail);
     sbcMember.add(name, mail, function(err, members) {
       if(err) {
         console.error(err);
         return res.json(err).status(500);
       }
       console.log(members);
-      res.status(200);
+      res.status(200).end();
     });
   });
 }

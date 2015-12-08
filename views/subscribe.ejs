@@ -5,10 +5,25 @@
     <title>Subscribe sbc member</title>
     <link rel="stylesheet" href="../vendor/bootstrap/dist/css/bootstrap.min.css">
     <style>
-      #addNewSubscribe {
+      #addNewSubscribe, #subName {
         margin-bottom: 15px;
       }
+
+      .icon-unwatch {
+        margin-left: 5px;
+        box-shadow: 1px 1px 1px 1px rgba(0, 0, 0, 0.5);
+        width: 20px;
+        height: 11px;
+      }
+
+      .label-list {
+        margin: 5px;
+      }
+
     </style>
+    <!-- Polyfill -->
+    <script src="../js/object-assign.js"></script>
+
     <!-- Jquery -->
     <script src= "../vendor/jquery/dist/jquery.min.js"></script>
     <script src= "../vendor/jquery/jquery-ui-1.11.1/jquery-ui.min.js"></script>
@@ -25,17 +40,19 @@
     <% include layout/profile_header %>
 
     <div class="container" ng-controller="subscribe">
-      <input id="addNewSubscribe" data-toggle="modal" data-target="#addSubModal" type="button" class="btn btn-default" value="Add new application">
+      <input id="addNewSubscribe" data-toggle="modal" data-target="#addSubModal" ng-click="clearForm()" type="button" class="btn btn-default" value="Add new application">
       <table class="table table-hover">
         <tr>
           <th>Application Id</th>
           <th>Application Name</th>
           <th>Subscribers</th>
+          <th>Add <div class="glyphicon glyphicon-eye-open"></div></th>
         </tr>
         <tr ng-repeat="app in watching">
-          <td>{{app.id}}</td>
-          <td>{{app.status}}</td>
-          <td>{{app.region}}</td>
+          <td>{{app.id.split(" ")[0]}}</td>
+          <td>{{app.name}}</td>
+          <td><div ng-repeat="subs in app.subscribers track by $index" class="label-list label label-primary">{{subs.name}} ( {{subs.mail}} ) <div class="icon-unwatch glyphicon glyphicon-eye-close"></div></div></td>
+          <td ><div  class=" btn  glyphicon glyphicon-plus" ></div></td>
         </tr>
       </table>
       <div class="modal fade" role="dialog" id="addSubModal">
@@ -47,22 +64,25 @@
           <form class="modal-body" ng-submit='submit()'>
             <div class="form-group">
               <label for="appName">Application name</label>
-              <select name="appName" id="appName">
+              <select class="form-control" name="appName" ng-model="newAppSubId" id="appName">
                 <option ng-repeat="data in notWatching track by $index" value="{{data._id}}">
-                  {{data.status}} {{data.id}}
+                  {{data.name}} {{data.id.split(" ")[0]}}
                 </option>
               </select>
             </div>
-            <div class="form-group">
+            <div class="well form-group">
               <label for="subName">Subscriber</label>
-              <select name="subName" id="subName" ng-model="newSub">
-                <option ng-repeat="subscriber in subscribers track by $index" value="{{subscriber.name}}">{{subscriber.name}}</option>
+              <select class="form-control" name="subName" id="subName" ng-model="newSub">
+                <option ng-repeat="subscriber in form.subscribers track by $index" value="{{subscriber.name}}">{{subscriber.name}}</option>
               </select>
-              <input type="button" class="btn btn-default" value="Add" ng-click="addSubscribe(newSub)">
+              <input type="button" class="btn btn-default" value="Add"  ng-click="addSubscribe(newSub)">
             </div>
             <div class="form-group">
-              <label for="subscriber" >Subscribers</label>
-              <textarea cols="75" rows="3" readonly>{{subList.toString()}}</textarea>
+              <label for="subList" >Subscribers</label>
+              <textarea class="form-control" name="subList" cols="75" rows="3" readonly>{{form.subList.toString()}}</textarea>
+            </div>
+            <div class="form-group" ng-show=false >
+              <textarea name="subId"  rows="8" cols="40">{{form.subId}}</textarea>
             </div>
             <div class="modal-footer">
               <input type="submit"  class='btn btn-default'>

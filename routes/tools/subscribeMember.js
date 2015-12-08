@@ -1,4 +1,6 @@
 var sdpSubscribe = require('../../models/sdpSubscribe');
+var member = require('../../models/sbcMember');
+var async = require('async');
 
 module.exports = function(app) {
   app.get('/tools/subscribemember', function(req, res) {
@@ -10,14 +12,47 @@ module.exports = function(app) {
   app.get('/tools/subscribemember/all', function(req, res) {
     sdpSubscribe.all(function(err, data) {
       if(err) return res.send(err).status(500);
-      return res.json(data).status(200);
+      sdpSubscribe.populate(data, {
+        "path": "subscribers"
+      }, function(err, d) {
+        if(err) return res.send(err).status(500);
+        return res.json(d).status(200);
+      })
     });
   });
 
   app.post('/tools/subscribemember', function(req, res) {
+
   });
 
-  app.put('/tools/subscribemember', function(req, res) {
+  app.put('/tools/subscribemember/unsubscribe/:id', function(req, res) {
+    
+  });
 
+  app.put('/tools/subscribemember/watch/:id', function(req, res) {
+    var id = req.params.id;
+    // console.log(req.body)
+
+    sdpSubscribe.findById(req.params.id)
+    .exec(function(err, data) {
+      if(err) return res.send(err).status(500);
+
+      req.body.forEach(function(v) {
+        console.log(v);
+      });
+
+      async.eachSeries(req.body, function iterator(v, cb) {
+        // TODO
+        // save subscribers to db
+        data.subscribe(v._id);
+        cb(null);
+      }, function done(err) {
+        data.save(function(err, d) {
+          if (err) return res.send(err).status(500);
+          return res.status(200).end();
+        });
+      });
+
+    })
   });
 }
