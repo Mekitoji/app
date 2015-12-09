@@ -57,16 +57,17 @@ SdpStats.methods.subscribe = function(sub) {
  * @param  {Function} cb  [description]
  */
 SdpStats.methods.unsubscribe = function(sub, cb) {
-  var subId = new Schema.ObjectId(sub);
-  var index = this.subsribers.indexOf(subId);
+  // var subId = new Schema.ObjectId(sub);
+  var index = this.subscribers.indexOf(sub);
   if (index >= 0) {
-    this.slice(index, 1);
+    this.subscribers.splice(index, 1);
     if(this.subscribers.length === 0) {
       this.watch = false;
     }
+    this.markModified('subscribers');
     this.save(cb);
   } else {
-    return new Error('Member don\'t subscribed to the notification');
+    return new Error('User doesn\'t subscribed to the notification');
   }
 };
 

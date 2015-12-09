@@ -20,6 +20,13 @@
         margin: 5px;
       }
 
+      .subInfo{
+        width: 500px;
+      }
+      .subInfo>div {
+        display:inline-block;
+      }
+
     </style>
     <!-- Polyfill -->
     <script src="../js/object-assign.js"></script>
@@ -51,8 +58,8 @@
         <tr ng-repeat="app in watching">
           <td>{{app.id.split(" ")[0]}}</td>
           <td>{{app.name}}</td>
-          <td><div ng-repeat="subs in app.subscribers track by $index" class="label-list label label-primary">{{subs.name}} ( {{subs.mail}} ) <div class="icon-unwatch glyphicon glyphicon-eye-close"></div></div></td>
-          <td ><div  class=" btn  glyphicon glyphicon-plus" ></div></td>
+          <td class="subInfo"><div ng-repeat="subs in app.subscribers track by $index" class="btn label-list label label-primary">{{subs.name}} ( {{subs.mail}} ) <div class="icon-unwatch glyphicon glyphicon-eye-close" ng-click="unsubscribe(app._id, subs._id)" ></div></td>
+          <td><div  class=" btn  glyphicon glyphicon-plus" ></div></td>
         </tr>
       </table>
       <div class="modal fade" role="dialog" id="addSubModal">

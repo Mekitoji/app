@@ -10,6 +10,9 @@ angular.module('sdpSubscribe', [])
     },
     unsubscribe: function(id, subId) {
       return $http.put('/tools/subscribemember/unsubscribe/' + id, subId);
+    },
+    subscribe: function(id, subId) {
+      return $http.put('/tools/subscribemember/subscribe/' + id, subId)
     }
   }
 })
@@ -39,7 +42,6 @@ angular.module('sdpSubscribe', [])
       return (s.watch === false) || (s.watch === undefined);
     });
 
-    console.log($scope.watching);
 
   });
 
@@ -55,24 +57,25 @@ angular.module('sdpSubscribe', [])
       subId: []
     }
     Object.assign($scope.form.subscribers, $scope.subscribers);
-    console.log($scope.form)
+
   });
 
   $scope.submit = function() {
 
     console.dir({
+      id: $scope.newAppSubId,
       subscribers: $scope.form.subId
     });
 
     Subscribe.startWatch($scope.newAppSubId, $scope.form.subId)
     .success(function() {
       $scope.newAppSubId = null;
+
+      $('.modal').modal('hide')
+
       console.log('SUCCESS');
-      $('.modal').modal('hide');
     });
 
-    // console.log($scope.newAppSubId);
-    // console.log($scope.notWatching);
     for(var i = 0; i < $scope.notWatching.length; i++) {
       if($scope.notWatching[i]._id == $scope.newAppSubId) {
         $scope.notWatching[i].subscribers = $scope.notWatching[i].subscribers.concat($scope.form.subId);
@@ -80,19 +83,14 @@ angular.module('sdpSubscribe', [])
         $scope.notWatching.splice(i, 1);
       }
     }
-    // for(app in $scope.notWatching) {
-    //   console.log($scope.notWatching[app]);
-    // }
   }
 
   $scope.addSubscribe = function(data) {
-    // console.log($scope.form.subscribers, $scope.form.subscribers.length);
     for (var i = 0; i < $scope.form.subscribers.length; i++) {
       if($scope.form.subscribers[i] && $scope.form.subscribers[i].name == data)  {
-        $scope.form.subId.push($scope.subscribers[i]);
+        $scope.form.subId.push($scope.form.subscribers[i]);
         $scope.form.subList.push(data);
-        // var index = $scope.form.subscribers.indexOf($scope.form.subscribers[i]);
-        $scope.form.subscribers.splice(i, 1)
+        $scope.form.subscribers.splice(i, 1);
         $scope.newSub = null;
       }
     }
@@ -113,13 +111,35 @@ angular.module('sdpSubscribe', [])
     console.log("New array: " + c)
   }, true);
 
-  $scope.unsubscribe = function(id) {
+  $scope.unsubscribe = function(appId, sub) {
+    console.log("tracking: Proposal " + appId + " unsubscribe " +  sub);
+    // appId, subId
+      Subscribe.unsubscribe(appId, {
+        sub: sub
+      })
+        .success(function() {
+          console.log("SUCCESS UNSUBSCRIBE");
 
+          // delete subscribtion
+          var index = findInCollection($scope.watching, "_id", appId);
+          var subIndex = findInCollection($scope.watching[index].subscribers, "_id", sub);
+          $scope.watching[index].subscribers.splice(subIndex, 1);
+
+          // move on from watching if sub length = 0;
+          if($scope.watching[index].subscribers.length === 0) {
+            $scope.watching[index].watch = false;
+            $scope.notWatching.push($scope.watching[index]);
+            $scope.watching.splice(index, 1);
+          }
+        });
   }
 
-  // $scope.$watch('subscribers', function(c) {
-  //   console.log(c);
-  // }, true);
-
+  function findInCollection(collection, elem, val) {
+    for(var i = 0; i <= collection.length; i++) {
+      if(collection[i][elem] === val) {
+        return i;
+      }
+    }
+  }
 
 });
