@@ -208,7 +208,8 @@ module.exports = function (app) {
             if (!data) {
               sdp.create({
                 id: n.appId,
-                status: n.appStatus
+                status: n.appStatus,
+                name: n.appName
               }, function (err) {
                 if (err) utils.responseToClient(res, false, "Failed to create new sdp app", err);
                 return;
@@ -230,11 +231,13 @@ module.exports = function (app) {
                   status: n.appStatus
                 });
                 data.status = n.appStatus;
+                data.name = n.appName;
                 data.save(function (err) {
                   if (err) utils.responseToClient(res, false, "Failed to update sdp app", err);
                 });
               } else if (data.status !== n.appStatus) {
                 data.status = n.appStatus;
+                data.name = n.appName;
                 data.save(function (err) {
                   if (err) utils.responseToClient(res, false, "Failed to update sdp app", err);
                 });

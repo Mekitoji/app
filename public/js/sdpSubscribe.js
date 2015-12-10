@@ -67,22 +67,31 @@ angular.module('sdpSubscribe', [])
       subscribers: $scope.form.subId
     });
 
-    Subscribe.startWatch($scope.newAppSubId, $scope.form.subId)
-    .success(function() {
-      $scope.newAppSubId = null;
+    if($scope.form.subId.length === 0) {
+      // alert("PLEASE ADD SUBSCRIBERS");
+      $('#hidden-msg').show().css({'color': 'red'}).animate({opacity:0}, 1000, "linear",function(){
+        $(this).animate({opacity:1}, 1000);
+      });
+    } else {
+      Subscribe.startWatch($scope.newAppSubId, $scope.form.subId)
+      .success(function() {
+        $scope.newAppSubId = null;
 
-      $('.modal').modal('hide')
+        $('.modal').modal('hide')
 
-      console.log('SUCCESS');
-    });
+        console.log('SUCCESS');
+      });
 
-    for(var i = 0; i < $scope.notWatching.length; i++) {
-      if($scope.notWatching[i]._id == $scope.newAppSubId) {
-        $scope.notWatching[i].subscribers = $scope.notWatching[i].subscribers.concat($scope.form.subId);
-        $scope.watching.push($scope.notWatching[i]);
-        $scope.notWatching.splice(i, 1);
-      }
+        for(var i = 0; i < $scope.notWatching.length; i++) {
+          if($scope.notWatching[i]._id == $scope.newAppSubId) {
+            $scope.notWatching[i].subscribers = $scope.notWatching[i].subscribers.concat($scope.form.subId);
+            $scope.watching.push($scope.notWatching[i]);
+            $scope.notWatching.splice(i, 1);
+          }
+        }
+
     }
+
   }
 
   $scope.addSubscribe = function(data) {
@@ -105,6 +114,7 @@ angular.module('sdpSubscribe', [])
     };
     Object.assign($scope.form.subscribers, $scope.subscribers);
     $scope.newAppSubId = null;
+    $('#hidden-msg').hide();
   }
 
   $scope.$watch('form.subList', function(c) {
@@ -141,5 +151,36 @@ angular.module('sdpSubscribe', [])
       }
     }
   }
+
+  $scope.addSub = function(appId, subArray) {
+    // $('.modal').modal('show')
+    $scope.currentAppId = appId;
+    $scope.unsubs = [];
+    // $scope.subs = $scope.subscribers.slice();
+    for(var i = 0; i < $scope.subscribers.length; i++) {
+      var check = true;
+      for(var j = 0; j < subArray.length; j++) {
+        if($scope.subscribers[i]._id === subArray[j]._id) {
+          check = false;
+        }
+      }
+      if(check) $scope.unsubs.push($scope.subscribers[i]);
+      check = true;
+    }
+    console.log($scope.unsubs);
+  }
+  $scope.subSubmit = function(appId, subId) {
+    Subscribe.subscribe(appId, {
+      subId: subId
+    })
+    .success(function() {
+      console.log("SUCCESS - subscribe");
+      var index = findInCollection($scope.watching, "_id", appId);
+      var subIndex = findInCollection($scope.subscribers, "_id", subId);
+      $scope.watching[index].subscribers.push($scope.subscribers[subIndex]);
+      $scope.newSubscriber = null;
+      $('.modal').modal('hide');
+    });
+  };
 
 });

@@ -27,6 +27,11 @@
         display:inline-block;
       }
 
+      #hidden-msg {
+        display: none;
+      }
+
+
     </style>
     <!-- Polyfill -->
     <script src="../js/object-assign.js"></script>
@@ -44,10 +49,13 @@
     <script src="../js/sdpSubscribe.js"></script>
   </head>
   <body>
+
     <% include layout/profile_header %>
 
     <div class="container" ng-controller="subscribe">
-      <input id="addNewSubscribe" data-toggle="modal" data-target="#addSubModal" ng-click="clearForm()" type="button" class="btn btn-default" value="Add new application">
+
+      <input id="addNewSubscribe" data-toggle="modal" data-target="#startWatching" ng-click="clearForm()" type="button" class="btn btn-default" value="Add new application">
+
       <table class="table table-hover">
         <tr>
           <th>Application Id</th>
@@ -58,20 +66,21 @@
         <tr ng-repeat="app in watching">
           <td>{{app.id.split(" ")[0]}}</td>
           <td>{{app.name}}</td>
-          <td class="subInfo"><div ng-repeat="subs in app.subscribers track by $index" class="btn label-list label label-primary">{{subs.name}} ( {{subs.mail}} ) <div class="icon-unwatch glyphicon glyphicon-eye-close" ng-click="unsubscribe(app._id, subs._id)" ></div></td>
-          <td><div  class=" btn  glyphicon glyphicon-plus" ></div></td>
+          <td class="subInfo"><div ng-repeat="subs in app.subscribers track by $index" class="label-list label label-primary">{{subs.name}} ( {{subs.mail}} ) <div class="icon-unwatch glyphicon glyphicon-eye-close" ng-click="unsubscribe(app._id, subs._id)" ></div></td>
+          <td><div class="btn glyphicon glyphicon-plus" data-toggle="modal" data-target="#addSub" ng-click="addSub(app._id, app.subscribers)"></div></td>
         </tr>
       </table>
-      <div class="modal fade" role="dialog" id="addSubModal">
+
+      <div class="modal fade" role="dialog" id="startWatching">
         <div class="modal-dialog modal-content">
           <div class="modal-header">
             <button type="button" class="close" data-dismiss="modal">&times;</button>
             <h4 class="modal-title">Add new application</h4>
           </div>
-          <form class="modal-body" ng-submit='submit()'>
+          <form name="addWatcher" class="modal-body" ng-submit='submit()'>
             <div class="form-group">
               <label for="appName">Application name</label>
-              <select class="form-control" name="appName" ng-model="newAppSubId" id="appName">
+              <select required class="form-control" name="appName" ng-model="newAppSubId" id="appName">
                 <option ng-repeat="data in notWatching track by $index" value="{{data._id}}">
                   {{data.name}} {{data.id.split(" ")[0]}}
                 </option>
@@ -80,24 +89,47 @@
             <div class="well form-group">
               <label for="subName">Subscriber</label>
               <select class="form-control" name="subName" id="subName" ng-model="newSub">
-                <option ng-repeat="subscriber in form.subscribers track by $index" value="{{subscriber.name}}">{{subscriber.name}}</option>
+                <option ng-repeat="subscriber in form.subscribers track by $index" value="{{subscriber.name}}">{{subscriber.name}} ( {{subscriber.mail}} )</option>
               </select>
               <input type="button" class="btn btn-default" value="Add"  ng-click="addSubscribe(newSub)">
+              <span id="hidden-msg"> Please add subscribers to continue</span>
             </div>
             <div class="form-group">
               <label for="subList" >Subscribers</label>
-              <textarea class="form-control" name="subList" cols="75" rows="3" readonly>{{form.subList.toString()}}</textarea>
+              <input class="form-control" name="subList" readonly required value={{form.subList.toString()}}>
             </div>
             <div class="form-group" ng-show=false >
               <textarea name="subId"  rows="8" cols="40">{{form.subId}}</textarea>
             </div>
             <div class="modal-footer">
-              <input type="submit"  class='btn btn-default'>
+              <input type="submit" ng-disabled="addWatcher.$invalid" class='btn btn-default'>
               <input type="button" class="btn btn-default" data-dismiss="modal" value="Close">
             </div>
           </form>
         </div>
       </div>
+
+      <div class="modal fade" role="dialog" id="addSub">
+        <div class="modal-dialog modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal">&times;</button>
+            <h4 class="modal-title">Add new subscriber</h4>
+          </div>
+          <form name="addSubscriber" class="modal-body" ng-submit="subSubmit(currentAppId, newSubscriber)">
+            <div class="form-group">
+              <label for="subSelect">Subscriber</label>
+              <select required name="subSelect" id="" class="form-control" ng-model="newSubscriber">
+                <option ng-repeat="s in unsubs track by $index" value="{{s._id}}">{{s.name}} ({{s.mail}})</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <input type="submit" ng-disabled="addSubscriber.$invalid" class="btn btn-default">
+              <input type="button" class=" btn btn-default" data-dismiss="modal" value="Close">
+            </div>
+          </form>
+        </div>
+      </div>
+
     </div>
   </body>
 </html>

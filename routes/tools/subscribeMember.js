@@ -26,12 +26,10 @@ module.exports = function(app) {
 
   app.put('/tools/subscribemember/subscribe/:id', function(req, res) {
     var id = req.params.id;
-    var sub = req.body.sub;
+    var sub = req.body.subId;
     sdpSubscribe.findById(id)
     .exec(function(err, data) {
       if(err) return res.send(err).status(500);
-      // TODO
-      // subscribe method
       data.subscribe(sub);
       data.save(function(err, d) {
         if(err) return res.send(err).status(500);
@@ -48,8 +46,6 @@ module.exports = function(app) {
       if(err) return res.send(err).status(500);
       console.log(req.body);
       res.status(200).end();
-      // TODO
-      // subscribe method
       data.unsubscribe(sub, function (err, data) {
           if (err) return res.send(err).status(500);
           console.log(data);
