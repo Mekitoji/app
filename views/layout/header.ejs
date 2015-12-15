@@ -53,6 +53,15 @@
           </ul>
         </li>
         <% } %>
+        <% if(user.local.group==='root' || user.local.group==='gkEU' || user.local.group==='gkCIS') { %>
+        <li class="dropdown">
+          <a href="dropdown-toogle" data-toggle="dropdown">Mail subscription  <b class="caret"></b></a>
+          <ul class="dropdown-menu">
+            <li><a href="/tools/sbcmember">Members</a></li>
+            <li><a href="/tools/subscribemember">Sdp subscription</a></li>
+          </ul>
+        </li>
+        <% } %>
         <% var date = new Date();
         var day = date.getDate();
         var month = date.getMonth()+1;

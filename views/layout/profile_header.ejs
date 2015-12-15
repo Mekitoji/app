@@ -5,7 +5,7 @@
   <% var date = new Date();
      var currentYear = date.getFullYear() %>
     <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-      
+
     <ul class="nav navbar-nav">
 
   <% if(user.local.group==='root') { %>
@@ -20,6 +20,8 @@
         </li>
         <li><a href="/tools/users">Users</a></li>
         <li><a href="/tools/testers">Testers</a></li>
+        <li><a href="/tools/sbcmember">Subscribers</a>
+        <li><a href="/tools/subscribemember">Subscription</a>
         <li class="dropdown">
           <a href="dropdown-toogle" data-toggle="dropdown">KPI<b class='caret'></b></a>
           <ul class='dropdown-menu'>
@@ -42,8 +44,12 @@
         <li><a href="/sia/<%=currentYear%>/main">Workspace</a></li>
         <li><a href="/sia/<%=currentYear%>/tester">KPI</a></li>
   <% } %>
+      <% if(user.local.group === 'gkEU' || user.local.group === 'gkCIS') { %>
+        <li><a href="/tools/sbcmember">Subscribers</a>
+        <li><a href="/tools/subscribermember">Subscription</a>
+      <% } %>
       </ul>
-      
+
       <ul class="nav navbar-nav navbar-right">
 
         <li><a class="navbar-brand" href="#">

@@ -245,6 +245,7 @@ module.exports = function (app) {
             }
           });
 
+
           var c = config.workspace[config.currentWorkspace];
           var resp = c.gk[n.gk] ? c.gk[n.gk] : "";
           if (app === null && n.appStatus !== "App QA approved" || app !== null && app.year !== utils.getCurrentYear()) {
@@ -308,34 +309,53 @@ module.exports = function (app) {
         var temp_year = temp.getFullYear();
         var body = "<style>div{font:10pt Arial;}</style>";
 
+        var rawId = app.id;
+
         app.id = utils.parseId(app.id);
 
-        var subject = "[" + app.name + "] (" + app.id + ") <" + app.status + "> "  + temp_date + " " + monthArray[temp_month] + " " + temp_year;
-        // **email body
-        body += "<div><b> New apps arrive:</b><br /><br />";
+        sdp.find({id: rawId})
+        .populate("subscribers")
+        .exec(function(err, data) {
+          var subject = "[" + app.name + "] (" + app.id + ") <" + app.status + "> "  + temp_date + " " + monthArray[temp_month] + " " + temp_year;
+          // **email body
+          body += "<div><b> New apps arrive:</b><br /><br />";
 
-        body += "<b>" + app.name + "[" + app.id + "]</b> with status - <b>" + app.status + "</b><br />";
+          body += "<b>" + app.name + "[" + app.id + "]</b> with status - <b>" + app.status + "</b><br />";
 
-        body += "<br /><br />Go to <a href='http://89.108.113.194:1337/" + config.currentWorkspace + "/2015/rejected#/inwork'>GK Control</a> for more.</div>";
-        // **end of email body
-        var mailOptions = {
-          from: wspace.mail.from,
-          to: wspace.mail.to,
-          cc: wspace.mail.cc,
-          subject: subject,
-          replyTo: wspace.mail.replyTo,
-          text: body,
-          html: body,
-        };
-        console.log(subject);
-        transport.sendMail(mailOptions, function (err, info) {
-          if (err) console.error(err);
-          else {
-            console.log('Message sent: ');
-            console.log(info);
+          body += "<br /><br />Go to <a href='http://89.108.113.194:1337/" + config.currentWorkspace + "/2015/rejected#/inwork'>GK Control</a> for more.</div>";
+          // **end of email body
+
+          var ccList = wspace.mail.cc.slice();
+          var subArray = [];
+          if(data.subscribers) {
+            for(var i=0; i < data.subscribers.length; i++) {
+              subArray.push(data.subscribers[i].mail);
+            }
           }
+
+          ccList = ccList.concat(subArray);
+
+          var mailOptions = {
+            from: wspace.mail.from,
+            to: wspace.mail.to,
+            cc: ccList,
+            subject: subject,
+            replyTo: wspace.mail.replyTo,
+            text: body,
+            html: body,
+          };
+          console.log(subject);
+          transport.sendMail(mailOptions, function (err, info) {
+            if (err) console.error(err);
+            else {
+              console.log('Message sent: ');
+              console.log(info);
+            }
+          });
         });
-      });
+
+        });
+
     }, 2000);
   });
 };

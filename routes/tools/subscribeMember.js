@@ -1,9 +1,10 @@
 var sdpSubscribe = require('../../models/sdpSubscribe');
 var member = require('../../models/sbcMember');
 var async = require('async');
+var routesFunction = require('../../libs/routesFunction');
 
 module.exports = function(app) {
-  app.get('/tools/subscribemember', function(req, res) {
+  app.get('/tools/subscribemember', routesFunction.checkPermission, function(req, res) {
     res.render('subscribe.ejs', {
       user: req.user
     });
@@ -21,8 +22,6 @@ module.exports = function(app) {
     });
   });
 
-  app.post('/tools/subscribemember', function(req, res) {
-  });
 
   app.put('/tools/subscribemember/subscribe/:id', function(req, res) {
     var id = req.params.id;
@@ -44,11 +43,9 @@ module.exports = function(app) {
     sdpSubscribe.findById(id)
     .exec(function(err, data) {
       if(err) return res.send(err).status(500);
-      console.log(req.body);
       res.status(200).end();
       data.unsubscribe(sub, function (err, data) {
           if (err) return res.send(err).status(500);
-          console.log(data);
 
           return res.status(200).end();
       });
@@ -57,14 +54,12 @@ module.exports = function(app) {
 
   app.put('/tools/subscribemember/watch/:id', function(req, res) {
     var id = req.params.id;
-    // console.log(req.body)
 
     sdpSubscribe.findById(req.params.id)
     .exec(function(err, data) {
       if(err) return res.send(err).status(500);
 
       req.body.forEach(function(v) {
-        console.log(v);
       });
 
       async.eachSeries(req.body, function iterator(v, cb) {

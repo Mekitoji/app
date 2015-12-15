@@ -79,7 +79,6 @@ angular.module('sdpSubscribe', [])
 
         $('.modal').modal('hide')
 
-        console.log('SUCCESS');
       });
 
         for(var i = 0; i < $scope.notWatching.length; i++) {
@@ -117,20 +116,12 @@ angular.module('sdpSubscribe', [])
     $('#hidden-msg').hide();
   }
 
-  $scope.$watch('form.subList', function(c) {
-    console.log("New array: " + c)
-  }, true);
 
   $scope.unsubscribe = function(appId, sub) {
-    console.log("tracking: Proposal " + appId + " unsubscribe " +  sub);
-    // appId, subId
       Subscribe.unsubscribe(appId, {
         sub: sub
       })
         .success(function() {
-          console.log("SUCCESS UNSUBSCRIBE");
-
-          // delete subscribtion
           var index = findInCollection($scope.watching, "_id", appId);
           var subIndex = findInCollection($scope.watching[index].subscribers, "_id", sub);
           $scope.watching[index].subscribers.splice(subIndex, 1);
@@ -167,14 +158,12 @@ angular.module('sdpSubscribe', [])
       if(check) $scope.unsubs.push($scope.subscribers[i]);
       check = true;
     }
-    console.log($scope.unsubs);
   }
   $scope.subSubmit = function(appId, subId) {
     Subscribe.subscribe(appId, {
       subId: subId
     })
     .success(function() {
-      console.log("SUCCESS - subscribe");
       var index = findInCollection($scope.watching, "_id", appId);
       var subIndex = findInCollection($scope.subscribers, "_id", subId);
       $scope.watching[index].subscribers.push($scope.subscribers[subIndex]);

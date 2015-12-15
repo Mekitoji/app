@@ -1,7 +1,8 @@
 var sbcMember = require('../../models/sbcMember');
+var routesFunction = require('../../libs/routesFunction');
 
 module.exports = function(app) {
-  app.get('/tools/sbcmember', function(req, res) {
+  app.get('/tools/sbcmember', routesFunction.checkPermission, function(req, res) {
     res.render('members.ejs', {
       user: req.user
     });

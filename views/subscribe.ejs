@@ -4,35 +4,7 @@
     <meta charset="utf-8">
     <title>Subscribe sbc member</title>
     <link rel="stylesheet" href="../vendor/bootstrap/dist/css/bootstrap.min.css">
-    <style>
-      #addNewSubscribe, #subName {
-        margin-bottom: 15px;
-      }
-
-      .icon-unwatch {
-        margin-left: 5px;
-        box-shadow: 1px 1px 1px 1px rgba(0, 0, 0, 0.5);
-        width: 20px;
-        height: 11px;
-      }
-
-      .label-list {
-        margin: 5px;
-      }
-
-      .subInfo{
-        width: 500px;
-      }
-      .subInfo>div {
-        display:inline-block;
-      }
-
-      #hidden-msg {
-        display: none;
-      }
-
-
-    </style>
+    <link rel="stylesheet" href="../css/subscription.css">
     <!-- Polyfill -->
     <script src="../js/object-assign.js"></script>
 
@@ -56,6 +28,8 @@
 
       <input id="addNewSubscribe" data-toggle="modal" data-target="#startWatching" ng-click="clearForm()" type="button" class="btn btn-default" value="Add new application">
 
+      <input type="text" placeholder="Search" class="form-control" ng-model="searchApp" id="search-field">
+
       <table class="table table-hover">
         <tr>
           <th>Application Id</th>
@@ -63,10 +37,10 @@
           <th>Subscribers</th>
           <th>Add <div class="glyphicon glyphicon-eye-open"></div></th>
         </tr>
-        <tr ng-repeat="app in watching">
+        <tr ng-repeat="app in watching | filter:searchApp">
           <td>{{app.id.split(" ")[0]}}</td>
           <td>{{app.name}}</td>
-          <td class="subInfo"><div ng-repeat="subs in app.subscribers track by $index" class="label-list label label-primary">{{subs.name}} ( {{subs.mail}} ) <div class="icon-unwatch glyphicon glyphicon-eye-close" ng-click="unsubscribe(app._id, subs._id)" ></div></td>
+          <td class="subInfo"><div ng-repeat="subs in app.subscribers track by $index" class="label-list label label-primary">{{subs.name}} ( {{subs.mail}} ) <div class="btn unwatch-btn glyphicon glyphicon-eye-close" ng-click="unsubscribe(app._id, subs._id)" ></div></td>
           <td><div class="btn glyphicon glyphicon-plus" data-toggle="modal" data-target="#addSub" ng-click="addSub(app._id, app.subscribers)"></div></td>
         </tr>
       </table>
