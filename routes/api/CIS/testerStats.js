@@ -61,7 +61,7 @@ module.exports = function (app) {
 
         if(index !== -1) {
           if(tester.appStorage[index] && req.body.date && req.body.reason) {
-            tester.appStorage[index].testCycle.push({
+            tester.appStorage[index].testCycleStorage.push({
               date:req.body.date,
               reason: req.body.reason
             });
