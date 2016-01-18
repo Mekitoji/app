@@ -27,4 +27,29 @@ module.exports = function(app) {
       res.status(200).end();
     });
   });
+
+
+  app.delete('/tools/sbcmember/:id', function(req, res) {
+    var id = req.params.id;
+
+    sbcMember.findByIdAndRemove(id, function(err) {
+      if(err) return res.send(err).status(500);
+      return res.send().status(200);
+    });
+
+  });
+
+  app.put('/tools/sbcmember/:id', function(req, res) {
+    var id = req.params.id;
+    var name = req.body.name;
+    var mail = req.body.mail;
+    sbcMember.findByIdAndUpdate(id, {
+      name: name,
+      mail: mail
+    }, function(err) {
+      if(err) return res.send(err).status(500);
+      return res.send().status(200);
+    })
+  });
+
 }

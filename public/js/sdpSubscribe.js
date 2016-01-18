@@ -42,10 +42,16 @@ angular.module('sdpSubscribe', [])
       return (s.watch === false) || (s.watch === undefined);
     });
 
+    function sortName(a, b) {
+      // test localeCompate
+      if (a.name === undefined || b.name === undefined) return 0
+      if (a.name.toLowerCase() < b.name.toLowerCase()) return -1;
+      if (a.name.toLowerCase() > b.name.toLowerCase()) return 1;
+      return 0;
+    }
 
+    $scope.notWatching = data.sort(sortName);
   });
-
-
 
   Members.get()
   .success(function(data) {
