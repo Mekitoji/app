@@ -1,8 +1,8 @@
 var Rate = require('../models/rate');
 var mongoose = require('../libs/mongoose')
 
-var id = process.argv[2];
-var regionId = process.argv[3]
+var id = "55e70a583218b5d07c849708" || process.argv[2];
+var regionId = "5624938821d4ee980c649b27" || process.argv[3]
 var month = 11;
 
 Rate.findById(regionId, function(err, data) {

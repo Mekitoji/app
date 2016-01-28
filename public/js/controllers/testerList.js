@@ -38,6 +38,14 @@ angular.module('project')
       permission = false;
       $scope.perm = false;
     }
+  } else if (locationC === 'ciseu') {
+    if (userG === 'gkCISEU' || userG === 'root') {
+      permission = true;
+      $scope.perm = true;
+    } else {
+      permission = false;
+      $scope.perm = false;
+    }
   }
 
   $scope.loading = true;
@@ -77,6 +85,5 @@ angular.module('project')
   .finally(function() {
     $scope.loading = false;
     $scope.dataLoad = true;
-    console.log($scope.testers);
   });
 });

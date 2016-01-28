@@ -13,8 +13,25 @@ var config = {
   headerArr: ['empty', 'appId', 'region', 'gk', 'appName', 'seller', 'updateDate', 'appStatus', 'gkReview'],
   table_caption: "Gate Keeper Review List",
   workspace: {
+    "CISEU": {
+      region: ["CS", "EU"],
+      gk: {
+        "SayantsAndrey": "AS",
+        "RASTATURINSTANISLAV": "SR",
+        "KipovskiyEvgeniy": "EK",
+        "BelousovAlexey": "AB",
+        "SKAKUNGRIGORY": "GS",
+        "TurchenkoRoman": "RT"
+      },
+      mail: {
+        to: 'vladimir.egorov@lge.com',
+        from: "CIS & EU STE<noreply@lge.com>",
+        cc: [],
+        replyTo: ''
+      }
+    },
     "CIS": {
-      region: ["CS"],
+      region: [],
       gk: {
         "POLITAEVDMITRY": "DP",
         "SayantsAndrey": "AS",
@@ -29,7 +46,7 @@ var config = {
       }
     },
     "EU": {
-      region: ["EU"],
+      region: [],
       gk: {
         "RASTATURINSTANISLAV": "SR",
         "TRESCHALOVNIKITA": "NT",
@@ -156,6 +173,10 @@ utils.interface = function (workspace) {
     Apps = require('../../models/SIA/gkbase');
     ApprovedApps = require('../../models/SIA/gkbaseApproved');
     Cal = require('../../models/SIA/calendar');
+  } else if (workspace === 'CISEU') {
+    Apps = require('../../models/CISEU/gkbase');
+    ApprovedApps = require('../../models/CISEU/gkbaseApproved');
+    Cal = require('../../models/CISEU/calendar');
   } else {
     Apps = null;
     ApprovedApps = null;
@@ -195,7 +216,8 @@ module.exports = function (app) {
 
     _.forEach(p, function (n) {
       Apps.findOne({
-        applicationId: n.appId
+        applicationId: n.appId,
+        year: utils.getCurrentYear()
       })
         .exec(function (err, app) {
           if (err) utils.responseToClient(res, false, "Server error", err);
@@ -322,7 +344,7 @@ module.exports = function (app) {
 
           body += "<b>" + app.name + "[" + app.id + "]</b> with status - <b>" + app.status + "</b><br />";
 
-          body += "<br /><br />Go to <a href='http://89.108.113.194:1337/" + config.currentWorkspace + "/2015/rejected#/inwork'>GK Control</a> for more.</div>";
+          body += "<br /><br />Go to <a href='http://89.108.113.194:1337/" + config.currentWorkspace + "/"+ utils.getCurrentYear()+"/rejected#/inwork'>GK Control</a> for more.</div>";
           // **end of email body
 
           var ccList = wspace.mail.cc.slice();

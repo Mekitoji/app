@@ -1,4 +1,5 @@
 var mongoose = require('../../libs/mongoose');
+var Calendar = require('./calendar');
 var Schema = mongoose.Schema;
 
 // create the model for users and expose it to our app
@@ -53,5 +54,22 @@ var Apps = new Schema({
     type: Number
   }
 });
+
+Apps.statics.removeAllByYear = function(year) {
+  var self = this;
+  self.find({year: year})
+  .exec(function(err, data) {
+    if(err) throw err;
+    data.forEach(function(v, i) {
+      Calendar.findOneAndRemove({appId: v._id})
+      .exec(function(err) {
+        if (err) throw err;
+      })
+      self.findByIdAndRemove(v._id, function(err) {
+        if (err) throw err;
+      });
+    });
+  });
+}
 
 module.exports = mongoose.model('Apps', Apps);

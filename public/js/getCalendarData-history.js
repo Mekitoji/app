@@ -46,6 +46,16 @@ if (region == 'cis') {
   } else {
     url = '../../../api/sia/history/' + historyDate;
   }
+} else if (region == 'ciseu') {
+  if (subLoc === 'approved') {
+    url = '../../../api/ciseu/history/' + historyDate;
+  } else if (subLoc === 'rejected') {
+    url = '../../../api/ciseu/history/' + historyDate + '/rejected';
+  } else if (subLoc === 'outdated') {
+    url = '../../../api/ciseu/history/' + historyDate + '/outdated';
+  } else {
+    url = '../../../api/ciseu/history/' + historyDate;
+  }
 }
 
 

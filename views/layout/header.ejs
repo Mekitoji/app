@@ -10,6 +10,7 @@
         <li class= 'dropdown'>
           <a href="dropdown-toogle" data-toggle="dropdown">Region   <b class='caret'></b></a>
           <ul class='dropdown-menu'>
+            <li><a href="/ciseu/<%=yearFilter%>/main">CISEU</a></li>
             <li><a href="/cis/<%=yearFilter%>/main">CIS</a></li>
             <li><a href="/eu/<%=yearFilter%>/main">EU</a></li>
             <li><a href="/global/<%=yearFilter%>/main">Sandbox</a></li>
@@ -41,6 +42,7 @@
           user.local.group === 'gkCIS' ||
           user.local.group === 'gkEU'  ||
           user.local.group === 'gkSIA' ||
+          user.local.group === 'gkCISEU' ||
           user.local.group === 'sandbox') { %>
         <li><a href="/<%=route%>/<%=yearFilter%>/postmail">Post Mail</a></li>
       <% } %>
@@ -53,7 +55,7 @@
           </ul>
         </li>
         <% } %>
-        <% if(user.local.group==='root' || user.local.group==='gkEU' || user.local.group==='gkCIS') { %>
+        <% if(user.local.group==='root' || user.local.group==='gkEU' || user.local.group==='gkCIS' || user.local.group==='gkCISEU') { %>
         <li class="dropdown">
           <a href="dropdown-toogle" data-toggle="dropdown">Mail Subscription  <b class="caret"></b></a>
           <ul class="dropdown-menu">

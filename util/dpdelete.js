@@ -18,7 +18,7 @@ testerStat.findOne({
       tester.appStorage.splice(key, 1);
       tester.markModified("appStorage");
       tester.save();
-      return return false;
+      return false;
     }
   });
   // tester.markModified("appStorage");

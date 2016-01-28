@@ -28,6 +28,8 @@
     region = "root";
   } else if(user.local.group === "gkCIS" || user.local.group === "employerCIS") {
     region = "CIS";
+  } else if(user.local.group === "gkCISEU" || user.local.group === "employerCISEU") {
+    region = "CIS";
   } else if(user.local.group === "gkEU" || user.local.group === "employerEU") {
     region = "EU";
   } else if(user.local.group === "gkSIA" || user.local.group === "employerSIA") {

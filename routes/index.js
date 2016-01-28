@@ -18,6 +18,23 @@ module.exports = function (app, passport) {
   require('./core/resetPassword')(app);
   require('./core/changePassword')(app);
 
+  //CISEU pages
+  require('./CISEU/main')(app);
+  require('./CISEU/approved')(app);
+  require('./CISEU/outdated')(app);
+  require('./CISEU/inwork')(app);
+  require('./CISEU/notReviewed')(app);
+  require('./CISEU/postmail')(app);
+  require('./CISEU/mailSuccess')(app);
+  require('./CISEU/tester')(app);
+  require('./CISEU/newTester')(app);
+  require('./CISEU/testerViewPage')(app);
+  require('./CISEU/testerList')(app);
+
+  //CISEU history
+  require('./CISEU/history/main')(app);
+  require('./CISEU/history/testerList')(app);
+
   //CIS pages
   require('./CIS/main')(app);
   require('./CIS/approved')(app);
@@ -126,6 +143,13 @@ module.exports = function (app, passport) {
   require('./api/SIA/tester')(app);
   require('./api/SIA/testerStats')(app);
   require('./api/SIA/history')(app); //new
+
+  //new CISEU
+  require('./api/CISEU/gk')(app);
+  require('./api/CISEU/calendar')(app);
+  require('./api/CISEU/tester')(app);
+  require('./api/CISEU/testerStats')(app);
+  require('./api/CISEU/history')(app); //new
 
   //errors
   require('./errors/401')(app);

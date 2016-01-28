@@ -8,7 +8,23 @@ angular.module('project')
   $scope.year = document.location.pathname.split('/')[2];
   var gridOpt = {};
 
-  if (locationC === 'cis') {
+  if (locationC === 'ciseu') {
+    gridOpt.country = ["Russian Federation", "Ukraine", "Belarus", "Kazakhstan", "Uzbekistan", "Kyrgyzstan", "Tajikistan", "Andora","Albania","Armenia","Austria","Azerbaijan","Bosnia and Herzegovina","Belgium","Bulgaria","Switzerland","Christmas Island","Czech Republic","Germany","Denmark","Estonia", "Spain", "Finland","Faeroe Islands","France","United Kingdom","Georgia","Gibraltar","Greenland","Greece","Croatia","Hungary","Ireland","Iceland","Italy","Lithuania","Luxembourg","Latvia","Monaco","Republic of Moldova","Montenegro","Republic of Macedonia","Netherlands","Norway","Poland","Portugal","Romania","Serbia","Sweden","Slovenia","Slovakia","Wallis and Futuna Islands"];
+    gridOpt.respColor = {
+      "AS": "red",
+      "GS": "yellow",
+      "AB": "green",
+      "EK": "blue",
+      "RT": "purple"
+    };
+    if (userG === 'gkCISEU' || userG === 'root') {
+      permission = true;
+      $scope.perm = true;
+    } else {
+      permission = false;
+      $scope.perm = false;
+    }
+  } else if (locationC === 'cis') {
     gridOpt.country = ["Russian Federation", "Ukraine", "Belarus", "Kazakhstan", "Uzbekistan", "Kyrgyzstan", "Tajikistan"];
     gridOpt.respColor = {
       "AS": "red",

@@ -45,6 +45,16 @@ if (region == 'cis') {
   } else {
     url = '../../api/sia/calendar/';
   }
+} else if (region == 'ciseu') {
+  if (subLoc === 'approved') {
+    url = '../../api/ciseu/calendar/approved';
+  } else if (subLoc === 'rejected') {
+    url = '../../api/ciseu/calendar/rejected';
+  } else if (subLoc === 'outdated') {
+    url = '../../api/ciseu/calendar/outdated';
+  } else {
+    url = '../../api/ciseu/calendar/';
+  }
 }
 
 $.ajax({

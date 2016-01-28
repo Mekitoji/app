@@ -76,6 +76,14 @@ function checkPermissionCIS(req, res, next) {
   checkPermFor(req, res, next, 'root', 'gkCIS', 'employerCIS');
 }
 
+function checkPermissionCISEU(req, res, next) {
+  checkPermFor(req, res, next, 'root', 'gkCIS', 'gkEU', 'gkCISEU', 'employerCIS', 'employerEU', 'employerCISEU' );
+}
+
+function checkPermissionGkCISEU(req, res, next) {
+  checkPermFor(req, res, next, 'root', 'gkCIS', 'gkEU', 'gkCISEU');
+}
+
 function checkPermissionEU(req, res, next) {
   checkPermFor(req, res, next, 'root', 'gkEU', 'employerEU');
 }
@@ -109,3 +117,5 @@ exports.checkPermissionGkEU = checkPermissionGkEU;
 exports.checkPermissionGkSIA = checkPermissionGkSIA;
 exports.checkPermissionRoot = checkPermissionRoot;
 exports.checkPermissionSandbox = checkPermissionSandbox;
+exports.checkPermissionCISEU = checkPermissionCISEU;
+exports.checkPermissionGkCISEU = checkPermissionGkCISEU;

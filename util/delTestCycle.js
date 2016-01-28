@@ -3,7 +3,7 @@ var TesterStat = require('../models/CIS/testerStat');
 
 var testerName = "AS";
 var secondTesterName = "VE"
-var appId = "54b7b57225d5d2824d1a1cd4";
+var appId = "55e70a583218b5d07c849708";
 
 TesterStat.findOne({name: testerName})
 .exec(function(err, data) {

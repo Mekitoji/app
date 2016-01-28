@@ -39,8 +39,18 @@ if (locationC === 'cis') {
   } else {
     permission = false;
   }
-} else if (locationC === 'global') {
+} else if (locationC === 'sia') {
   if (userG === 'gkSIA' || userG === 'root') {
+    if (subLoc === 'approved') {
+      permission = false;
+    } else {
+      permission = true;
+    }
+  } else {
+    permission = false;
+  }
+} else if (locationC === 'ciseu') {
+  if (userG === 'gkCISEU' || userG === 'gkCIS' || userG === 'gkEU' || userG === 'root') {
     if (subLoc === 'approved') {
       permission = false;
     } else {

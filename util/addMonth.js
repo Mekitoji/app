@@ -5,7 +5,7 @@ mongoose.connect(config.get('mongoose:uri'), config.get('mongoose: option'));
 
 Rate.getRegion('CIS', function(err,data){
   if(err) return console.error(err);
-  var arr = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9];
+  var arr = [ 3, 4, 5, 6, 7, 8];
   arr.forEach(function(v) {
     data.addMonth(v, 2015, function(err) {
       if(err) return console.error(err);

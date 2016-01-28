@@ -10,12 +10,28 @@
   <script src='../../js/factories/EU/addTester.js'></script>
   <script src='../../js/factories/SIA/addTester.js'></script>
   <script src='../../js/factories/Sandbox/addTester.js'></script>
+  <script src='../../js/factories/CISEU/addTester.js'></script>
 </head>
 <body ng-app='newTester'>
   <% include layout/profile_header %>
   <div class="container">
   <div class='row'>
   <div class="col-sm-10 row">
+    <div class='' ng-controller="ciseuCtrl">
+    <a href="/tools/testers/newCISEU"><button id='ciseu-add'>Create New CIS Tester</button></a>
+
+    <h3 class='table-header' id="ciseu-header">CIS + EU Testers</h3>
+    <table id='ciseuTester' class = 'table' >
+      <tr>
+        <th>Tester</th>
+        <th>User</th>
+      </tr>
+      <tr ng-repeat='data in ciseuTesterData'>
+        <td>{{data.name}}</td>
+        <td>{{data.user.local.username.first}} {{data.user.local.username.last}}</td>
+      </tr>
+    </table>
+    </div>
     <div class='' ng-controller="cisCtrl">
     <a href="/tools/testers/newCIS"><button id='cis-add'>Create New CIS Tester</button></a>
 
@@ -76,7 +92,7 @@
     </table>
     </div>
 
-    </div> 
+    </div>
   </div>
   </div>
 </body>

@@ -102,3 +102,28 @@ newTester.controller('siaCtrl', function ($scope, siaTester, User) {
       });
   };
 });
+
+newTester.controller('ciseuCtrl', function ($scope, ciseuTester, User) {
+  $scope.siaData = {};
+
+  User.get()
+
+  .success(function (data) {
+    $scope.users = data;
+  });
+
+  ciseuTester.get()
+    .success(function (data) {
+      $scope.ciseuTesterData = data;
+      console.log(data);
+    });
+
+  //create new tester
+  $scope.createTester = function () {
+    ciseuTester.createTester($scope.ciseuData)
+      .success(function (data) {
+        $scope.ciseuTesterData = data;
+        $scope.ciseuData = {};
+      });
+  };
+});
