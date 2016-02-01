@@ -98,7 +98,25 @@ angular.module('postmail', [])
     },
   };
 })
-
+.factory('AppsCISEU', function ($http) {
+  return {
+    get: function () {
+      return $http.get('/api/ciseu/gk/');
+    },
+    getApproved: function () {
+      return $http.get('/api/ciseu/gk/approved');
+    },
+    getRejected: function () {
+      return $http.get('/api/ciseu/gk/rejected');
+    },
+    getOutdated: function () {
+      return $http.get('/api/ciseu/gk/outdated');
+    },
+    getCalendar: function () {
+      return $http.get('/api/ciseu/calendar/rejected');
+    },
+  };
+})
 .controller('post', function ($scope, $http, mail, AppsCIS, AppsEU, AppsSIA, AppsSandbox) {
   $scope.url = document.location.origin;
   $scope.year = (new Date()).getFullYear();
@@ -134,6 +152,16 @@ angular.module('postmail', [])
     Apps = AppsSandbox
   } else if (route === 'sia') {
     Apps = AppsSIA;
+  } else if (route === 'ciseu') {
+    Apps = AppsCISEU;
+    gk = {
+      "SR": "Rastaturin Stanislav",
+      "EK": "Kipovskiy Evgeniy",
+      "AB": "Belousov Alexey",
+      "GS": "Skakun Grigory",
+      "AS": "Andrey Sayants",
+      "RT": "Roman Turchenko",
+    }
   }
   //TODO: make different message preset for all region
 
