@@ -1,6 +1,8 @@
 var _          = require("lodash");
 var nodemailer = require('nodemailer');
 var sdp        = require('../../models/sdpSubscribe');
+var monthArray = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+var transport = nodemailer.createTransport();
 
 var Apps, ApprovedApps, Cal;
 
@@ -202,6 +204,7 @@ module.exports = function (app) {
     var data = JSON.parse(rawData);
     var p = [];
     var requested = [];
+    var approved = [];
     console.log(req.body);
 
     utils.interface(workspace);
@@ -236,14 +239,14 @@ module.exports = function (app) {
                 if (err) utils.responseToClient(res, false, "Failed to create new sdp app", err);
                 return;
               });
-              if (n.appStatus === "Gate Keeper Review Request" || n.appStatus === "Re-GK Review Request") {
+                if (n.appStatus === "Gate Keeper Review Request" || n.appStatus === "Re-GK Review Request") {
                 console.log("pushing " + n.appId + " from new");
                 requested.push({
                   name: n.appName,
                   id: n.appId,
                   status: n.appStatus
                 });
-              }
+              } 
             } else {
               if ((data.status !== "Gate Keeper Review Request" && data.status !== "Re-GK Review Request") &&
                 (n.appStatus === "Gate Keeper Review Request" || n.appStatus === "Re-GK Review Request")) {
@@ -252,18 +255,18 @@ module.exports = function (app) {
                   id: n.appId,
                   status: n.appStatus
                 });
-                data.status = n.appStatus;
-                data.name = n.appName;
-                data.save(function (err) {
-                  if (err) utils.responseToClient(res, false, "Failed to update sdp app", err);
-                });
-              } else if (data.status !== n.appStatus) {
-                data.status = n.appStatus;
-                data.name = n.appName;
-                data.save(function (err) {
-                  if (err) utils.responseToClient(res, false, "Failed to update sdp app", err);
+              } else if(data.status !== 'App QA approved') {
+                approved.push({
+                  name: n.appName,
+                  id: n.appId,
+                  status: n.appStatus,
                 });
               }
+              data.status = n.appStatus;
+              data.name = n.appName;
+              data.save(function (err) {
+                if (err) utils.responseToClient(res, false, "Failed to update sdp app", err);
+              });
             }
           });
 
@@ -319,16 +322,14 @@ module.exports = function (app) {
 
         });
     });
+
     setTimeout(function () {
-      console.log(requested);
       var wspace = config.workspace[config.currentWorkspace];
+      var temp = new Date();
+      var temp_date = temp.getDate();
+      var temp_month = temp.getMonth();
+      var temp_year = temp.getFullYear();
       requested.forEach(function (app) {
-        var transport = nodemailer.createTransport();
-        var monthArray = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
-        var temp = new Date();
-        var temp_date = temp.getDate();
-        var temp_month = temp.getMonth();
-        var temp_year = temp.getFullYear();
         var body = "<style>div{font:10pt Arial;}</style>";
 
         var rawId = app.id;
@@ -377,7 +378,52 @@ module.exports = function (app) {
         });
 
         });
+      approved.forEach(function(app) {
+        var body = "<style>div{font:10pt Arial;}</style>";
 
-    }, 2000);
+        var rawId = app.id;
+
+        app.id = utils.parseId(app.id);
+
+        sdp.find({id: rawId})
+        .populate("subscribers")
+        .exec(function(err, data) {
+          var subject = "[" + app.name + "] (" + app.id + ") <" + app.status + "> "  + temp_date + " " + monthArray[temp_month] + " " + temp_year;
+          // **email body
+          body += "<div><b>" + app.name + "[" + app.id + "]</b><b> was succesfully approved.</b><br /><br />";
+
+          // **end of email body
+
+          var ccList = wspace.mail.cc.slice();
+          var subArray = [];
+          if(data.subscribers) {
+            for(var i=0; i < data.subscribers.length; i++) {
+              subArray.push(data.subscribers[i].mail);
+            }
+          }
+
+          ccList = ccList.concat(subArray);
+
+          var mailOptions = {
+            from: wspace.mail.from,
+            to: wspace.mail.to,
+            cc: ccList,
+            subject: subject,
+            replyTo: wspace.mail.replyTo,
+            text: body,
+            html: body,
+          };
+          console.log(subject);
+          transport.sendMail(mailOptions, function (err, info) {
+            if (err) console.error(err);
+            else {
+              console.log('Message sent: ');
+              console.log(info);
+            }
+          });
+        });
+      });
+
+    }, 2e3);
   });
 };
