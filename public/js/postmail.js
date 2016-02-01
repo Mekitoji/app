@@ -117,7 +117,7 @@ angular.module('postmail', [])
     },
   };
 })
-.controller('post', function ($scope, $http, mail, AppsCIS, AppsEU, AppsSIA, AppsSandbox) {
+.controller('post', function ($scope, $http, mail, AppsCIS, AppsEU, AppsSIA, AppsSandbox, AppsCISEU) {
   $scope.url = document.location.origin;
   $scope.year = (new Date()).getFullYear();
 

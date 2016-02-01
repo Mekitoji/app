@@ -53,7 +53,7 @@ function unAuth(req, res, next) {
 
 //check user group
 function checkPermission(req, res, next) {
-  checkPermFor(req, res, next, 'root', 'gkCIS', 'gkEU');
+  checkPermFor(req, res, next, 'root', 'gkCIS', 'gkEU', 'gkCISEU');
 }
 
 function checkPermissionRoot(req, res, next) {
@@ -61,11 +61,11 @@ function checkPermissionRoot(req, res, next) {
 }
 
 function checkPermissionGkCIS(req, res, next) {
-  checkPermFor(req, res, next, 'root', 'gkCIS');
+  checkPermFor(req, res, next, 'root', 'gkCIS', 'gkCISEU');
 }
 
 function checkPermissionGkEU(req, res, next) {
-  checkPermFor(req, res, next, 'root', 'gkEU');
+  checkPermFor(req, res, next, 'root', 'gkEU', 'gkCISEU');
 }
 
 function checkPermissionGkSIA(req, res, next) {
@@ -73,7 +73,7 @@ function checkPermissionGkSIA(req, res, next) {
 }
 
 function checkPermissionCIS(req, res, next) {
-  checkPermFor(req, res, next, 'root', 'gkCIS', 'employerCIS');
+  checkPermFor(req, res, next, 'root', 'gkCIS', 'employerCIS', 'gkCISEU');
 }
 
 function checkPermissionCISEU(req, res, next) {
@@ -85,7 +85,7 @@ function checkPermissionGkCISEU(req, res, next) {
 }
 
 function checkPermissionEU(req, res, next) {
-  checkPermFor(req, res, next, 'root', 'gkEU', 'employerEU');
+  checkPermFor(req, res, next, 'root', 'gkEU', 'employerEU', 'gkCISEU');
 }
 
 function checkPermissionSIA(req, res, next) {
