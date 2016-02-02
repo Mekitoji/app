@@ -75,4 +75,12 @@ module.exports = function(app) {
       });
     })
   });
+
+  app.put('/tools/subscribemember/unsubscribe/all/:id', function(req, res) {
+    var id = req.params.id;
+
+    sdpSubscribe.removeSubscriber(id, function() {
+      res.status(200).end();
+    });
+  });
 }

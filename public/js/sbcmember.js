@@ -17,12 +17,41 @@ angular.module('sbcmember', [])
     }
 })
 
+.factory('Subscribe', function ($http) {
+  return {
+    get: function() {
+      return $http.get('/tools/subscribemember/all');
+    },
+    startWatch: function(id, data) {
+      return $http.put('/tools/subscribemember/watch/' + id, data);
+    },
+    unsubscribe: function(id, subId) {
+      return $http.put('/tools/subscribemember/unsubscribe/' + id, subId);
+    },
+    subscribe: function(id, subId) {
+      return $http.put('/tools/subscribemember/subscribe/' + id, subId)
+    }
+  }
+})
+
 .controller('members', function($scope, Members) {
   $scope.data = {};
 
+  function sortName(a, b) {
+    switch (a.name.toLowerCase() > b.name.toLowerCase()) {
+      case true:
+        return 1;
+      case false:
+        return -1;
+      default:
+        return 0
+    }
+  }
+
   Members.get()
   .success(function(data) {
-    $scope.data = data;
+    $scope.data = data.sort(sortName);
+
   });
 
   $scope.submit = function() {
@@ -39,6 +68,7 @@ angular.module('sbcmember', [])
           mail: $scope.newMail,
           name: $scope.newName
         })
+        $scope.data = $scope.data.sort(sortName)
 
         $scope.newMail = null;
         $scope.newName = null;
@@ -48,15 +78,19 @@ angular.module('sbcmember', [])
   };
 
   $scope.delete = function(id) {
-    Members.delete(id)
-    .success(function() {
-      for(var i =0; i < $scope.data.length; i++) {
-        if($scope.data[i]._id === id) {
-          $scope.data.splice(i, 1);
-          break;
+    var result = confirm("Are you sure want delete this member?")
+    if (result === true) {
+      Members.delete(id)
+      .success(function() {
+        for(var i =0; i < $scope.data.length; i++) {
+          if($scope.data[i]._id === id) {
+            $scope.data.splice(i, 1);
+            break;
+          }
         }
-      }
-    });
+      });
+    }
+    return;
   };
 
   $scope.updateMember = function() {

@@ -1,5 +1,6 @@
 var mongoose = require('../libs/mongoose');
 var Schema = mongoose.Schema;
+var ObjectId = mongoose.Types.ObjectId;
 
 var SdpStats = new Schema({
   id: String,
@@ -40,7 +41,7 @@ SdpStats.statics.add = function(id, status, region, name) {
  */
 SdpStats.methods.subscribe = function(sub) {
   // var subId = new Schema.ObjectId(sub);
-  if(this.subscribers.indexOf(sub) > 0) {
+  if(this.subscribers.indexOf(sub) >= 0) {
     return new Error('Member already subscribed.');
   }
   if(!this.watch) {
@@ -75,5 +76,35 @@ SdpStats.statics.all = function(cb) {
   this.find({})
   .exec(cb);
 }
+
+function deleteSub(data, id) {
+  data.forEach(function(v) {
+    var index = v.subscribers.indexOf(ObjectId(id));
+    console.log(id, typeof ObjectId(id));
+    console.log(v.subscribers[0], typeof v.subscribers[0]);
+    if(index >= 0) {
+      v.subscribers.splice(index, 1)
+      console.log("del ", index);
+    }
+    if(v.subscribers.length === 0) {
+      v.watch = false;
+    }
+    v.markModified('subscribers');
+    console.log(v);
+    v.save(function(err) {
+      if(err) return new Errro("Failed to save")
+    });
+  });
+}
+
+SdpStats.statics.removeSubscriber = function(id, cb) {
+  this.find({subscribers: id})
+  .exec(function(err, subs) {
+    console.log(subs);
+    if (err) return new Error('Can\'t remove the subscriber');
+    deleteSub(subs, id);
+    cb()
+  });
+};
 
 module.exports = mongoose.model('Sdp', SdpStats);

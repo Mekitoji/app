@@ -1,5 +1,6 @@
 var sbcMember = require('../../models/sbcMember');
 var routesFunction = require('../../libs/routesFunction');
+var sdpSubscribe = require('../../models/sdpSubscribe')
 
 module.exports = function(app) {
   app.get('/tools/sbcmember', routesFunction.checkPermission, function(req, res) {
@@ -34,6 +35,9 @@ module.exports = function(app) {
 
     sbcMember.findByIdAndRemove(id, function(err) {
       if(err) return res.send(err).status(500);
+      sdpSubscribe.removeSubscriber(id, function(err){
+        if (err) throw new Error(err);
+      })
       return res.send().status(200);
     });
 
@@ -51,5 +55,4 @@ module.exports = function(app) {
       return res.send().status(200);
     })
   });
-
 }
