@@ -78,7 +78,7 @@ angular.module('sbcmember', [])
   };
 
   $scope.delete = function(id) {
-    var result = confirm("Are you sure want delete this member?")
+    var result = confirm("Are you sure you want to remove this member?");
     if (result === true) {
       Members.delete(id)
       .success(function() {
