@@ -101,7 +101,7 @@ SdpStats.statics.removeSubscriber = function(id, cb) {
   this.find({subscribers: id})
   .exec(function(err, subs) {
     console.log(subs);
-    if (err) return new Error('Can\'t remove the subscriber');
+    if (err) return new Error('Can\'t remove this subscriber');
     deleteSub(subs, id);
     cb()
   });

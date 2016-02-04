@@ -205,7 +205,6 @@ module.exports = function (app) {
     var p = [];
     var requested = [];
     var approved = [];
-    console.log(req.body);
 
     utils.interface(workspace);
 
@@ -240,13 +239,12 @@ module.exports = function (app) {
                 return;
               });
                 if (n.appStatus === "Gate Keeper Review Request" || n.appStatus === "Re-GK Review Request") {
-                console.log("pushing " + n.appId + " from new");
                 requested.push({
                   name: n.appName,
                   id: n.appId,
                   status: n.appStatus
                 });
-              } 
+              }
             } else {
               if ((data.status !== "Gate Keeper Review Request" && data.status !== "Re-GK Review Request") &&
                 (n.appStatus === "Gate Keeper Review Request" || n.appStatus === "Re-GK Review Request")) {
@@ -336,7 +334,7 @@ module.exports = function (app) {
 
         app.id = utils.parseId(app.id);
 
-        sdp.find({id: rawId})
+        sdp.findOne({id: rawId})
         .populate("subscribers")
         .exec(function(err, data) {
           var subject = "[" + app.name + "] (" + app.id + ") <" + app.status + "> "  + temp_date + " " + monthArray[temp_month] + " " + temp_year;
@@ -350,7 +348,7 @@ module.exports = function (app) {
 
           var ccList = wspace.mail.cc.slice();
           var subArray = [];
-          if(data.subscribers) {
+          if(data.subscribers.length > 0) {
             for(var i=0; i < data.subscribers.length; i++) {
               subArray.push(data.subscribers[i].mail);
             }
@@ -367,7 +365,6 @@ module.exports = function (app) {
             text: body,
             html: body,
           };
-          console.log(subject);
           transport.sendMail(mailOptions, function (err, info) {
             if (err) console.error(err);
             else {
@@ -385,7 +382,7 @@ module.exports = function (app) {
 
         app.id = utils.parseId(app.id);
 
-        sdp.find({id: rawId})
+        sdp.findOne({id: rawId})
         .populate("subscribers")
         .exec(function(err, data) {
           var subject = "[" + app.name + "] (" + app.id + ") <" + app.status + "> "  + temp_date + " " + monthArray[temp_month] + " " + temp_year;
@@ -393,16 +390,19 @@ module.exports = function (app) {
           body += "<div><b>" + app.name + "[" + app.id + "]</b><b> was succesfully approved.</b><br /><br />";
 
           // **end of email body
+          console.log(data);
 
           var ccList = wspace.mail.cc.slice();
           var subArray = [];
-          if(data.subscribers) {
+          if(data.subscribers.length > 0) {
             for(var i=0; i < data.subscribers.length; i++) {
               subArray.push(data.subscribers[i].mail);
             }
           }
 
           ccList = ccList.concat(subArray);
+
+          console.log(subArray, ccList);
 
           var mailOptions = {
             from: wspace.mail.from,
@@ -413,17 +413,15 @@ module.exports = function (app) {
             text: body,
             html: body,
           };
-          console.log(subject);
           transport.sendMail(mailOptions, function (err, info) {
             if (err) console.error(err);
-            else {
-              console.log('Message sent: ');
-              console.log(info);
-            }
+            // else {
+              // console.log('Message sent: ');
+              // console.log(info);
+            // }
           });
         });
       });
-
     }, 2e3);
   });
 };

@@ -50,7 +50,8 @@ angular.module('sdpSubscribe', [])
       return 0;
     }
 
-    $scope.notWatching = data.sort(sortName);
+    $scope.notWatching = $scope.notWatching.sort(sortName);
+    $scope.watching = $scope.watching.sort(sortName);
   });
 
   Members.get()
