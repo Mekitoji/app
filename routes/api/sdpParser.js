@@ -253,7 +253,7 @@ module.exports = function (app) {
                   id: n.appId,
                   status: n.appStatus
                 });
-              } else if(data.status !== 'App QA approved') {
+              } else if(data.status !== 'App QA approved' && n.appStatus === 'App QA approved') {
                 approved.push({
                   name: n.appName,
                   id: n.appId,
