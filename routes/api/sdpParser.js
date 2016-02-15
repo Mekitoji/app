@@ -344,10 +344,10 @@ module.exports = function (app) {
           body += "<b>" + app.name + "[" + app.id + "]</b> with status - <b>" + app.status + "</b><br /><br />";
 
           if (data.story) {
-            body += "<b>Story:</b> http://hlm.lge.com/issue/browse/" + data.story + "<br /><br />";
+            body += "<b>Gate Review Story:</b> http://hlm.lge.com/issue/browse/" + data.story + "<br /><br />";
           }
           if (data.issue) {
-            body += "<b>Issue</b> http://hlm.lge.com/issue/browse/" + data.issue + "<br />";
+            body += "<b>Gate Review Issues: </b> http://hlm.lge.com/issue/browse/" + data.issue + "<br />";
           }
 
           body += "<br /><div>If you need assistance, have questions or want unsubscribe please contact <b>Grigory Skakun</b> (grigory.skakun@lge.com)</div>";
@@ -397,10 +397,10 @@ module.exports = function (app) {
           body += "<div><b>" + app.name + "[" + app.id + "]</b><b> was succesfully approved.</b><br /><br />";
 
           if (data.story) {
-            body += "<b>Story:</b> http://hlm.lge.com/issue/browse/" + data.story + "<br />";
+            body += "<b>Gate Review Story: </b> http://hlm.lge.com/issue/browse/" + data.story + "<br />";
           }
           if (data.issue) {
-            body += "<b>Issue</b> http://hlm.lge.com/issue/browse/" + data.issue + "<br />";
+            body += "<b>Gate Review Issues: </b> http://hlm.lge.com/issue/browse/" + data.issue + "<br />";
           }
 
           body += "<br /><div>If you need assistance, have questions or want unsubscribe please contact <b>Grigory Skakun</b> (grigory.skakun@lge.com)</div>";
