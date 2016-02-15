@@ -7,6 +7,8 @@ var SdpStats = new Schema({
   status: String,
   region: String,
   name: String,
+  story: String,
+  issue: String,
   watch: {
     type: Boolean,
     default: false
@@ -19,12 +21,13 @@ var SdpStats = new Schema({
 
 /**
  * add application to the notification center
+ * @deprecated
  * @method function
  * @param  {string} id     application id
  * @param  {string} status current application status
  * @param  {string} region application region(e.g. CIS<EU<SIA)
  */
-SdpStats.statics.add = function(id, status, region, name) {
+SdpStats.statics.add = function(id, status, region, name, story, issue) {
   this.create({
     id: id,
     status: status,
@@ -49,6 +52,15 @@ SdpStats.methods.subscribe = function(sub) {
   }
   this.subscribers.push(sub);
   // this.save(cb);
+};
+
+SdpStats.methods.addJiraIssue = function(jira) {
+  if (jira.story) {
+    this.story = jira.story;
+  }
+  if (jira.issue) {
+    this.issue = jira.issue;
+  }
 };
 
 /**
@@ -80,17 +92,13 @@ SdpStats.statics.all = function(cb) {
 function deleteSub(data, id) {
   data.forEach(function(v) {
     var index = v.subscribers.indexOf(ObjectId(id));
-    console.log(id, typeof ObjectId(id));
-    console.log(v.subscribers[0], typeof v.subscribers[0]);
     if(index >= 0) {
       v.subscribers.splice(index, 1)
-      console.log("del ", index);
     }
     if(v.subscribers.length === 0) {
       v.watch = false;
     }
     v.markModified('subscribers');
-    console.log(v);
     v.save(function(err) {
       if(err) return new Errro("Failed to save")
     });
@@ -100,7 +108,6 @@ function deleteSub(data, id) {
 SdpStats.statics.removeSubscriber = function(id, cb) {
   this.find({subscribers: id})
   .exec(function(err, subs) {
-    console.log(subs);
     if (err) return new Error('Can\'t remove this subscriber');
     deleteSub(subs, id);
     cb()

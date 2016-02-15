@@ -34,13 +34,19 @@
         <tr>
           <th>Application Id</th>
           <th>Application Name</th>
+          <th>Story</th>
+          <th>Issue</th>
           <th>Subscribers</th>
+          <th>Edit</th>
           <th>Add <div class="glyphicon glyphicon-eye-open"></div></th>
         </tr>
         <tr ng-repeat="app in watching | filter:searchApp">
           <td>{{app.id.split(" ")[0]}}</td>
           <td>{{app.name}}</td>
+          <td>{{app.story}}</td>
+          <td>{{app.issue}}</td>
           <td class="subInfo"><div ng-repeat="subs in app.subscribers track by $index" class="label-list label label-primary">{{subs.name}} ( {{subs.mail}} ) <div class="btn unwatch-btn glyphicon glyphicon-eye-close" ng-click="unsubscribe(app._id, subs._id)" ></div></td>
+          <td><div class="btn glyphicon glyphicon-edit" data-toggle="modal" data-target="#editJira" ng-click="editJiraTickets(app._id, app.story, app.issue)"></div></td>
           <td><div class="btn glyphicon glyphicon-plus" data-toggle="modal" data-target="#addSub" ng-click="addSub(app._id, app.subscribers)"></div></td>
         </tr>
       </table>
@@ -59,6 +65,14 @@
                   {{data.name}} {{data.id.split(" ")[0]}}
                 </option>
               </select>
+            </div>
+            <div class="form-group">
+              <label for="story">Story</label>
+              <input type="text" class="form-control" name="story" ng-model="form.story" id="story">
+            </div>
+            <div class="form-group">
+              <label for="issue">Issue</label>
+              <input type="text" class="form-control" name="issue" ng-model="form.issue" id="issue">
             </div>
             <div class="well form-group">
               <label for="subName">Subscriber</label>
@@ -98,6 +112,29 @@
             </div>
             <div class="form-group">
               <input type="submit" value="Submit" ng-disabled="addSubscriber.$invalid" class="btn btn-default">
+              <input type="button" class=" btn btn-default" data-dismiss="modal" value="Close">
+            </div>
+          </form>
+        </div>
+      </div>
+
+      <div class="modal fade" role="dialog" id="editJira">
+        <div class="modal-dialog modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal">&times;</button>
+            <h4 class="modal-title">Add new subscriber</h4>
+          </div>
+          <form name="editJiraTicket" class="modal-body" ng-submit="editJira(currentAppId, jira)">
+            <div class="form-group">
+              <label for="Story">Story</label>
+              <input type="text" name="Story" id="" class="form-control" ng-model="edit.story">
+            </div>
+            <div class="form-group">
+              <label for="Issue">Issue</label>
+              <input type="text" name="Issue" id="" class="form-control" ng-model="edit.issue">
+            </div>
+            <div class="form-group">
+              <input type="submit" value="Submit" ng-disabled="editJiraTicket.$invalid" class="btn btn-default">
               <input type="button" class=" btn btn-default" data-dismiss="modal" value="Close">
             </div>
           </form>

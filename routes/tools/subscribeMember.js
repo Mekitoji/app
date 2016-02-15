@@ -58,16 +58,15 @@ module.exports = function(app) {
     sdpSubscribe.findById(req.params.id)
     .exec(function(err, data) {
       if(err) return res.send(err).status(500);
-
-      req.body.forEach(function(v) {
-      });
-
-      async.eachSeries(req.body, function iterator(v, cb) {
+      console.log(req.body);
+      async.eachSeries(req.body.subs, function iterator(v, cb) {
         // TODO
         // save subscribers to db
         data.subscribe(v._id);
         cb(null);
       }, function done(err) {
+        data.addJiraIssue(req.body.jira);
+        console.log(data);
         data.save(function(err, d) {
           if (err) return res.send(err).status(500);
           return res.status(200).end();
@@ -82,5 +81,18 @@ module.exports = function(app) {
     sdpSubscribe.removeSubscriber(id, function() {
       res.status(200).end();
     });
+  });
+
+  app.put('/tools/subscribemember/:id', function(req, res) {
+    var id = req.params.id;
+    var issue = req.body.issue;
+    var story = req.body.story;
+
+    sdpSubscribe
+      .findByIdAndUpdate(id, {$set: {issue: issue, story: story}})
+      .exec(function(err) {
+        if (err) return res.send(err).status(500);
+        return res.status(200).end();
+      });
   });
 }

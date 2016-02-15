@@ -13,6 +13,9 @@ angular.module('sdpSubscribe', [])
     },
     subscribe: function(id, subId) {
       return $http.put('/tools/subscribemember/subscribe/' + id, subId)
+    },
+    update: function(id, data) {
+      return $http.put('/tools/subscribemember/' + id, data);
     }
   }
 })
@@ -26,6 +29,13 @@ angular.module('sdpSubscribe', [])
 })
 
 .controller('subscribe', function($scope, Subscribe, Members) {
+  function sortName(a, b) {
+    // test localeCompate
+    if (a.name === undefined || b.name === undefined) return 0
+    if (a.name.toLowerCase() < b.name.toLowerCase()) return -1;
+    if (a.name.toLowerCase() > b.name.toLowerCase()) return 1;
+    return 0;
+  }
   $scope.data = {};
   $scope.subList = [];
   $scope.endOfWatch = false;
@@ -42,13 +52,7 @@ angular.module('sdpSubscribe', [])
       return (s.watch === false) || (s.watch === undefined);
     });
 
-    function sortName(a, b) {
-      // test localeCompate
-      if (a.name === undefined || b.name === undefined) return 0
-      if (a.name.toLowerCase() < b.name.toLowerCase()) return -1;
-      if (a.name.toLowerCase() > b.name.toLowerCase()) return 1;
-      return 0;
-    }
+
 
     $scope.notWatching = $scope.notWatching.sort(sortName);
     $scope.watching = $scope.watching.sort(sortName);
@@ -57,8 +61,11 @@ angular.module('sdpSubscribe', [])
   Members.get()
   .success(function(data) {
     $scope.subscribers = data;
+    $scope.subscribers = $scope.subscribers.sort(sortName);
     $scope.form = {
       applications: $scope.watching,
+      issue: "",
+      story: "",
       subscribers: [],
       subList: [],
       subId: []
@@ -71,8 +78,12 @@ angular.module('sdpSubscribe', [])
 
     console.dir({
       id: $scope.newAppSubId,
-      subscribers: $scope.form.subId
+      story: $scope.story,
+      issue: $scope.issue,
+      subscribers: $scope.form.subId,
     });
+
+    var response = {subs: $scope.form.subId, jira: {story: $scope.form.story, issue: $scope.form.issue}};
 
     if($scope.form.subId.length === 0) {
       // alert("PLEASE ADD SUBSCRIBERS");
@@ -80,7 +91,7 @@ angular.module('sdpSubscribe', [])
         $(this).animate({opacity:1}, 1000);
       });
     } else {
-      Subscribe.startWatch($scope.newAppSubId, $scope.form.subId)
+      Subscribe.startWatch($scope.newAppSubId, response)
       .success(function() {
         $scope.newAppSubId = null;
 
@@ -91,6 +102,8 @@ angular.module('sdpSubscribe', [])
         for(var i = 0; i < $scope.notWatching.length; i++) {
           if($scope.notWatching[i]._id == $scope.newAppSubId) {
             $scope.notWatching[i].subscribers = $scope.notWatching[i].subscribers.concat($scope.form.subId);
+            $scope.notWatching[i].story = $scope.form.story;
+            $scope.notWatching[i].issue = $scope.form.issue;
             $scope.watching.push($scope.notWatching[i]);
             $scope.notWatching.splice(i, 1);
           }
@@ -179,4 +192,30 @@ angular.module('sdpSubscribe', [])
     });
   };
 
+  $scope.editJiraTickets = function(appId, story, issue) {
+    if(!$scope.edit) {
+      $scope.edit = {};
+    }
+    $scope.currentAppId = appId;
+    $scope.edit.issue = issue;
+    $scope.edit.story = story;
+  };
+
+  $scope.editJira = function(appId, jira) {
+    Subscribe.update(appId, {
+      story: $scope.edit.story,
+      issue: $scope.edit.issue,
+    })
+    .success(function() {
+      for(var i = 0; i < $scope.watching.length; i++) {
+        if($scope.watching[i]._id == $scope.currentAppId) {
+          $scope.watching[i].story = $scope.edit.story;
+          $scope.watching[i].issue = $scope.edit.issue;
+        }
+      }
+      $scope.currentAppId = null;
+      $scope.edit = {};
+      $('.modal').modal('hide');
+    });
+  };
 });

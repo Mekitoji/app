@@ -341,9 +341,16 @@ module.exports = function (app) {
           // **email body
           body += "<div><b> New apps arrive:</b><br /><br />";
 
-          body += "<b>" + app.name + "[" + app.id + "]</b> with status - <b>" + app.status + "</b><br />";
+          body += "<b>" + app.name + "[" + app.id + "]</b> with status - <b>" + app.status + "</b><br /><br />";
 
-          body += "<br /><br />Go to <a href='http://89.108.113.194:1337/" + config.currentWorkspace + "/"+ utils.getCurrentYear()+"/rejected#/inwork'>GK Control</a> for more.</div>";
+          if (data.story) {
+            body += "<b>Story:</b> http://hlm.lge.com/issue/browse/" + data.story + "<br /><br />";
+          }
+          if (data.issue) {
+            body += "<b>Issue</b> http://hlm.lge.com/issue/browse/" + data.issue + "<br />";
+          }
+
+          body += "<br /><div>If you need assistance, have questions or want unsubscribe please contact <b>Grigory Skakun</b> (grigory.skakun@lge.com)</div>";
           // **end of email body
 
           var ccList = wspace.mail.cc.slice();
@@ -388,6 +395,15 @@ module.exports = function (app) {
           var subject = "[" + app.name + "] (" + app.id + ") <" + app.status + "> "  + temp_date + " " + monthArray[temp_month] + " " + temp_year;
           // **email body
           body += "<div><b>" + app.name + "[" + app.id + "]</b><b> was succesfully approved.</b><br /><br />";
+
+          if (data.story) {
+            body += "<b>Story:</b> http://hlm.lge.com/issue/browse/" + data.story + "<br />";
+          }
+          if (data.issue) {
+            body += "<b>Issue</b> http://hlm.lge.com/issue/browse/" + data.issue + "<br />";
+          }
+
+          body += "<br /><div>If you need assistance, have questions or want unsubscribe please contact <b>Grigory Skakun</b> (grigory.skakun@lge.com)</div>";
 
           // **end of email body
           console.log(data);

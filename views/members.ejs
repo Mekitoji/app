@@ -36,6 +36,8 @@
         <tr ng-repeat='member in data'>
           <td>{{member.name}}</td>
           <td>{{member.mail}}</td>
+          <td>{{member.story}}</td>
+          <td>{{member.issue}}</td>
           <td><div class="glyphicon glyphicon-edit" data-toggle="modal" data-target="#updateMember" ng-click="openUpdateForm(member)"></div></td>
           <td><div class="glyphicon glyphicon-remove" ng-click="delete(member._id)"></div></td>
         </tr>
