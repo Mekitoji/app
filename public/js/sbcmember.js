@@ -37,6 +37,18 @@ angular.module('sbcmember', [])
 .controller('members', function($scope, Members) {
   $scope.data = {};
 
+  function getGroups() {
+    var keys = Object.keys(this.groups);
+    var groups = this.groups;
+    var nGroup = []
+    keys.forEach(function(v, i, arr) {
+      if (groups[v]) {
+        nGroup.push('NEW_' + v.toUpperCase());
+      }
+    });
+    return nGroup;
+  };
+
   function sortName(a, b) {
     switch (a.name.toLowerCase() > b.name.toLowerCase()) {
       case true:
@@ -51,7 +63,9 @@ angular.module('sbcmember', [])
   Members.get()
   .success(function(data) {
     $scope.data = data.sort(sortName);
-
+    $scope.data.forEach(function(v) {
+      v.getGroups = getGroups;
+    });
   });
 
   $scope.submit = function() {
@@ -102,7 +116,8 @@ angular.module('sbcmember', [])
             name: $scope.updMember.name,
             mail: $scope.updMember.mail,
             _id: $scope.updMember._id,
-            group: $scope.updMember.group
+            groups: $scope.updMember.groups,
+            getGroups: getGroups,
           };
           break;
         }

@@ -27,15 +27,19 @@
     <div class="container" ng-controller="members">
       <input type="button" id="addMemberBtn" class="btn btn-default" data-toggle="modal" data-target="#addMember" value="Add new member">
       <table class="table-hover table">
-        <tr>
-          <th>Name</th>
-          <th>Mail</th>
-          <th>Edit</th>
-          <th>Delete</th>
-        </tr>
+        <thead>
+          <tr>
+            <th>Name</th>
+            <th>Mail</th>
+            <th>Regions</th>
+            <th>Edit</th>
+            <th>Delete</th>
+          </tr>
+        </thead>
         <tr ng-repeat='member in data'>
           <td>{{member.name}}</td>
           <td>{{member.mail}}</td>
+          <td><div>{{member.getGroups().toLocaleString()}}</div></td>
           <td><div class="glyphicon glyphicon-edit" data-toggle="modal" data-target="#updateMember" ng-click="openUpdateForm(member)"></div></td>
           <td><div class="glyphicon glyphicon-remove" ng-click="delete(member._id)"></div></td>
         </tr>
@@ -75,6 +79,7 @@
               <input class="form-control" id="name" name="name" ng-model="updMember.name" type="text" placeholder="Name" required >
             </div>
             <div class="form-group">
+              <div><b>Subscribe for a brand new application:</b></div>
               <label class="checkbox-inline">
                 <input type="checkbox" ng-model="updMember.groups.cis" value = "CIS" > CIS
               </label>
@@ -82,6 +87,7 @@
                 <input type="checkbox" ng-model="updMember.groups.eu" value = "EU" > EU
               </label>
             </div>
+
             <div class="modal-footer">
               <input type="submit" value="Submit"  class='btn btn-default'>
               <input type="button" class="btn btn-default" data-dismiss="modal" value="Close">
