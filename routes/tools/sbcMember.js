@@ -47,12 +47,15 @@ module.exports = function(app) {
     var id = req.params.id;
     var name = req.body.name;
     var mail = req.body.mail;
+    var groups = req.body.groups;
     sbcMember.findByIdAndUpdate(id, {
       name: name,
-      mail: mail
+      mail: mail,
+      groups: groups
     }, function(err) {
       if(err) return res.send(err).status(500);
       return res.send().status(200);
     })
   });
+
 }

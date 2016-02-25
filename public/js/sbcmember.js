@@ -101,7 +101,8 @@ angular.module('sbcmember', [])
           $scope.data[i] = {
             name: $scope.updMember.name,
             mail: $scope.updMember.mail,
-            _id: $scope.updMember._id
+            _id: $scope.updMember._id,
+            group: $scope.updMember.group
           };
           break;
         }

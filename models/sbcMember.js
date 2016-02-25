@@ -9,9 +9,12 @@ var member = new Schema({
   mail: {
     unique: true,
     type: String
-  }
+  },
+  groups: {
+    cis: Boolean,
+    eu: Boolean,
+  },
 });
-
 
 member.statics.add = function(name, mail, cb) {
     this.create({

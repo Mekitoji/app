@@ -3,6 +3,7 @@ var nodemailer = require('nodemailer');
 var sdp        = require('../../models/sdpSubscribe');
 var monthArray = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
 var transport = nodemailer.createTransport();
+var members   = require('../../models/sbcMember');
 
 var Apps, ApprovedApps, Cal;
 
@@ -26,7 +27,7 @@ var config = {
         "TurchenkoRoman": "RT"
       },
       mail: {
-        to: 'vladimir.egorov@lge.com',
+        to: '',
         from: "CIS & EU STE<noreply@lge.com>",
         cc: [],
         replyTo: ''
@@ -85,7 +86,7 @@ var config = {
       }
     }
   },
-  currentWorkspace: null,
+  currentWorkspace: null
 };
 
 
@@ -204,6 +205,7 @@ module.exports = function (app) {
     var data = JSON.parse(rawData);
     var p = [];
     var requested = [];
+    var firstTimeRequested = [];
     var approved = [];
 
     utils.interface(workspace);
@@ -238,7 +240,16 @@ module.exports = function (app) {
                 if (err) utils.responseToClient(res, false, "Failed to create new sdp app", err);
                 return;
               });
-                if (n.appStatus === "Gate Keeper Review Request" || n.appStatus === "Re-GK Review Request") {
+
+                if (n.appStatus === 'Gate Keeper Review Request') {
+                  firstTimeRequested.push({
+                    name: n.appName,
+                    id: n.appId,
+                    status: n.appStatus
+                  });
+                }
+
+                if (n.appStatus === "Re-GK Review Request") {
                 requested.push({
                   name: n.appName,
                   id: n.appId,
@@ -323,10 +334,80 @@ module.exports = function (app) {
 
     setTimeout(function () {
       var wspace = config.workspace[config.currentWorkspace];
+      var currentRegion = region;
       var temp = new Date();
       var temp_date = temp.getDate();
       var temp_month = temp.getMonth();
       var temp_year = temp.getFullYear();
+
+      firstTimeRequested.forEach(function(app) {
+
+        var body = "<style>div{font:10pt Arial;}</style>";
+
+        var rawId = app.id;
+
+        app.id = utils.parseId(app.id);
+
+        var reg = "groups.";
+        if (currentRegion === 'CS') {
+          reg += "cis";
+        } else if (currentRegion === 'EU'){
+          reg += "eu";
+        }
+        var query = {};
+        query[reg] = true;
+
+        console.log(query);
+        members.find(query)
+        .exec(function(err, m) {
+          if (err) return res.status(500).end(err);
+          //TODO: complete code here
+
+          var subject = "[" + app.name + "] (" + app.id + ") <" + app.status + "> "  + temp_date + " " + monthArray[temp_month] + " " + temp_year;
+          // **email body
+          body += "<div><b> New apps arrive:</b><br /><br />";
+
+          body += "<b>" + app.name + "[" + app.id + "]</b> with status - <b>" + app.status + "</b><br /><br />";
+
+          body += "<br /><div>If you need assistance, have questions or want unsubscribe please contact <b>Grigory Skakun</b> (grigory.skakun@lge.com)</div>";
+          // **end of email body
+
+          var ccList = wspace.mail.cc.slice();
+
+
+          var subArray = [];
+
+          if(m.length > 0) {
+            for(var i=0; i < m.length; i++) {
+              subArray.push(m[i].mail);
+            }
+          }
+
+          ccList = ccList.concat(subArray);
+
+          console.log(m);
+          console.log(ccList);
+
+          var mailOptions = {
+            from: wspace.mail.from,
+            to: wspace.mail.to,
+            cc: ccList,
+            subject: subject,
+            replyTo: wspace.mail.replyTo,
+            text: body,
+            html: body,
+          };
+          transport.sendMail(mailOptions, function (err, info) {
+            if (err) console.error(err);
+            else {
+              console.log('Message sent: ');
+              console.log(info);
+            }
+          });
+        });
+
+      });
+
       requested.forEach(function (app) {
         var body = "<style>div{font:10pt Arial;}</style>";
 
