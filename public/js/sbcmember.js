@@ -128,5 +128,6 @@ angular.module('sbcmember', [])
 
   $scope.openUpdateForm = function(member) {
     $scope.updMember = Object.assign({}, member);
+    $scope.updMember.groups = Object.assign({}, member.groups)
   }
 });
