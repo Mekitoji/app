@@ -12,11 +12,15 @@
     <script src= "../vendor/jquery/dist/jquery.min.js"></script>
     <script src= "../vendor/jquery/jquery-ui-1.11.1/jquery-ui.min.js"></script>
     <link rel="stylesheet" href="../vendor/jquery/jquery-ui-1.11.1/jquery-ui.min.css">
+    <link rel="stylesheet" href="../vendor/ui-select/dist/select.min.css">
     <script src='../js/mindmup-editabletable.js'></script>
     <!-- Bootstrap -->
     <script src= "../vendor/bootstrap/dist/js/bootstrap.min.js"></script>
 
     <script src= "../vendor/angular/angular.min.js"></script>
+    <script src= "https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.2.23/angular-sanitize.min.js"></script>
+
+    <script src="../vendor/ui-select/dist/select.min.js"></script>
 
     <script src="../js/sdpSubscribe.js"></script>
   </head>
@@ -60,11 +64,20 @@
           <form name="addWatcher" class="modal-body" ng-submit='submit()'>
             <div class="form-group">
               <label for="appName">Application name</label>
-              <select required class="form-control" name="appName" ng-model="newAppSubId" id="appName">
+              <%# <select required class="form-control" name="appName" ng-model="newAppSubId" id="appName">
                 <option ng-repeat="data in notWatching track by $index" value="{{data._id}}">
                   {{data.name}} {{data.id.split(" ")[0]}}
                 </option>
-              </select>
+              </select>%>
+              <ui-select required
+                         ng-model="newAppSubId.select"
+                         theme="bootstrap"
+                         >
+                <ui-select-match placeholder="Enter application id or title...">{{$select.selected.id.split(" ")[0]}} {{$select.selected.name}}</ui-select-match>
+                <ui-select-choices repeat="data in notWatching | filter: $select.search">
+                  <div ng-bind-html="data.id.split(' ')[0] + ' ' + data.name  | highlight: $select.search"></div>
+                </ui-select-choices>
+              </ui-select>
             </div>
             <div class="form-group">
               <label for="story">Story</label>

@@ -1,4 +1,4 @@
-angular.module('sdpSubscribe', [])
+angular.module('sdpSubscribe', ['ngSanitize', 'ui.select'])
 
 .factory('Subscribe', function ($http) {
   return {
@@ -39,6 +39,7 @@ angular.module('sdpSubscribe', [])
   $scope.data = {};
   $scope.subList = [];
   $scope.endOfWatch = false;
+  $scope.newAppSubId = {};
 
   Subscribe.get()
   .success(function(data) {
@@ -77,9 +78,9 @@ angular.module('sdpSubscribe', [])
   $scope.submit = function() {
 
     console.dir({
-      id: $scope.newAppSubId,
-      story: $scope.story,
-      issue: $scope.issue,
+      id: $scope.newAppSubId.select._id,
+      story: $scope.form.story,
+      issue: $scope.form.issue,
       subscribers: $scope.form.subId,
     });
 
@@ -91,16 +92,16 @@ angular.module('sdpSubscribe', [])
         $(this).animate({opacity:1}, 1000);
       });
     } else {
-      Subscribe.startWatch($scope.newAppSubId, response)
+      Subscribe.startWatch($scope.newAppSubId.select._id, response)
       .success(function() {
-        $scope.newAppSubId = null;
+        $scope.newAppSubId = {};
 
         $('.modal').modal('hide')
 
       });
 
         for(var i = 0; i < $scope.notWatching.length; i++) {
-          if($scope.notWatching[i]._id == $scope.newAppSubId) {
+          if($scope.notWatching[i]._id == $scope.newAppSubId.select._id) {
             $scope.notWatching[i].subscribers = $scope.notWatching[i].subscribers.concat($scope.form.subId);
             $scope.notWatching[i].story = $scope.form.story;
             $scope.notWatching[i].issue = $scope.form.issue;
@@ -132,7 +133,7 @@ angular.module('sdpSubscribe', [])
       subscribers: []
     };
     Object.assign($scope.form.subscribers, $scope.subscribers);
-    $scope.newAppSubId = null;
+    $scope.newAppSubId = {};
     $('#hidden-msg').hide();
   }
 
