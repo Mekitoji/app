@@ -74,7 +74,7 @@
                          theme="bootstrap"
                          >
                 <ui-select-match placeholder="Enter application id or title...">{{$select.selected.id.split(" ")[0]}} {{$select.selected.name}}</ui-select-match>
-                <ui-select-choices repeat="data in notWatching | filter: $select.search">
+                <ui-select-choices repeat="data in notWatching | filter: { name: $select.search, id: $select.search }">
                   <div ng-bind-html="data.id.split(' ')[0] + ' ' + data.name  | highlight: $select.search"></div>
                 </ui-select-choices>
               </ui-select>

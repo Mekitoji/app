@@ -53,8 +53,6 @@ angular.module('sdpSubscribe', ['ngSanitize', 'ui.select'])
       return (s.watch === false) || (s.watch === undefined);
     });
 
-
-
     $scope.notWatching = $scope.notWatching.sort(sortName);
     $scope.watching = $scope.watching.sort(sortName);
   });
