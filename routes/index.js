@@ -115,6 +115,7 @@ module.exports = function (app, passport) {
   require('./api/sdpParser')(app);
   require('./api/auth')(app, passport);
   require('./api/rate')(app);
+  require('./api/sbcsubs')(app);
 
   //api CIS
   require('./api/CIS/gk')(app);
